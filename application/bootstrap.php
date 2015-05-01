@@ -1,10 +1,10 @@
 <?php
 
 // -- Environment setup --------------------------------------------------------
-print SYSPATH;
+
 // Load the core Kohana class
 require SYSPATH.'classes/Kohana/Core'.EXT;
-
+var_dump(Kohana);
 if (is_file(APPPATH.'classes/Kohana'.EXT))
 {
 	// Application extends the core
