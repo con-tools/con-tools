@@ -42,6 +42,8 @@ $paths = array(
 	 * @link http://kohanaframework.org/guide/about.install#system
 	 */
 	'SYSPATH' => $vendor_path.'kohana/core',
+	
+	'VENDORPATH' => $vendor_path,
 );
 
 /**

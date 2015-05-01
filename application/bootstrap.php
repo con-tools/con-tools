@@ -23,7 +23,7 @@ else
  * @link http://www.php.net/manual/timezones
  */
 date_default_timezone_set('America/Chicago');
-1 +
+
 /**
  * Set the default locale.
  *
@@ -147,7 +147,7 @@ Kohana::init_modules();
  * Autoload composer libraries
  *
  */
-require APPPATH . 'vendor/autoload.php';
+require VENDORPATH . 'autoload.php';
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
