@@ -4,7 +4,7 @@
 
 // Load the core Kohana class
 require SYSPATH.'classes/Kohana/Core'.EXT;
-var_dump(Kohana);
+
 if (is_file(APPPATH.'classes/Kohana'.EXT))
 {
 	// Application extends the core
@@ -23,7 +23,7 @@ else
  * @link http://www.php.net/manual/timezones
  */
 date_default_timezone_set('America/Chicago');
-
+1 +
 /**
  * Set the default locale.
  *
