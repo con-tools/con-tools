@@ -1,7 +1,7 @@
 <?php
 
 // -- Environment setup --------------------------------------------------------
-
+print SYSPATH;
 // Load the core Kohana class
 require SYSPATH.'classes/Kohana/Core'.EXT;
 
