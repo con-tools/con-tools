@@ -147,7 +147,7 @@ Kohana::init_modules();
  * Autoload composer libraries
  *
  */
-require VENDORPATH . 'autoload.php';
+//require VENDORPATH . 'autoload.php';
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
