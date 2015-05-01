@@ -1,5 +1,4 @@
 <?php
-phpinfo();
 /**
  * Set the PHP error reporting level. If you set this in php.ini, you remove this.
  * @link http://www.php.net/manual/errorfunc.configuration#ini.error-reporting
