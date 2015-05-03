@@ -35,6 +35,7 @@
 		"kohana/minion": "3.4.*",
 		"kohana/orm": "3.4.*",
 		"guss77/kohana-paypal": "dev-master",
+		"guss77/kohana-routing": "dev-master",
 		"pridemon/oauth": "dev-3.3/develop",
 		"tommcdo/kohana-twig": "dev-guss77-support-3.4",
 		"aptoma/twig-markdown": "dev-master",

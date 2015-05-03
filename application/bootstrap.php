@@ -69,9 +69,9 @@ Kohana::modules([
 	'database'    => $vendor_path.'kohana/database',  // Database access
 	//'image'       => $vendor_path.'kohana/image',     // Image manipulation
 	'minion'      => $vendor_path.'kohana/minion',    // CLI Tasks
-	'orm'         => $vendor_path.'kohana/orm',       // Object Relationship Mapping
 	//'unittest'    => $vendor_path.'kohana/unittest',  // Unit testing
 	//'userguide'   => $vendor_path.'kohana/userguide', // User guide and API documentation
+	'kohana-routing' => $vendor_path.'guss77/kohana-routing', // Routing configuration
 	'core'        => SYSPATH,                         // Core system
 ]);
 
@@ -141,13 +141,3 @@ Kohana::$config->attach(new Config_File);
 
 // Initialize modules
 Kohana::init_modules();
-
-/**
- * Set the routes. Each route must have a minimum of a name, a URI and a set of
- * defaults for the URI.
- */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
-	->defaults(array(
-		'controller' => 'welcome',
-		'action'     => 'index',
-	));
