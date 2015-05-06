@@ -6,12 +6,12 @@ class Template_Controller extends Controller {
 	
 	protected $template = static::$default_template;
 	
-	protected function before() {
+	public function before() {
 		parent::before();
 		$this->template = Twig::factory($this->template);
 	}
 	
-	protected function after() {
+	public function after() {
 		// pre-render the view content, so if it breaks we get a good stack trace
 		$content = (string)$this->view;
 		$this->view = $this->template;
