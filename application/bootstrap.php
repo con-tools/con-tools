@@ -72,6 +72,7 @@ Kohana::modules([
 	//'unittest'    => $vendor_path.'kohana/unittest',  // Unit testing
 	//'userguide'   => $vendor_path.'kohana/userguide', // User guide and API documentation
 	'kohana-routing' => $vendor_path.'guss77/kohana-routing', // Routing configuration
+	'twig'           => $vendor_path.'tommcdo/kohana-twig', // Routing configuration
 	'core'        => SYSPATH,                         // Core system
 ]);
 
