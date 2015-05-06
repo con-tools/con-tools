@@ -5,8 +5,11 @@ abstract class Controller extends Kohana_Controller {
 	public $view;
 	public $auto_render = true;
 	
-	protected function before() {
+	public function execute() {
 		throw new Exception("test");
+	}
+	
+	protected function before() {
 		parent::before();
 		
 		// initialize default view from class name
