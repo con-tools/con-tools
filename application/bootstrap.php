@@ -140,5 +140,10 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  */
 Kohana::$config->attach(new Config_File);
 
+/**
+ * Autoload composer libraries
+ */
+require $vendor_path . 'autoload.php';
+
 // Initialize modules
 Kohana::init_modules();
