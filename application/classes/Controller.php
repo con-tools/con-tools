@@ -21,7 +21,7 @@ abstract class Controller extends Kohana_Controller {
 	public function after() {
 		parent::after();
 
-		if ($this->$auto_render) {
+		if ($this->auto_render) {
 			var_dump(["Rendering view",$this->view]);
 			$this->response->body((string)$this->view);
 		}
