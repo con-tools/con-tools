@@ -129,9 +129,6 @@ Kohana::init(array(
 	'base_url'   => '/',
 ));
 
-$path = APPPATH;
-var_dump($path);
-var_dump(system("ls -l $path"));
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
