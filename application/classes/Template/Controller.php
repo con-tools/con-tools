@@ -12,12 +12,11 @@ class Template_Controller extends Controller {
 	}
 	
 	protected function after() {
-		parent::after();
+		// pre-render the view content, so if it breaks we get a good stack trace
+		$content = (string)$this->view;
+		$this->view = $this->template;
+		$this->view->content = $content;
 		
-		if ($this->auto_render) {
-			// pre-render the view content, so if it breaks we get a good stack trace
-			$this->template->content = (string)$this->view; 
-			$this->response->body($this->template);
-		}
+		parent::after(); // call parent to render the view
 	}
 }

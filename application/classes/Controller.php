@@ -17,4 +17,12 @@ abstract class Controller extends Kohana_Controller {
 		$this->view = Twig::factory($this->view);
 	}
 	
+	protected function after() {
+		parent::after();
+
+		if ($this->$auto_render) {
+			$this->response->body((string)$this->view);
+		}
+	}
+	
 }
