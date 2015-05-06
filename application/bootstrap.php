@@ -129,6 +129,7 @@ Kohana::init(array(
 	'base_url'   => '/',
 ));
 
+var_dump(system("ls -l {APPPATH}"));
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
