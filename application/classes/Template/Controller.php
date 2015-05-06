@@ -2,7 +2,7 @@
 
 class Template_Controller extends Controller {
 	
-	public static $default_template = 'default';
+	public static $default_template = 'simple';
 	
 	protected $template = static::$default_template;
 	
