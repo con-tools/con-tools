@@ -19,4 +19,5 @@ class Template_Controller extends Controller {
 		
 		parent::after(); // call parent to render the view
 	}
+
 }
