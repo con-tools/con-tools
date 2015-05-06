@@ -129,7 +129,7 @@ Kohana::init(array(
 	'base_url'   => '/',
 ));
 
-$path = APPPATH.'logs';
+$path = APPPATH;
 var_dump($path);
 var_dump(system("ls -l $path"));
 /**
