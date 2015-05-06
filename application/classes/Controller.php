@@ -15,7 +15,6 @@ abstract class Controller extends Kohana_Controller {
 		}
 		
 		$this->view = Twig::factory($this->view);
-		var_dump($this->view);
 	}
 	
 	public function after() {
@@ -25,7 +24,6 @@ abstract class Controller extends Kohana_Controller {
 			var_dump(["Rendering view",$this->view]);
 			$this->response->body((string)$this->view);
 		}
-		var_dump(["Response", $this->response->body()]);
 	}
 	
 }
