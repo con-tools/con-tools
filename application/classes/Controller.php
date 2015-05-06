@@ -14,15 +14,19 @@ abstract class Controller extends Kohana_Controller {
 			$this->view = str_replace('_','/',$viewkey);
 		}
 		
+		var_dump("Loading template {$this->view}");
 		$this->view = Twig::factory($this->view);
+		var_dump($this->view);
 	}
 	
 	protected function after() {
 		parent::after();
 
 		if ($this->$auto_render) {
+			var_dump(["Rendering view",$this->view]);
 			$this->response->body((string)$this->view);
 		}
+		var_dump(["Response", $this->response->body()]);
 	}
 	
 }
