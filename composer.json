@@ -1,7 +1,7 @@
 {
-	"name": "guss77/kohana-test",
-	"description": "Kohana application test",
-	"homepage": "http://geek.co.il",
+	"name": "con-troll",
+	"description": "Con-Troll Convention Management System",
+	"homepage": "http://con-troll.org",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
@@ -11,9 +11,8 @@
 			"role": "developer"
 		},
 		{
-			"name": "Kohana Team",
-			"email": "team@kohanaframework.org",
-			"homepage": "http://kohanaframework.org/team",
+			"name": "Itai Ben-Ivri",
+			"email": "Itai.Qed@Gmail.com",
 			"role": "developer"
 		}
 	],
