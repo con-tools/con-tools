@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "57bcf48522314754b73824fdf2e50962",
@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "a66f93a541c2214b4865161426b077e2b7d951de"
+                "reference": "e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/a66f93a541c2214b4865161426b077e2b7d951de",
-                "reference": "a66f93a541c2214b4865161426b077e2b7d951de",
+                "url": "https://api.github.com/repos/composer/installers/zipball/e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
+                "reference": "e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
                 "shasum": ""
             },
             "replace": {
@@ -155,7 +155,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2015-04-21 19:54:55"
+            "time": "2015-06-13 15:30:38"
         },
         {
             "name": "guss77/kohana-paypal",
@@ -294,12 +294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/core.git",
-                "reference": "43153dae598b4a67f519b76c9eb0820a287e8330"
+                "reference": "32f502c958ae67ceebe7b3d40d5955a250d77311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/core/zipball/43153dae598b4a67f519b76c9eb0820a287e8330",
-                "reference": "43153dae598b4a67f519b76c9eb0820a287e8330",
+                "url": "https://api.github.com/repos/kohana/core/zipball/32f502c958ae67ceebe7b3d40d5955a250d77311",
+                "reference": "32f502c958ae67ceebe7b3d40d5955a250d77311",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2015-01-12 15:06:42"
+            "time": "2015-06-15 10:36:45"
         },
         {
             "name": "kohana/database",
@@ -473,12 +473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/orm.git",
-                "reference": "73b05f618b189d30a669712718834cf4b3d95ab5"
+                "reference": "cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/orm/zipball/73b05f618b189d30a669712718834cf4b3d95ab5",
-                "reference": "73b05f618b189d30a669712718834cf4b3d95ab5",
+                "url": "https://api.github.com/repos/kohana/orm/zipball/cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
+                "reference": "cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
                 "shasum": ""
             },
             "require": {
@@ -525,7 +525,7 @@
                 "kohana",
                 "orm"
             ],
-            "time": "2015-01-03 02:13:51"
+            "time": "2015-05-03 15:44:15"
         },
         {
             "name": "league/commonmark",
@@ -620,12 +620,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-twig.git",
-                "reference": "9f5f3035f8f9fb98f6810e1eca7b3f5456dd2bf2"
+                "reference": "d946b932aa52f1e58f27081d94f9393509665173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-twig/zipball/9f5f3035f8f9fb98f6810e1eca7b3f5456dd2bf2",
-                "reference": "9f5f3035f8f9fb98f6810e1eca7b3f5456dd2bf2",
+                "url": "https://api.github.com/repos/guss77/kohana-twig/zipball/d946b932aa52f1e58f27081d94f9393509665173",
+                "reference": "d946b932aa52f1e58f27081d94f9393509665173",
                 "shasum": ""
             },
             "require": {
@@ -664,7 +664,7 @@
             "support": {
                 "source": "https://github.com/guss77/kohana-twig/tree/guss77-support-3.4"
             },
-            "time": "2015-05-01 11:26:25"
+            "time": "2015-05-08 10:50:31"
         },
         {
             "name": "twig/twig",
@@ -672,12 +672,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "f012ea296af1f4937376621c4f50282fc02415e3"
+                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/f012ea296af1f4937376621c4f50282fc02415e3",
-                "reference": "f012ea296af1f4937376621c4f50282fc02415e3",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e22fb8728b395b306a06785a3ae9b12f3fbc0294",
+                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294",
                 "shasum": ""
             },
             "require": {
@@ -721,7 +721,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-04-29 13:28:48"
+            "time": "2015-06-06 23:35:59"
         }
     ],
     "packages-dev": [
@@ -787,12 +787,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "f7b806403b3e038c834f0889091d5262a7215393"
+                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/f7b806403b3e038c834f0889091d5262a7215393",
-                "reference": "f7b806403b3e038c834f0889091d5262a7215393",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/0e5f87755e95aa282e4266edae759aff8393f56e",
+                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e",
                 "shasum": ""
             },
             "require": {
@@ -802,6 +802,7 @@
                 "ext-pdo_sqlite": "*",
                 "lastcraft/simpletest": "@dev",
                 "pdepend/pdepend": "2.x",
+                "pear-pear.php.net/console_getopt": "~1.3.0",
                 "pear-pear.php.net/http_request2": "2.2.x",
                 "pear-pear.php.net/net_growl": "2.7.x",
                 "pear-pear.php.net/pear_packagefilemanager": "1.7.x",
@@ -811,9 +812,10 @@
                 "pear/versioncontrol_git": "@dev",
                 "pear/versioncontrol_svn": "~0.5",
                 "phpdocumentor/phpdocumentor": "2.x",
-                "phploc/phploc": "2.x",
+                "phploc/phploc": "~2.0.6",
                 "phpmd/phpmd": "~2.2",
                 "phpunit/phpunit": ">=3.7",
+                "sebastian/git": "~1.0",
                 "sebastian/phpcpd": "2.x",
                 "squizlabs/php_codesniffer": "~2.2"
             },
@@ -869,7 +871,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2015-04-30 14:39:22"
+            "time": "2015-06-17 13:05:11"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1025,16 +1027,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "19689d4354b295ee3d8c54b4f42c3efb69cbc17c"
+                "reference": "83fe1bdc5d47658b727595c14da140da92b3d66d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/19689d4354b295ee3d8c54b4f42c3efb69cbc17c",
-                "reference": "19689d4354b295ee3d8c54b4f42c3efb69cbc17c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/83fe1bdc5d47658b727595c14da140da92b3d66d",
+                "reference": "83fe1bdc5d47658b727595c14da140da92b3d66d",
                 "shasum": ""
             },
             "require": {
@@ -1043,13 +1045,10 @@
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "PHP/"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1065,7 +1064,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2013-08-02 07:42:54"
+            "time": "2015-06-13 07:35:30"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -1253,12 +1252,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "4ededb1d00dc2c65fcd16ae3dafc785f92b3f95f"
+                "reference": "f248a72777f3fec2bcafdce3ccd94086250448e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/4ededb1d00dc2c65fcd16ae3dafc785f92b3f95f",
-                "reference": "4ededb1d00dc2c65fcd16ae3dafc785f92b3f95f",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f248a72777f3fec2bcafdce3ccd94086250448e1",
+                "reference": "f248a72777f3fec2bcafdce3ccd94086250448e1",
                 "shasum": ""
             },
             "require": {
@@ -1284,17 +1283,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-04-24 07:03:44"
+            "homepage": "https://symfony.com",
+            "time": "2015-06-19 15:09:14"
         }
     ],
     "aliases": [],
