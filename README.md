@@ -2,7 +2,7 @@
 
 ConTroll convention management software
 
-# Deployment to Heruko
+# Deployment to Heroku
 
 ~~~
 git add heroku git@heroku.com:con-troll.git
