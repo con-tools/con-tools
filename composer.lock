@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d3de6da09b27eaf02afae65a3a50bd00",
+    "hash": "75ee14f1f2443848e080c82ba5b9dacd",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -616,16 +616,16 @@
         },
         {
             "name": "tommcdo/kohana-twig",
-            "version": "dev-guss77-support-3.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guss77/kohana-twig.git",
-                "reference": "d946b932aa52f1e58f27081d94f9393509665173"
+                "url": "https://github.com/tommcdo/kohana-twig.git",
+                "reference": "5a62946647a5d7c3b19e79ce01fd6c545bd2c1a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-twig/zipball/d946b932aa52f1e58f27081d94f9393509665173",
-                "reference": "d946b932aa52f1e58f27081d94f9393509665173",
+                "url": "https://api.github.com/repos/tommcdo/kohana-twig/zipball/5a62946647a5d7c3b19e79ce01fd6c545bd2c1a8",
+                "reference": "5a62946647a5d7c3b19e79ce01fd6c545bd2c1a8",
                 "shasum": ""
             },
             "require": {
@@ -639,19 +639,20 @@
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "kohana-module",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Tom McDonald",
-                    "homepage": "https://github.com/tommcdo",
-                    "role": "developer"
-                },
-                {
                     "name": "Gilles Paquette",
                     "email": "paquettg@gmail.com",
                     "homepage": "http://gillespaquette.ca"
+                },
+                {
+                    "name": "Tom McDonald",
+                    "homepage": "https://github.com/tommcdo",
+                    "role": "developer"
                 }
             ],
             "description": "Kohana 3.3 module for the popular Twig template engine",
@@ -661,10 +662,7 @@
                 "templating",
                 "twig"
             ],
-            "support": {
-                "source": "https://github.com/guss77/kohana-twig/tree/guss77-support-3.4"
-            },
-            "time": "2015-05-08 10:50:31"
+            "time": "2015-06-22 12:14:18"
         },
         {
             "name": "twig/twig",
@@ -940,12 +938,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "a923bb15680d0089e2316f7a4af8f437046e96bb"
+                "reference": "6150bf2c35d3fc379e50c7602b75caceaa39dbf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/a923bb15680d0089e2316f7a4af8f437046e96bb",
-                "reference": "a923bb15680d0089e2316f7a4af8f437046e96bb",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/6150bf2c35d3fc379e50c7602b75caceaa39dbf0",
+                "reference": "6150bf2c35d3fc379e50c7602b75caceaa39dbf0",
                 "shasum": ""
             },
             "require": {
@@ -979,20 +977,20 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2015-04-02 05:19:05"
+            "time": "2015-06-21 13:08:43"
         },
         {
             "name": "phpunit/php-text-template",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "206dfefc0ffe9cebf65c413e3d0e809c82fbf00a"
+                "reference": "31f8b717e51d9a2afca6c9f046f5d69fc27c8686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/206dfefc0ffe9cebf65c413e3d0e809c82fbf00a",
-                "reference": "206dfefc0ffe9cebf65c413e3d0e809c82fbf00a",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/31f8b717e51d9a2afca6c9f046f5d69fc27c8686",
+                "reference": "31f8b717e51d9a2afca6c9f046f5d69fc27c8686",
                 "shasum": ""
             },
             "require": {
@@ -1001,20 +999,17 @@
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "Text/"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
+                    "email": "sebastian@phpunit.de",
                     "role": "lead"
                 }
             ],
@@ -1023,7 +1018,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2014-01-30 17:20:04"
+            "time": "2015-06-21 13:50:34"
         },
         {
             "name": "phpunit/php-timer",

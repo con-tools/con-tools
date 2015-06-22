@@ -20,10 +20,6 @@
 		{
 			"type": "git",
 			"url": "https://github.com/pridemon/oauth.git"
-		},
-		{
-			"type": "vcs",
-			"url": "https://github.com/guss77/kohana-twig.git"
 		}
 	],
 	"require": {
@@ -36,7 +32,7 @@
 		"guss77/kohana-paypal": "dev-master",
 		"guss77/kohana-routing": "dev-master",
 		"pridemon/oauth": "dev-3.3/develop",
-		"tommcdo/kohana-twig": "dev-guss77-support-3.4",
+		"tommcdo/kohana-twig": "dev-master",
 		"aptoma/twig-markdown": "dev-master",
 		"league/commonmark": "0.8.*@dev"
 	},
