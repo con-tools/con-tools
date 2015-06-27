@@ -2,7 +2,12 @@
 
 ConTroll convention management software
 
-# Deployment to Heroku
+## Setup
+
+1. `git clone git@github.com:con-troll/con-troll.git`
+2. `composer install`
+
+## Deployment to Heroku
 
 ~~~
 git add heroku git@heroku.com:con-troll.git
