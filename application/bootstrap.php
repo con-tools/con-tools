@@ -145,5 +145,7 @@ Kohana::$config->attach(new Config_File);
  */
 require $vendor_path . 'autoload.php';
 
+Cookie::$salt = 'this is a secret salt';
+
 // Initialize modules
 Kohana::init_modules();
