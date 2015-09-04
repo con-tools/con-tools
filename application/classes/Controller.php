@@ -25,4 +25,9 @@ abstract class Controller extends Kohana_Controller {
 		}
 	}
 	
+	protected function send($data) {
+		$this->response->headers('Content-Type', 'application/json');
+		$this->response->body(json_encode(data));
+		$this->auto_render = false;
+	}
 }
