@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "75ee14f1f2443848e080c82ba5b9dacd",
+    "hash": "f15605253134e22935e740f40b2b3579",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -158,23 +158,72 @@
             "time": "2015-06-13 15:30:38"
         },
         {
-            "name": "guss77/kohana-paypal",
+            "name": "con-troll/Auth-OpenID-Connect",
             "version": "dev-master",
             "source": {
                 "type": "git",
+                "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
+                "reference": "c7b68ff9232d11ea8b7bd46a534d3028c32b91d8"
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.6",
+                "phpseclib/phpseclib": "~0.3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "init.php"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Jett",
+                    "email": "mjett@mitre.org",
+                    "homepage": "https://github.com/jumbojett"
+                },
+                {
+                    "name": "Oded Arbel",
+                    "email": "oded@geek.co.il",
+                    "homepage": "http://geek.co.il",
+                    "role": "developer"
+                },
+                {
+                    "name": "Itai Ben-Ivri",
+                    "email": "Itai.Qed@Gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Simple OpenID Connect library",
+            "time": "2015-09-04 16:08:14"
+        },
+        {
+            "name": "guss77/kohana-paypal",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
                 "url": "https://github.com/guss77/kohana-paypal.git",
-                "reference": "a791e5e1a3e672756a3c3b378705ea1b6cf68cae"
+                "reference": "bf6a66d4770dadd2954fb4f74f9a3c0524b6855a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-paypal/zipball/a791e5e1a3e672756a3c3b378705ea1b6cf68cae",
-                "reference": "a791e5e1a3e672756a3c3b378705ea1b6cf68cae",
+                "url": "https://api.github.com/repos/guss77/kohana-paypal/zipball/bf6a66d4770dadd2954fb4f74f9a3c0524b6855a",
+                "reference": "bf6a66d4770dadd2954fb4f74f9a3c0524b6855a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "type": "library",
+            "autoload": {
+                "classmap": [
+                    "init.php"
+                ]
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0"
@@ -189,20 +238,20 @@
             ],
             "description": "Kohana module to add PayPal payment options to a Kohana application",
             "homepage": "http://github.com/guss77/kohana-paypal",
-            "time": "2015-05-01 10:34:58"
+            "time": "2015-09-04 21:19:47"
         },
         {
             "name": "guss77/kohana-routing",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-routing.git",
-                "reference": "34f56e30dea6da38947c4cc56c5e79177c222bdb"
+                "reference": "2056dd468a5b54663e8890f684eb28fd71bba99a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/34f56e30dea6da38947c4cc56c5e79177c222bdb",
-                "reference": "34f56e30dea6da38947c4cc56c5e79177c222bdb",
+                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/2056dd468a5b54663e8890f684eb28fd71bba99a",
+                "reference": "2056dd468a5b54663e8890f684eb28fd71bba99a",
                 "shasum": ""
             },
             "require": {
@@ -211,6 +260,11 @@
                 "php": ">=5.4"
             },
             "type": "kohana-module",
+            "autoload": {
+                "classmap": [
+                    "init.php"
+                ]
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
@@ -229,7 +283,7 @@
                 "kohana",
                 "routing"
             ],
-            "time": "2015-05-03 10:46:16"
+            "time": "2015-09-04 21:03:25"
         },
         {
             "name": "kohana/cache",
@@ -589,6 +643,104 @@
             "time": "2015-04-29 18:01:46"
         },
         {
+            "name": "phpseclib/phpseclib",
+            "version": "0.3.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpseclib/phpseclib.git",
+                "reference": "d15bba1edcc7c89e09cc74c5d961317a8b947bf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d15bba1edcc7c89e09cc74c5d961317a8b947bf4",
+                "reference": "d15bba1edcc7c89e09cc74c5d961317a8b947bf4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "~4.0",
+                "sami/sami": "~2.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "suggest": {
+                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
+                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Crypt": "phpseclib/",
+                    "File": "phpseclib/",
+                    "Math": "phpseclib/",
+                    "Net": "phpseclib/",
+                    "System": "phpseclib/"
+                },
+                "files": [
+                    "phpseclib/Crypt/Random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "phpseclib/"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Wigginton",
+                    "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+            "homepage": "http://phpseclib.sourceforge.net",
+            "keywords": [
+                "BigInteger",
+                "aes",
+                "asn.1",
+                "asn1",
+                "blowfish",
+                "crypto",
+                "cryptography",
+                "encryption",
+                "rsa",
+                "security",
+                "sftp",
+                "signature",
+                "signing",
+                "ssh",
+                "twofish",
+                "x.509",
+                "x509"
+            ],
+            "time": "2015-01-28 21:50:33"
+        },
+        {
             "name": "pridemon/oauth",
             "version": "dev-3.3/develop",
             "source": {
@@ -670,21 +822,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294"
+                "reference": "b1a4c14b6076cd180b7133a1ded15efd18b2390e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e22fb8728b395b306a06785a3ae9b12f3fbc0294",
-                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b1a4c14b6076cd180b7133a1ded15efd18b2390e",
+                "reference": "b1a4c14b6076cd180b7133a1ded15efd18b2390e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
             },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18-dev"
+                    "dev-master": "1.21-dev"
                 }
             },
             "autoload": {
@@ -719,7 +875,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-06-06 23:35:59"
+            "time": "2015-09-01 09:38:14"
         }
     ],
     "packages-dev": [
@@ -785,12 +941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e"
+                "reference": "a342f87346d74d82cb495b59f815f4d35620a442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/0e5f87755e95aa282e4266edae759aff8393f56e",
-                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/a342f87346d74d82cb495b59f815f4d35620a442",
+                "reference": "a342f87346d74d82cb495b59f815f4d35620a442",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +971,8 @@
                 "phpunit/phpunit": ">=3.7",
                 "sebastian/git": "~1.0",
                 "sebastian/phpcpd": "2.x",
-                "squizlabs/php_codesniffer": "~2.2"
+                "squizlabs/php_codesniffer": "~2.2",
+                "symfony/yaml": "~2.7"
             },
             "suggest": {
                 "pdepend/pdepend": "PHP version of JDepend",
@@ -836,7 +993,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.11.x-dev"
+                    "dev-master": "2.13.x-dev"
                 }
             },
             "autoload": {
@@ -869,7 +1026,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2015-06-17 13:05:11"
+            "time": "2015-09-02 19:49:58"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1022,16 +1179,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "83fe1bdc5d47658b727595c14da140da92b3d66d"
+                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/83fe1bdc5d47658b727595c14da140da92b3d66d",
-                "reference": "83fe1bdc5d47658b727595c14da140da92b3d66d",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
+                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
                 "shasum": ""
             },
             "require": {
@@ -1059,7 +1216,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2015-06-13 07:35:30"
+            "time": "2015-06-21 08:01:12"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -1247,12 +1404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "f248a72777f3fec2bcafdce3ccd94086250448e1"
+                "reference": "1a0bd40f71908db4c9d44d308e0008cc44fc5f2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f248a72777f3fec2bcafdce3ccd94086250448e1",
-                "reference": "f248a72777f3fec2bcafdce3ccd94086250448e1",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/1a0bd40f71908db4c9d44d308e0008cc44fc5f2f",
+                "reference": "1a0bd40f71908db4c9d44d308e0008cc44fc5f2f",
                 "shasum": ""
             },
             "require": {
@@ -1288,15 +1445,14 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-06-19 15:09:14"
+            "time": "2015-08-24 07:18:02"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "guss77/kohana-paypal": 20,
-        "guss77/kohana-routing": 20,
         "pridemon/oauth": 20,
+        "con-troll/auth-openid-connect": 20,
         "tommcdo/kohana-twig": 20,
         "aptoma/twig-markdown": 20,
         "league/commonmark": 20,
