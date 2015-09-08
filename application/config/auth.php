@@ -1,10 +1,12 @@
 <?php
 
+$auth_token = explode(':', $_SERVER['GOOGLE_AUTH_CLIENT']);
+
 return [
 		'google' => [
 				'type'		=> 'OpenIDConnect',
-				'id'		=> $_SERVER['AUTH_GOOGLE_CLIEND_ID'],
-				'secret'	=> $_SERVER['AUTH_GOOGLE_CLIEND_SECRET'],
+				'id'		=> $auth_token[0],
+				'secret'	=> $auth_token[1],
 				'endpoint'	=> 'https://accounts.google.com/o/oauth2/auth',
 		],
 ];
