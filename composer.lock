@@ -163,7 +163,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "44a221a2a70e926582f6cc87ed434045a2c568fa"
+                "reference": "5105aa38dd572aaf4b49639c8ac357158c7bfa4c"
             },
             "archive": {
                 "exclude": [
@@ -204,7 +204,7 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2015-09-09 22:43:06"
+            "time": "2015-09-09 22:50:46"
         },
         {
             "name": "guss77/kohana-paypal",
