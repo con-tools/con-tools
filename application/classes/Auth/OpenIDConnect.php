@@ -36,10 +36,17 @@ class Auth_OpenIDConnect {
 	public function complete($code, $state) {
 		$this->openidcon->completeAuthorization($code, $state);
 		return [
-				$this->openidcon->getAccessToken(),
-				$this->openidcon->requestUserInfo('email'),
-				$this->openidcon->requestUserInfo('name'),
+				'email' => $this->getEmail(),
+				'name' => $this->getName(),
 				];
+	}
+	
+	public function getName() {
+		return $this->openidcon->requestUserInfo('name');
+	}
+	
+	public function getEmail() {
+		return $this->openidcon->requestUserInfo('email');
 	}
 	
 	public function getAuthenticationURL() {
