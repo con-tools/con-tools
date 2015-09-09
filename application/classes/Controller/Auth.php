@@ -17,7 +17,7 @@ class Controller_Auth extends Controller {
 		$data = json_decode($this->request->body()) ?  : [ ];
 		$this->send([ 
 				"auth-url" => Auth::getProvider(@$data ['provider'] ?  : 'google', 
-						$this->action_url('callback', true))->getAuthenticationURL() 
+						strtolower($this->action_url('callback', true)))->getAuthenticationURL() 
 		]);
 	}
 
