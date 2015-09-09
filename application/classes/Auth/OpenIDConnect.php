@@ -1,6 +1,6 @@
 <?php
 
-class Auth_OpenIDConnect {
+class Auth_OpenIDConnect implements Auth_ProviderIf {
 	
 	/**
 	 * Application's OAuth client ID
@@ -14,6 +14,8 @@ class Auth_OpenIDConnect {
 	 */
 	private $secret = null;
 	
+	private $name = null;
+	
 	/**
 	 * OpenID connect library
 	 * @var OpenIDConnectClient $openidcon
@@ -24,13 +26,18 @@ class Auth_OpenIDConnect {
 	 * Create an Open ID Connect handler for Con-Troll authentication
 	 * @param array $configuration Named array that must include 'id', 'secret' and 'endpoint
 	 */
-	public function __construct($configuration, $callback_url) {
+	public function __construct($name, $configuration, $callback_url) {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
+		$this->name = $name;
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret);
 		error_log("Setting OpenID Connect callback URL to $callback_url");
 		$this->openidcon->setRedirectURL($callback_url);
 		$this->openidcon->addScope('email', 'name');
+	}
+	
+	public function getAuthenticationURL() {
+		return $this->openidcon->getAuthenticationURL();
 	}
 	
 	public function complete($code, $state) {
@@ -48,8 +55,11 @@ class Auth_OpenIDConnect {
 	public function getEmail() {
 		return $this->openidcon->requestUserInfo('email');
 	}
-	
-	public function getAuthenticationURL() {
-		return $this->openidcon->getAuthenticationURL();
+	/* (non-PHPdoc)
+	 * @see Auth_ProviderIf::getProviderName()
+	 */
+	public function getProviderName() {
+		return $this->name;
 	}
+
 }
