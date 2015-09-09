@@ -30,6 +30,7 @@ class Auth_OpenIDConnect {
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret);
 		error_log("Setting OpenID Connect callback URL to $callback_url");
 		$this->openidcon->setRedirectURL($callback_url);
+		$this->openidcon->addScope('email', 'name');
 	}
 	
 	public function complete($code, $state) {
@@ -38,6 +39,10 @@ class Auth_OpenIDConnect {
 	}
 	
 	public function getAuthenticationURL() {
-		return $this->openidcon->getAuthenticationURL();
+		return [
+				$this->openidcon->getAuthenticationURL(),
+				$this->openidcon->requestUserInfo('email'),
+				$this->openidcon->requestUserInfo('name'),
+				];
 	}
 }
