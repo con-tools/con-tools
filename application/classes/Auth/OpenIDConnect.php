@@ -28,6 +28,7 @@ class Auth_OpenIDConnect {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret);
+		$this->openidcon->setRedirectURL();
 	}
 	
 	public function getAuthenticationURL() {
