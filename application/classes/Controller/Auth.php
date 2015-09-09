@@ -1,5 +1,5 @@
 <?php
-class Controller_Auth extends Controller {
+class Controller_Auth extends Api_Controller {
 
 	public function action_verify() {
 		$data = json_decode($this->request->body());
@@ -22,7 +22,7 @@ class Controller_Auth extends Controller {
 	}
 
 	public function action_callback() {
-		$this->response->body('OK');
+		$this->send("OK");
 	}
 
 	private function is_valid($token) {
