@@ -3,7 +3,7 @@
 class Auth {
 	
 	public static function getProvider($provider) {
-		$config = getConfig();
+		$config = static::getConfig();
 		if (!$config[$provider])
 			throw new Exception("Invalid provider specified: #{$provider}");
 		$prov_config = $config[$provider];
