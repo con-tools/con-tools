@@ -25,6 +25,16 @@ abstract class Controller extends Kohana_Controller {
 		}
 	}
 	
+	public function redirect_to_action($action) {
+		$this->redirect($this->action_url($action));
+	}
+	
+	public function action_url($action) {
+		$params = $this->request->route()->match($this->request->route()); // guaranteed a match, otherwise we wouldn't be here
+		$params['action'] = $action;
+		return URL::site($this->request->route()->uri($params));
+	}
+	
 	protected function send($data) {
 		$this->response->headers('Content-Type', 'application/json');
 		$this->response->body(json_encode($data));
