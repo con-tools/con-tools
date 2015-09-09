@@ -17,12 +17,15 @@ class Controller_Auth extends Api_Controller {
 		$data = json_decode($this->request->body()) ?  : [ ];
 		$this->send([ 
 				"auth-url" => Auth::getProvider(@$data ['provider'] ?  : 'google', 
-						strtolower($this->action_url('callback', true)))->getAuthenticationURL() 
+						strtolower($this->action_url('callback', true)))->getAuthenticationURL()
 		]);
 	}
 
 	public function action_callback() {
-		$this->send("OK");
+		// google response parameters: state, code, authuser, prompt, session_state
+		$this->send(
+				Auth::getLastProvider()->complete($this->request->query('code'), $this->request->query('state'))
+		);
 	}
 
 	private function is_valid($token) {
