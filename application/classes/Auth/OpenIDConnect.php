@@ -33,7 +33,8 @@ class Auth_OpenIDConnect {
 	}
 	
 	public function complete($code, $state) {
-		return $this->openidcon->completeAuthorization($code, $state);
+		$this->openidcon->completeAuthorization($code, $state);
+		return $this->openidcon->getAccessToken();
 	}
 	
 	public function getAuthenticationURL() {
