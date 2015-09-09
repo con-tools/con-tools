@@ -2,7 +2,10 @@
 <buildpath>
 	<buildpathentry kind="src" path="application"/>
 	<buildpathentry kind="src" path="vendor/kohana/database/classes"/>
+	<buildpathentry kind="src" path="vendor/tommcdo/kohana-twig/classes"/>
+	<buildpathentry kind="src" path="vendor/twig/twig/ext"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path="vendor/twig/twig/lib"/>
 	<buildpathentry kind="src" path="vendor/kohana/orm/classes"/>
 	<buildpathentry kind="src" path="public"/>
 	<buildpathentry kind="src" path="vendor/kohana/core/classes"/>
