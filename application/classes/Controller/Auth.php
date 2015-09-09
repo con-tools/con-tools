@@ -12,7 +12,7 @@ class Controller_Auth extends Controller {
   
   public function action_start() {
     $data = json_decode($this->request->body());
-    $this->send([ "auth-url" => Auth::getProvider($data['provider'] || 'google')->getAuthenticationURL() ]);
+    $this->send([ "auth-url" => Auth::getProvider($data['provider'] || 'google', $data)->getAuthenticationURL() ]);
   }
   
   private function is_valid($token) {
