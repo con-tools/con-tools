@@ -24,11 +24,11 @@ class Auth_OpenIDConnect {
 	 * Create an Open ID Connect handler for Con-Troll authentication
 	 * @param array $configuration Named array that must include 'id', 'secret' and 'endpoint
 	 */
-	public function __construct($configuration) {
+	public function __construct($configuration, $callback_url) {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret);
-		$this->openidcon->setRedirectURL();
+		$this->openidcon->setRedirectURL($callback_url);
 	}
 	
 	public function getAuthenticationURL() {
