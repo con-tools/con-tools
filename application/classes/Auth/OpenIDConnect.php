@@ -35,14 +35,14 @@ class Auth_OpenIDConnect {
 	
 	public function complete($code, $state) {
 		$this->openidcon->completeAuthorization($code, $state);
-		return $this->openidcon->getAccessToken();
-	}
-	
-	public function getAuthenticationURL() {
 		return [
-				$this->openidcon->getAuthenticationURL(),
+				$this->openidcon->getAccessToken(),
 				$this->openidcon->requestUserInfo('email'),
 				$this->openidcon->requestUserInfo('name'),
 				];
+	}
+	
+	public function getAuthenticationURL() {
+		return $this->openidcon->getAuthenticationURL();
 	}
 }
