@@ -5,10 +5,10 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	public static function handler($e)
 	{
 		if ($e instanceof Exception) {
-			parent($e);
+			return Kohana_Kohana_Exception::handler($e);
 		} else {
 			var_dump($e);
-			parent(new Exception("Invalid type sent to handler(): '".get_class($e)."'"));
+			return Kohana_Kohana_Exception::handler(new Exception("Invalid type sent to handler(): '".get_class($e)."'"));
 		}
 	}
 	
