@@ -28,6 +28,7 @@ class Auth_OpenIDConnect {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret);
+		error_log("Setting OpenID Connect callback URL to $callback_url");
 		$this->openidcon->setRedirectURL($callback_url);
 	}
 	
