@@ -163,7 +163,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "c7b68ff9232d11ea8b7bd46a534d3028c32b91d8"
+                "reference": "f5bc505c118e1cee2265e4fd79b79eba8d62bdf8"
             },
             "require": {
                 "ext-curl": "*",
@@ -173,7 +173,7 @@
             },
             "type": "library",
             "autoload": {
-                "classmap": [
+                "files": [
                     "init.php"
                 ]
             },
@@ -199,7 +199,7 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2015-09-04 16:08:14"
+            "time": "2015-09-09 19:37:54"
         },
         {
             "name": "guss77/kohana-paypal",
@@ -822,12 +822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b1a4c14b6076cd180b7133a1ded15efd18b2390e"
+                "reference": "7d21eb99840db0b0ce80221a260a299caa50e4f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b1a4c14b6076cd180b7133a1ded15efd18b2390e",
-                "reference": "b1a4c14b6076cd180b7133a1ded15efd18b2390e",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7d21eb99840db0b0ce80221a260a299caa50e4f4",
+                "reference": "7d21eb99840db0b0ce80221a260a299caa50e4f4",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +875,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-01 09:38:14"
+            "time": "2015-09-09 05:33:05"
         }
     ],
     "packages-dev": [
