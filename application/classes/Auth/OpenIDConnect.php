@@ -32,6 +32,10 @@ class Auth_OpenIDConnect {
 		$this->openidcon->setRedirectURL($callback_url);
 	}
 	
+	public function complete($code, $state) {
+		return $this->openidcon->completeAuthorization($code, $state);
+	}
+	
 	public function getAuthenticationURL() {
 		return $this->openidcon->getAuthenticationURL();
 	}
