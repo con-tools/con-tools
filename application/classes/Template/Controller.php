@@ -4,7 +4,7 @@ class Template_Controller extends Controller {
 	
 	public static $default_template = 'simple';
 	
-	protected $template = static::$default_template;
+	protected $template = self::$default_template;
 	
 	public function before() {
 		parent::before();
