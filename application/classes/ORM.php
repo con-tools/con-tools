@@ -14,7 +14,7 @@ class ORM extends Kohana_ORM {
 		if (is_array($field_def)) {
 			switch ($field_def['type']) {
 				case 'DateTime':
-					$value = sqlize($value);
+					$value = $this->sqlize($value);
 					break;
 			}
 		}
