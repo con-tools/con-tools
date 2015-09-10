@@ -1,5 +1,9 @@
 <?php
 class Model_User extends ORM {
+	
+	protected $_fields = [
+			'login_time' => [ 'type' => 'DateTime' ]
+	];
 
 	public function rules() {
 		return [
