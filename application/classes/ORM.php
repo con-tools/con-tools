@@ -23,6 +23,24 @@ class ORM extends Kohana_ORM {
 	}
 	
 	/**
+	 * (non-PHPdoc)
+	 * @see Kohana_ORM::get()
+	 */
+	public function get($column) {
+		$value = parent::get($column);
+		// handle type conversions, if the model specifies it
+		$field_def = @$this->_fields[$column];
+		if (is_array($field_def)) {
+			switch ($field_def['type']) {
+				case 'DateTime':
+					$value = unsqlize($value);
+					break;
+			}
+		}
+		return $value;
+	}
+	
+	/**
 	 * convert date/time values to sql date
 	 * @param mixed $value
 	 */
@@ -32,5 +50,13 @@ class ORM extends Kohana_ORM {
 		if ($value instanceof DateTime)
 			return sqlize($value->getTimestamp());
 		return $value;
+	}
+	
+	/**
+	 * Convert SQL date to DateTime value
+	 * @param string $value
+	 */
+	public function unsqlize($value) {
+		return DateTime::createFromFormat("Y-m-d H:i:s", $value);
 	}
 }
