@@ -29,7 +29,7 @@ class Controller_Auth extends Api_Controller {
 			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName()); 
 			$this->send(['status' => true, 'object' => $o ]);
 		} catch (Exception $e) {
-			$this->send(['status' => false]);
+			$this->send(['status' => false, 'error' => "{get_class($e)}: {$e->getMessage()}" ]);
 		}
 	}
 
