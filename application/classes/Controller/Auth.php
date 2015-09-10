@@ -26,8 +26,8 @@ class Controller_Auth extends Api_Controller {
 		try {
 			$provider = Auth::getLastProvider();
 			$provider->complete($this->request->query('code'), $this->request->query('state'));
-			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName()); 
-			$this->send(['status' => true, 'object' => $o ]);
+			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
+			$this->send(['status' => true, 'token' => $o->login()->token ]);
 		} catch (Exception $e) {
 			$this->send(['status' => false, 'error' => "$e" ]);
 		}
