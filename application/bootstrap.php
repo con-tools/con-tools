@@ -67,6 +67,7 @@ Kohana::modules([
 	'cache'       => $vendor_path.'kohana/cache',     // Caching with multiple backends
 	//'codebench'   => $vendor_path.'kohana/codebench', // Benchmarking tool
 	'database'    => $vendor_path.'kohana/database',  // Database access
+	'orm'         => $vendor_path.'kohana/orm',    // CLI Tasks
 	//'image'       => $vendor_path.'kohana/image',     // Image manipulation
 	'minion'      => $vendor_path.'kohana/minion',    // CLI Tasks
 	//'unittest'    => $vendor_path.'kohana/unittest',  // Unit testing
