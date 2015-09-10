@@ -21,6 +21,13 @@ class Model_Token extends ORM {
 		$this->delete();
 		return true;
 	}
+	
+	/**
+	 * Update last access time
+	 */
+	public function touch() {
+		$this->access_time = new DateTime();
+	}
 
 	/**
 	 * Create a new token of the specified type and store it in the database
