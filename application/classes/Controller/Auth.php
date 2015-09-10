@@ -23,9 +23,14 @@ class Controller_Auth extends Api_Controller {
 
 	public function action_callback() {
 		// google response parameters: state, code, authuser, prompt, session_state
-		$this->send(
-				Auth::getLastProvider()->complete($this->request->query('code'), $this->request->query('state'))
-		);
+		try {
+			$provider = Auth::getLastProvider();
+			$provider->complete($this->request->query('code'), $this->request->query('state'));
+			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName()); 
+			$this->send(['status' => true, 'object' => $o ]);
+		} catch (Exception $e) {
+			$this->send(['status' => false]);
+		}
 	}
 
 	private function is_valid($token) {
