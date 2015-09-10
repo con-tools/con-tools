@@ -33,4 +33,10 @@ interface Auth_ProviderIf {
 	 * Get the provider configuration name
 	 */
 	public function getProviderName();
+	
+	/**
+	 * Retrieve the underlying authentication/authorization token in text form
+	 * @return string token
+	 */
+	public function getToken();
 }

@@ -62,4 +62,11 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 		return $this->name;
 	}
 
+	/* (non-PHPdoc)
+	 * @see Auth_ProviderIf::getToken()
+	 */
+	public function getToken() {
+		return $this->openidcon->getAccessToken();
+	}
+
 }
