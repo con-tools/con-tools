@@ -41,7 +41,7 @@ class Model_User extends ORM {
 				return $token;
 		}
 		
-		return Model_Token::presist($this, $type, Time_Unit::weeks(2));
+		return Model_Token::persist($this, $type, Time_Unit::weeks(2));
 	}
 	
 	public static function persist($name, $email, $provider, $token) {
