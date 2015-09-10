@@ -10,7 +10,7 @@ return [
             'hostname'      => $dsn['host'],
             'username'      => $dsn['user'],
             'password'      => $dsn['pass'],
-            'database'      => $dsn['path'],
+            'database'      => explode('/',$dsn['path'])[1],
             'persistent'    => TRUE,
             'port'			=> 3306,
         ],
