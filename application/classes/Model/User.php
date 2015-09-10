@@ -45,6 +45,18 @@ class Model_User extends ORM {
 	}
 	
 	public static function persist($name, $email, $provider, $token) {
+		$user = Model::factory("user")->where('email','=',$email)->find();
+		if ($user->loaded()) { // found existing account;
+			// update fields
+			if ($name) 
+				$user->name = $name;
+			$user->provider = $provider;
+			$user->password = $token;
+			$user->save();
+			return $user; 
+		}
+		
+		// need to create a new account
 		$o = new Model_User();
 		$o->name = $name;
 		$o->email = $email;
