@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name` VARCHAR(45) NOT NULL COMMENT '',
   `email` VARCHAR(45) NOT NULL COMMENT '',
   `provider` VARCHAR(20) NOT NULL COMMENT '',
-  `password` VARCHAR(45) NULL COMMENT '',
+  `password` VARCHAR(255) NULL COMMENT '',
   `created_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '',
   `login_time` DATETIME DEFAULT NULL COMMENT '',
   PRIMARY KEY (`user_id`)  COMMENT '',
@@ -15,7 +15,11 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   `user_id` INT UNSIGNED NOT NULL COMMENT '',
   `type` CHAR(10) NOT NULL COMMENT 'valid values: api-login, remember',
   `token` VARCHAR(255) NOT NULL COMMENT 'token data',
+  `expiry` INT UNSIGNED NOT NULL COMMENT 'how many seconds until this token expires',
+  `created_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '',
+  `access_time` DATETIME DEFAULT NULL COMMENT '',
   PRIMARY KEY (`token_id`) COMMENT '',
+  UNIQUE INDEX `token_UNIQUE` (`token`)  COMMENT '',
   FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
