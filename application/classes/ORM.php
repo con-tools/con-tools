@@ -33,7 +33,7 @@ class ORM extends Kohana_ORM {
 		if (is_array($field_def)) {
 			switch ($field_def['type']) {
 				case 'DateTime':
-					$value = unsqlize($value);
+					$value = $this->unsqlize($value);
 					break;
 			}
 		}
@@ -48,7 +48,7 @@ class ORM extends Kohana_ORM {
 		if (is_numeric($value))
 			return date("Y-m-d H:i:s", $value);
 		if ($value instanceof DateTime)
-			return sqlize($value->getTimestamp());
+			return $this->sqlize($value->getTimestamp());
 		return $value;
 	}
 	
