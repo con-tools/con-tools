@@ -23,11 +23,31 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
-CREATE TABLE IF NOT EXISTS `user_data` (
+CREATE TABLE IF NOT EXISTS `conventions` (
+  `convention_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`convention_id`) COMMENT '',
+  UNIQUE INDEX `name_UNIQUE` (`name`)  COMMENT ''
+) ENGINE=INNODB CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS `api_keys` (
+  `api_key_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `convention_id` INT UNSIGNED NOT NULL COMMENT '',
+  `client_key` VARCHAR(255) NOT NULL COMMENT '',
+  `client_secret` VARCHAR(255) NOT NULL COMMENT '',
+  PRIMARY KEY (`api_key_id`) COMMENT '',
+  UNIQUE INDEX `client_key_UNIQUE` (`client_key`)  COMMENT '',
+  FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`convention_id`) ON DELETE CASCADE
+) ENGINE=INNODB CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS `user_records` (
   `form_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `user_id` INT UNSIGNED NOT NULL COMMENT '',
+  `convention_id` INT UNSIGNED NOT NULL COMMENT '',
+  `descriptor` VARCHAR(255) NOT NULL COMMENT '',
   `content_type` VARCHAR(40) NOT NULL COMMENT 'MIME content-type. use application/php for PHP serialized content.',
   `data` MEDIUMBLOB NOT NULL COMMENT 'schemaless data, format depends on content_type',
   PRIMARY KEY (`form_id`) COMMENT '',
-  FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+  FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`convention_id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
