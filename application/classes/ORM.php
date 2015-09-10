@@ -2,7 +2,7 @@
 
 class ORM extends Kohana_ORM {
 	
-	protected $_fields = [];
+	protected $_columns = [];
 	
 	/**
 	 * (non-PHPdoc)
@@ -10,7 +10,7 @@ class ORM extends Kohana_ORM {
 	 */
 	public function set($column, $value) {
 		// handle type conversions, if the model specifies it
-		$field_def = @$this->_fields[$column];
+		$field_def = @$this->_columns[$column];
 		if (is_array($field_def)) {
 			switch ($field_def['type']) {
 				case 'DateTime':
@@ -29,7 +29,7 @@ class ORM extends Kohana_ORM {
 	public function get($column) {
 		$value = parent::get($column);
 		// handle type conversions, if the model specifies it
-		$field_def = @$this->_fields[$column];
+		$field_def = @$this->_columns[$column];
 		if (is_array($field_def)) {
 			switch ($field_def['type']) {
 				case 'DateTime':
