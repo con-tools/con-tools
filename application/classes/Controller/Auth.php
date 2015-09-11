@@ -20,6 +20,10 @@ class Controller_Auth extends Api_Controller {
 						strtolower($this->action_url('callback', true)))->getAuthenticationURL()
 		]);
 	}
+	
+	public function action_logout() {
+		$this->verifyAuthentication();
+	}
 
 	public function action_callback() {
 		// google response parameters: state, code, authuser, prompt, session_state
