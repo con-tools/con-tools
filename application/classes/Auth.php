@@ -34,6 +34,14 @@ class Auth {
 		return static::$_last_provider;
 	}
 	
+	/**
+	 * Generate a list of configured providers to allow the user to select a provider they want to use
+	 * @return array list of provider identifiers
+	 */
+	public static function listProviders() {
+		return array_keys(static::getConfig());
+	}
+	
 	private static function getConfig() {
 		return Kohana::$config->load('auth');
 	}
