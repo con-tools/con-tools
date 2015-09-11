@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Base class for REST API contorllers
+ * @author odeda
+ */
 abstract class Api_Controller extends Controller {
 
 	public $auto_render = false;
@@ -6,6 +11,7 @@ abstract class Api_Controller extends Controller {
 	/**
 	 * Call from API controllers to verify authorization on calls that require user authorization
 	 * @throws HTTP_Exception_403 in case authorization was denied
+	 * @return Model_Token The authorization token
 	 */
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization');
@@ -15,6 +21,7 @@ abstract class Api_Controller extends Controller {
 			$token = Model_Token::byToken($auth);
 			if ($token->is_expired())
 				throw new HTTP_Exception_403("Authorization token expired");
+			return $token;
 		} catch (Model_Exception_NotFound $e) {
 			throw new HTTP_Exception_403("Invalid Authorization header");
 		}
