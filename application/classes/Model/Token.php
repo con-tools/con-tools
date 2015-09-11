@@ -45,6 +45,19 @@ class Model_Token extends ORM {
 		return $o;
 	}
 	
+	/**
+	 * Find a token by its value
+	 * @param stirng $token Token to lookup
+	 * @throws Model_Exception_NotFound in case the token does not exists
+	 * @return Model_Token token found
+	 */
+	public static function byToken($token) {
+		$tok = Model::factory('token')->where('token','=',$token)->find();
+		if (!$tok->loaded())
+			throw new Model_Exception_NotFound("Invalid token '{$token}'");
+		return $tok;
+	}
+	
 	private static function genToken($iv) {
 		if (is_numeric($iv)) $iv = $iv << mt_rand(0,10);
 		return rtrim(base64_encode(sha1(mt_rand() . $iv . time(), true)),'=');
