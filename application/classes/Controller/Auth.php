@@ -22,7 +22,12 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_logout() {
-		$this->verifyAuthentication();
+		$tok = $this->verifyAuthentication();
+		$tok->delete();
+	}
+	
+	public function action_list() {
+		$this->send(Auth::listProviders());
 	}
 
 	public function action_callback() {
