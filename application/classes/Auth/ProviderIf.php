@@ -8,7 +8,7 @@ interface Auth_ProviderIf {
 	/**
 	 * Find a redirect URL to send to the client
 	 */
-	public function getAuthenticationURL();
+	public function getAuthenticationURL($redirect_url);
 	
 	/**
 	 * Complete the authentication process
@@ -39,4 +39,10 @@ interface Auth_ProviderIf {
 	 * @return string token
 	 */
 	public function getToken();
+	
+	/**
+	 * Retrieve the URL stored by the authenticating user agent, where it wants to be called after
+	 * authentication completes
+	 */
+	public function getRedirectURL();
 }

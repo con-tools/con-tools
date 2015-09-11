@@ -2,22 +2,23 @@
 class Controller_Auth extends Api_Controller {
 
 	public function action_verify() {
-		$data = json_decode($this->request->body());
-		if ($data ['token'] && $this->is_valid($data ['token']))
+		try {
+			$this->verifyAuthentication();
 			$this->send([ 
 					"status" => true 
 			]);
-		else
+		} catch (HTTP_Exception_403 $e) {
 			$this->send([ 
 					"status" => false 
 			]);
+		}
 	}
 
 	public function action_start() {
 		$data = json_decode($this->request->body()) ?  : [ ];
 		$this->send([ 
 				"auth-url" => Auth::getProvider(@$data ['provider'] ?  : 'google', 
-						strtolower($this->action_url('callback', true)))->getAuthenticationURL()
+						strtolower($this->action_url('callback', true)))->getAuthenticationURL(@$data['redirect-url'])
 		]);
 	}
 	
@@ -36,14 +37,40 @@ class Controller_Auth extends Api_Controller {
 			$provider = Auth::getLastProvider();
 			$provider->complete($this->request->query('code'), $this->request->query('state'));
 			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
-			$this->send(['status' => true, 'token' => $o->login()->token ]);
+			$callback = $provider->getRedirectURL();
+			$response = ['status' => true, 'token' => $o->login()->token ];
 		} catch (Exception $e) {
-			$this->send(['status' => false, 'error' => "$e" ]);
+			$response = ['status' => false, 'error' => "$e" ];
 		}
+		
+		if ($callback) {
+			$url = parse_url($callback);
+			$query = explode('&',$url['query']);
+			foreach ($response as $key => $val)
+				$query[] = urlencode($key) . '=' . urlencode($val);
+			$url['query'] = join('&', $query);
+			$this->redirect($this->buildUrl($url));
+		} else
+			$this->send($response);
 	}
-
-	private function is_valid($token) {
-		return false;
+	
+	private function buildUrl($spec) {
+		$url = "{$spec['scheme']}://";
+		if (@$spec['user']) {
+			$url .= $spec['user'];
+			if (@$spec['pass'])
+				$url .= ":{$spec['pass']}";
+			$url .= "@";
+		}
+		$url .= $spec['host'];
+		if (@$spec['port'])
+			$url .= ":{$spec['port']}";
+		$url .= $spec['path'];
+		if (@$spec['query'])
+			$url .= "?{$spec['query']}";
+		if (@$spec['fragment'])
+			$url .= "#{$spec['fragment']}";
+		return $url;
 	}
 
 }

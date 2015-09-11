@@ -36,10 +36,19 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 		$this->openidcon->addScope('email', 'name');
 	}
 	
-	public function getAuthenticationURL() {
+	/**
+	 * (non-PHPdoc)
+	 * @see Auth_ProviderIf::getAuthenticationURL()
+	 */
+	public function getAuthenticationURL($redirect_url) {
+		Session::instance()->set('openid-connect-auth-callback-url', $redirect_url);
 		return $this->openidcon->getAuthenticationURL();
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Auth_ProviderIf::complete()
+	 */
 	public function complete($code, $state) {
 		$this->openidcon->completeAuthorization($code, $state);
 		return [
@@ -48,10 +57,18 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 				];
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Auth_ProviderIf::getName()
+	 */
 	public function getName() {
 		return $this->openidcon->requestUserInfo('name');
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Auth_ProviderIf::getEmail()
+	 */
 	public function getEmail() {
 		return $this->openidcon->requestUserInfo('email');
 	}
@@ -67,6 +84,13 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 	 */
 	public function getToken() {
 		return $this->openidcon->getAccessToken();
+	}
+
+	/* (non-PHPdoc)
+	 * @see Auth_ProviderIf::getRedirectURL()
+	 */
+	public function getRedirectURL() {
+		Session::instance()->get('openid-connect-auth-callback-url');
 	}
 
 }
