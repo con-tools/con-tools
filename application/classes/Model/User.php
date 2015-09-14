@@ -69,6 +69,7 @@ class Model_User extends ORM {
 	
 	public static function byEmail($email) {
 		$o = Model::factory("user")->where('email','=',$email)->find();
+		var_dump($o);
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
