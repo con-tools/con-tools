@@ -31,6 +31,15 @@ class Controller_Auth extends Api_Controller {
 		$this->send(Auth::listProviders());
 	}
 	
+	public function action_id() {
+		$tok = $this->verifyAuthentication();
+		$user = $tok->user;
+		$this->send([
+				'email' => $user->email,
+				'name' => $user->name,
+		]);
+	}
+	
 	public function action_callback() {
 		$callback = null;
 		// google response parameters: state, code, authuser, prompt, session_state
