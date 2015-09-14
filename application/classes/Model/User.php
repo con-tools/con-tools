@@ -45,8 +45,8 @@ class Model_User extends ORM {
 	}
 	
 	public static function persist($name, $email, $provider, $token) {
-		$user = Model::factory("user")->where('email','=',$email)->find();
-		if ($user->loaded()) { // found existing account;
+		try {
+			$user = static::byEmail($email);
 			// update fields
 			if ($name) 
 				$user->name = $name;
@@ -54,16 +54,23 @@ class Model_User extends ORM {
 			$user->password = $token;
 			$user->save();
 			return $user; 
+		} catch (Model_Exception_NotFound $e) {
+			// need to create a new account
+			$o = new Model_User();
+			$o->name = $name;
+			$o->email = $email;
+			$o->provider = $provider;
+			$o->password = $token;
+			$o->login_time = new DateTime();
+			$o->save();
+			return $o;
 		}
-		
-		// need to create a new account
-		$o = new Model_User();
-		$o->name = $name;
-		$o->email = $email;
-		$o->provider = $provider;
-		$o->password = $token;
-		$o->login_time = new DateTime();
-		$o->save();
+	}
+	
+	public static function byEmail($email) {
+		$o = Model::factory("user")->where('email','=',$email)->find();
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
 		return $o;
 	}
 	
