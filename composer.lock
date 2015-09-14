@@ -251,12 +251,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-routing.git",
-                "reference": "1c4bde1a6508f52927d99b989bb731104f11b558"
+                "reference": "82f60daa1c14216df9a97c633a29f550db5a36f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/1c4bde1a6508f52927d99b989bb731104f11b558",
-                "reference": "1c4bde1a6508f52927d99b989bb731104f11b558",
+                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/82f60daa1c14216df9a97c633a29f550db5a36f8",
+                "reference": "82f60daa1c14216df9a97c633a29f550db5a36f8",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
                 "kohana",
                 "routing"
             ],
-            "time": "2015-09-14 19:24:49"
+            "time": "2015-09-14 19:35:10"
         },
         {
             "name": "kohana/cache",
