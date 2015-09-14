@@ -5,7 +5,7 @@ class Controller_Auth extends Api_Controller {
 		foreach (Route::all() as $name => $route)
 			var_dump($name);
 		$routes = Kohana::$config->load('test')->as_array();
-		ksort($routes);
+// 		ksort($routes);
 		var_dump($routes);
 	}
 	
