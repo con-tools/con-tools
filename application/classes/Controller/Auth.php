@@ -2,8 +2,7 @@
 class Controller_Auth extends Api_Controller {
 	
 	public function action_test() {
-		foreach (Kohana::$config->load('routes') as $name => $route)
-			var_dump($name);
+		var_dump(Kohana::$config->load('test'));
 	}
 	
 	public function action_verify() {
