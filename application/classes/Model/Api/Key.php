@@ -2,7 +2,7 @@
 
 class Model_Api_Key extends ORM {
 	
-	protected $_belonds_to = [
+	protected $_belongs_to = [
 			'convention' => [],
 	];
 	
