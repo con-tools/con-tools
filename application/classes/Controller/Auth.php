@@ -15,8 +15,7 @@ class Controller_Auth extends Api_Controller {
 	}
 
 	public function action_start() {
-		$data = json_decode($this->request->body()) ?  : [ ];
-		error_log("Got some data: " . print_r($data,true));
+		$data = json_decode($this->request->body(), true) ?  : [ ];
 		$this->send([ 
 				"auth-url" => Auth::getProvider(@$data['provider'] ?  : 'google', 
 						strtolower($this->action_url('callback', true)))->getAuthenticationURL(@$data['redirect-url'])
