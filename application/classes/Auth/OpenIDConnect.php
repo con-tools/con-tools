@@ -90,7 +90,7 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getRedirectURL()
 	 */
 	public function getRedirectURL() {
-		Session::instance()->get('openid-connect-auth-callback-url');
+		return Session::instance()->get('openid-connect-auth-callback-url');
 	}
 
 }
