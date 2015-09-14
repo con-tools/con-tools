@@ -1,11 +1,6 @@
 <?php
 class Controller_Auth extends Api_Controller {
 	
-	public function action_test() {
-		foreach (Route::all() as $name => $routes)
-			var_dump($name);
-	}
-	
 	public function action_verify() {
 		try {
 			$this->verifyAuthentication();
