@@ -15,4 +15,10 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 		}
 	}
 	
+	public static function response(Exception $e) {
+		$response = Kohana_Kohana_Exception::response($e);
+		
+		return $response;
+	}
+	
 }

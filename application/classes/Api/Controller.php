@@ -7,6 +7,10 @@
 abstract class Api_Controller extends Controller {
 
 	public $auto_render = false;
+	
+	public function __construct($request, $response) {
+		parent::__construct(Request $request, Response $response);
+	}
 
 	/**
 	 * Call from API controllers to verify authorization on calls that require user authorization

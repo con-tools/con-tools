@@ -1,5 +1,9 @@
 <?php
 class Controller_Auth extends Api_Controller {
+	
+	public function action_test() {
+		var_dump(Route::get('crud')->matches(new Request('entities/records')));
+	}
 
 	public function action_verify() {
 		try {
