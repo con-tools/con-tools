@@ -41,6 +41,7 @@ class Controller_Auth extends Api_Controller {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => true, 'token' => $o->login()->token ];
 		} catch (Exception $e) {
+			throw $e;
 			$response = ['status' => false, 'error' => "$e" ];
 		}
 		
