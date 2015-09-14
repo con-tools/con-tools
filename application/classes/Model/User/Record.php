@@ -18,7 +18,7 @@ class Model_User_Record extends ORM {
 		$o->descriptor = $descriptor;
 		$o->content_type = $content_type;
 		$o->data = $data;
-		$o->save;
+		$o->save();
 		return $o;
 	}
 
