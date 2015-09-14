@@ -56,7 +56,7 @@ class Controller_Auth extends Api_Controller {
 		
 		if ($callback) {
 			$url = parse_url($callback);
-			$query = explode('&',$url['query']);
+			$query = explode('&',$url['query'] ?: '');
 			foreach ($response as $key => $val)
 				$query[] = urlencode($key) . '=' . urlencode($val);
 			$url['query'] = join('&', $query);
