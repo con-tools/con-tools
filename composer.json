@@ -23,7 +23,7 @@
 		}
 	],
 	"require" : {
-		"php" : "5.*",
+		"php" : ">=5.6.8",
 		"kohana/core" : "3.4.*",
 		"kohana/cache" : "3.4.*",
 		"kohana/database" : "3.4.*",
