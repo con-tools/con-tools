@@ -39,8 +39,7 @@ class Auth {
 	 * @return array list of provider identifiers
 	 */
 	public static function listProviders() {
-		var_dump(static::getConfig());
-		return array_keys(static::getConfig());
+		return array_keys(static::getConfig()->getArrayCopy());
 	}
 	
 	private static function getConfig() {
