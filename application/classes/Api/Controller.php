@@ -36,7 +36,7 @@ abstract class Api_Controller extends Controller {
 		$this->response->headers('Access-Control-Allow-Credentials', 'true');
 		if ($this->request->method() == 'OPTIONS') {
 			$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-			$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization');
+			$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
 			$this->response->headers('Access-Control-Max-Age', '1728000');
 			$this->response->body('');
 			return $this->response;
