@@ -32,8 +32,8 @@ abstract class Api_Controller extends Controller {
 	 */
 	public function execute() {
 		// handle CORS pre-flight
+		$this->response->headers('Access-Control-Allow-Origin','*');
 		if ($this->request->method() == 'OPTIONS') {
-			$this->response->headers('Access-Control-Allow-Origin','*');
 			$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
 			$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization');
 			$this->response->headers('Access-Control-Max-Age', '1728000');
@@ -50,7 +50,6 @@ abstract class Api_Controller extends Controller {
 	 * @param mixed $data Data to send
 	 */
 	protected function send($data) {
-		$this->response->headers('Access-Control-Allow-Origin','*');
 		$this->response->headers('Content-Type', 'application/json');
 		$this->response->body(json_encode($data));
 	}
