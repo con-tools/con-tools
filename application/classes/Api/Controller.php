@@ -14,7 +14,7 @@ abstract class Api_Controller extends Controller {
 	 * @return Model_Token The authorization token
 	 */
 	protected function verifyAuthentication() {
-		$auth = $this->request->headers('Authorization');
+		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
 		if (!$auth)
 			throw new HTTP_Exception_403("No Authorization header present");
 		try {
