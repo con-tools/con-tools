@@ -1,7 +1,20 @@
 <?php
 
 return [
-		[ 1 ],
-		[ 2 ],
-		[ 3 ]
+	[ 'crud' => [
+		'uri' => 'entities/<controller>(/<id>)',
+		'defaults' => [
+			'directory' => 'Entities',
+			'action' => 'index',
+		],
+	]],
+	
+	['default' => [
+		'uri' => '(<controller>(/<action>(/<id>)))',
+		'defaults' => [
+			'controller' => 'welcome',
+			'action'     => 'index',
+		],
+	]],
+	
 ];
