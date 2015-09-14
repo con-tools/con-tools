@@ -36,9 +36,9 @@ class Controller_Entities_Records extends Api_Controller {
 	
 	private function retrieve(Model_Convention $con, Model_User $user, $id) {
 		try {
-			$this->send(Model_User_Record::byDescriptor($con, $user, $id)->as_array());
+			$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
 		} catch (Model_Exception_NotFound $e) {
-			$this->send(null);
+			$this->send(['data'=> null]);
 		}
 	}
 }
