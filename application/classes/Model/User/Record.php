@@ -26,7 +26,10 @@ class Model_User_Record extends ORM {
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->primary_key())
 			->where('user_id', '=', $user->primary_key())
-			->where('descriptor', '=', $descriptor)->find();
+			->where('descriptor', '=', $descriptor)
+			->order_by('created_time','DESC')
+			->find();
+		error_log(print_r($o,true));
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
