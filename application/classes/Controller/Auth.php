@@ -76,7 +76,7 @@ class Controller_Auth extends Api_Controller {
 		$url .= $spec['host'];
 		if (@$spec['port'])
 			$url .= ":{$spec['port']}";
-		$url .= $spec['path'];
+		$url .= @$spec['path'] ?: '/' ;
 		if (@$spec['query'])
 			$url .= "?{$spec['query']}";
 		if (@$spec['fragment'])
