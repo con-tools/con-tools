@@ -2,6 +2,15 @@
 class Controller_Auth extends Api_Controller {
 	
 	public function action_test() {
+		foreach (Kohana::$config->load('routes')->as_array() as $route) {
+			foreach ($route as $name => $params) {
+				$name = "new-$name";
+				error_log("Setting route $name");
+				$r = Route::set($name, $params['uri'], @$params['rules']);
+				if (@$params['defaults'])
+					$r->defaults($params['defaults']);
+			}
+		}
 		foreach (Route::all() as $name => $routes)
 			var_dump($name);
 	}
