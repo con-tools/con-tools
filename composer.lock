@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f15605253134e22935e740f40b2b3579",
+    "hash": "6a02ecfd082a7a74a5737102c897754d",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -163,7 +163,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "5105aa38dd572aaf4b49639c8ac357158c7bfa4c"
+                "reference": "793b4d3d70642fe8517ad4757ac32945269ee5bf"
             },
             "archive": {
                 "exclude": [
@@ -204,11 +204,11 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2015-09-09 22:50:46"
+            "time": "2015-09-14 11:13:43"
         },
         {
             "name": "guss77/kohana-paypal",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-paypal.git",
@@ -247,16 +247,16 @@
         },
         {
             "name": "guss77/kohana-routing",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-routing.git",
-                "reference": "2056dd468a5b54663e8890f684eb28fd71bba99a"
+                "reference": "f3aa9210c7088c5c77dc94ae6b752f2fe672db28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/2056dd468a5b54663e8890f684eb28fd71bba99a",
-                "reference": "2056dd468a5b54663e8890f684eb28fd71bba99a",
+                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/f3aa9210c7088c5c77dc94ae6b752f2fe672db28",
+                "reference": "f3aa9210c7088c5c77dc94ae6b752f2fe672db28",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
                 "kohana",
                 "routing"
             ],
-            "time": "2015-09-04 21:03:25"
+            "time": "2015-09-14 19:01:56"
         },
         {
             "name": "kohana/cache",
@@ -827,12 +827,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7d21eb99840db0b0ce80221a260a299caa50e4f4"
+                "reference": "1292dcc69ac453b493d5817bb6d344c91d27f80c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7d21eb99840db0b0ce80221a260a299caa50e4f4",
-                "reference": "7d21eb99840db0b0ce80221a260a299caa50e4f4",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1292dcc69ac453b493d5817bb6d344c91d27f80c",
+                "reference": "1292dcc69ac453b493d5817bb6d344c91d27f80c",
                 "shasum": ""
             },
             "require": {
@@ -845,7 +845,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.21-dev"
+                    "dev-master": "1.22-dev"
                 }
             },
             "autoload": {
@@ -880,7 +880,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-09 05:33:05"
+            "time": "2015-09-14 08:36:12"
         }
     ],
     "packages-dev": [
@@ -1409,12 +1409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "1a0bd40f71908db4c9d44d308e0008cc44fc5f2f"
+                "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/1a0bd40f71908db4c9d44d308e0008cc44fc5f2f",
-                "reference": "1a0bd40f71908db4c9d44d308e0008cc44fc5f2f",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
+                "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
                 "shasum": ""
             },
             "require": {
@@ -1450,7 +1450,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-24 07:18:02"
+            "time": "2015-09-14 14:15:17"
         }
     ],
     "aliases": [],
