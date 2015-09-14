@@ -30,7 +30,7 @@
 		"kohana/minion" : "3.4.*",
 		"kohana/orm" : "3.4.*",
 		"guss77/kohana-paypal" : ">=1.0.0",
-		"guss77/kohana-routing" : ">=1.1.0",
+		"guss77/kohana-routing" : ">=1.1.3",
 		"pridemon/oauth" : "dev-3.3/develop",
 		"con-troll/Auth-OpenID-Connect" : "dev-master",
 		"tommcdo/kohana-twig" : "dev-master",

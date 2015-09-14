@@ -4,8 +4,6 @@ class Controller_Auth extends Api_Controller {
 	public function action_test() {
 		foreach (Route::all() as $name => $routes)
 			var_dump($name);
-		$files = Kohana::find_file('config', 'routes', NULL, TRUE);
-		var_dump($files);
 	}
 	
 	public function action_verify() {
