@@ -10,7 +10,7 @@ class Model_User extends ORM {
 	protected $_has_many = [
 			'tokens' => [],
 	];
-
+	
 	public function rules() {
 		return [
 				'email' => [ 

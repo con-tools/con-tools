@@ -4,6 +4,12 @@ class ORM extends Kohana_ORM {
 	
 	protected $_columns = [];
 	
+	public function __construct($id = NULL) {
+		$this->_initialize();
+		$this->_primary_key = $this->object_name() . '_id';
+		parent::__construct($id);
+	}
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Kohana_ORM::set()
