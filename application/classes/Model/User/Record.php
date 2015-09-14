@@ -24,12 +24,11 @@ class Model_User_Record extends ORM {
 
 	public static function byDescriptor(Model_Convention $con, Model_User $user, $descriptor) {
 		$o = Model::factory('user_record')
-			->where('convention_id', '=', $con->primary_key())
-			->where('user_id', '=', $user->primary_key())
+			->where('convention_id', '=', $con->id)
+			->where('user_id', '=', $user->id)
 			->where('descriptor', '=', $descriptor)
 			->order_by('created_time','DESC')
 			->find();
-		error_log(print_r($o,true));
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
