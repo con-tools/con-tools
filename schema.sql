@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `user_records` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `user_id` INT UNSIGNED NOT NULL COMMENT '',
   `convention_id` INT UNSIGNED NOT NULL COMMENT '',
+  `created_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '',
   `descriptor` VARCHAR(255) NOT NULL COMMENT '',
   `content_type` VARCHAR(40) NOT NULL COMMENT 'MIME content-type. use application/php for PHP serialized content.',
   `data` MEDIUMBLOB NOT NULL COMMENT 'schemaless data, format depends on content_type',
