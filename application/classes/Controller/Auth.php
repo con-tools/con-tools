@@ -30,6 +30,10 @@ class Controller_Auth extends Api_Controller {
 	public function action_list() {
 		$this->send(Auth::listProviders());
 	}
+	
+	public function action_test() {
+		var_dump(Model::byEmail('oded@geek.co.il'));
+	}
 
 	public function action_callback() {
 		$callback = null;
