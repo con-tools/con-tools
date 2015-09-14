@@ -32,6 +32,7 @@ abstract class Api_Controller extends Controller {
 	 * @param mixed $data Data to send
 	 */
 	protected function send($data) {
+		$this->response->headers('Access-Control-Allow-Origin','*');
 		$this->response->headers('Content-Type', 'application/json');
 		$this->response->body(json_encode($data));
 	}
