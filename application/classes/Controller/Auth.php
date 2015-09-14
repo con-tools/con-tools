@@ -32,6 +32,7 @@ class Controller_Auth extends Api_Controller {
 	}
 
 	public function action_callback() {
+		$callback = null;
 		// google response parameters: state, code, authuser, prompt, session_state
 		try {
 			$provider = Auth::getLastProvider();
