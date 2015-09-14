@@ -40,7 +40,7 @@ abstract class Api_Controller extends Controller {
 			return $this->response;
 		}
 		
-		parent::execute();
+		return parent::execute();
 	}
 
 	
