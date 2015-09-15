@@ -65,6 +65,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 			throw new Exception("Invalid authorization state!");
 		$this->token = $this->provider->getAccessToken('authorization_code', [ 'code' => $code ]);
 		$this->user = $this->provider->getResourceOwner($this->token);
+		$this->token = $this->provider->getLongLivedAccessToken($this->token);
 	}
 
 	/*
