@@ -49,7 +49,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 */
 	public function getAuthenticationURL($redirect_url) {
 		$authUrl = $this->provider->getAuthorizationUrl([
-				'scope' => [ 'email', 'name' ]
+				'scope' => [ 'email', 'public_profile' ]
 		]);
 		Session::instance()->set('oauth2state', $this->provider->getState());
 		Session::instance()->set('oauth2-callback-url', $redirect_url);
