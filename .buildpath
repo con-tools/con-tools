@@ -4,6 +4,7 @@
 	<buildpathentry kind="src" path="vendor/kohana/database/classes"/>
 	<buildpathentry kind="src" path="vendor/tommcdo/kohana-twig/classes"/>
 	<buildpathentry kind="src" path="vendor/twig/twig/ext"/>
+	<buildpathentry kind="src" path="vendor/league/oauth2-client/src"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry kind="src" path="vendor/twig/twig/lib"/>
 	<buildpathentry kind="src" path="vendor/kohana/orm/classes"/>

@@ -35,7 +35,8 @@
 		"con-troll/Auth-OpenID-Connect" : "dev-master",
 		"tommcdo/kohana-twig" : "dev-master",
 		"aptoma/twig-markdown" : "dev-master",
-		"league/commonmark" : "0.8.*@dev"
+		"league/commonmark" : "0.8.*@dev",
+		"league/oauth2-facebook": "^1.0@dev"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : "3.7.*",
