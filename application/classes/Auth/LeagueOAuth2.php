@@ -28,19 +28,26 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * retrieved authenticated user
 	 */
 	private $user = null;
+	
+	private $opts = [];
+	private $provider_name;
 
 	public function __construct($name, $configuration, $callback_url) {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->name = $name;
-		$provider_name = $configuration['provider'] ?  : 'GenericProvider';
-		$full_provider_name = "League\\OAuth2\\Client\\Provider\\{$provider_name}";
-		$opts = array_merge([
+		$this->provider_name = $configuration['provider'] ?  : 'GenericProvider';
+		$this->opts = array_merge([
 				'clientId' => $this->client_id,
 				'clientSecret' => $this->secret,
 				'redirectUri' => $callback_url 
 		], $configuration['config'] ?  : []);
-		$this->provider = new $full_provider_name($opts);
+		$this->initProvider();
+	}
+	
+	private function initProvider() {
+		$full_provider_name = "League\\OAuth2\\Client\\Provider\\{$this->provider_name}";
+		$this->provider = new $full_provider_name($this->opts);
 	}
 
 	/*
@@ -106,6 +113,21 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 */
 	public function getRedirectURL() {
 		return Session::instance()->get('oauth2-callback-url');
+	}
+	
+	/**
+	 * We can't serialize the Leageue OAuth object, so clean it before serialization
+	 */
+	public function __sleep() {
+		$this->provider = null;
+		return [ 'client_id', 'secret', 'token', 'opts', 'provider_name' ];
+	}
+	
+	/**
+	 * recreate the League OAuth provider object
+	 */
+	public function __wakeup() {
+		$this->initProvider();
 	}
 
 }
