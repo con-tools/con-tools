@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS `api_sessions`;
+CREATE TABLE `api_sessions` (
+  `session_id` varchar(24) NOT NULL,
+  `last_active` int(10) unsigned NOT NULL,
+  `contents` text NOT NULL,
+  PRIMARY KEY (`session_id`),
+  KEY `last_active` (`last_active`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET UTF8;
+
 CREATE TABLE IF NOT EXISTS `users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `name` VARCHAR(45) NOT NULL COMMENT '',
@@ -53,5 +62,5 @@ CREATE TABLE IF NOT EXISTS `user_records` (
   FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
-insert into conventions (name) values ("ביגור 16") on duplicate key update name = name;
-insert into api_keys (convention_id, client_key, client_secret) values (2, "M2UyZjJlNzE2M2RkYmVkZWZiYjkzZDRiZGJmOGVlNzM1YjBlN2ZkNQ", "123456");
+-- insert into conventions (name) values ("ביגור 16") on duplicate key update name = name;
+-- insert into api_keys (convention_id, client_key, client_secret) values (2, "M2UyZjJlNzE2M2RkYmVkZWZiYjkzZDRiZGJmOGVlNzM1YjBlN2ZkNQ", "123456");
