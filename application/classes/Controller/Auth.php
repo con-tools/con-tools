@@ -44,6 +44,7 @@ class Controller_Auth extends Api_Controller {
 					'image' => Auth::getLoginButton($id),
 			];
 		}
+		$this->auto_render = true;
 	}
 	
 	public function action_id() {
