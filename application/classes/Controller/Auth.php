@@ -32,7 +32,7 @@ class Controller_Auth extends Api_Controller {
 	
 	public function action_select() {
 		if (!is_null($this->request->param('id')))
-			$this->redirect($this->start_auth($this->request->param('id'), $this->request->query('redirect-url')));
+			$this->redirect($this->startAuth($this->request->param('id'), $this->request->query('redirect-url')));
 		
 		$this->view = Twig::factory('auth/accounts');
 		$this->view->providers = [];
