@@ -42,6 +42,10 @@ class Auth {
 		return array_keys(static::getConfig()->getArrayCopy());
 	}
 	
+	public static function getLoginButton($provider) {
+		static::getConfig()[$provider]['button'];
+	}
+	
 	private static function getConfig() {
 		return Kohana::$config->load('auth');
 	}

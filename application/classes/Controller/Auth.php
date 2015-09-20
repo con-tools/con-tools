@@ -31,6 +31,21 @@ class Controller_Auth extends Api_Controller {
 		$this->send(Auth::listProviders());
 	}
 	
+	public function action_select() {
+		if (!is_null($this->request->param('id')))
+			$this->redirect(Auth::getProvider($this->request->param('id'), $this->request->query('redirect-url'))->getRedirectURL());
+		
+		$this->view = Twig::factory('auth/accounts');
+		$this->view->providers = [];
+		foreach (Auth::listProviders() as $id) {
+			$this->view->providers[] = [
+					'id' => $id,
+					'url' => '/auth/select/' . $id . '?redirect-url=' . urldecode($this->request->query('redirect-url')),
+					'image' => Auth::getLoginButton($id),
+			];
+		}
+	}
+	
 	public function action_id() {
 		$tok = $this->verifyAuthentication();
 		$user = $tok->user;
