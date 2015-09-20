@@ -32,6 +32,7 @@ abstract class Controller extends Kohana_Controller {
 	public function action_url($action, $full = false) {
 		$params = $this->request->route()->matches($this->request); // guaranteed a match, otherwise we wouldn't be here
 		$params ['action'] = $action;
+		unset($params['id']);
 		return URL::site($this->request->route()->uri($params), $full);
 	}
 
