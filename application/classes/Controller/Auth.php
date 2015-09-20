@@ -17,8 +17,7 @@ class Controller_Auth extends Api_Controller {
 	public function action_start() {
 		$data = json_decode($this->request->body(), true) ?  : [ ];
 		$this->send([ 
-				"auth-url" => Auth::getProvider(@$data['provider'] ?  : 'google', 
-						strtolower($this->action_url('callback', true)))->getAuthenticationURL(@$data['redirect-url'])
+				"auth-url" => $this->startAuth(@$data['provider'] ?  : 'google', @$data['redirect-url'])
 		]);
 	}
 	
@@ -33,7 +32,7 @@ class Controller_Auth extends Api_Controller {
 	
 	public function action_select() {
 		if (!is_null($this->request->param('id')))
-			$this->redirect(Auth::getProvider($this->request->param('id'), $this->request->query('redirect-url'))->getRedirectURL());
+			$this->redirect($this->start_auth($this->request->param('id'), $this->request->query('redirect-url')));
 		
 		$this->view = Twig::factory('auth/accounts');
 		$this->view->providers = [];
@@ -79,6 +78,10 @@ class Controller_Auth extends Api_Controller {
 			$this->redirect($this->buildUrl($url));
 		} else
 			$this->send($response);
+	}
+	
+	private function startAuth($provider, $redirect_url) {
+		return Auth::getProvider($provider, strtolower($this->action_url('callback', true)))->getAuthenticationURL($redirect_url);
 	}
 	
 	private function buildUrl($spec) {
