@@ -43,7 +43,7 @@ class Auth {
 	}
 	
 	public static function getLoginButton($provider) {
-		static::getConfig()[$provider]['button'];
+		return static::getConfig()[$provider]['button'];
 	}
 	
 	private static function getConfig() {
