@@ -68,7 +68,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 */
 	public function complete($params) {
 		extract($params); // import oauth_tokena and oauth_verifier
-		if (is_null($auth_token))
+		if (is_null($oauth_token))
 			throw new Auth_Cancelled();
 		$temp = Session::instance()->get('oauth1-temp-creds');
 		$tokenCredentials = $this->provider->getTokenCredentials($temp, $oauth_token, $oauth_verifier);
