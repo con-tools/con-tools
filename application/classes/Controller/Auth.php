@@ -68,6 +68,9 @@ class Controller_Auth extends Api_Controller {
 			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => true, 'token' => $o->login()->token ];
+		} catch (Auth_Cancelled $e) {
+			$callback = $provider->getRedirectURL();
+			$response = ['status' => false, 'error' => 'User cancelled' ];
 		} catch (Exception $e) {
 			throw $e;
 			$response = ['status' => false, 'error' => "$e" ];
