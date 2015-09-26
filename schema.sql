@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `api_sessions`;
-DROP TABLE IF EXISTS `api_keys`
+DROP TABLE IF EXISTS `api_keys`;
 DROP TABLE IF EXISTS `user_records`;
 DROP TABLE IF EXISTS `conventions`;
 DROP TABLE IF EXISTS `tokens`;
