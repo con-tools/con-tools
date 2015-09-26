@@ -1,4 +1,10 @@
 DROP TABLE IF EXISTS `api_sessions`;
+DROP TABLE IF EXISTS `api_keys`
+DROP TABLE IF EXISTS `user_records`;
+DROP TABLE IF EXISTS `conventions`;
+DROP TABLE IF EXISTS `tokens`;
+DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `api_sessions` (
   `session_id` varchar(24) NOT NULL,
   `last_active` int(10) unsigned NOT NULL,
@@ -64,5 +70,10 @@ CREATE TABLE IF NOT EXISTS `user_records` (
   FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
--- insert into conventions (name) values ("ביגור 16") on duplicate key update name = name;
--- insert into api_keys (convention_id, client_key, client_secret) values (2, "M2UyZjJlNzE2M2RkYmVkZWZiYjkzZDRiZGJmOGVlNzM1YjBlN2ZkNQ", "123456");
+INSERT INTO `users` VALUES (1,'Oded Arbel','oded@geek.co.il','google','ya29.-gFU-NwzgPW_bRzY8mnpOmNmhABPvpTSvMmkIItZtEP9hqp0jMe4BfuDJs0LlCdVHRSdlg','2015-09-14 10:55:35','2015-09-14 05:55:35'),
+(2,'יובל - יושי בוטבול','yoshi.yuval@gmail.com','google','ya29.-gGnFJRy0zexsobehkDLgD2G5X5QcYGF71VUscHIzasdyOH3cKWXKC5AfvSIqgbXoOMZ2g','2015-09-16 07:01:54','2015-09-16 02:01:54'),
+(3,'הילה גרגורי','hilagrgory@gmail.com','google','ya29.-gHCJZ8A9UWeLnaxdQfs4vqSZYf3b9XSGK069k044s1Ff57osMBeETW7kEilQpaLToTy','2015-09-26 09:26:59','2015-09-26 04:26:59');
+
+INSERT INTO `conventions` VALUES (1,'ביגור 16');
+
+INSERT INTO `api_keys` VALUES (1,1,'M2UyZjJlNzE2M2RkYmVkZWZiYjkzZDRiZGJmOGVlNzM1YjBlN2ZkNQ','123456');
