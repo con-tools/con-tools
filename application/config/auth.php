@@ -17,7 +17,7 @@ return [
 		
 		'twitter' => [
 				'name'		=> 'Twitter',
-				'button'		=> 'http://api.con-troll.org/images/auth/google/btn_google_signin_dark_normal_web.png',
+				'button'		=> 'http://api.con-troll.org/images/auth/twitter/twitter_login.png',
 				'type'		=> 'OpenIDConnect',
 				'id'		=> $twitter_auth_token[0],
 				'secret'	=> $twitter_auth_token[1],
