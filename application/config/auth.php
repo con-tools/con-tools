@@ -18,7 +18,7 @@ return [
 		'twitter' => [
 				'name'		=> 'Twitter',
 				'button'		=> 'http://api.con-troll.org/images/auth/twitter/twitter_login.png',
-				'type'		=> 'OpenIDConnect',
+				'type'		=> 'LeagueOAuth2',
 				'id'		=> $twitter_auth_token[0],
 				'secret'	=> $twitter_auth_token[1],
 				'endpoint'	=> 'https://api.twitter.com',
