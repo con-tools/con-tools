@@ -20,14 +20,14 @@ abstract class Api_Controller extends Controller {
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
 		if (!$auth)
-			throw new API_Exception_Unauthorized($this, "No Authorization header present");
+			throw new Api_Exception_Unauthorized($this, "No Authorization header present");
 		try {
 			$token = Model_Token::byToken($auth);
 			if ($token->is_expired())
-				throw new API_Exception_Unauthorized($this, "Authorization token expired");
+				throw new Api_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {
-			throw new API_Exception_Unauthorized($this, "Invalid Authorization header");
+			throw new Api_Exception_Unauthorized($this, "Invalid Authorization header");
 		}
 	}
 	
