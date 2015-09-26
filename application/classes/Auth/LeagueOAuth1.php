@@ -38,9 +38,9 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 		$this->name = $name;
 		$this->provider_name = @$configuration['provider'] ? : 'GenericProvider';
 		$this->opts = array_merge([
-				'clientId' => $this->client_id,
-				'clientSecret' => $this->secret,
-				'redirectUri' => $callback_url 
+				'identifier' => $this->client_id,
+				'secret' => $this->secret,
+				'callback_uri' => $callback_url 
 		], @$configuration['config'] ?  : []);
 		$this->initProvider();
 	}
