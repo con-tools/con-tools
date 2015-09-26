@@ -16,6 +16,13 @@ class Api_Exception_Unauthorized extends HTTP_Exception_403 {
 	public function get_response()
 	{
 		$res = Kohana_Exception::response($this);
+		$data = [
+				'status' => false,
+				'error' => $this->getMessage(),
+				'server_html' => $res->body()
+				];
+		$res->headers('Content-Type', 'application/json');
+		$res->body(json_encode($data));
 		$this->source->addCORSHeaders($res);
 		return $res;
 	}
