@@ -11,11 +11,16 @@ interface Auth_ProviderIf {
 	public function getAuthenticationURL($redirect_url);
 	
 	/**
-	 * Complete the authentication process
-	 * @param string $code
-	 * @param string $state
+	 * List the query parameters that we expect to get in the callback
+	 * @return Array of query parameter names
 	 */
-	public function complete($code, $state);
+	public function getNeededQueryParams();
+	
+	/**
+	 * Complete the authentication process
+	 * @param Array $params named array of query string parameter values delivered to the callback URL
+	 */
+	public function complete($params);
 	
 	/**
 	 * Retrieve the authenticated user name

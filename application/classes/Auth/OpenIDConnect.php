@@ -49,7 +49,8 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 	 * (non-PHPdoc)
 	 * @see Auth_ProviderIf::complete()
 	 */
-	public function complete($code, $state) {
+	public function complete($params) {
+		extract($params); // import $code and $state
 		$this->openidcon->completeAuthorization($code, $state);
 		return [
 				'email' => $this->getEmail(),
@@ -91,6 +92,14 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 	 */
 	public function getRedirectURL() {
 		return Session::instance()->get('openid-connect-auth-callback-url');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see Auth_ProviderIf::getNeededQueryParams()
+	 */
+	public function getNeededQueryParams() {
+		return [ 'code', 'state' ];
 	}
 
 }

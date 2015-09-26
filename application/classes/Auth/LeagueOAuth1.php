@@ -1,5 +1,5 @@
 <?php
-class Auth_LeagueOAuth2 implements Auth_ProviderIf {
+class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 
 	/**
 	 * Application's OAuth client ID
@@ -36,7 +36,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->name = $name;
-		$this->provider_name = @$configuration['provider'] ?  : 'GenericProvider';
+		$this->provider_name = @$configuration['provider'] ? : 'GenericProvider';
 		$this->opts = array_merge([
 				'clientId' => $this->client_id,
 				'clientSecret' => $this->secret,
@@ -46,7 +46,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	}
 	
 	private function initProvider() {
-		$full_provider_name = "League\\OAuth2\\Client\\Provider\\{$this->provider_name}";
+		$full_provider_name = "League\\OAuth1\\Client\\Server\\{$this->provider_name}";
 		$this->provider = new $full_provider_name($this->opts);
 	}
 
@@ -55,11 +55,10 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getAuthenticationURL()
 	 */
 	public function getAuthenticationURL($redirect_url) {
-		$authUrl = $this->provider->getAuthorizationUrl([
-				'scope' => [ 'email', 'public_profile' ]
-		]);
-		Session::instance()->set('oauth2state', $this->provider->getState());
-		Session::instance()->set('oauth2-callback-url', $redirect_url);
+		$temp = $this->provider->getTemporaryCredentials();
+		$authUrl = $this->provider->getAuthorizationUrl($temp);
+		Session::instance()->set('oauth1-temp-creds', $temp);
+		Session::instance()->set('oauth1-callback-url', $redirect_url);
 		return $authUrl;
 	}
 
@@ -68,12 +67,11 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::complete()
 	 */
 	public function complete($params) {
-		extract($params); // import $code and $state
-		if ($state != Session::instance()->get('oauth2state'))
-			throw new Exception("Invalid authorization state!");
-		$this->token = $this->provider->getAccessToken('authorization_code', [ 'code' => $code ]);
-		$this->user = $this->provider->getResourceOwner($this->token);
-		$this->token = $this->provider->getLongLivedAccessToken($this->token);
+		extract($params); // import oauth_tokena and oauth_verifier
+		$temp = Session::instance()->get('oauth1-temp-creds');
+		$tokenCredentials = $this->provider->getTokenCredentials($temp, $oauth_token, $oauth_verifier);
+		$this->token = $tokenCredentials;
+		$this->user = $this->provider->getUserDetails($tokenCredentials);
 	}
 
 	/*
@@ -81,7 +79,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getName()
 	 */
 	public function getName() {
-		return $this->user->getName();
+		return $this->user->name;
 	}
 
 	/*
@@ -89,7 +87,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getEmail()
 	 */
 	public function getEmail() {
-		return $this->user->getEmail();
+		return $this->user->email;
 	}
 
 	/*
@@ -105,7 +103,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getToken()
 	 */
 	public function getToken() {
-		$this->token->getToken();
+		$this->token->getIdentifier();
 	}
 
 	/*
@@ -113,7 +111,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getRedirectURL()
 	 */
 	public function getRedirectURL() {
-		return Session::instance()->get('oauth2-callback-url');
+		return Session::instance()->get('oauth1-callback-url');
 	}
 	
 	/**
@@ -136,7 +134,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getNeededQueryParams()
 	 */
 	public function getNeededQueryParams() {
-		return [ 'code', 'state' ];
+		return [ 'oauth_token', 'oauth_verifier' ];
 	}
 
 }
