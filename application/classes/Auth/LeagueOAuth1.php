@@ -81,7 +81,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getName()
 	 */
 	public function getName() {
-		return $this->user->name;
+		return $this->user->name ?: $this->provider->getUserScreenName($this->token);
 	}
 
 	/*
@@ -89,7 +89,8 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getEmail()
 	 */
 	public function getEmail() {
-		return $this->user->email;
+		return $this->user->email ?: ($this->provider->getUserEmail($this->token) ?: (
+				$this->getProviderName() . '-' . $this->getToken() . '@con-troll.org' ));
 	}
 
 	/*
