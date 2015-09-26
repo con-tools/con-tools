@@ -41,7 +41,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 				'clientId' => $this->client_id,
 				'clientSecret' => $this->secret,
 				'redirectUri' => $callback_url 
-		], $configuration['config'] ?  : []);
+		], @$configuration['config'] ?  : []);
 		$this->initProvider();
 	}
 	
