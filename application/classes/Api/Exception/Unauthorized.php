@@ -1,6 +1,6 @@
 <?php
 
-class API_Exception_Unauthorized extends HTTP_Exception_403 {
+class Api_Exception_Unauthorized extends HTTP_Exception_403 {
 	
 	private $source; // Controller that thrown this error
 	

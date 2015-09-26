@@ -9,8 +9,6 @@ abstract class Api_Controller extends Controller {
 	public $auto_render = false;
 	
 	public function __construct($request, $response) {
-		global $is_api_call;
-		$is_api_call = true;
 		parent::__construct($request, $response);
 	}
 
