@@ -7,7 +7,7 @@ $facebook_auth_token = explode(':', $_SERVER['FACEBOOK_AUTH_CLIENT']);
 return [
 		'google' => [
 				'name'		=> 'Google',
-				'button'		=> 'http://api.con-troll.org/images/auth/google/btn_google_signin_dark_normal_web.png',
+				'button'	=> 'http://api.con-troll.org/images/auth/google/btn_google_signin_dark_normal_web.png',
 				'type'		=> 'OpenIDConnect',
 				'id'		=> $google_auth_token[0],
 				'secret'	=> $google_auth_token[1],
@@ -17,16 +17,16 @@ return [
 		
 		'twitter' => [
 				'name'		=> 'Twitter',
-				'button'		=> 'http://api.con-troll.org/images/auth/twitter/twitter_login.png',
-				'type'		=> 'LeagueOAuth2',
+				'button'	=> 'http://api.con-troll.org/images/auth/twitter/twitter_login.png',
+				'type'		=> 'LeagueOAuth1',
 				'id'		=> $twitter_auth_token[0],
 				'secret'	=> $twitter_auth_token[1],
-				'endpoint'	=> 'https://api.twitter.com',
+				'provider'	=> 'Twitter',
 		],
 		
 		'facebook' => [
 				'name'		=> 'Facebook',
-				'button'		=> 'http://api.con-troll.org/images/auth/facebook/facebook-login-with.png',
+				'button'	=> 'http://api.con-troll.org/images/auth/facebook/facebook-login-with.png',
 				'type'		=> 'LeagueOAuth2',
 				'id'		=> $facebook_auth_token[0],
 				'secret'	=> $facebook_auth_token[1],
