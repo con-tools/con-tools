@@ -22,14 +22,14 @@ abstract class Api_Controller extends Controller {
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
 		if (!$auth)
-			throw new HTTP_Exception_403("No Authorization header present");
+			throw new API_Exception_Unauthorized($this, "No Authorization header present");
 		try {
 			$token = Model_Token::byToken($auth);
 			if ($token->is_expired())
-				throw new HTTP_Exception_403("Authorization token expired");
+				throw new API_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {
-			throw new HTTP_Exception_403("Invalid Authorization header");
+			throw new API_Exception_Unauthorized($this, "Invalid Authorization header");
 		}
 	}
 	
@@ -50,19 +50,28 @@ abstract class Api_Controller extends Controller {
 	 */
 	public function execute() {
 		// handle CORS pre-flight
-		$this->response->headers('Access-Control-Allow-Origin', $this->request->headers('Origin'));
-		$this->response->headers('Access-Control-Allow-Credentials', 'true');
 		if ($this->request->method() == 'OPTIONS') {
-			$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-			$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
-			$this->response->headers('Access-Control-Max-Age', '1728000');
-			$this->response->body('');
-			return $this->response;
+			return $this->generatePreFlightResponse();
 		}
 		
+		// otherwise just add the required CORS headers
+		$this->addCORSHeaders($this->response);
 		return parent::execute();
 	}
+	
+	public function addCORSHeaders($response) {
+		$response->headers('Access-Control-Allow-Origin', $this->request->headers('Origin'));
+		$response->headers('Access-Control-Allow-Credentials', 'true');
+	}
 
+	protected function generatePreFlightResponse() {
+		$this->addCORSHeaders($this->response);
+		$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
+		$this->response->headers('Access-Control-Max-Age', '1728000');
+		$this->response->body('');
+		return $this->response;
+	}
 	
 	/**
 	 * Send a response to the caller in JSON format
