@@ -36,7 +36,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->name = $name;
-		$this->provider_name = $configuration['provider'] ?  : 'GenericProvider';
+		$this->provider_name = @$configuration['provider'] ?  : 'GenericProvider';
 		$this->opts = array_merge([
 				'clientId' => $this->client_id,
 				'clientSecret' => $this->secret,
