@@ -61,7 +61,10 @@ class Controller_Auth extends Api_Controller {
 		// google response parameters: state, code, authuser, prompt, session_state
 		try {
 			$provider = Auth::getLastProvider();
-			$provider->complete($this->request->query('code'), $this->request->query('state'));
+			$provider_params = [];
+			foreach ($provider->getNeededQueryParams() as $query)
+				$provider_params[$query] = $this->request->query($query);
+			$provider->complete($provider_params);
 			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => true, 'token' => $o->login()->token ];
