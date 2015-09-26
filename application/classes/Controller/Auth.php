@@ -24,6 +24,7 @@ class Controller_Auth extends Api_Controller {
 	public function action_logout() {
 		$tok = $this->verifyAuthentication();
 		$tok->delete();
+		$this->send([ 'status' => true ]);
 	}
 	
 	public function action_list() {
