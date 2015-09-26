@@ -74,6 +74,13 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 		$tokenCredentials = $this->provider->getTokenCredentials($temp, $oauth_token, $oauth_verifier);
 		$this->token = $tokenCredentials;
 		$this->user = $this->provider->getUserDetails($tokenCredentials);
+		error_log("Got OAuth 1 token: " . print_r([
+				$this->token->getIdentifier(), 
+				$this->token->getSecret(),
+				$this->provider->getUserScreenName($this->token),
+				$this->provider->getUserEmail($this->token),
+				serialize($this->user),
+		],true));
 	}
 
 	/*
