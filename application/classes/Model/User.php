@@ -8,6 +8,8 @@ class Model_User extends ORM {
 			'cost' => 17
 	];
 	
+	const PASSWORD_PROVIDER = 'password';
+	
 	protected $_columns = [
 			'created_time' => [ 'type' => 'DateTime' ],
 			'login_time' => [ 'type' => 'DateTime' ],
@@ -63,31 +65,51 @@ class Model_User extends ORM {
 	public static function persist($name, $email, $provider, $token) {
 		if ($email == '-')
 			$email = self::NOT_REALLY_EMAIL;
+		
+		// try to figure out if this user already has an account, first by token:
 		try {
-			$user = static::byEmail($email);
-			// update fields
-			if ($name) 
-				$user->name = $name;
-			$user->provider = $provider;
-			$user->password = $token;
-			$user->save();
-			return $user; 
-		} catch (Model_Exception_NotFound $e) {
-			// need to create a new account
-			$o = new Model_User();
-			$o->name = $name;
-			$o->email = $email;
-			$o->provider = $provider;
-			$o->password = $token;
-			$o->login_time = new DateTime();
-			$o->save();
-			return $o;
-		}
+			return static::byProviderToken($provider, $token);
+		} catch (Model_Exception_NotFound $e) {}; // haven't found a user to update
+		
+		// some providers switch tokens, so we'll trust the provided email address
+		if ($provider != self::PASSWORD_PROVIDER) // unless the user provided the email, whom I can't trust
+			try {
+				$user = static::byEmail($email);
+				// update fields
+				if ($name) 
+					$user->name = $name;
+				$user->provider = $provider;
+				$user->password = $token;
+				$user->save();
+				return $user; 
+			} catch (Model_Exception_NotFound $e) {}
+			
+		// need to create a new account
+		$o = new Model_User();
+		$o->name = $name;
+		$o->email = $email;
+		$o->provider = $provider;
+		$o->password = $token;
+		$o->login_time = new DateTime();
+		$o->save();
+		return $o;
 	}
 	
 	public static function persistWithPassword($name, $email, $password) {
-		return static::persist($name, $email, 'password', 
+		return static::persist($name, $email, self::PASSWORD_PROVIDER, 
 				password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS));
+	}
+	
+	public static function byProviderToken($provider, $token) {
+		if ($provider == self::PASSWORD_PROVIDER)
+			throw new Model_Exception_NotFound(); // no looking up users by their passwords
+		$o = Model::factory("user")
+			->where('provider','=',$provider)
+			->where('password', '=', $token)
+			->find();
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
+		return $o;
 	}
 	
 	public static function byEmail($email) {
