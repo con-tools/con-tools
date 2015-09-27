@@ -14,7 +14,7 @@
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
 	<div id="{{ provider.id }}">
-		<a href="javascript:jQuery('#email-login').show();"><img src="{{ provider.image }}"></a>
+		<a href="javascript:jQuery('#email-login').show();return false;"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin">
 				<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
