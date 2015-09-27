@@ -154,6 +154,7 @@ class Controller_Auth extends Api_Controller {
 		// check that its not conflicting
 		try {
 			Model_User::byEmail($email);
+			Session::instance()->set('update-user-error', 'An account with that email already exists.');
 			return false;
 		} catch (Model_Exception_NotFound $e) {}
 		$user->email = $email;
