@@ -25,8 +25,17 @@ abstract class Controller extends Kohana_Controller {
 		}
 	}
 
-	public function redirect_to_action($action) {
-		$this->redirect($this->action_url($action));
+	public function redirect_to_action($action, $query = null) {
+		$url = $this->action_url($action);
+		if (is_string($query))
+			$url .= '?' . $query;
+		elseif (is_array($query)) {
+			$q = [];
+			foreach ($query as $key => $val)
+				$q[] = urlencode($key) . '=' . urlencode($val).
+			$url .= '?' . join('&',$q);
+		}
+		$this->redirect($url);
 	}
 
 	public function action_url($action, $full = false) {
