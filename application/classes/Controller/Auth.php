@@ -100,8 +100,8 @@ class Controller_Auth extends Api_Controller {
 				$this->completeAuthToApp($this->request->post('redirect-url'), $user->login()->token);
 		}
 		
-		$this->view->error = Session::instance()->get_once('update-user-error');
 		$this->view = Twig::factory('auth/update');
+		$this->view->error = Session::instance()->get_once('update-user-error');
 		$this->view->user = $user;
 		$this->view->redirect_url = $this->request->query('redirect-url') ?: $this->request->post('redirect-url');
 		$this->auto_render = true;
