@@ -71,6 +71,11 @@ class Model_User extends ORM {
 		}
 	}
 	
+	public static function persistWithPassword($name, $email, $password) {
+		return static::persist($name, $email, 'password', 
+				password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS));
+	}
+	
 	public static function byEmail($email) {
 		$o = Model::factory("user")->where('email','=',$email)->find();
 		if (!$o->loaded())
