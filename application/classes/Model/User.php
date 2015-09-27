@@ -2,6 +2,10 @@
 
 class Model_User extends ORM {
 	
+	const PASSWORD_HASH_OPTIONS = [
+			'cost' => 17
+	];
+	
 	protected $_columns = [
 			'created_time' => [ 'type' => 'DateTime' ],
 			'login_time' => [ 'type' => 'DateTime' ],
@@ -74,4 +78,16 @@ class Model_User extends ORM {
 		return $o;
 	}
 	
+	public static function byPassword($email, $password) {
+		$user = Model_User::byEmail($email);
+		if (!password_verify($password, $user->password))
+			throw new Model_Exception_NotFound(); // invalid password
+			
+		// Check if a newer hashing algorithm is available or the cost has changed
+		if (password_needs_rehash($user->password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS)) {
+			$user->password = password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS);
+			$user->save();
+		}
+		return $user;
+	}
 }
