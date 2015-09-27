@@ -8,13 +8,24 @@
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+function startEmailLogin(e) {
+	jQuery('#email-login').show();
+	return false;
+}
+
+jQuery.ready(function(){
+	jQuery('#email-button').click(startEmailLogin);
+});
+</script>
 </head>
 <body>
 <div id="provider-list">
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
 	<div id="{{ provider.id }}">
-		<a href="javascript:jQuery('#email-login').show();return false;"><img src="{{ provider.image }}"></a>
+		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin">
 				<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
