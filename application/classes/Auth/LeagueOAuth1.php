@@ -89,9 +89,9 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getEmail()
 	 */
 	public function getEmail() {
-		// TODO: add a post-auth settings page to get the user's email
-		return $this->user->email ?: ($this->provider->getUserEmail($this->token) ?: (
-				$this->getProviderName() . '-' . $this->token->getIdentifier() . '@con-troll.org' ));
+		// Twitter doesn't provide an email address. If we can't get it, we set '-' which is code
+		// for "ask the user nicely for her email".
+		return $this->user->email ?: ($this->provider->getUserEmail($this->token) ?: '-');
 	}
 
 	/*
