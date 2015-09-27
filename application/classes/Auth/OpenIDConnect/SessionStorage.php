@@ -15,7 +15,7 @@ class Auth_OpenIDConnect_SessionStorage implements OpenIDSessionStorageIF {
 	 * @see OpenIDSessionStorageIF::getNonce()
 	 */
 	public function getNonce() {
-		Session::instance()->get('auth-openid-connect-nonce', null);
+		return Session::instance()->get('auth-openid-connect-nonce', null);
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Auth_OpenIDConnect_SessionStorage implements OpenIDSessionStorageIF {
 	 * @see OpenIDSessionStorageIF::getState()
 	 */
 	public function getState() {
-		Session::instance()->get('auth-openid-connect-state', null);
+		return Session::instance()->get('auth-openid-connect-state', null);
 	}
 
 	/**
