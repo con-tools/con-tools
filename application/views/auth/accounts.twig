@@ -24,6 +24,10 @@ input[type="password"] {
 	width: calc(100% - 34px);
 }
 
+#register-password input[type="password"] {
+	width: 100%;
+}
+
 input[type="image"] {
 	vertical-align: bottom;
 	width: 32px;
@@ -38,13 +42,13 @@ form p a {
 <script type="text/javascript">
 (function($){
 	function startEmailLogin(e) {
-		$('#email-login').show(750);
+		$('#email-login').slideDown(750);
 		return false;
 	}
 
 	function startEmailRegistration(e) {
-		$('#login-password').hide(750, function(){
-			$('#register-password').show(750);
+		$('#login-password').slideUp(750, function(){
+			$('#register-password').slideDown(750);
 		});
 		$('#register').click(checkRegister);
 	}
