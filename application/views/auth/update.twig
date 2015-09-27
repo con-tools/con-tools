@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: sans;
+}
+
+#update-form {
+	width: 13em;
+	margin: 5em auto 0;
+}
+
+form p {
+	width: 195px;
+}
+
+input[type="email"], input[type="text"], input[type="password"] {
+	border-width: 0px 0px 1px;
+	border-style: solid;
+	border-color: #808080;
+	border-image: none;
+	width: 100%;
+}
+
+input[type="password"] {
+	width: 82%;
+	width: calc(100% - 34px);
+}
+
+#register-password input[type="password"] {
+	width: 100%;
+}
+
+input[type="image"] {
+	vertical-align: bottom;
+	width: 32px;
+}
+
+form p a {
+	font-family: sans 0.9em;
+	color: black;
+}
+
+.error-msg {
+	color: red;
+	font-weight: bold;
+	margin: 1em;
+}
+</style>
+</head>
+<body>
+<div id="update-form">
+	{% if error %}
+	<p class="error-msg">{{ error }}</p>
+	{% endif %}
+	<form method="post">
+		<input type="hidden" name="redirect-url" value="{{ redirect_url }}">
+		<p><input type="text" value="{{ user.name }}" name="name" id="name" placeholder="Name"></p>
+		{% if user.email == '-' %}
+		<p class="error-msg">Please provide a valid e-mail address</p>
+		<p><input type="email" value="" name="email" id="email" placeholder="E-Mail"></p>
+		{% else %}
+		<p><input type="email" value="{{ user.email }}" name="email" id="email" disabled="disabled"></p>
+		{% endif %}
+		<p><button type="submit" name="update" value="yes">Complete Registration</button></p>
+	</form>
+</div>
+</body>
+</html>
