@@ -77,3 +77,6 @@ INSERT INTO `users` VALUES (1,'Oded Arbel','oded@geek.co.il',NULL,NULL,'google',
 INSERT INTO `conventions` VALUES (1,'ביגור 16');
 
 INSERT INTO `api_keys` VALUES (1,1,'M2UyZjJlNzE2M2RkYmVkZWZiYjkzZDRiZGJmOGVlNzM1YjBlN2ZkNQ','123456');
+
+-- import users from old controll:
+-- insert into users (name, email, phone, date_of_birth, provider, password, created_time, login_time) select concat(first_name, ' ', last_name), email, phone, date_of_birth, CASE WHEN instr(credentials, '$2y$') THEN 'password' WHEN instr(credentials, 'https://www.google.com') THEN 'google' ELSE replace(substring(substring_index(credentials, ':', 1), length(substring_index(credentials, ':', 0)) + 1), ':', '') END as provider, CASE WHEN instr(credentials, '$2y$') THEN credentials WHEN instr(credentials, 'https://www.google.com') THEN credentials ELSE replace(substring(substring_index(credentials, ':', 2), length(substring_index(credentials, ':', 1)) + 1), ':', '') END as password, registered, last_login from old_users;
