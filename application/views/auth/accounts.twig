@@ -46,14 +46,11 @@ form p a {
 		return false;
 	}
 
-	function checkRegister() {
-	}
-
 	function startEmailRegistration(e) {
 		$('#login-password').slideUp(750, function(){
 			$('#register-password').slideDown(750);
 		});
-		$('#register').click(checkRegister);
+		$('#password-auth').attr('action','/auth/register');
 	}
 
 	$(document).ready(function(){
@@ -70,7 +67,7 @@ form p a {
 	<div id="{{ provider.id }}">
 		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
-			<form method="post" action="/auth/signin">
+			<form method="post" action="/auth/signin" id="password-auth">
 				<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
 				<div id="login-password">
 				<p><input type="password" name="password" id="password" placeholder="Password"><input type="image" src="/images/auth/enter.png"></p>

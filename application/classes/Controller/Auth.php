@@ -46,7 +46,16 @@ class Controller_Auth extends Api_Controller {
 					'image' => Auth::getLoginButton($id),
 			];
 		}
+		$this->view->error = Session::instance()->get_once('select-login-error');
 		$this->auto_render = true;
+	}
+	
+	public function action_signin() {
+		
+	}
+	
+	public function action_register() {
+		
 	}
 	
 	public function action_id() {
