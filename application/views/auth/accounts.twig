@@ -48,7 +48,9 @@ form p a {
 
 	function startEmailRegistration(e) {
 		$('#login-password').slideUp(750, function(){
-			$('#register-password').slideDown(750);
+			window.setTimeout(4, function() {
+				$('#register-password').slideDown(750);
+			});
 		});
 		$('#register').click(checkRegister);
 	}
