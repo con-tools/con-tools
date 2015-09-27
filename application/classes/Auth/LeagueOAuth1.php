@@ -130,7 +130,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 */
 	public function __sleep() {
 		$this->provider = null;
-		return [ 'client_id', 'secret', 'token', 'opts', 'provider_name' ];
+		return [ 'client_id', 'secret', 'token', 'opts', 'provider_name', 'name' ];
 	}
 	
 	/**
