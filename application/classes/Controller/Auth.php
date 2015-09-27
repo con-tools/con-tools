@@ -41,6 +41,7 @@ class Controller_Auth extends Api_Controller {
 			$this->view->providers[] = [
 					'id' => $id,
 					'type' => Auth::getProviderType($id),
+					'name' => Auth::getProviderName($id),
 					'url' => '/auth/select/' . $id . '?redirect-url=' . urldecode($this->request->query('redirect-url')),
 					'image' => Auth::getLoginButton($id),
 			];

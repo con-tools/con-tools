@@ -50,6 +50,10 @@ class Auth {
 		return static::getConfig()[$provider]['type'];
 	}
 	
+	public static function getProviderName($provider) {
+		return static::getConfig()[$provider]['name'];
+	}
+	
 	private static function getConfig() {
 		return Kohana::$config->load('auth');
 	}
