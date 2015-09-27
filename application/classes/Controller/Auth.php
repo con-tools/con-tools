@@ -90,13 +90,11 @@ class Controller_Auth extends Api_Controller {
 			throw new HTTP_Exception_403('Invalid token');
 		
 		if ($this->request->post('update')) {
-			if ($user->email == '-' && // code for "we need to ask the user for their email address"
-				Valid::email($this->request->post('email'))) {
-				$user->email = $this->request->post('email');
-				$user->save();
+			if (!$user->emailIsValid()) { // code for "we need to ask the user for their email address"
+				$this->updateUserEmailIfValid($user, $this->request->post('email'));
 			}
 			
-			if ($user->email != '-' && $user->name)
+			if ($user->emailIsValid() && $user->name)
 				$this->completeAuthToApp($this->request->post('redirect-url'), $user->login()->token);
 		}
 		
@@ -127,7 +125,7 @@ class Controller_Auth extends Api_Controller {
 			$provider->complete($provider_params);
 			$u = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
 			$callback = $provider->getRedirectURL();
-			if ($u->email == '-') {
+			if (!$u->emailIsValid()) {
 				Session::instance()->set('update-user-token', $u->login()->token);
 				$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($callback));
 			}
@@ -148,6 +146,18 @@ class Controller_Auth extends Api_Controller {
 				$this->failAuthToApp($callback, $response['error']);
 		} else
 			$this->send($response);
+	}
+	
+	private function updateUserEmailIfValid(Model_User $user, $email) {
+		if (!Valid::email($email))
+			return false;
+		// check that its not conflicting
+		try {
+			Model_User::byEmail($email);
+			return false;
+		} catch (Model_Exception_NotFound $e) {}
+		$user->email = $email;
+		$user->save();
 	}
 	
 	private function completeAuthToApp($callback, $token) {
