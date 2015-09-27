@@ -30,7 +30,7 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 		$this->client_id = $configuration['id'];
 		$this->secret = $configuration['secret'];
 		$this->name = $name;
-		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret, new Auth_OpenIDConnection_SessionStorage());
+		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret, new Auth_OpenIDConnect_SessionStorage());
 		error_log("Setting OpenID Connect callback URL to $callback_url");
 		$this->openidcon->setRedirectURL($callback_url);
 		$this->openidcon->addScope('email', 'name');

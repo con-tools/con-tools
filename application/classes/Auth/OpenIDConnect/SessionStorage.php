@@ -1,6 +1,6 @@
 <?php
 
-class Auth_OpenIDConnection_SessionStorage implements OpenIDSessionStorageIF {
+class Auth_OpenIDConnect_SessionStorage implements OpenIDSessionStorageIF {
 	
 	/**
 	 * {@inheritDoc}
