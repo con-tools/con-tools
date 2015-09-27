@@ -125,9 +125,12 @@ class Controller_Auth extends Api_Controller {
 			foreach ($provider->getNeededQueryParams() as $query)
 				$provider_params[$query] = $this->request->query($query);
 			$provider->complete($provider_params);
-			$o = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
+			$u = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
 			$callback = $provider->getRedirectURL();
-			$response = ['status' => true, 'token' => $o->login()->token ];
+			if ($u->email == '-') {
+				$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($callback));
+			}
+			$response = ['status' => true, 'token' => $u->login()->token ];
 		} catch (Auth_Cancelled $e) {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => 'User cancelled' ];
@@ -136,6 +139,7 @@ class Controller_Auth extends Api_Controller {
 			$response = ['status' => false, 'error' => "$e" ];
 		}
 		
+		// TODO: handle client side only without redirects
 		if ($callback) {
 			if ($response['status'])
 				$this->completeAuthToApp($callback, $response['token']);
