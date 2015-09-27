@@ -2,6 +2,8 @@
 
 class Model_User extends ORM {
 	
+	const NOT_REALLY_EMAIL = 'invalid@con-troll.org'; // hack to store "I need this user to input her email" status
+	
 	const PASSWORD_HASH_OPTIONS = [
 			'cost' => 17
 	];
@@ -19,7 +21,7 @@ class Model_User extends ORM {
 		return [
 				'email' => [ 
 						[ 'not_empty' ], 
-						[ 'regex', [ ':value', '/^[^@]+@([\w_-]+\.)+\w{2,4}/' ] ]
+						[ 'email' ],
 				],
 				'name' => [
 						[ 'not_empty' ]
@@ -39,6 +41,12 @@ class Model_User extends ORM {
 		return $token;
 	}
 	
+	public function get($column) {
+		if ($column == 'email' && parent::get($column) == self::NOT_REALLY_EMAIL)
+			return '-';
+		return parent::get($column);
+	}
+	
 	private function getValidToken($type) {
 		foreach ($this->tokens->where('type', '=', $type)->find_all() as $token) {
 			if (!$token->is_expired())
@@ -49,6 +57,8 @@ class Model_User extends ORM {
 	}
 	
 	public static function persist($name, $email, $provider, $token) {
+		if ($email == '-')
+			$email = self::NOT_REALLY_EMAIL;
 		try {
 			$user = static::byEmail($email);
 			// update fields
