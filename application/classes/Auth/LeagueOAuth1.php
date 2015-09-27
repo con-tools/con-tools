@@ -98,7 +98,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 */
 	public function getEmail() {
 		return $this->user->email ?: ($this->provider->getUserEmail($this->token) ?: (
-				$this->getProviderName() . '-' . $this->getToken() . '@con-troll.org' ));
+				$this->getProviderName() . '-' . $this->token->getIdentifier() . '@con-troll.org' ));
 	}
 
 	/*
