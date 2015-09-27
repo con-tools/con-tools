@@ -32,7 +32,7 @@ abstract class Controller extends Kohana_Controller {
 		elseif (is_array($query)) {
 			$q = [];
 			foreach ($query as $key => $val)
-				$q[] = urlencode($key) . '=' . urlencode($val).
+				$q[] = urlencode($key) . '=' . urlencode($val);
 			$url .= '?' . join('&',$q);
 		}
 		throw new Exception("Checking my arguments: " . $url);
