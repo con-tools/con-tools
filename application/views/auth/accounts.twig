@@ -11,6 +11,15 @@
 <body>
 <div id="provider-list">
 {% for provider in providers %}
+	{% if provider.type == 'email' %}
+	<div id="{{ provider.id }}">
+		<h1>{{ provider.name }}</h1>
+		<form method="post" action="/auth/signin">
+		<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
+		<p><input type="password" name="password" id="password" placeholder="Password"><input type="image" src="{{ provider.image }}"></p>
+		</form>
+	</div>
+	{% else %}
 	<div id="{{ provider.id }}">
 		<a href="{{ provider.url }}"><img src="{{ provider.image }}"></a>
 	</div>

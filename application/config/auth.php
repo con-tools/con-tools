@@ -32,5 +32,11 @@ return [
 				'secret'	=> $facebook_auth_token[1],
 				'provider'	=> 'Facebook',
 				'config'	=> [ 'graphApiVersion' => 'v2.4' ],
-		]
+		],
+		
+		'email' => [
+				'name'		=> 'Login with an E-Mail address',
+				'type'		=> 'email',
+				'image'		=> 'http://api.con-troll.org/images/auth/enter.png',
+		],
 ];
