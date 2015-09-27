@@ -41,6 +41,10 @@ class Model_User extends ORM {
 		return $token;
 	}
 	
+	public function emailIsValid() {
+		return $this->email != '-';
+	}
+	
 	public function get($column) {
 		if ($column == 'email' && parent::get($column) == self::NOT_REALLY_EMAIL)
 			return '-';
