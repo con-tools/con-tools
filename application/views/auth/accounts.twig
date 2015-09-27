@@ -66,6 +66,12 @@ form p a {
 	$(document).ready(function(){
 		$('#email-button').click(startEmailLogin);
 		$('#register-button').click(startEmailRegistration);
+		{% if register_email %}
+		$('#email-login').show();
+		$('#login-password').hide();
+		$('#register-password').show();
+		$('#email').val('{{ register_email }}');
+		{% endif %}
 	});
 })(jQuery);
 </script>

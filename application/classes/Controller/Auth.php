@@ -48,6 +48,7 @@ class Controller_Auth extends Api_Controller {
 			];
 		}
 		$this->view->error = Session::instance()->get_once('select-login-error');
+		$this->view->register_email = Session::instance()->get_once('select-register-email');
 		$this->auto_render = true;
 	}
 	
@@ -64,6 +65,7 @@ class Controller_Auth extends Api_Controller {
 		$email = $this->request->post('email');
 		if (!$email)
 			$this->errorToSselector("A valid email address is required", $this->request->post('redirect-url'));
+		Session::instance()->set('select-register-email', $email);
 		try {
 			Model_User::byEmail($email);
 			$this->errorToSselector("This email address is already registered", $this->request->post('redirect-url'));
