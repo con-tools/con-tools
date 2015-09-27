@@ -80,6 +80,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 				$this->provider->getUserScreenName($this->token),
 				$this->provider->getUserEmail($this->token),
 				$this->getEmail(),
+				$this->getName(),
 		],true));
 	}
 
