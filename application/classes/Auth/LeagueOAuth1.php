@@ -107,7 +107,8 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getToken()
 	 */
 	public function getToken() {
-		return $this->token->getIdentifier();
+		//return $this->token->getIdentifier();
+		return $this->provider->getUserUid($this->token);
 	}
 
 	/*
