@@ -40,6 +40,7 @@ class Model_User extends ORM {
 		$token = $this->getValidToken($type);
 		$token->touch();
 		$this->login_time = new DateTime();
+		$this->save();
 		return $token;
 	}
 	
