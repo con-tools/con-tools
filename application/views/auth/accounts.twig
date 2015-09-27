@@ -28,6 +28,11 @@ input[type="image"] {
 	vertical-align: bottom;
 	width: 32px;
 }
+
+form p a {
+	font-family: sans 0.9em;
+	color: black;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -67,7 +72,7 @@ input[type="image"] {
 					<a href="#" id="register-button">Forgot Password?</a>
 				</p>
 				</div>
-				<div id="register-password">
+				<div id="register-password" style="display: none;">
 				<p><input type="password" name="password-register" id="password-register" placeholder="Password"></p>
 				<p><input type="password" name="password-confirm" id="password-confirm" placeholder="Confirm Password"></p>
 				<p><button type="submit" name="register" id="register">Register</button></p>
