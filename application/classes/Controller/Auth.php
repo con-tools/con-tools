@@ -128,6 +128,7 @@ class Controller_Auth extends Api_Controller {
 			$u = Model_User::persist($provider->getName(), $provider->getEmail(), $provider->getProviderName(), $provider->getToken());
 			$callback = $provider->getRedirectURL();
 			if ($u->email == '-') {
+				Session::instance()->set('update-user-token', $u->login()->token);
 				$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($callback));
 			}
 			$response = ['status' => true, 'token' => $u->login()->token ];
