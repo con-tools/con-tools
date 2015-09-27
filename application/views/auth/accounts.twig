@@ -9,15 +9,16 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
+(function($){
+	function startEmailLogin(e) {
+		$('#email-login').show();
+		return false;
+	}
 
-function startEmailLogin(e) {
-	jQuery('#email-login').show();
-	return false;
-}
-
-jQuery.ready(function(){
-	jQuery('#email-button').click(startEmailLogin);
-});
+	$(document).ready(function(){
+		$('#email-button').click(startEmailLogin);
+	});
+})(jQuery);
 </script>
 </head>
 <body>
