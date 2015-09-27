@@ -74,14 +74,6 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 		$tokenCredentials = $this->provider->getTokenCredentials($temp, $oauth_token, $oauth_verifier);
 		$this->token = $tokenCredentials;
 		$this->user = $this->provider->getUserDetails($tokenCredentials);
-		error_log("Got OAuth 1 token: " . print_r([
-				$this->token->getIdentifier(), 
-				$this->token->getSecret(),
-				$this->provider->getUserScreenName($this->token),
-				$this->provider->getUserEmail($this->token),
-				$this->getEmail(),
-				$this->getName(),
-		],true));
 	}
 
 	/*
@@ -97,6 +89,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getEmail()
 	 */
 	public function getEmail() {
+		// TODO: add a post-auth settings page to get the user's email
 		return $this->user->email ?: ($this->provider->getUserEmail($this->token) ?: (
 				$this->getProviderName() . '-' . $this->token->getIdentifier() . '@con-troll.org' ));
 	}
