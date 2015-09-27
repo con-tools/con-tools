@@ -63,19 +63,26 @@ class Controller_Auth extends Api_Controller {
 	
 	public function action_register() {
 		$email = $this->request->post('email');
+		error_log('starting to register ' . $email);
 		if (!$email)
 			$this->errorToSselector("A valid email address is required", $this->request->post('redirect-url'));
 		Session::instance()->set('select-register-email', $email);
+		error_log('Checking existing user');
 		try {
 			Model_User::byEmail($email);
+			error_log('found existing user');
 			$this->errorToSselector("This email address is already registered", $this->request->post('redirect-url'));
 		} catch (Model_Exception_NotFound $e) { } // this is the OK case
+		error_log('checking passwords');
 		if (!$this->request->post('password-register'))
 			$this->errorToSselector("Password must not be empty",$this->request->post('redirect-url'));
 		if ($this->request->post('password-register') != $this->request->post('password-confirm'))
 			$this->errorToSselector("Passwords must match", $this->request->post('redirect-url'));
+		error_log('passwords fine');
 		$u = Model_User::persistWithPassword(explide('@',$email)[0], $email, $this->request->post('password-register'));
+		error_log('saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
+		error_log('calling update');
 		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->request->post('redirect-url')));
 	}
 	
