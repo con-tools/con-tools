@@ -71,6 +71,7 @@ form p a {
 		$('#login-password').hide();
 		$('#register-password').show();
 		$('#email').val('{{ register_email }}');
+		$('#password-auth').attr('action','/auth/register');
 		{% endif %}
 	});
 })(jQuery);
