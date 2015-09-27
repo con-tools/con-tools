@@ -106,7 +106,7 @@ class Model_User extends ORM {
 			throw new Model_Exception_NotFound(); // no looking up users by their passwords
 		$o = Model::factory("user")
 			->where('provider','=',$provider)
-			->where('password', '=', $token)
+			->where('password', '=', "$token")
 			->find();
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
