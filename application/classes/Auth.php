@@ -46,6 +46,10 @@ class Auth {
 		return static::getConfig()[$provider]['button'];
 	}
 	
+	public static function getProviderType($provider) {
+		return static::getConfig()[$provider]['type'];
+	}
+	
 	private static function getConfig() {
 		return Kohana::$config->load('auth');
 	}
