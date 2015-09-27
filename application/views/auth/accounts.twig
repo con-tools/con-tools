@@ -20,8 +20,8 @@ input[type="email"], input[type="text"], input[type="password"] {
 }
 
 input[type="password"] {
-	width: 78%;
-	width: calc(100% - 36px);
+	width: 82%;
+	width: calc(100% - 34px);
 }
 
 input[type="image"] {
@@ -33,12 +33,20 @@ input[type="image"] {
 <script type="text/javascript">
 (function($){
 	function startEmailLogin(e) {
-		$('#email-login').show();
+		$('#email-login').show(750);
 		return false;
+	}
+
+	function startEmailRegistration(e) {
+		$('#login-password').hide(750, function(){
+			$('#register-password').show(750);
+		});
+		$('#register').click(checkRegister);
 	}
 
 	$(document).ready(function(){
 		$('#email-button').click(startEmailLogin);
+		$('#register-button').click(startEmailRegistration);
 	});
 })(jQuery);
 </script>
@@ -52,7 +60,18 @@ input[type="image"] {
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin">
 				<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
+				<div id="login-password">
 				<p><input type="password" name="password" id="password" placeholder="Password"><input type="image" src="/images/auth/enter.png"></p>
+				<p>
+					<a href="#" id="register-button">Register</a>
+					<a href="#" id="register-button">Forgot Password?</a>
+				</p>
+				</div>
+				<div id="register-password">
+				<p><input type="password" name="password-register" id="password-register" placeholder="Password"></p>
+				<p><input type="password" name="password-confirm" id="password-confirm" placeholder="Confirm Password"></p>
+				<p><button type="submit" name="register" id="register">Register</button></p>
+				</div>
 			</form>
 		</div>
 	</div>
