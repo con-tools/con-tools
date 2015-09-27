@@ -22,8 +22,10 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_logout() {
-		$tok = $this->verifyAuthentication();
-		$tok->delete();
+		try {
+			$tok = $this->verifyAuthentication();
+			$tok->delete();
+		} catch (Api_Exception_Unauthorized $e) {} // if we can't find a valid token, its like we logged out, right?
 		$this->send([ 'status' => true ]);
 	}
 	
