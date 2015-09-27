@@ -82,10 +82,10 @@ form p a {
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
 	<div id="{{ provider.id }}">
+		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		{% if error %}
 		<p class="error-msg">{{ error }}</p>
 		{% endif %}
-		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin" id="password-auth">
 				<input type="hidden" name="redirect-url" value="{{ provider.redirecturl }}">
