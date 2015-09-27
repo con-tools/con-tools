@@ -2,6 +2,10 @@
 <html>
 <head>
 <style type="text/css">
+body {
+	font-family: sans;
+}
+
 #provider-list {
 	width: 10rem;
 	margin: 5em auto 0;
@@ -37,6 +41,12 @@ form p a {
 	font-family: sans 0.9em;
 	color: black;
 }
+
+.error-msg {
+	color: red;
+	font-weight: bold;
+	margin: 1em;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -61,6 +71,9 @@ form p a {
 </script>
 </head>
 <body>
+{% if error %}
+<p class="error-msg">{{ error }}</p>
+{% endif %}
 <div id="provider-list">
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
@@ -68,6 +81,7 @@ form p a {
 		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin" id="password-auth">
+				<input type="hidden" name="redirect-url" value="{{ provider.redirecturl }}">
 				<p><input type="email" name="email" id="email" placeholder="E-Mail"></p>
 				<div id="login-password">
 				<p><input type="password" name="password" id="password" placeholder="Password"><input type="image" src="/images/auth/enter.png"></p>
@@ -79,7 +93,7 @@ form p a {
 				<div id="register-password" style="display: none;">
 				<p><input type="password" name="password-register" id="password-register" placeholder="Password"></p>
 				<p><input type="password" name="password-confirm" id="password-confirm" placeholder="Confirm Password"></p>
-				<p><button type="submit" name="register" id="register">Register</button></p>
+				<p><button type="submit">Register</button></p>
 				</div>
 			</form>
 		</div>
