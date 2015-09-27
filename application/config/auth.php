@@ -34,7 +34,7 @@ return [
 				'config'	=> [ 'graphApiVersion' => 'v2.4' ],
 		],
 		
-		'email' => [
+		'email-auth' => [
 				'name'		=> 'Login with an E-Mail address',
 				'type'		=> 'email',
 				'button'		=> 'http://api.con-troll.org/images/auth/email/login.png',

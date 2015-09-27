@@ -77,13 +77,13 @@ form p a {
 </script>
 </head>
 <body>
-{% if error %}
-<p class="error-msg">{{ error }}</p>
-{% endif %}
 <div id="provider-list">
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
 	<div id="{{ provider.id }}">
+		{% if error %}
+		<p class="error-msg">{{ error }}</p>
+		{% endif %}
 		<a href="#" id="email-button"><img src="{{ provider.image }}"></a>
 		<div id="email-login" style="display:none">
 			<form method="post" action="/auth/signin" id="password-auth">
