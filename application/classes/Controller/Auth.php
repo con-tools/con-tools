@@ -77,7 +77,7 @@ class Controller_Auth extends Api_Controller {
 			$this->errorToSselector("Password must not be empty",$this->request->post('redirect-url'));
 		if ($this->request->post('password-register') != $this->request->post('password-confirm'))
 			$this->errorToSselector("Passwords must match", $this->request->post('redirect-url'));
-		$u = Model_User::persistWithPassword(explide('@',$email)[0], $email, $this->request->post('password-register'));
+		$u = Model_User::persistWithPassword(explode('@',$email)[0], $email, $this->request->post('password-register'));
 		error_log('saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
 		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->request->post('redirect-url')));
