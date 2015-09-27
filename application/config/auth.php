@@ -37,6 +37,6 @@ return [
 		'email' => [
 				'name'		=> 'Login with an E-Mail address',
 				'type'		=> 'email',
-				'image'		=> 'http://api.con-troll.org/images/auth/enter.png',
+				'button'		=> 'http://api.con-troll.org/images/auth/enter.png',
 		],
 ];
