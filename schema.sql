@@ -64,9 +64,22 @@ CREATE TABLE IF NOT EXISTS `user_records` (
   `created_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '',
   `descriptor` VARCHAR(255) NOT NULL COMMENT '',
   `content_type` VARCHAR(40) NOT NULL COMMENT 'MIME content-type. use application/php for PHP serialized content.',
+  `acl` VARCHAR(15) NOT NULL DEFAULT 'private',
   `data` MEDIUMBLOB NOT NULL COMMENT 'schemaless data, format depends on content_type',
   PRIMARY KEY (`id`) COMMENT '',
   FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
+) ENGINE=INNODB CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS `convention_records` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `convention_id` INT UNSIGNED NOT NULL COMMENT '',
+  `created_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '',
+  `descriptor` VARCHAR(255) NOT NULL COMMENT '',
+  `content_type` VARCHAR(40) NOT NULL COMMENT 'MIME content-type. use application/php for PHP serialized content.',
+  `acl` VARCHAR(15) NOT NULL DEFAULT 'private',
+  `data` MEDIUMBLOB NOT NULL COMMENT 'schemaless data, format depends on content_type',
+  PRIMARY KEY (`id`) COMMENT '',
   FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
