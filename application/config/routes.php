@@ -1,6 +1,6 @@
 <?php
 return [
-		'crud2' => [
+		'crud' => [
 				'uri' => 'entities/<controller>(/<id>)',
 				'defaults' => [
 						'directory' => 'Entities',
