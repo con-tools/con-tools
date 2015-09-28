@@ -23,7 +23,7 @@ abstract class Api_Controller extends Controller {
 			throw new Api_Exception_Unauthorized($this, "No Authorization header present");
 		try {
 			$token = Model_Token::byToken($auth);
-			if ($token->is_expired())
+			if ($token->isExpired())
 				throw new Api_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {

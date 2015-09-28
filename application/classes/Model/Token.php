@@ -15,7 +15,7 @@ class Model_Token extends ORM {
 	 * Check if the token has expired. Expired tokens are immediately deleted
 	 * @return boolean whether the token has expired and was deleted
 	 */
-	public function is_expired() {
+	public function isExpired() {
 		if ($this->created_time->getTimestamp() + $this->expiry >= time())
 			return false;
 		$this->delete();

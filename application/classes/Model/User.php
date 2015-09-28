@@ -56,7 +56,7 @@ class Model_User extends ORM {
 	
 	private function getValidToken($type) {
 		foreach ($this->tokens->where('type', '=', $type)->find_all() as $token) {
-			if (!$token->is_expired())
+			if (!$token->isExpired())
 				return $token;
 		}
 		
