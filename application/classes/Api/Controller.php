@@ -34,12 +34,12 @@ abstract class Api_Controller extends Controller {
 	protected function verifyConventionKey() {
 		$auth = $this->request->headers('Convention') ?: $this->request->query('convention');
 		if (!$auth)
-			throw new Api_Exception_Unauthorized("No Convention authorization header present");
+			throw new Api_Exception_Unauthorized($this, "No Convention authorization header present");
 		try {
 			$convention = Model_Convention::byAPIKey($auth);
 			return $convention;
 		} catch (Model_Exception_NotFound $e) {
-			throw new Api_Exception_Unauthorized("Invalid Convention authorization header");
+			throw new Api_Exception_Unauthorized($this, "Invalid Convention authorization header");
 		}
 	}
 	
