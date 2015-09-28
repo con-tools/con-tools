@@ -2,8 +2,14 @@
 class Controller_Entities_Records extends Api_Controller {
 	
 	public function action_index() {
-		$user = $this->verifyAuthentication()->user;
 		$con = $this->verifyConventionKey();
+		try {
+			$user = $this->verifyAuthentication()->user;
+		} catch (Api_Exception_Unauthorized $e) {
+			if ($this->tryHandlePublicRetrieve($con))
+				return;
+			throw $e;
+		}
 		switch ($this->request->method()) {
 			case 'POST':
 				return $this->create($con, $user, json_decode($this->request->body(), true));
@@ -33,12 +39,33 @@ class Controller_Entities_Records extends Api_Controller {
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data']);
 		$this->send(['status' => true]);
 	}
-	
+
 	private function retrieve(Model_Convention $con, Model_User $user, $id) {
 		try {
 			$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
 		} catch (Model_Exception_NotFound $e) {
 			$this->send(['data'=> null]);
 		}
+	}
+	
+	private function tryHandlePublicRetrieve(Model_Convention $con) {
+		$public_access_user = $this->request->query('user');
+		if (!$public_access_user)
+			return false;
+		try {
+			$public_access_user = Model_User::byEmail($public_access_user);
+		} catch (Model_Exception_NotFound $e) {
+			return false;
+		}
+		
+		try {
+			$record = Model_User_Record::byDescriptor($con, $public_access_user, $this->request->param('id'));
+			if ($record->isPublicReadable()) {
+				$this->send(['data' => $record->as_array()]);
+				return true;
+			}
+		} catch (Model_Exception_NotFound $e) {
+		}
+		return false;
 	}
 }
