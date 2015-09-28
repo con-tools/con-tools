@@ -68,7 +68,7 @@ class Controller_Entities_Records extends Api_Controller {
 				$this->send(['data' => $record->as_array()]);
 				return true;
 			}
-			error_log("Trying public access, record not public");
+			error_log("Trying public access, record not public: " . $record->acl);
 		} catch (Model_Exception_NotFound $e) {
 			error_log("Trying public access, no record $id found");
 		}
