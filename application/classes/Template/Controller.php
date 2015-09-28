@@ -4,11 +4,11 @@ class Template_Controller extends Controller {
 	
 	public static $default_template = 'simple';
 	
-	protected $template = self::$default_template;
+	protected $template = null;
 	
 	public function before() {
 		parent::before();
-		$this->template = Twig::factory($this->template);
+		$this->template = Twig::factory($this->template ?: self::$default_template);
 	}
 	
 	public function after() {
