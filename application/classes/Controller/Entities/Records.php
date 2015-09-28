@@ -50,21 +50,27 @@ class Controller_Entities_Records extends Api_Controller {
 	
 	private function tryHandlePublicRetrieve(Model_Convention $con) {
 		$public_access_user = $this->request->query('user');
-		if (!$public_access_user)
+		if (!$public_access_user) {
+			error_log("Trying public access - no user");
 			return false;
+		}
 		try {
 			$public_access_user = Model_User::byEmail($public_access_user);
 		} catch (Model_Exception_NotFound $e) {
+			error_log("Trying public access - user $public_access_user not found");
 			return false;
 		}
 		
+		$id = $this->request->param('id');
 		try {
-			$record = Model_User_Record::byDescriptor($con, $public_access_user, $this->request->param('id'));
+			$record = Model_User_Record::byDescriptor($con, $public_access_user, $id);
 			if ($record->isPublicReadable()) {
 				$this->send(['data' => $record->as_array()]);
 				return true;
 			}
+			error_log("Trying public access, record not public");
 		} catch (Model_Exception_NotFound $e) {
+			error_log("Trying public access, no record $id found");
 		}
 		return false;
 	}
