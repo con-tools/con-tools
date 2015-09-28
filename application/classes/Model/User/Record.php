@@ -11,6 +11,10 @@ class Model_User_Record extends ORM {
 			'convention' => [],
 	];
 	
+	public function isPublicReadable() {
+		return in_array($this->acl, [ 'public', 'public-read' ]);
+	}
+	
 	public static function persist(Model_Convention $con, Model_User $user, $descriptor, $content_type, $data) {
 		$o = new Model_User_Record();
 		$o->convention = $con;
