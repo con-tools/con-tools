@@ -34,7 +34,7 @@ class Model_User_Record extends ORM {
 		$o->user = $user;
 		$o->descriptor = $descriptor;
 		$o->content_type = $content_type;
-		$o->acl = $acl;
+		$o->acl = static::isValidACL($acl) ? $acl : 'private';
 		$o->data = $data;
 		$o->save();
 		return $o;
@@ -58,5 +58,13 @@ class Model_User_Record extends ORM {
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
+	}
+	
+	public static function isValidACL($acl) {
+		return in_array($acl, [
+				'private',
+				'public-read',
+				'public',
+		]);
 	}
 }

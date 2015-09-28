@@ -26,6 +26,8 @@ class Controller_Entities_Records extends Api_Controller {
 		$record = Model_User_Record::byDescriptor($con, $user, $id);
 		$record->data = $data['data'];
 		$record->content_type = $data['content_type'];
+		if ($data['acl'])
+			$record->acl = $data['acl'];
 		$record->save();
 		$this->send(['status' => true]);
 	}
@@ -36,7 +38,7 @@ class Controller_Entities_Records extends Api_Controller {
 	}
 	
 	private function create(Model_Convention $con, Model_User $user, $data) {
-		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data']);
+		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		$this->send(['status' => true]);
 	}
 
