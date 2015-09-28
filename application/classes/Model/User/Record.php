@@ -11,21 +11,43 @@ class Model_User_Record extends ORM {
 			'convention' => [],
 	];
 	
+	/**
+	 * Check if a record is publicly readable
+	 * @return boolean public read status
+	 */
 	public function isPublicReadable() {
 		return in_array($this->acl, [ 'public', 'public-read' ]);
 	}
 	
-	public static function persist(Model_Convention $con, Model_User $user, $descriptor, $content_type, $data) {
+	/**
+	 * Store a new user record
+	 * @param Model_Convention $con Convention this record belongs to
+	 * @param Model_User $user User this record belongs to
+	 * @param unknown $descriptor user/convention unique identifier for the record
+	 * @param unknown $content_type type of encoding in the data
+	 * @param unknown $data data to store
+	 * @return Model_User_Record record created
+	 */
+	public static function persist(Model_Convention $con, Model_User $user, $descriptor, $content_type, $data, $acl = 'private') {
 		$o = new Model_User_Record();
 		$o->convention = $con;
 		$o->user = $user;
 		$o->descriptor = $descriptor;
 		$o->content_type = $content_type;
+		$o->acl = $acl;
 		$o->data = $data;
 		$o->save();
 		return $o;
 	}
 
+	/**
+	 * Retrieve a user record from the database
+	 * @param Model_Convention $con Convention this record belongs to
+	 * @param Model_User $user User this record belongs to
+	 * @param unknown $descriptor user/convention unique identifier for the record
+	 * @throws Model_Exception_NotFound in case there is no such records
+	 * @return Model_User_Record record found
+	 */
 	public static function byDescriptor(Model_Convention $con, Model_User $user, $descriptor) {
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->id)
