@@ -26,7 +26,7 @@ class Controller_Entities_Records extends Api_Controller {
 		$record = Model_User_Record::byDescriptor($con, $user, $id);
 		$record->data = $data['data'];
 		$record->content_type = $data['content_type'];
-		if ($data['acl'])
+		if ($data['acl'] && Model_User_Record::isValidACL($data['acl']))
 			$record->acl = $data['acl'];
 		$record->save();
 		$this->send(['status' => true]);
