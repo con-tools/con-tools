@@ -79,6 +79,9 @@ form p a {
 </head>
 <body>
 <div id="provider-list">
+<p>
+Please choose an account provider:
+</p>
 {% for provider in providers %}
 	{% if provider.type == 'email' %}
 	<div id="{{ provider.id }}">
