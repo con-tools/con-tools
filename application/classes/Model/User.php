@@ -11,12 +11,25 @@ class Model_User extends ORM {
 	const PASSWORD_PROVIDER = 'password';
 	
 	protected $_columns = [
+			'id' => [],
+			// data fields
+			'name' => [],
+			'email' => [],
+			'provider' => [], // identity provider
+			'password' => [], // may not actually be a password, but if it is, its crypted
 			'created_time' => [ 'type' => 'DateTime' ],
 			'login_time' => [ 'type' => 'DateTime' ],
 	];
 	
 	protected $_has_many = [
 			'tokens' => [],
+			'organizers' => [],
+			'events' => [],
+			'contact_for' => [ 'model' => 'event', 'foreign_key' => 'staff_contact_id' ],
+			'timeslots' => [ 'model' => 'timeslot', 'through' => 'timeslot_hosts' ],
+			'issues' => [ 'model' => 'crm_issues', 'foreign_key' => 'agent_id' ],
+			'messages' => [ 'model' => 'crm_messages', 'foreign_key' => 'sender_id' ],
+			'tickets' => [],
 	];
 	
 	public function rules() {
