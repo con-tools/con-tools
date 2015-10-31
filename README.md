@@ -44,3 +44,4 @@ the previous schema files and data dump that), into `database/dumps/dump-X.sql`.
 3. Run `docker-compose up` - this will start the database and block the current terminal. Press CTRL-C to stop 
 the database.
 4. In a new terminal, run `mysql -h$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' controll_mysql_1) -uroot -psecret dbname < database/schema-X.sql`
+5. To test again, stop the database and run `docker rm controll_mysql_1` to clear the mysql container and then start it again
