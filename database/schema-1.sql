@@ -83,6 +83,15 @@ CREATE TABLE IF NOT EXISTS `convention_records` (
   FOREIGN KEY `fk_convention_id` (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
+CREATE TABLE IF NOT EXISTS `system_settings` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `name` VARCHAR(255) NOT NULL COMMENT '',
+  `value` TEXT NOT NULL COMMENT '',
+  PRIMARY KEY (`id`) COMMENT ''
+) ENGINE=INNODB CHARACTER SET UTF8;
+
+INSERT INTO `system_settings` (`name`, `value`) VALUES ('data-version', '1');
+
 INSERT INTO `users` VALUES (1,'Oded Arbel','oded@geek.co.il',NULL,NULL,'google','ya29.-gFU-NwzgPW_bRzY8mnpOmNmhABPvpTSvMmkIItZtEP9hqp0jMe4BfuDJs0LlCdVHRSdlg','2015-09-14 10:55:35','2015-09-14 05:55:35'),
 (2,'יובל - יושי בוטבול','yoshi.yuval@gmail.com',NULL,NULL,'google','ya29.-gGnFJRy0zexsobehkDLgD2G5X5QcYGF71VUscHIzasdyOH3cKWXKC5AfvSIqgbXoOMZ2g','2015-09-16 07:01:54','2015-09-16 02:01:54'),
 (3,'הילה גרגורי','hilagrgory@gmail.com',NULL,NULL,'google','ya29.-gHCJZ8A9UWeLnaxdQfs4vqSZYf3b9XSGK069k044s1Ff57osMBeETW7kEilQpaLToTy','2015-09-26 09:26:59','2015-09-26 04:26:59');
