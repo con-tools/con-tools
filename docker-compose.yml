@@ -1,0 +1,10 @@
+mysql:
+  dockerfile: mysql.Dockerfile
+  build: .
+  environment:
+   - MYSQL_ROOT_PASSWORD=secret
+  volumes_from:
+   - data
+data:
+  image: mysql
+  command: "true"
