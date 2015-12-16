@@ -19,4 +19,16 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 	
+CREATE TABLE IF NOT EXISTS 'coupon' (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `user_id` INT UNSIGNED NOT NULL COMMENT '',
+  `coupon_type_id` INT UNSIGNED NOT NULL COMMENT '',
+  `sale_id` INT UNSIGNED NOT NULL COMMENT '',
+  `amount` INT UNSIGNED NOT NULL COMMENT 'Im not shor the this is the corect type',
+  PRIMARY KEY (`id`) COMMENT '',
+  FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+  FOREIGN KEY `fk_coupon_type_id` (`coupon_type_id`) REFERENCES `coupon_type` (`id`) ON DELETE CASCADE
+  FOREIGN KEY `fk_sale_id` (`sale_id`) REFERENCES `sale` (`id`) ON DELETE CASCADE
+) ENGINE=INNODB CHARACTER SET UTF8;
+
 UPDATE `system_settings` SET `value` = '2' WHERE `name` = 'data-version';
