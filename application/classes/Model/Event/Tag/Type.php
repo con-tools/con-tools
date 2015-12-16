@@ -17,6 +17,6 @@ class Model_Event_Tag_Type extends ORM {
 			// data fields
 			'title' => [],
 			'requirement' => [],
-			'visible' => [],
+			'visible' => [ 'type' => 'boolean' ],
 	];
 }
