@@ -15,6 +15,8 @@ class Model_User extends ORM {
 			// data fields
 			'name' => [],
 			'email' => [],
+			'phone' => [],
+			'date_of_birth' => [ 'type' => 'DateTime' ],
 			'provider' => [], // identity provider
 			'password' => [], // may not actually be a password, but if it is, its crypted
 			'created_time' => [ 'type' => 'DateTime' ],
