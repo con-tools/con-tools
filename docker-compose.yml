@@ -1,6 +1,6 @@
 mysql:
   dockerfile: mysql.Dockerfile
-  build: .
+  build: database
   environment:
    - MYSQL_ROOT_PASSWORD=secret
 #  volumes_from:

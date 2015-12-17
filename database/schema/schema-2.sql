@@ -29,12 +29,12 @@ CREATE TABLE `events` (
   `description` TEXT NOT NULL COMMENT '',
   `price` DECIMAL(5,2) NOT NULL COMMENT '',
   `requires_registration` BOOLEAN DEFAULT TRUE COMMENT '',
-  `duration` INT NOT NULL COMMENT 'in seconds to make epoch calculations easier'
+  `duration` INT NOT NULL COMMENT 'in seconds to make epoch calculations easier',
   `min_attendees` INT NOT NULL DEFAULT 0 COMMENT '',
   `max_attendees` INT DEFAULT NULL COMMENT 'null value means "open event"',
-  `notes_to_staff` TEXT NOT NULL DEFAULT '' COMMENT '',
-  `notes_to_attendees` TEXT NOT NULL DEFAULT '' COMMENT '',
-  `scheduling_constraints` TEXT NOT NULL DEFAULT '' COMMENT '',
+  `notes_to_staff` TEXT NOT NULL COMMENT '',
+  `notes_to_attendees` TEXT NOT NULL COMMENT '',
+  `scheduling_constraints` TEXT NOT NULL COMMENT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `events_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `events_ibfk_2` FOREIGN KEY (`staff_contact_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
@@ -45,7 +45,7 @@ CREATE TABLE `event_tag_types` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `convention_id` INT UNSIGNED NOT NULL COMMENT '',
   `title` VARCHAR(50) NOT NULL COMMENT '',
-  `requirement`
+  `requirement` VARCHAR(50) NOT NULL COMMENT '', /* I'm not sure what this does */
   `visible` BOOLEAN NOT NULL DEFAULT TRUE COMMENT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `event_tag_types_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
@@ -85,14 +85,14 @@ CREATE TABLE `crm_issues` (
   `status` VARCHAR(30) NOT NULL DEFAULT 'unassigned' COMMENT 'One of: unassigned, open, awaiting-approval, ready-for-timeslotting, closed',
   PRIMARY KEY (`id`),
   CONSTRAINT `crm_issues_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `crm_issues_ibfk_2` FOREIGN KEY (`crm_queue_id`) REFERENCES `crm_queue` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `crm_issues_ibfk_2` FOREIGN KEY (`crm_queue_id`) REFERENCES `crm_queues` (`id`) ON DELETE CASCADE,
   CONSTRAINT `crm_issues_ibfk_3` FOREIGN KEY (`agent_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
 CREATE TABLE `crm_messages` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `crm_issue_id` INT UNSIGNED NOT NULL COMMENT '',
-  `sender_id` INT UNSIGNED NOT NULL '',
+  `sender_id` INT UNSIGNED NOT NULL COMMENT '',
   `subject` TEXT NOT NULL COMMENT '',
   `text` TEXT NOT NULL COMMENT '',
   `in_reply_to` INT UNSIGNED DEFAULT NULL COMMENT '',
