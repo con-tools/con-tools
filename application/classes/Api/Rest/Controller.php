@@ -1,6 +1,6 @@
 <?php
 
-class Api_Rest_Controller extends Api_Controller {
+abstract class Api_Rest_Controller extends Api_Controller {
 	
 	public function action_index() {
 		$con = $this->verifyConventionKey();
