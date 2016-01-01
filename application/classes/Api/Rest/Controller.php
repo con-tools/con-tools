@@ -8,7 +8,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 		switch ($this->request->method()) {
 			case 'POST':
 				$this->send([
-					'status' => $this->create($con, $user, json_decode($this->request->body(), true))
+					'status' => $this->create($con, $user, json_decode($this->request->body()))
 				]);
 			case 'GET':
 				$this->send(
@@ -17,7 +17,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 				return;
 			case 'PUT':
 				$this->send([
-					'status' => $this->update($con, $user, $this->request->param('id'), json_decode($this->request->body(), true))
+					'status' => $this->update($con, $user, $this->request->param('id'), json_decode($this->request->body()))
 				]);
 				return;
 			case 'DELETE':
@@ -34,7 +34,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * Create a new record
 	 * @param Model_Convention $con Convention that owns the record
 	 * @param Model_User $user User that is trying to access
-	 * @param array $data Data to create the record
+	 * @param stdClass $data Data to create the record
 	 * @return boolean Whether the create succeeded
 	 */
 	abstract function create(Model_Convention $con, Model_User $user, $data);
@@ -53,7 +53,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param Model_Convention $con Convention that owns the record
 	 * @param Model_User $user User that is trying to access
 	 * @param int $id record ID
-	 * @param unknown $data Data to update the record
+	 * @param stdClass $data Data to update the record
 	 * @return boolean Whether the create succeeded
 	 */
 	abstract function update(Model_Convention $con, Model_User $user, $id, $data);
