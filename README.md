@@ -41,7 +41,20 @@ existing.
 1. Create a new data dump from the current version of a running system (or just create a new system by running all
 the previous schema files and data dump that), into `database/dumps/dump-X.sql`.
 2. Edit mysql.dockerfile to reference the new file that you've just created.
-3. Run `docker-compose up` - this will start the database and block the current terminal. Press CTRL-C to stop 
+3. Run `docker-compose up mysql` - this will start the database and block the current terminal. Press CTRL-C to stop 
 the database.
 4. In a new terminal, run `mysql -h$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' controll_mysql_1) -uroot -psecret heroku_3f90e079b7e30b6 < database/schema/schema-X.sql`
 5. To test again, stop the database and run `docker rm controll_mysql_1` to clear the mysql container and then start it again
+
+## Testing the application
+
+The docker setup includes a full Heruko stack for testing. Run `docker-compose up web` to start the full web application.
+When the docker web service is up, the application is accessible on port 8080 of the docker host.
+
+In order to perform Single-Sign-On authentication (with Google/Facebook/Twitter), you'd need a `.secrets` "environment file"
+with the secret client keys for those services. Either ask Oded for the keys, or generate new ones yourself by creating an
+application/project in each relevant provider, and add those to the `.secrets` file like this:
+
+    FACEBOOK_AUTH_CLIENT=APPLICATIONSECRETKEY
+    GOOGLE_AUTH_CLIENT=CLIENT_ID.apps.googleusercontent.com:SECRETKEY
+    TWITTER_AUTH_CLIENT=CLIENT_ID:SECRETKEY
