@@ -4,7 +4,7 @@ return [
 				'uri' => 'entities/<controller>(/<id>)',
 				'defaults' => [
 						'directory' => 'Entities',
-						'action' => 'index' 
+						'action' => 'index'
 				] 
 		],
 		
