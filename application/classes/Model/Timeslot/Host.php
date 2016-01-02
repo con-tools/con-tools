@@ -6,5 +6,11 @@ class Model_Timeslot_Host extends ORM {
 			'user' => [],
 			'timeslot' => [],
 	];
-	
+    
+    protected $_columns = [
+            'id' => [],
+            // foreign keys
+            'user_id' => [],
+            'timeslot_id' => [],
+    ];
 }
