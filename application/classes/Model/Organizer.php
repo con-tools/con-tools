@@ -6,4 +6,11 @@ class Model_Organizer extends ORM {
 			'convention' => [],
 	];
 	
+    protected $_columns = [
+            'id' => [],
+            // foreign keys
+            'convention_id' => [],
+            // data fields
+            'title' => [],
+    ];
 };

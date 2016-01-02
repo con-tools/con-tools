@@ -21,6 +21,8 @@ class Model_Sale extends ORM {
 			'transaction_id' => [],
 			'original_sale_id' => [], // if not null, this is a cancellation transaction, 
 			// and transaction_id is the cancellation confirmation. refer to original sale for actual transaction ID
+			'sale_time' => [ 'type' => 'DateTime' ],
+			'cancellation_notes' => []
 	];
 	
 };
