@@ -7,9 +7,12 @@ abstract class Api_Rest_Controller extends Api_Controller {
 		$user = $this->verifyAuthentication()->user;
 		switch ($this->request->method()) {
 			case 'POST':
-				$this->send([
-					'status' => $this->create($con, $user, json_decode($this->request->body()))
-				]);
+				$obj = $this->create($con, $user, json_decode($this->request->body()));
+				if (is_null($obj))
+					$this->send([ 'status' => false ]);
+				else
+					$this->send([ 'status' => true, 'id' => $obj->pk() ]);
+				return;
 			case 'GET':
 				$this->send(
 					$this->retrieve($con, $user, $this->request->param('id'))
@@ -35,7 +38,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param Model_Convention $con Convention that owns the record
 	 * @param Model_User $user User that is trying to access
 	 * @param stdClass $data Data to create the record
-	 * @return boolean Whether the create succeeded
+	 * @return ORM Model object created
 	 */
 	abstract function create(Model_Convention $con, Model_User $user, $data);
 	

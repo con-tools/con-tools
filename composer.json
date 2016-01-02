@@ -34,7 +34,8 @@
 	"require-dev" : {
 		"phpunit/phpunit" : "3.7.*",
 		"phing/phing" : "dev-master",
-		"kohana/unittest" : "3.4.*"
+		"kohana/unittest" : "3.4.*",
+		"heroku/heroku-buildpack-php": "^90.0"
 	},
 	"minimum-stability" : "dev",
 	"extra" : {

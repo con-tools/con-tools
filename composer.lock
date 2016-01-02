@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cd1fab9f1f883601e23ced72671025ce",
+    "hash": "b8392fcbe445b51034498f16d11f4e12",
+    "content-hash": "81fb85d794477701e61747230c526dcd",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -16,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/f2a1f57437c4bafdb4567155adaeed767e37f75b",
+                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/55af883544ffeeccba162523b7ef37330b2dc6fa",
                 "reference": "f2a1f57437c4bafdb4567155adaeed767e37f75b",
                 "shasum": ""
             },
@@ -72,7 +73,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
+                "url": "https://api.github.com/repos/composer/installers/zipball/bd9b14f094c89c8b5804a4e41edeb7853bb85046",
                 "reference": "e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
                 "shasum": ""
             },
@@ -167,7 +168,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/0f9ed2b0483d579db315b18433c5b14b80b698d2",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/d1c04cec204b23826821d799e012ed300aa867d6",
                 "reference": "0f9ed2b0483d579db315b18433c5b14b80b698d2",
                 "shasum": ""
             },
@@ -397,7 +398,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/768b4c0e3e0712a53eb35eaf3ba0d96910225389",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/74fc3909170d66f3e93719ae025b79faea1f49f5",
                 "reference": "768b4c0e3e0712a53eb35eaf3ba0d96910225389",
                 "shasum": ""
             },
@@ -459,7 +460,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/97fe7210def29451ec74923b27e552238defd75a",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b1e1c0d55f8083c71eda2c28c12a228d708294ea",
                 "reference": "97fe7210def29451ec74923b27e552238defd75a",
                 "shasum": ""
             },
@@ -668,7 +669,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/cache/zipball/cdd6fe3ea2a7376120533f8db2d17298910844e7",
+                "url": "https://api.github.com/repos/kohana/cache/zipball/26a9ea26b6a404cc7921f26cc65614e37c53473b",
                 "reference": "cdd6fe3ea2a7376120533f8db2d17298910844e7",
                 "shasum": ""
             },
@@ -725,7 +726,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/core/zipball/32f502c958ae67ceebe7b3d40d5955a250d77311",
+                "url": "https://api.github.com/repos/kohana/core/zipball/5144999c29c0bcdf679076136fec42c3f4c5d57f",
                 "reference": "32f502c958ae67ceebe7b3d40d5955a250d77311",
                 "shasum": ""
             },
@@ -783,7 +784,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/database/zipball/910597c9a3e8c9254faed22c5df26288e0828232",
+                "url": "https://api.github.com/repos/kohana/database/zipball/b707fec31ea33988617b75c14094443a1c4f47d9",
                 "reference": "910597c9a3e8c9254faed22c5df26288e0828232",
                 "shasum": ""
             },
@@ -844,7 +845,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/minion/zipball/f416935ac23ef19658535b4497adc6305ce55cdb",
+                "url": "https://api.github.com/repos/kohana/minion/zipball/28b95815161a70f7d6a1a1a2af6193128f3fc6ae",
                 "reference": "f416935ac23ef19658535b4497adc6305ce55cdb",
                 "shasum": ""
             },
@@ -904,7 +905,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/orm/zipball/cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
+                "url": "https://api.github.com/repos/kohana/orm/zipball/9edc57cc7d760388751474aeb3a15867c08326a2",
                 "reference": "cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
                 "shasum": ""
             },
@@ -1088,7 +1089,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/4a91ca6ab88daa6fd36a8af39adc6fdcc14a7e8b",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/7bd1ecf6f46495da4d54c640465f17909354dbcf",
                 "reference": "4a91ca6ab88daa6fd36a8af39adc6fdcc14a7e8b",
                 "shasum": ""
             },
@@ -1349,7 +1350,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0ef7669c0af9f62752a96a5d43c1b13c5c2e70e9",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a5eb815363c0388e83247e7e9853e5dbc14999cc",
                 "reference": "0ef7669c0af9f62752a96a5d43c1b13c5c2e70e9",
                 "shasum": ""
             },
@@ -1457,7 +1458,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/604e94883bc1691071d9a30ff522808dc476394c",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7df0a5512db43c1b6adc20dfcb12f1b22d6edad7",
                 "reference": "604e94883bc1691071d9a30ff522808dc476394c",
                 "shasum": ""
             },
@@ -1511,6 +1512,50 @@
     ],
     "packages-dev": [
         {
+            "name": "heroku/heroku-buildpack-php",
+            "version": "v90",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heroku/heroku-buildpack-php.git",
+                "reference": "5f56ed1ea916bbeec16bf85bec0c99583e33331a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/5f56ed1ea916bbeec16bf85bec0c99583e33331a",
+                "reference": "5f56ed1ea916bbeec16bf85bec0c99583e33331a",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/heroku-hhvm-apache2",
+                "bin/heroku-hhvm-nginx",
+                "bin/heroku-php-apache2",
+                "bin/heroku-php-nginx"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Zuelke",
+                    "email": "dz@heroku.com"
+                }
+            ],
+            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
+            "homepage": "http://github.com/heroku/heroku-buildpack-php",
+            "keywords": [
+                "apache",
+                "apache2",
+                "foreman",
+                "heroku",
+                "hhvm",
+                "nginx",
+                "php"
+            ],
+            "time": "2015-12-18 14:29:45"
+        },
+        {
             "name": "kohana/unittest",
             "version": "dev-3.4/develop",
             "source": {
@@ -1520,7 +1565,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/unittest/zipball/74222462006c693270f64067aedaeb94326ce615",
+                "url": "https://api.github.com/repos/kohana/unittest/zipball/7ab1eca59b0c624d85774cf97e3da9ef4d5744e8",
                 "reference": "74222462006c693270f64067aedaeb94326ce615",
                 "shasum": ""
             },
@@ -1576,7 +1621,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/94b5c2f31d4eb890ae81438967d1afc6150e210d",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/0a34f5c7c783c0a99ffd181226a4e8626b2c683b",
                 "reference": "94b5c2f31d4eb890ae81438967d1afc6150e210d",
                 "shasum": ""
             },
@@ -2034,12 +2079,12 @@
             "version": "2.8.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "cee3fdda8184add20a13eb666295dfd72e8031bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/cee3fdda8184add20a13eb666295dfd72e8031bd",
                 "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
                 "shasum": ""
             },

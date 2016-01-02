@@ -1,3 +1,29 @@
+web:
+  build: .
+  command: 'bash -c ''vendor/bin/heroku-php-apache2 public/'''
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+    CLEARDB_DATABASE_URL: mysql://root:secret@mysql/heroku_3f90e079b7e30b6?reconnect=true
+    DB_URL_ENV_NAME: CLEARDB_DATABASE_URL
+  env_file:
+   - .secrets
+  ports:
+    - '8080:8080'
+  links:
+    - mysql
+
+shell:
+  build: .
+  command: bash
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+  ports:
+    - '8080:8080'
+  volumes:
+    - '.:/app/user'
+
 mysql:
   dockerfile: mysql.Dockerfile
   build: database
