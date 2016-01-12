@@ -51,11 +51,11 @@ class Model_User_Record extends ORM {
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->id)
 			->where('descriptor', '=', $descriptor)
-			->order_by('created_time','DESC')
-			->find_all();
+			->order_by('created_time','DESC');
+		error_log("Issuing select: " . $o->compile());
 		$result = [];
 		$userids = [];
-		foreach ($o as $record) {
+		foreach ($o->find_all() as $record) {
 			if (array_key_exists($record->user_id, $userids))
 				continue;
 			$userids[$record->user_id] = true;
