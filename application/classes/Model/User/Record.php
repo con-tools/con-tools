@@ -41,10 +41,26 @@ class Model_User_Record extends ORM {
 	}
 
 	/**
+	 * Retrieve all user records from the database
+	 * @param Model_Convention $con Convention this record belongs to
+	 * @param string $descriptor user/convention unique identifier for the record
+	 * @throws Model_Exception_NotFound in case there is no such records
+	 * @return Model_User_Record record found
+	 */
+	public static function allByDescriptor(Model_Convention $con, $descriptor) {
+		$o = Model::factory('user_record')
+			->where('convention_id', '=', $con->id)
+			->where('descriptor', '=', $descriptor)
+			->order_by('created_time','DESC')
+			->find_all();
+		return $o->as_array();
+	}
+
+	/**
 	 * Retrieve a user record from the database
 	 * @param Model_Convention $con Convention this record belongs to
 	 * @param Model_User $user User this record belongs to
-	 * @param unknown $descriptor user/convention unique identifier for the record
+	 * @param string $descriptor user/convention unique identifier for the record
 	 * @throws Model_Exception_NotFound in case there is no such records
 	 * @return Model_User_Record record found
 	 */
