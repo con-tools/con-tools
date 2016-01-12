@@ -3,12 +3,22 @@ class Controller_Entities_Records extends Api_Controller {
 	
 	public function action_index() {
 		$con = $this->verifyConventionKey();
+		$user = null;
 		try {
 			$user = $this->verifyAuthentication()->user;
 		} catch (Api_Exception_Unauthorized $e) {
-			if ($this->tryHandlePublicRetrieve($con))
+			if (!$con->isAuthorized() && $this->tryHandlePublicRetrieve($con))
 				return;
 			throw $e;
+		}
+		if (is_null($user) && $con->isAuthorized()) {// check if convention want to work on a per-user record
+			if ($access_user = $this->request->query('user')) {
+				try {
+					$user = Model_User::byEmail($access_user);
+				} catch (Model_Exception_NotFound $e) {
+					throw new HTTP_Exception_404("User not found");
+				}
+			}
 		}
 		switch ($this->request->method()) {
 			case 'POST':
@@ -43,6 +53,13 @@ class Controller_Entities_Records extends Api_Controller {
 	}
 
 	private function retrieve(Model_Convention $con, Model_User $user, $id) {
+		if (!$user && $con->isAuthorized()) {// convention wants a catalog
+			$records = Model_User_Record::allByDescriptor($con, $id);
+			foreach ($records as &$record)
+				$records = $records->as_array();
+			return $this->send(['data' => $records]);
+		}
+			
 		try {
 			$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
 		} catch (Model_Exception_NotFound $e) {

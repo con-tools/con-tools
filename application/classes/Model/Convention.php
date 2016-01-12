@@ -22,6 +22,8 @@ class Model_Convention extends ORM {
 			'end_date' => [ 'type' => 'DateTime' ],
 	];
 	
+	private $client_authorized = false;
+	
 	/**
 	 * Retrieve a convention for a submitted API key
 	 * @param Model_Api_Key|string $apikey 
@@ -32,4 +34,19 @@ class Model_Convention extends ORM {
 			$apikey = Model_Api_Key::byClientKey($apikey);
 		return $apikey->convention;
 	}
+
+	/**
+	 * Mark that the client has authorized using a convention key
+	 */
+	public function setAuthorized() {
+		$this->client_authorized = true;
+	}
+
+	/**
+	 * Check if a client has convention authorization level
+	 */
+	public function isAuthorized() {
+		return $this->client_authorized;
+	}
+	
 }

@@ -31,13 +31,30 @@ abstract class Api_Controller extends Controller {
 		}
 	}
 	
+	/**
+	 * Check that the conention authentication and possibly authorization is legal and retrieve
+	 * the convention record
+	 * @return Model_Convention
+	 * @throws Api_Exception_Unauthorized
+	 */
 	protected function verifyConventionKey() {
-		$auth = $this->request->headers('Convention') ?: $this->request->query('convention');
-		if (!$auth)
-			throw new Api_Exception_Unauthorized($this, "No Convention authorization header present");
+		$authen = $this->request->headers('Convention') ?: $this->request->query('convention');
+		if (!$authen)
+			throw new Api_Exception_Unauthorized($this, "No Convention authentication header present");
 		try {
-			$convention = Model_Convention::byAPIKey($auth);
-			return $convention;
+			$apiKey = Model_Api_Key::byClientKey($authen);
+			$con = $apiKey->convention;
+			@list($type,$auth) = explode(" ",$this->request->headers('Authorization') ?: $this->request->query('token'));
+			if (stristr($type, 'convention')) {
+				@list($time, $salt, $signature) = explode(':', $auth);
+				if (abs(time() - (int)$time) > 600) // prevent replay attacks
+					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization");
+				if (sha1("{$time}:{$salt}".$apiKey->client_secret) != $signature)
+					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization ");
+				$con->setAuthorized();
+			}
+			
+			return $con;
 		} catch (Model_Exception_NotFound $e) {
 			throw new Api_Exception_Unauthorized($this, "Invalid Convention authorization header");
 		}
