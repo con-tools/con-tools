@@ -7,9 +7,11 @@ class Controller_Entities_Records extends Api_Controller {
 		try {
 			$user = $this->verifyAuthentication()->user;
 		} catch (Api_Exception_Unauthorized $e) {
-			if (!$con->isAuthorized() and $this->tryHandlePublicRetrieve($con))
-				return;
-			throw $e;
+			if (!$con->isAuthorized()) {
+				if ($this->tryHandlePublicRetrieve($con))
+					return;
+				throw $e;
+			}
 		}
 		if (is_null($user) && $con->isAuthorized()) {// check if convention want to work on a per-user record
 			if ($access_user = $this->request->query('user')) {
