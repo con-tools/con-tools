@@ -60,7 +60,7 @@ class Model_User_Record extends ORM {
 				continue;
 			$userids[$record->user_id] = true;
 			$rec = $record->as_array();
-			$rec->user = $record->user->export();
+			$rec['user'] = $record->user->echo("");
 			$result[] = $rec;
 		}
 		return $result;
