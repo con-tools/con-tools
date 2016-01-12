@@ -53,7 +53,6 @@ class Model_User_Record extends ORM {
 			->where('descriptor', '=', $descriptor)
 			->with('user')
 			->order_by('created_time','DESC');
-		error_log("Issuing select: " . $o->compile());
 		$result = [];
 		$userids = [];
 		foreach ($o->find_all() as $record) {
