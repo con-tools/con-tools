@@ -54,7 +54,7 @@ class Controller_Entities_Records extends Api_Controller {
 		$this->send(['status' => true]);
 	}
 
-	private function retrieve(Model_Convention $con, Model_User $user, $id) {
+	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
 		if (!$user && $con->isAuthorized()) {// convention wants a catalog
 			$records = Model_User_Record::allByDescriptor($con, $id);
 			foreach ($records as &$record)
