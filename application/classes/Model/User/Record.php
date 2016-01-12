@@ -59,9 +59,9 @@ class Model_User_Record extends ORM {
 			if (array_key_exists($record->user_id, $userids))
 				continue;
 			$userids[$record->user_id] = true;
-			$rec = $record->as_array();
-			$rec['user'] = $record->user->echo("");
-			$result[] = $rec;
+			$result[] = array_merge($record->as_array(), [
+					'user' => $record->user->export(),
+			]);
 		}
 		return $result;
 	}
