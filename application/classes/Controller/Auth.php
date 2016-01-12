@@ -164,6 +164,7 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	private function completeAuthToApp($callback, $token) {
+		Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
 		$url = parse_url($callback);
 		$query = explode('&',@$url['query'] ?: '');
 		$query[] = urlencode('status') . '=' . urlencode(true);
