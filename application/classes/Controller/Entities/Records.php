@@ -58,6 +58,7 @@ class Controller_Entities_Records extends Api_Controller {
 		if (!$user && $con->isAuthorized()) {// convention wants a catalog
 			error_log("Getting catalog for {$id}, Convention {$con}");
 			$records = Model_User_Record::allByDescriptor($con, $id);
+			error_log("Got data: " . print_r($records, true));
 			foreach ($records as &$record)
 				$records = $records->as_array();
 			return $this->send(['data' => $records]);
