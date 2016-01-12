@@ -41,16 +41,20 @@ abstract class Api_Controller extends Controller {
 		$authen = $this->request->headers('Convention') ?: $this->request->query('convention');
 		if (!$authen)
 			throw new Api_Exception_Unauthorized($this, "No Convention authentication header present");
+		error_log("Authenication header for convention " . $authen);
 		try {
 			$apiKey = Model_Api_Key::byClientKey($authen);
 			$con = $apiKey->convention;
+			error_log("Got convention {$con}");
 			@list($type,$auth) = explode(" ",$this->request->headers('Authorization') ?: $this->request->query('token'));
 			if (stristr($type, 'convention')) {
+				error_log("Convention tries to authorize");
 				@list($time, $salt, $signature) = explode(':', $auth);
 				if (abs(time() - (int)$time) > 600) // prevent replay attacks
 					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization");
 				if (sha1("{$time}:{$salt}".$apiKey->client_secret) != $signature)
 					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization ");
+				error_log("Convention authorized");
 				$con->setAuthorized();
 			}
 			
