@@ -53,7 +53,7 @@ class Model_User_Record extends ORM {
 			->where('descriptor', '=', $descriptor)
 			->order_by('created_time','DESC')
 			->find_all();
-		return $o->as_array();
+		return $o;
 	}
 
 	/**
