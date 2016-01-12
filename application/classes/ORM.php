@@ -59,4 +59,9 @@ class ORM extends Kohana_ORM {
 	public function unsqlize($value) {
 		return DateTime::createFromFormat("Y-m-d H:i:s", $value);
 	}
+	
+	public function compile() {
+		$this->_build(Database::SELECT);
+		return $this->_db_builder->compile();
+	}
 }
