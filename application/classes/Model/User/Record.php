@@ -51,6 +51,7 @@ class Model_User_Record extends ORM {
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->id)
 			->where('descriptor', '=', $descriptor)
+			->with('user')
 			->order_by('created_time','DESC');
 		error_log("Issuing select: " . $o->compile());
 		$result = [];

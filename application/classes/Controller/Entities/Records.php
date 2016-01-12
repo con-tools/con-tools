@@ -60,7 +60,6 @@ class Controller_Entities_Records extends Api_Controller {
 			$records = [];
 			foreach (Model_User_Record::allByDescriptor($con, $id) as $record)
 				$records[] = $record->as_array();
-			error_log("Got data: " . print_r($records, true));
 			return $this->send(['data' => $records]);
 		}
 			
