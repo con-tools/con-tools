@@ -148,4 +148,18 @@ class Model_User extends ORM {
 		}
 		return $user;
 	}
+	
+	/**
+	 * Return an array containing the fields from the user records that would be interesting to
+	 * an authorized client.
+	 * This list contains only fields that do not reveal authentication information on the user
+	 */
+	public function export() {
+		return [
+				'name' => $this->name,
+				'email' => $this->email,
+				'phone' => $this->phone,
+				'date_of_birth' => $this->date_of_birth,
+		];
+	}
 }
