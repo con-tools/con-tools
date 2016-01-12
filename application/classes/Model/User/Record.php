@@ -53,7 +53,15 @@ class Model_User_Record extends ORM {
 			->where('descriptor', '=', $descriptor)
 			->order_by('created_time','DESC')
 			->find_all();
-		return $o;
+		$result = [];
+		$userids = [];
+		foreach ($o as $record) {
+			if (array_key_exists($record->user_id, $userids))
+				continue;
+			$userids[$record->user_id] = true;
+			$result[] = $record;
+		}
+		return $result;
 	}
 
 	/**
