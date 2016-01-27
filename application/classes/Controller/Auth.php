@@ -136,11 +136,13 @@ class Controller_Auth extends Api_Controller {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => 'User cancelled' ];
 		} catch (ORM_Validation_Exception $e) {
+			$callback = $provider->getRedirectURL();
+			$response = ['status' => false, 'error' => "Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'" ];
 			error_log("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
-			$response = ['status' => false, 'error' => "$e" ];
 		} catch (Exception $e) {
-			//throw $e;
+			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => "$e" ];
+			error_log("Unexpected error on auth callback: $e");
 		}
 		
 		// TODO: handle client side only without redirects
