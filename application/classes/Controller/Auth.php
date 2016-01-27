@@ -135,8 +135,11 @@ class Controller_Auth extends Api_Controller {
 		} catch (Auth_Cancelled $e) {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => 'User cancelled' ];
+		} catch (ORM_Validation_Exception $e) {
+			error_log("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
+			$response = ['status' => false, 'error' => "$e" ];
 		} catch (Exception $e) {
-			throw $e;
+			//throw $e;
 			$response = ['status' => false, 'error' => "$e" ];
 		}
 		
