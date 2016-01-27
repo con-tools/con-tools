@@ -69,7 +69,13 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getName()
 	 */
 	public function getName() {
-		return $this->openidcon->requestUserInfo('name');
+		if ($name = $this->openidcon->requestUserInfo('name')) return $name;
+		if ($name = join(" ", [
+				$this->openidcon->requestUserInfo('given_name'),
+				$this->openidcon->requestUserInfo('family_name')
+		])) return $name;
+		// if all else fails, fake something
+		return explode("@", $this->getEmail())[0];
 	}
 	
 	/**
