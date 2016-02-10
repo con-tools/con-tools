@@ -63,6 +63,19 @@ class Model_User extends ORM {
 		return $this->email != '-';
 	}
 	
+	/**
+	 * Allow updating the password for a user registerd in the builtin password database
+	 * @param string $password
+	 * @throws Exception in case trying to update password for a user authenticated with an external provider
+	 */
+	public function changePassword($password) {
+		if ($this->provider != self::PASSWORD_PROVIDER)
+			throw new Exception("No password change allowed for non-builtin users");
+		$this->password = password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS);
+		$this->save;
+		return $this;
+	}
+	
 	public function get($column) {
 		if ($column == 'email' && parent::get($column) == self::NOT_REALLY_EMAIL)
 			return '-';
