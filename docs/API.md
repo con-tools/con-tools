@@ -159,8 +159,43 @@ $ curl http://api.con-troll.org/auth/id \
 `/auth/passwordreset/:email` : Ask for a password reset for a user registered in
 the built-in password database.
 
-**Input:** No request body needed
+**Input:** Property list with the following fields:
+* 'redirect-url': A URL to embed in the password reset email, that the user will
+be asked to click on to reset their password. The query string parameter `token`
+will be added to the URL and will contain the authorization token that will be
+required to use for resetting the password.
+
 **Output:** Property list with the boolean property `status` set to `true`
 
 *Note:* This call always returns status as `true` to prevent a malicious caller
-from using this API to check for existence of users.
+from using this API to check for existence of users.  
+*Note:* The client is expected to create a self referencing link that the user
+will access after receiving the password reset email. The client should then
+issue an `/auth/passwordchange` call with the received token as an authorization
+token and the new password.
+
+*Example:*
+$ curl http://api.con-troll.org/auth/passwordreset/oded@geek.co.il \
+  -d '{"redirect-url":"http://controll-client.org/resetpassword"}'
+*Response:*
+```
+{"status":true}
+```
+
+`/auth/passwordchange` : Change the password for a user registered in the
+built-in password database.
+
+**Input:** Property list with the following fields:
+* `password`: New password to set for the user
+
+**Output:** Property list with the boolean property `status` signaliing if
+the change was completed successfully.
+
+*Example:*
+$ curl http://api.con-troll.org/auth/passwordchange \
+  -H 'Authorization: ABCD1234' \
+  -d '{"password":"123456"}'
+*Response:*
+```
+{"status":true}
+```
