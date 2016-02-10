@@ -170,9 +170,11 @@ required to use for resetting the password.
 *Note:* This call always returns status as `true` to prevent a malicious caller
 from using this API to check for existence of users.  
 *Note:* The client is expected to create a self referencing link that the user
-will access after receiving the password reset email. The client should then
-issue an `/auth/passwordchange` call with the received token as an authorization
-token and the new password.
+will access after receiving the password reset email. When the user accesses the
+password reset URL, the client should then try to verify the token using the
+`/auth/verify` call, and if it succeeds - offer the user to choose a new password
+and then issue an `/auth/passwordchange` call with the received token as an 
+authorization token and the new password.
 
 *Example:*
 $ curl http://api.con-troll.org/auth/passwordreset/oded@geek.co.il \
