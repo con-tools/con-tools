@@ -32,12 +32,18 @@ class Controller_Auth extends Api_Controller {
 	public function action_passwordreset() {
 		try {
 			$user = Model_User::byEmail($this->request->param('id'));
-			$tok = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
+			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
 			$data = json_decode($this->request->body(), true) ?  : [ ];
-			// send_email()
+			$email = Twig::factory('auth/passwordreset');
+			$email->token = $token;
+			if (!mail($user->email, 'Password reset from ConTroll', $email->__toString(),
+				'From: ConTroll <noreply@con-troll.org>\r\n'))
+				throw new Exception("Error sending email");
 		} catch (Model_Exception_NotFound $e) {
 			// agree that the user got the password reset token 
 			// (because I don't want to let an attacker know that there's no such user)
+		} catch (Exception $e) {
+			error_log("Problem sending email");
 		}
 		$this->send([ 'status' => true ]);
 	}
