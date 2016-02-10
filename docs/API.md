@@ -178,8 +178,8 @@ and then issue an `/auth/passwordchange` call with the received token as an
 authorization token and the new password.
 
 *Example:*
-$ curl http://api.con-troll.org/auth/passwordreset/oded@geek.co.il \
-  -d '{"redirect-url":"http://controll-client.org/resetpassword"}'
+$ curl http://api.con-troll.org/auth/passwordreset \
+  -d '{"email":"oded@geek.co.il","redirect-url":"http://controll-client.org/resetpassword"}'
 *Response:*
 ```
 {"status":true}
@@ -202,3 +202,7 @@ $ curl http://api.con-troll.org/auth/passwordchange \
 ```
 {"status":true}
 ```
+
+*Note:* After this call completes successfully, the password reset token is
+removed (it is not possible to re-do a password reset) and the user must login
+again if they want to do any kind of non-public operation.
