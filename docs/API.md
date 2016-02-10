@@ -156,11 +156,12 @@ $ curl http://api.con-troll.org/auth/id \
 {"email":"oded@geek.co.il","name":"Oded Arbel"}
 ```
 
-`/auth/passwordreset/:email` : Ask for a password reset for a user registered in
+`/auth/passwordreset` : Ask for a password reset for a user registered in
 the built-in password database.
 
 **Input:** Property list with the following fields:
-* 'redirect-url': A URL to embed in the password reset email, that the user will
+* `email`: login ID of the user for which password reset is requested.
+* `redirect-url`: A URL to embed in the password reset email, that the user will
 be asked to click on to reset their password. The query string parameter `token`
 will be added to the URL and will contain the authorization token that will be
 required to use for resetting the password.
