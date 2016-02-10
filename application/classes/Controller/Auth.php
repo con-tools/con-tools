@@ -32,11 +32,10 @@ class Controller_Auth extends Api_Controller {
 	public function action_passwordreset() {
 		$data = json_decode($this->request->body(), true) ?  : [ ];
 		try {
-			$user = Model_User::byEmail($this->request->param('id'));
+			$user = Model_User::byEmail(@$data['email']);
 			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
-			$data = json_decode($this->request->body(), true) ?  : [ ];
 			$email = Twig::factory('auth/passwordreset');
-			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token]);
+			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token->token]);
 			if (!mail($user->email, 'Password reset from ConTroll', $email->__toString(),
 				'From: ConTroll <noreply@con-troll.org>\r\n'.
 				'Content-Type: text/html\r\n'))
