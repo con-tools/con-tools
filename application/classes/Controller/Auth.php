@@ -78,6 +78,7 @@ class Controller_Auth extends Api_Controller {
 			];
 		}
 		try {
+			error_log("Checking login with ".print_r($data,true));
 			$u = Model_User::byPassword(@$data['email'], @$data['password']);
 			if (@$data['redirect-url']) {
 				$this->completeAuthToApp(@$data['redirect-url'], $u->login()->token);
