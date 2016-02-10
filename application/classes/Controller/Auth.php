@@ -29,6 +29,19 @@ class Controller_Auth extends Api_Controller {
 		$this->send([ 'status' => true ]);
 	}
 	
+	public function action_passwordreset() {
+		try {
+			$user = Model_User::byEmail($this->request->param('id'));
+			$tok = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
+			$data = json_decode($this->request->body(), true) ?  : [ ];
+			// send_email()
+		} catch (Model_Exception_NotFound $e) {
+			// agree that the user got the password reset token 
+			// (because I don't want to let an attacker know that there's no such user)
+		}
+		$this->send([ 'status' => true ]);
+	}
+	
 	public function action_list() {
 		$this->send(Auth::listProviders());
 	}
@@ -55,11 +68,35 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_signin() {
+		if ($this->request->headers('Content-Type') == 'application/json') {
+			$data = json_decode($this->request->body(), true) ? : [];
+		} else {
+			$data = [
+					'email' => $this->request->post('email'),
+					'password' => $this->request->post('password'),
+					'redirect-url' => $this->request->post('redirect-url'),
+			];
+		}
 		try {
-			$u = Model_User::byPassword($this->request->post('email'), $this->request->post('password'));
-			$this->completeAuthToApp($this->request->post('redirect-url'), $u->login()->token);
+			$u = Model_User::byPassword(@$data['email'], @$data['password']);
+			if (@$data['redirect-url']) {
+				$this->completeAuthToApp(@$data['redirect-url'], $u->login()->token);
+			} else {
+				Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
+				$this->send([
+						"status" => true,
+						"token" => $u->login()->token,
+				]);
+			}
 		} catch (Model_Exception_NotFound $e) {
-			$this->errorToSselector("No account with that email and password found.", $this->request->post('redirect-url'));
+			$error = "No account with that email and password found.";
+			if (@$data['redirect-url'])
+				$this->errorToSselector($error, @$data['redirect-url']);
+			else
+				$this->send([
+						"status" => false,
+						"error" => $error,
+				]);
 		}
 	}
 	
