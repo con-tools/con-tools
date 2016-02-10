@@ -30,14 +30,16 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_passwordreset() {
+		$data = json_decode($this->request->body(), true) ?  : [ ];
 		try {
 			$user = Model_User::byEmail($this->request->param('id'));
 			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
 			$data = json_decode($this->request->body(), true) ?  : [ ];
 			$email = Twig::factory('auth/passwordreset');
-			$email->token = $token;
+			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token]);
 			if (!mail($user->email, 'Password reset from ConTroll', $email->__toString(),
-				'From: ConTroll <noreply@con-troll.org>\r\n'))
+				'From: ConTroll <noreply@con-troll.org>\r\n'.
+				'Content-Type: text/html\r\n'))
 				throw new Exception("Error sending email");
 		} catch (Model_Exception_NotFound $e) {
 			// agree that the user got the password reset token 
@@ -46,6 +48,25 @@ class Controller_Auth extends Api_Controller {
 			error_log("Problem sending email");
 		}
 		$this->send([ 'status' => true ]);
+	}
+	
+	public function action_passwordchange() {
+		$data = json_decode($this->request->body(), true) ?  : [ ];
+		try {
+			$tok = $this->verifyAuthentication();
+			if (@$data['password'])
+				$tok->user->changePassword(@$data['password']);
+			else
+				throw new Exception("No password specified");
+			if ($tok->type == 'password-reset')
+				$tok->delete(); // forget a password reset token
+			$this->send([ 'status' => true ]);
+		} catch (Api_Exception_Unauthorized $e) {
+			$this->send([ 'status' => false ]);
+		} catch (Exception $e) {
+			error_log("Got error trying to update password: " . $e->getMessage());
+			$this->send([ 'status' => false, 'error' => $e->getMessage() ]);
+		}
 	}
 	
 	public function action_list() {
@@ -214,21 +235,27 @@ class Controller_Auth extends Api_Controller {
 	
 	private function completeAuthToApp($callback, $token) {
 		Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
-		$url = parse_url($callback);
-		$query = explode('&',@$url['query'] ?: '');
-		$query[] = urlencode('status') . '=' . urlencode(true);
-		$query[] = urlencode('token') . '=' . urlencode($token);
-		$url['query'] = join('&', $query);
-		$this->redirect($this->buildUrl($url));
+		$this->redirect($this->addQueryToURL($callback, [
+				'status' => true,
+				'token' => $token,
+		]));
 	}
 	
 	private function failAuthToApp($callback, $error) {
-		$url = parse_url($callback);
-		$query = explode('&',@$url['query'] ?: '');
-		$query[] = urlencode('status') . '=' . urlencode(false);
-		$query[] = urlencode('error') . '=' . urlencode($error);
+		$this->redirect($this->addQueryToURL($callback, [
+				'status' => false,
+				'error' => $error,
+		]));
+	}
+	
+	private function addQueryToURL($url, $params) {
+		$parsed = parse_url($url);
+		$query = explode('&',@$parsed['query'] ?: '');
+		foreach ($params as $key => $value) {
+			$query[] = urlencode($key) . '=' . urlencode($value);
+		}
 		$url['query'] = join('&', $query);
-		$this->redirect($this->buildUrl($url));
+		return $this->buildUrl($url);
 	}
 	
 	private function errorToSselector($error_message, $redirect_url) {
