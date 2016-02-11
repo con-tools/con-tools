@@ -255,8 +255,8 @@ class Controller_Auth extends Api_Controller {
 		foreach ($params as $key => $value) {
 			$query[] = urlencode($key) . '=' . urlencode($value);
 		}
-		$url['query'] = join('&', $query);
-		return $this->buildUrl($url);
+		$parsed['query'] = join('&', $query);
+		return $this->buildUrl($parsed);
 	}
 	
 	private function errorToSselector($error_message, $redirect_url) {
