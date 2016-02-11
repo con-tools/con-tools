@@ -59,8 +59,23 @@ class Model_User extends ORM {
 		return $token;
 	}
 	
+	/**
+	 * Check if the user (or user's authentication provider) provided a valid email.
+	 * The authentication provider may sometime not provide an Email address, in which case
+	 * the auth provider layer substitutes the value "-" for the email.
+	 * @return boolean whether the user has an email address
+	 */
 	public function emailIsValid() {
 		return $this->email != '-';
+	}
+	
+	/**
+	 * Check if the user has a password in the local password database. Users without such
+	 * passwords are not allowed to add them, change them or reset them.
+	 * @return boolean whether the user has a password in the local database 
+	 */
+	public function hasPassword() {
+		return $this->provider == self::PASSWORD_PROVIDER;
 	}
 	
 	/**
@@ -69,7 +84,7 @@ class Model_User extends ORM {
 	 * @throws Exception in case trying to update password for a user authenticated with an external provider
 	 */
 	public function changePassword($password) {
-		if ($this->provider != self::PASSWORD_PROVIDER)
+		if (!$this->hasPassword())
 			throw new Exception("No password change allowed for non-builtin users");
 		$this->password = password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS);
 		$this->save;
