@@ -21,6 +21,6 @@ class Model_Timeslot extends ORM {
 			'duration' => [],
 			'min_attendees' => [],
 			'max_attendees' => [],
-			'node_to_attendees' => [],
+			'notes_to_attendees' => [],
 	];
 }
