@@ -62,7 +62,7 @@ class Controller_Auth extends Api_Controller {
 				$tok->user->changePassword(@$data['password']);
 			else
 				throw new Exception("No password specified");
-			if ($tok->type == 'password-reset')
+			if ($tok->type == Model_Token::TYPE_PASSWORD_RESET)
 				$tok->delete(); // forget a password reset token
 			$this->send([ 'status' => true ]);
 		} catch (Api_Exception_Unauthorized $e) {
