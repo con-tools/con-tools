@@ -4,6 +4,24 @@ This document describes the data model used by ConTroll. The data model is
 currently implemented using MySQL relational database and uses foreign keys
 to link records in a logical hierarchy.
 
+# User
+
+Stores user identity
+
+*Model Name:* User
+*Fields:*
+* Name
+* Email
+* Phone number
+* Date of birth
+* Authentication/Identity provider (if using the built-in password database,
+  will be set to "password")
+* Password (The hashed password for users of the built-in password database or
+  the identity token for an external authentication provider)
+* Time created
+* Last login time
+
+
 # Time Slot
 
 A Time slot is a scheduling of an event to a location and time
