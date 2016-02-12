@@ -4,7 +4,7 @@ Email::$default = getenv('EMAIL_IMPL') ?: Email::$default;
 
 return [
 		'native' => [
-				'type'		=> 'native',
+				'type'		=> 'Native',
 		],
 
 		'swiftmailer' => [
