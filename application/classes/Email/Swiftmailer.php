@@ -1,6 +1,6 @@
 <?php
 
-class Email_Sparkpost implements Email_Interface {
+class Email_Swiftmailer implements Email_Interface {
 
 	var $transport;
 	var $mailer;
