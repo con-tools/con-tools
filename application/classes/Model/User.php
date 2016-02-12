@@ -87,7 +87,7 @@ class Model_User extends ORM {
 		if (!$this->hasPassword())
 			throw new Exception("No password change allowed for non-builtin users");
 		$this->password = password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS);
-		$this->save;
+		$this->save();
 		return $this;
 	}
 	
