@@ -19,7 +19,7 @@ class Email {
 		self::$config = self::$config ?: static::getConfig();
 		if (!self::$config[$provider])
 			throw new Exception("Invalid provider specified: #{$provider}");
-		Log::instance()->add(Log::INFO, "Selected E-Mail provider $provider");
+		error_log("Selected E-Mail provider $provider");
 		$prov_config = self::$config[$provider];
 		$fullclass = "Email_" . str_replace('/', '_', $prov_config['type']);
 		return new $fullclass($prov_config);
