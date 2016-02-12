@@ -26,6 +26,7 @@ class Controller_Auth extends Api_Controller {
 			$tok = $this->verifyAuthentication();
 			$tok->delete();
 		} catch (Api_Exception_Unauthorized $e) {} // if we can't find a valid token, its like we logged out, right?
+		Session::instance()->delete('logged-in-user-token');
 		$this->send([ 'status' => true ]);
 	}
 	
