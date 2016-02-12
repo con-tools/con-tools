@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cd1fab9f1f883601e23ced72671025ce",
+    "hash": "6351864cdc254bbf39fc98c6d91e4a4c",
+    "content-hash": "bb42467873f6d62306a3df91813cc3ca",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -16,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/f2a1f57437c4bafdb4567155adaeed767e37f75b",
+                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/55af883544ffeeccba162523b7ef37330b2dc6fa",
                 "reference": "f2a1f57437c4bafdb4567155adaeed767e37f75b",
                 "shasum": ""
             },
@@ -72,7 +73,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
+                "url": "https://api.github.com/repos/composer/installers/zipball/6213d900e92647831f7a406d5c530ea1f3d4360e",
                 "reference": "e420b539e8d7b38b7c6f3f99dccc0386bd3dfe41",
                 "shasum": ""
             },
@@ -167,7 +168,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/0f9ed2b0483d579db315b18433c5b14b80b698d2",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/d1c04cec204b23826821d799e012ed300aa867d6",
                 "reference": "0f9ed2b0483d579db315b18433c5b14b80b698d2",
                 "shasum": ""
             },
@@ -397,7 +398,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/768b4c0e3e0712a53eb35eaf3ba0d96910225389",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8c033e192fdcddb3067ca77e0b6829e910ecdd7d",
                 "reference": "768b4c0e3e0712a53eb35eaf3ba0d96910225389",
                 "shasum": ""
             },
@@ -459,7 +460,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/97fe7210def29451ec74923b27e552238defd75a",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
                 "reference": "97fe7210def29451ec74923b27e552238defd75a",
                 "shasum": ""
             },
@@ -668,7 +669,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/cache/zipball/cdd6fe3ea2a7376120533f8db2d17298910844e7",
+                "url": "https://api.github.com/repos/kohana/cache/zipball/d577de28dae98cbb4a67b90ef36090431e3d9ed7",
                 "reference": "cdd6fe3ea2a7376120533f8db2d17298910844e7",
                 "shasum": ""
             },
@@ -725,7 +726,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/core/zipball/32f502c958ae67ceebe7b3d40d5955a250d77311",
+                "url": "https://api.github.com/repos/kohana/core/zipball/b7b2ed304970a4f0c38ec2bac589426820e00578",
                 "reference": "32f502c958ae67ceebe7b3d40d5955a250d77311",
                 "shasum": ""
             },
@@ -783,7 +784,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/database/zipball/910597c9a3e8c9254faed22c5df26288e0828232",
+                "url": "https://api.github.com/repos/kohana/database/zipball/b707fec31ea33988617b75c14094443a1c4f47d9",
                 "reference": "910597c9a3e8c9254faed22c5df26288e0828232",
                 "shasum": ""
             },
@@ -844,7 +845,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/minion/zipball/f416935ac23ef19658535b4497adc6305ce55cdb",
+                "url": "https://api.github.com/repos/kohana/minion/zipball/303e2f26c113e182bedfd598f8ababf96dd44688",
                 "reference": "f416935ac23ef19658535b4497adc6305ce55cdb",
                 "shasum": ""
             },
@@ -904,7 +905,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/orm/zipball/cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
+                "url": "https://api.github.com/repos/kohana/orm/zipball/9edc57cc7d760388751474aeb3a15867c08326a2",
                 "reference": "cd8c7ce3ee74c2b52ab6b419c6ce0fce2859ac84",
                 "shasum": ""
             },
@@ -1088,7 +1089,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/4a91ca6ab88daa6fd36a8af39adc6fdcc14a7e8b",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/c50e815b3ce3aec55b2562d303451667673cfa5d",
                 "reference": "4a91ca6ab88daa6fd36a8af39adc6fdcc14a7e8b",
                 "shasum": ""
             },
@@ -1340,6 +1341,59 @@
             "time": "2015-05-04 20:22:00"
         },
         {
+            "name": "swiftmailer/swiftmailer",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "fffbc0e2a7e376dbb0a4b5f2ff6847330f20ccf9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/fffbc0e2a7e376dbb0a4b5f2ff6847330f20ccf9",
+                "reference": "fffbc0e2a7e376dbb0a4b5f2ff6847330f20ccf9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1,<0.9.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "time": "2016-01-03 15:42:47"
+        },
+        {
             "name": "symfony/event-dispatcher",
             "version": "2.8.x-dev",
             "source": {
@@ -1349,7 +1403,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0ef7669c0af9f62752a96a5d43c1b13c5c2e70e9",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/78c468665c9568c3faaa9c416a7134308f2d85c3",
                 "reference": "0ef7669c0af9f62752a96a5d43c1b13c5c2e70e9",
                 "shasum": ""
             },
@@ -1457,7 +1511,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/604e94883bc1691071d9a30ff522808dc476394c",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/f0a4fa678465491947554f6687c5fca5e482f8ec",
                 "reference": "604e94883bc1691071d9a30ff522808dc476394c",
                 "shasum": ""
             },
@@ -1520,7 +1574,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/unittest/zipball/74222462006c693270f64067aedaeb94326ce615",
+                "url": "https://api.github.com/repos/kohana/unittest/zipball/7ab1eca59b0c624d85774cf97e3da9ef4d5744e8",
                 "reference": "74222462006c693270f64067aedaeb94326ce615",
                 "shasum": ""
             },
@@ -1576,7 +1630,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/94b5c2f31d4eb890ae81438967d1afc6150e210d",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/5cd755e340398f4c450c4ed2b7ed83cef9d0468b",
                 "reference": "94b5c2f31d4eb890ae81438967d1afc6150e210d",
                 "shasum": ""
             },
@@ -2034,12 +2088,12 @@
             "version": "2.8.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "33fd1b2cfdde601704665fad343014bba04b0753"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/33fd1b2cfdde601704665fad343014bba04b0753",
                 "reference": "d196cb1ac36901bde7d7fbed74ee31fdb85fd119",
                 "shasum": ""
             },
@@ -2076,7 +2130,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-09-14 14:15:17"
+            "time": "2016-02-02 09:49:18"
         }
     ],
     "aliases": [],

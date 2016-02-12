@@ -29,7 +29,8 @@
 		"aptoma/twig-markdown" : "dev-master",
 		"league/commonmark" : "0.8.*@dev",
 		"league/oauth2-facebook" : "^1.0@dev",
-		"league/oauth1-client" : "~1.0"
+		"league/oauth1-client" : "~1.0",
+		"swiftmailer/swiftmailer": "^5.4"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : "3.7.*",

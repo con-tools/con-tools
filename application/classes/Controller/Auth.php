@@ -38,14 +38,14 @@ class Controller_Auth extends Api_Controller {
 			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
 			$email = Twig::factory('auth/passwordreset');
 			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token->token]);
-			if (!mail($user->email, 'Password reset from ConTroll', $email->__toString(),
-				'From: ConTroll <noreply@con-troll.org>\r\n'.
-				'Content-Type: text/html\r\n'))
-				throw new Exception("Error sending email");
+			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ], 
+					'Password reset from ConTroll', $email->__toString(), [
+					"Content-Type" => "text/html"
+			]);
 		} catch (Model_Exception_NotFound $e) {
 			// agree that the user got the password reset token 
 			// (because I don't want to let an attacker know that there's no such user)
-		} catch (Exception $e) {
+		} catch (Email_Exception $e) {
 			error_log("Problem sending email");
 		}
 		$this->send([ 'status' => true ]);
