@@ -37,6 +37,7 @@ class Controller_Auth extends Api_Controller {
 				throw new Model_Exception_NotFound("User " . $user->email . " does not have a local password");
 			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
 			$email = Twig::factory('auth/passwordreset');
+			error_log("Starting password reset for " . $user->email . " to " . @$data['redirect-url']);
 			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token->token]);
 			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ], 
 					'Password reset from ConTroll', $email->__toString(), [
@@ -270,14 +271,14 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	private function buildUrl($spec) {
-		$url = "{$spec['scheme']}://";
+		$url = @$spec['scheme'] . "://";
 		if (@$spec['user']) {
 			$url .= $spec['user'];
 			if (@$spec['pass'])
 				$url .= ":{$spec['pass']}";
 			$url .= "@";
 		}
-		$url .= $spec['host'];
+		$url .= @$spec['host'];
 		if (@$spec['port'])
 			$url .= ":{$spec['port']}";
 		$url .= @$spec['path'] ?: '/' ;
