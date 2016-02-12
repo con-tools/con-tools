@@ -7,7 +7,7 @@
 
 class Email {
 	
-	var $config = null;
+	static $config = null;
 	
 	public static $default = 'native';
 	
@@ -16,7 +16,7 @@ class Email {
 	}
 	
 	private static function getImpl($provider) {
-		$this->config = $this->config ?: static::getConfig();
+		self::$config = self::$config ?: static::getConfig();
 		if (!$config[$provider])
 			throw new Exception("Invalid provider specified: #{$provider}");
 		$prov_config = $config[$provider];
