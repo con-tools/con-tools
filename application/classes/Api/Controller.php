@@ -28,6 +28,7 @@ abstract class Api_Controller extends Controller {
 				throw new Api_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {
+			error_log("Failed to find authorization token '$auth'");
 			throw new Api_Exception_Unauthorized($this, "Invalid Authorization header");
 		}
 	}
