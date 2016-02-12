@@ -35,7 +35,8 @@ class Controller_Auth extends Api_Controller {
 			$user = Model_User::byEmail(@$data['email']);
 			if (!$user->hasPassword())
 				throw new Model_Exception_NotFound("User " . $user->email . " does not have a local password");
-			$token = Model_Token::persist($user, 'password-reset', Time_Unit::days(1));
+			$token = Model_Token::persist($user, Model_Token::TYPE_PASSWORD_RESET, Time_Unit::days(1));
+			Model_Token::remove_all(Model_Token::TYPE_PASSWORD_RESET);
 			$email = Twig::factory('auth/passwordreset');
 			error_log("Starting password reset for " . $user->email . " to " . @$data['redirect-url']);
 			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token->token]);
