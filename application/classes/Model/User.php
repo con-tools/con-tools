@@ -51,7 +51,7 @@ class Model_User extends ORM {
 	 * and updating all relevant time fields 
 	 * @param string $type type of token to use. One of 'web', 'api'
 	 */
-	public function login($type = 'web') {
+	public function login($type = Model_Token::TYPE_WEB_LOGIN) {
 		$token = $this->getValidToken($type);
 		$token->touch();
 		$this->login_time = new DateTime();
