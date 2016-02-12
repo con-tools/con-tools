@@ -12,11 +12,12 @@ class Email {
 	public static $default = 'native';
 	
 	public static function send($from, $to, $subject, $body, $headers = [], $provider = null) {
-		self::getImpl($provider ?: self::$default)->send($from, $to, $subject, $body, $headers);
+		self::getImpl($provider)->send($from, $to, $subject, $body, $headers);
 	}
 	
 	private static function getImpl($provider) {
 		self::$config = self::$config ?: static::getConfig();
+		$provider = $provider ?: self::$default; // resolve default after we loaded config and gave it a chance to override
 		if (!self::$config[$provider])
 			throw new Exception("Invalid provider specified: #{$provider}");
 		error_log("Selected E-Mail provider $provider");
