@@ -18,8 +18,13 @@ class Email_Swiftmailer implements Email_Interface {
 			->setFrom(is_array($from) ? [ $from[0] => $from[1] ] : $from)
 			->setTo(is_array($to) ? [ $to[0] => $to[1] ] : $to)
 			->setBody($body);
-		foreach ($headers as $name => $value)
-			$message->getHeaders()->addTextHeader($name, $value);
+		$mimeheaders = $message->getHeaders();
+		foreach ($headers as $name => $value) {
+			if ($mimeheaders->has($name))
+				$mimeheaders->get($name)->setValue($value);
+			else
+				$message->getHeaders()->addTextHeader($name, $value);
+		}
 		if ($this->mailer->send($message) == 0)
 			throw new Email_Exception("Failed to send email to " . $to);
 	}
