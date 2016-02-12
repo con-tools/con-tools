@@ -17,7 +17,7 @@ class Email {
 	
 	private static function getImpl($provider) {
 		self::$config = self::$config ?: static::getConfig();
-		if (!$config[$provider])
+		if (!self::$config[$provider])
 			throw new Exception("Invalid provider specified: #{$provider}");
 		$prov_config = $config[$provider];
 		$fullclass = "Email_" . str_replace('/', '_', $prov_config['type']);
