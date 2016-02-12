@@ -7,6 +7,8 @@ class Email_Swiftmailer implements Email_Interface {
 	
 	public function __construct($config) {
 		$this->transport = Swift_SmtpTransport::newInstance($config['host'], $config['port'], $config['tls'] ? 'tls' : null);
+		$this->transport->setUsername($config['user']);
+		$this->transport->setPassword($config['password']);
 		$this->mailer = Swift_Mailer::newInstance($this->transport);
 	}
 	
