@@ -12,7 +12,7 @@ class Email {
 	public static $default = 'native';
 	
 	public static function send($from, $to, $subject, $body, $headers = [], $provider = null) {
-		$this->getImpl($provider ?: self::$default)->send($from, $to, $subject, $body, $headers);
+		self::getImpl($provider ?: self::$default)->send($from, $to, $subject, $body, $headers);
 	}
 	
 	private static function getImpl($provider) {
