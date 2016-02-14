@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d9aa4abbb4e77b0ed369e90c5a256110",
-    "content-hash": "77f2df447ba8f3a6bc302fefc06e4dc0",
+    "hash": "9b95939cfe5c685a30f760ae2016d843",
+    "content-hash": "2e154c35d050419cc95764270bdf8e49",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -160,16 +160,16 @@
         },
         {
             "name": "con-troll/auth-openid-connect",
-            "version": "dev-release/0.99.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "2330283922de9cc10eecc8f59862a923fb5c20d4"
+                "reference": "93232a1d55068eaa00634d1b6906e0872c961de6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/2330283922de9cc10eecc8f59862a923fb5c20d4",
-                "reference": "2330283922de9cc10eecc8f59862a923fb5c20d4",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/93232a1d55068eaa00634d1b6906e0872c961de6",
+                "reference": "93232a1d55068eaa00634d1b6906e0872c961de6",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +207,7 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2016-02-14 09:06:26"
+            "time": "2016-02-14 09:19:25"
         },
         {
             "name": "guss77/kohana-paypal",
@@ -2136,7 +2136,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "con-troll/auth-openid-connect": 20,
         "tommcdo/kohana-twig": 20,
         "aptoma/twig-markdown": 20,
         "league/commonmark": 20,
