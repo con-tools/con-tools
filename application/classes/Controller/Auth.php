@@ -153,7 +153,10 @@ class Controller_Auth extends Api_Controller {
 		$u = Model_User::persistWithPassword(@$data['name'] ?: explode('@',@$data['email'])[0], @$data['email'], @$data['password-register']);
 		error_log('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
-		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode(@$data['redirect-url']));
+		if ($this->isREST())
+			$this->send([ "status" => true ]);
+		else
+			$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode(@$data['redirect-url']));
 	}
 	
 	public function action_update() {
