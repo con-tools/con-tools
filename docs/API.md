@@ -82,6 +82,7 @@ user's browser to the specified URL.
 *Example:*
 ```
 $ curl http://api.con-troll.org/auth/start \
+  -H 'Content-Type: application/json' \
   -d '{"provider":"facebook","redirect-url":"http://example.com/"}'
 ```
 *Response:*
@@ -137,7 +138,42 @@ curl http://api.con-troll.org/auth/signin \
 `/auth/register` : Register a new user account using the built-in password
 database.
 
-TODO: documentation
+This API call supports both a REST/JSON call semantic as well as a form POST
+call semantic.
+
+*REST/JSON API:*
+
+**Input:** Property list with the following properties:
+* `email`: The login ID for the new user
+* `password-register`: The password for the new user
+* `name`: The full name of the new user
+
+**Output:** Property list with the following properties:
+* `status`: boolean value signaling success or failed of the registration
+* `error`: Description of the error if the registration failed
+
+*Form POST API:*
+
+**Input:**
+* `email`: The login ID for the new user
+* `password-register`: The password for the new user
+* `password-confirm`: A confirmation of the password for the new user.
+* `redirect-url`: URL to redirect the browser after the registration completed.
+
+**Output:** The browser will be redirected back to the `redirect-url` provided, with the following query string fields added:
+* `status`: boolean value signaling success or failed of the sign in
+* `token`: authentication token for the user, if the login succeeded
+
+*Example:*
+```
+$ curl http://api.con-troll.org/auth/register \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"oded@geek.co.il","password-register":"zxcvbn","name":"Oded Arbel"}'
+```
+*Response:*
+```
+{"status":true}
+```
 
 `/auth/id` : Retrieve the user identity for the currently logged in user.
 
@@ -179,6 +215,7 @@ authorization token and the new password.
 
 *Example:*
 $ curl http://api.con-troll.org/auth/passwordreset \
+  -H 'Content-Type: application/json' \
   -d '{"email":"oded@geek.co.il","redirect-url":"http://controll-client.org/resetpassword"}'
 *Response:*
 ```
@@ -196,6 +233,7 @@ the change was completed successfully.
 
 *Example:*
 $ curl http://api.con-troll.org/auth/passwordchange \
+  -H 'Content-Type: application/json' \
   -H 'Authorization: ABCD1234' \
   -d '{"password":"123456"}'
 *Response:*
