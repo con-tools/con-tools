@@ -7,9 +7,11 @@
 abstract class Api_Controller extends Controller {
 
 	public $auto_render = false;
+	private $_input = null;
 	
 	public function __construct($request, $response) {
 		parent::__construct($request, $response);
+		$this->_input = new Input($request);
 	}
 
 	/**
@@ -92,6 +94,14 @@ abstract class Api_Controller extends Controller {
 		$this->response->headers('Access-Control-Max-Age', '1728000');
 		$this->response->body('');
 		return $this->response;
+	}
+
+	/**
+	 * Return Input object that can be used to query the request data
+	 * @return Input Input handling object
+	 */
+	protected function input() {
+		return $this->_input;
 	}
 	
 	/**
