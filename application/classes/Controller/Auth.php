@@ -99,14 +99,10 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_signin() {
-		if ($this->request->headers('Content-Type') == 'application/json') {
+		if ($this->isREST()) {
 			$data = json_decode($this->request->body(), true) ? : [];
 		} else {
-			$data = [
-					'email' => $this->request->post('email'),
-					'password' => $this->request->post('password'),
-					'redirect-url' => $this->request->post('redirect-url'),
-			];
+			$data = $this->request->post();
 		}
 		try {
 			$u = Model_User::byPassword(@$data['email'], @$data['password']);
@@ -122,36 +118,42 @@ class Controller_Auth extends Api_Controller {
 			}
 		} catch (Model_Exception_NotFound $e) {
 			$error = "No account with that email and password found.";
-			if (@$data['redirect-url'])
-				$this->errorToSselector($error, @$data['redirect-url']);
-			else
-				$this->send([
-						"status" => false,
-						"error" => $error,
-				]);
+			$this->errorToSelectorOrCaller($error, @$data['redirect-url']);
 		}
 	}
 	
 	public function action_register() {
-		$email = $this->request->post('email');
-		error_log('starting to register ' . $email);
-		if (!$email)
-			$this->errorToSselector("A valid email address is required", $this->request->post('redirect-url'));
-		Session::instance()->set('select-register-email', $email);
-		error_log('Checking existing user');
+		if ($this->request->post('redirect-url')) { // POSTed to registetr
+			$data = $this->request->post();
+		} else { // REST/JSON
+			$data = json_decode($this->request->body(), true) ?  : [ ];
+		}
+			
+		error_log('Auth/Register: starting to register ' . @$data['email']);
+		if (!@$data['email'])
+			return $this->errorToSelectorOrCaller("A valid email address is required", @$data['redirect-url']);
+		error_log('Auth/Register: Checking existing user');
 		try {
-			Model_User::byEmail($email);
-			error_log('found existing user');
-			$this->errorToSselector("This email address is already registered", $this->request->post('redirect-url'));
+			Model_User::byEmail(@$data['email']);
+			error_log('Auth/Register: found existing user');
+			$this->errorToSelectorOrCaller("This email address is already registered", @$data['redirect-url']);
 		} catch (Model_Exception_NotFound $e) { } // this is the OK case
-		if (!$this->request->post('password-register'))
-			$this->errorToSselector("Password must not be empty",$this->request->post('redirect-url'));
-		if ($this->request->post('password-register') != $this->request->post('password-confirm'))
-			$this->errorToSselector("Passwords must match", $this->request->post('redirect-url'));
-		$u = Model_User::persistWithPassword(explode('@',$email)[0], $email, $this->request->post('password-register'));
-		error_log('saved user ' . $u->id);
+		
+		if (!@$data['password-register'])
+			$this->errorToSelectorOrCaller("Password must not be empty",@$data['redirect-url']);
+		
+		if (!$this->isREST()) {
+			// in POST form, the client has no logic and relies on us to verify that the user knows
+			// their own password
+			Session::instance()->set('select-register-email', @$data['email']);
+			if (@$data['password-register'] != @$data['password-confirm'])
+				$this->errorToSselector("Passwords must match", @$data['redirect-url']);
+		}
+		
+		$u = Model_User::persistWithPassword(@$data['name'] ?: explode('@',@$data['email'])[0], @$data['email'], @$data['password-register']);
+		error_log('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
-		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->request->post('redirect-url')));
+		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode(@$data['redirect-url']));
 	}
 	
 	public function action_update() {
@@ -224,6 +226,10 @@ class Controller_Auth extends Api_Controller {
 			$this->send($response);
 	}
 	
+	private function isREST() {
+		return $this->request->headers('Content-Type') == 'application/json';
+	}
+	
 	private function updateUserEmailIfValid(Model_User $user, $email) {
 		if (!Valid::email($email))
 			return false;
@@ -262,10 +268,13 @@ class Controller_Auth extends Api_Controller {
 		return $this->buildUrl($parsed);
 	}
 	
-	private function errorToSselector($error_message, $redirect_url) {
-		sleep(1.5); // make it a bit harder to bruteforce a password
-		Session::instance()->set('select-login-error', $error_message);
-		$this->redirect_to_action('select', ['redirect-url' => $redirect_url]);
+	private function errorToSelectorOrCaller($error_message, $redirect_url) {
+		if ($redirect_url) {
+			Session::instance()->set('select-login-error', $error_message);
+			$this->redirect_to_action('select', ['redirect-url' => $redirect_url]);
+		} else {
+			$this->send([ 'status' => false, 'error' => $error_message]);
+		}
 	}
 	
 	private function startAuth($provider, $redirect_url) {
