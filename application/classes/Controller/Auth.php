@@ -15,9 +15,8 @@ class Controller_Auth extends Api_Controller {
 	}
 
 	public function action_start() {
-		$data = json_decode($this->request->body(), true) ?  : [ ];
 		$this->send([ 
-				"auth-url" => $this->startAuth(@$data['provider'] ?  : 'google', @$data['redirect-url'])
+				"auth-url" => $this->startAuth($this->input()->provider ?  : 'google', $this->input()->redirect_url)
 		]);
 	}
 	
@@ -31,16 +30,15 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_passwordreset() {
-		$data = json_decode($this->request->body(), true) ?  : [ ];
 		try {
-			$user = Model_User::byEmail(@$data['email']);
+			$user = Model_User::byEmail($this->input()->email);
 			if (!$user->hasPassword())
 				throw new Model_Exception_NotFound("User " . $user->email . " does not have a local password");
 			Model_Token::remove_all($user, Model_Token::TYPE_PASSWORD_RESET);
 			$token = Model_Token::persist($user, Model_Token::TYPE_PASSWORD_RESET, Time_Unit::days(1));
 			$email = Twig::factory('auth/passwordreset');
-			error_log("Starting password reset for " . $user->email . " to " . @$data['redirect-url']);
-			$email->reseturl = $this->addQueryToURL(@$data['redirect-url'], ['token' => $token->token]);
+			error_log("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
+			$email->reseturl = $this->addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
 			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ], 
 					'Password reset from ConTroll', $email->__toString(), [
 					"Content-Type" => "text/html"
@@ -55,11 +53,10 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_passwordchange() {
-		$data = json_decode($this->request->body(), true) ?  : [ ];
 		try {
 			$tok = $this->verifyAuthentication();
-			if (@$data['password'])
-				$tok->user->changePassword(@$data['password']);
+			if ($this->input()->password)
+				$tok->user->changePassword($this->input()->password);
 			else
 				throw new Exception("No password specified");
 			if ($tok->type == Model_Token::TYPE_PASSWORD_RESET)
@@ -99,15 +96,10 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	public function action_signin() {
-		if ($this->isREST()) {
-			$data = json_decode($this->request->body(), true) ? : [];
-		} else {
-			$data = $this->request->post();
-		}
 		try {
-			$u = Model_User::byPassword(@$data['email'], @$data['password']);
-			if (@$data['redirect-url']) {
-				$this->completeAuthToApp(@$data['redirect-url'], $u->login()->token);
+			$u = Model_User::byPassword($this->input()->email, $this->input()->password);
+			if ($this->input()->redirect_url) {
+				$this->completeAuthToApp($this->input()->redirect_url, $u->login()->token);
 			} else {
 				$token = $u->login()->token;
 				Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
@@ -118,45 +110,39 @@ class Controller_Auth extends Api_Controller {
 			}
 		} catch (Model_Exception_NotFound $e) {
 			$error = "No account with that email and password found.";
-			$this->errorToSelectorOrCaller($error, @$data['redirect-url']);
+			$this->errorToSelectorOrCaller($error, $this->input()->redirect_url);
 		}
 	}
 	
 	public function action_register() {
-		if ($this->request->post('redirect-url')) { // POSTed to registetr
-			$data = $this->request->post();
-		} else { // REST/JSON
-			$data = json_decode($this->request->body(), true) ?  : [ ];
-		}
-			
-		error_log('Auth/Register: starting to register ' . @$data['email']);
-		if (!@$data['email'])
-			return $this->errorToSelectorOrCaller("A valid email address is required", @$data['redirect-url']);
-		error_log('Auth/Register: Checking existing user');
+		if (!$this->input()->email)
+			return $this->errorToSelectorOrCaller("A valid email address is required", $this->input()->redirect_url);
+		error_log('Auth/Register: starting to register ' . $this->input()->email . ' Checking existing user');
 		try {
-			Model_User::byEmail(@$data['email']);
+			Model_User::byEmail($this->input()->email);
 			error_log('Auth/Register: found existing user');
-			$this->errorToSelectorOrCaller("This email address is already registered", @$data['redirect-url']);
+			$this->errorToSelectorOrCaller("This email address is already registered", $this->input()->redirect_url);
 		} catch (Model_Exception_NotFound $e) { } // this is the OK case
 		
-		if (!@$data['password-register'])
-			$this->errorToSelectorOrCaller("Password must not be empty",@$data['redirect-url']);
+		if (!$this->input()->password_register)
+			$this->errorToSelectorOrCaller("Password must not be empty",$this->input()->redirect_url);
 		
-		if (!$this->isREST()) {
+		if (!$this->input()->isREST()) {
 			// in POST form, the client has no logic and relies on us to verify that the user knows
 			// their own password
-			Session::instance()->set('select-register-email', @$data['email']);
-			if (@$data['password-register'] != @$data['password-confirm'])
-				$this->errorToSselector("Passwords must match", @$data['redirect-url']);
+			Session::instance()->set('select-register-email', $this->input()->email);
+			if ($this->input()->password_register != $this->input()->password_confirm)
+				$this->errorToSselector("Passwords must match", $this->input()->redirect_url);
 		}
 		
-		$u = Model_User::persistWithPassword(@$data['name'] ?: explode('@',@$data['email'])[0], @$data['email'], @$data['password-register']);
+		$u = Model_User::persistWithPassword($this->input()->name ?: explode('@',$this->input()->email)[0], $this->input()->email, 
+				$this->input()->password_register);
 		error_log('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
-		if ($this->isREST())
+		if ($this->input()->isREST())
 			$this->send([ "status" => true ]);
 		else
-			$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode(@$data['redirect-url']));
+			$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->input()->redirect_url));
 	}
 	
 	public function action_update() {
@@ -227,10 +213,6 @@ class Controller_Auth extends Api_Controller {
 				$this->failAuthToApp($callback, $response['error']);
 		} else
 			$this->send($response);
-	}
-	
-	private function isREST() {
-		return $this->request->headers('Content-Type') == 'application/json';
 	}
 	
 	private function updateUserEmailIfValid(Model_User $user, $email) {
