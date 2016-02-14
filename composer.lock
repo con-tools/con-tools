@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6351864cdc254bbf39fc98c6d91e4a4c",
-    "content-hash": "bb42467873f6d62306a3df91813cc3ca",
+    "hash": "d9aa4abbb4e77b0ed369e90c5a256110",
+    "content-hash": "77f2df447ba8f3a6bc302fefc06e4dc0",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -160,23 +160,23 @@
         },
         {
             "name": "con-troll/auth-openid-connect",
-            "version": "dev-master",
+            "version": "dev-release/0.99.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "0f9ed2b0483d579db315b18433c5b14b80b698d2"
+                "reference": "2330283922de9cc10eecc8f59862a923fb5c20d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/d1c04cec204b23826821d799e012ed300aa867d6",
-                "reference": "0f9ed2b0483d579db315b18433c5b14b80b698d2",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/2330283922de9cc10eecc8f59862a923fb5c20d4",
+                "reference": "2330283922de9cc10eecc8f59862a923fb5c20d4",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=5.6",
-                "phpseclib/phpseclib": "~0.3.10"
+                "phpseclib/phpseclib": "~1.0"
             },
             "type": "library",
             "autoload": {
@@ -207,7 +207,7 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2015-09-27 21:33:08"
+            "time": "2016-02-14 09:06:26"
         },
         {
             "name": "guss77/kohana-paypal",
@@ -1089,7 +1089,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/c50e815b3ce3aec55b2562d303451667673cfa5d",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/5e5c0bc5bd219515c8d8db8bcb61f19753101b7c",
                 "reference": "4a91ca6ab88daa6fd36a8af39adc6fdcc14a7e8b",
                 "shasum": ""
             },
@@ -1195,16 +1195,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "0.3.10",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "d15bba1edcc7c89e09cc74c5d961317a8b947bf4"
+                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d15bba1edcc7c89e09cc74c5d961317a8b947bf4",
-                "reference": "d15bba1edcc7c89e09cc74c5d961317a8b947bf4",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f60e365be28d9218b4bcdc0ab96ac7e338668f11",
+                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11",
                 "shasum": ""
             },
             "require": {
@@ -1214,19 +1214,14 @@
                 "phing/phing": "~2.7",
                 "phpunit/phpunit": "~4.0",
                 "sami/sami": "~2.0",
-                "squizlabs/php_codesniffer": "~1.5"
+                "squizlabs/php_codesniffer": "~2.0"
             },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
+                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 5.0.0."
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Crypt": "phpseclib/",
@@ -1266,6 +1261,11 @@
                     "name": "Hans-Jürgen Petrich",
                     "email": "petrich@tronic-media.com",
                     "role": "Developer"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
@@ -1289,7 +1289,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2015-01-28 21:50:33"
+            "time": "2016-01-18 17:07:12"
         },
         {
             "name": "psr/http-message",
