@@ -6,6 +6,10 @@ ConTroll convention management software
 
 [Found here](docs/API.md)
 
+## Database Model
+
+[Found here](docs/Model.md)
+
 ## Setup
 
 1. `git clone git@github.com:con-troll/con-troll.git`
