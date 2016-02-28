@@ -60,12 +60,13 @@ class Controller_Entities_Records extends Api_Controller {
 		}
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		$this->send(['status' => true]);
-		if ($email) {
+		if ($email_report) {
+			error_log("Sending email notification to {$email_report}");
 			$email = Twig::factory('auth/passwordreset');
 			$email->descriptor = $data['descriptor'];
 			$email->user = $user;
 			$email->record = $user_record;
-			Email::send("noreply@con-troll.org", $email, "Stored user record {$data['descriptor']}", $email->__toString(), [
+			Email::send("noreply@con-troll.org", $email_report, "Stored user record {$data['descriptor']}", $email->__toString(), [
 					"Content-Type" => "text/html"
 			]);
 		}
