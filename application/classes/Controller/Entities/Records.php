@@ -59,7 +59,6 @@ class Controller_Entities_Records extends Api_Controller {
 			}
 		}
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
-		$this->send(['status' => true]);
 		if ($email_report) {
 			error_log("Sending email notification to {$email_report}");
 			$email = Twig::factory('auth/passwordreset');
@@ -70,6 +69,7 @@ class Controller_Entities_Records extends Api_Controller {
 					"Content-Type" => "text/html"
 			]);
 		}
+		$this->send(['status' => true]);
 	}
 
 	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
