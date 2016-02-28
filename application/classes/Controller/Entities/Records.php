@@ -53,10 +53,8 @@ class Controller_Entities_Records extends Api_Controller {
 		$email_report = null;
 		if (@$data['data'] and $data['content_type'] == 'application/json') {
 			$user_record = json_decode($data['data'], true);
-			if (@$user_record['post-save-email']) {
-				$email_report = $data['data']['post-save-email'];
-				unset($data['data']['post-save-email']);
-			}
+			if (@$user_record['post-save-email'])
+				$email_report = $user_record['post-save-email'];
 		}
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		if ($email_report) {
