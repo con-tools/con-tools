@@ -74,6 +74,7 @@ abstract class Api_Controller extends Controller {
 	public function execute() {
 		// handle CORS pre-flight
 		if ($this->request->method() == 'OPTIONS') {
+			error_log("Answering a pre-flight request to " . $this->request->uri());
 			return $this->generatePreFlightResponse();
 		}
 		
@@ -93,6 +94,7 @@ abstract class Api_Controller extends Controller {
 		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
 		$this->response->headers('Access-Control-Max-Age', '1728000');
 		$this->response->body('');
+		error_log("Sending pre-flight response");
 		return $this->response;
 	}
 
