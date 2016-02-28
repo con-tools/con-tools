@@ -50,8 +50,25 @@ class Controller_Entities_Records extends Api_Controller {
 	}
 	
 	private function create(Model_Convention $con, Model_User $user, $data) {
+		$email_report = null;
+		if (@$data['data'] and $data['content_type'] == 'application/json') {
+			$user_record = json_decode($data['data'], true);
+			if (@$user_record['post-save-email']) {
+				$email_report = $data['data']['post-save-email'];
+				unset($data['data']['post-save-email']);
+			}
+		}
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		$this->send(['status' => true]);
+		if ($email) {
+			$email = Twig::factory('auth/passwordreset');
+			$email->descriptor = $data['descriptor'];
+			$email->user = $user;
+			$email->record = $user_record;
+			Email::send("noreply@con-troll.org", $email, "Stored user record {$data['descriptor']}", $email->__toString(), [
+					"Content-Type" => "text/html"
+			]);
+		}
 	}
 
 	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
