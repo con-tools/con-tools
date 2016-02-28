@@ -9,7 +9,7 @@ class Input {
 	public function __construct($request) {
 		$this->_rest = $request->headers('Content-Type') == 'application/json';
 		$this->_request = $request;
-		$this->_data = $rest ? json_decode($this->_request->body(), true) : $this->_request->post();
+		$this->_data = $this->isREST() ? json_decode($this->_request->body(), true) : $this->_request->post();
 	}
 	
 	public function isREST() {
