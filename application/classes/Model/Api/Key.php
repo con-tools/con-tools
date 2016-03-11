@@ -31,13 +31,13 @@ class Model_Api_Key extends ORM {
 	public static function persist(Model_Convention $convention) {
 		$obj = new Model_Api_Key();
 		$obj->convention = $convention;
-		$obj->client_key = $this->debase64(base64_encode(random_bytes(20) . sha1($convention->title . random_bytes(20) . time())));
-		$obj->client_secret = $this->debase64(base64_encode(random_bytes(10))) . '_' . dechex(time());
+		$obj->client_key = self::debase64(base64_encode(random_bytes(20) . sha1($convention->title . random_bytes(20) . time())));
+		$obj->client_secret = self::debase64(base64_encode(random_bytes(10))) . '_' . dechex(time());
 		$obj->save();
 		return $obj;
 	}
 	
-	private function debase64($string) {
+	private static function debase64($string) {
 		return str_replace('+','-',str_replace('=','',$string));
 	}
 	
