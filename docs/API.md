@@ -244,3 +244,36 @@ $ curl http://api.con-troll.org/auth/passwordchange \
 *Note:* After this call completes successfully, the password reset token is
 removed (it is not possible to re-do a password reset) and the user must login
 again if they want to do any kind of non-public operation.
+
+### Convention Management
+
+Conventions are managed as a data entity and supports GET (retrieve) and POST (create)
+
+#### API
+
+`POST /entities/conventions` : Create a new convention and client key
+
+**Input:**: Property list with the following fields
+* `title`: Name of the new convention.
+* `series`: (optional) Name of the convention series.
+* `location`: (optional) Convention venue and address.
+* `slug`: (optional) text descriptor for the convention URLs. Generated from title if not provided.
+
+**Output:** A property list containing the details of the new convention record, with the following
+fields:
+* `status`: the boolean value true if the creation succeeded.
+* `slug`: text descriptor for the convention URLs.
+* `id`: numeric identifier for the convention in the system.
+* `key`: Client key identifier, for use in website integrations.
+* `secret`: Client key secret, for use in website backend integrations.
+
+*Example:*
+```
+$ curl http://api.con-troll.org/entities/convention \
+  -H Content-Type:application/json \
+  -d '{"title":"My Convention"}'
+```
+*Response:*
+```
+{"status":true,"slug":"my-convention","id":15,"key":"asdfjsadf","secret":"lskadjfas"}
+```
