@@ -46,14 +46,30 @@ class Controller_Entities_Conventions extends Api_Controller {
 		}
 	}
 
-	private function retrieve(Model_User $user = null, $id) {
-		try {
-			$con = new Model_Convention($id);
-			if (!$con->loaded())
-				throw new Model_Exception_NotFound();
-			$this->send(['data' => $con]);
-		} catch (Model_Exception_NotFound $e) {
-			$this->send(['data'=> null]);
+	private function retrieve($id) {
+		if ($id) {
+			try {
+				$con = new Model_Convention($id);
+				if (!$con->loaded())
+					throw new Model_Exception_NotFound();
+				$this->send([
+						'title' => $con->title,
+						'slug' => $con->slug,
+						'series' => $con->series,
+				]);
+			} catch (Model_Exception_NotFound $e) {
+				$this->send(['data'=> null]);
+			}
+		} else {
+			$out = [];
+			foreach (ORM::factory('Convention')->find_all() as $con) {
+				$out[] = [
+						'title' => $con->title,
+						'slug' => $con->slug,
+						'series' => $con->series,
+				];
+			}
+			$this->send($out);
 		}
 	}
 	
