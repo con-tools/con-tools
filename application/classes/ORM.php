@@ -65,6 +65,16 @@ class ORM extends Kohana_ORM {
 		return $this->_db_builder->compile();
 	}
 	
+	public function save(Validation $validation = NULL) {
+		try {
+			return parent::save($validation);
+		} catch (Database_Exception $e) {
+			if (strstr($e->getMessage(), 'Duplicate entry'))
+					throw new Api_Exception_Duplicate();
+			throw $e;
+		}
+	}
+	
 	public static function gen_slug($title) {
 		return strtolower(preg_replace('/[^a-zA-Zא-ת]+/', '-', $title));
 	}
