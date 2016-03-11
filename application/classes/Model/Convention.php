@@ -24,7 +24,7 @@ class Model_Convention extends ORM {
 	
 	private $client_authorized = false;
 	
-	public static function persist($title, $series, $website, $location, $slug = nil) {
+	public static function persist($title, $series, $website, $location, $slug = null) {
 		$obj = new Model_Convention();
 		$obj->title = $title;
 		$obj->slug = $slug ?: self::gen_slug($title);
