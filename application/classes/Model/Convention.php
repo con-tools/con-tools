@@ -24,6 +24,17 @@ class Model_Convention extends ORM {
 	
 	private $client_authorized = false;
 	
+	public static function persist($title, $series, $website, $location, $slug = nil) {
+		$obj = new Model_Convention();
+		$obj->title = $title;
+		$obj->slug = $slug ?: self::gen_slug($title);
+		$obj->series = $series;
+		$obj->website = $website;
+		$obj->location = $location;
+		$obj->save();
+		return $obj;
+	}
+	
 	/**
 	 * Retrieve a convention for a submitted API key
 	 * @param Model_Api_Key|string $apikey 
@@ -33,6 +44,10 @@ class Model_Convention extends ORM {
 		if (!($apikey instanceof Model_Api_Key))
 			$apikey = Model_Api_Key::byClientKey($apikey);
 		return $apikey->convention;
+	}
+	
+	public function generateApiKey() {
+		return Model_Api_Key::persist($this);
 	}
 
 	/**
