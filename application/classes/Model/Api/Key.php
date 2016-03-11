@@ -6,6 +6,15 @@ class Model_Api_Key extends ORM {
 			'convention' => [],
 	];
 	
+	protected $_columns = [
+			'id' => [],
+			// foreign keys
+			'convention_id' => [],
+			// data fields
+			'client_key' => [],
+			'client_secret' => [],
+	];
+	
 	/**
 	 * Find the API key
 	 * @param string $key Client API key

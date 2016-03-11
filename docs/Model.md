@@ -58,6 +58,15 @@ Conventions that are managed in ConTroll
 * Start Date - Date/Time the convention starts
 * End Date - Date/Time the convention ends
 
+### API Keys
+
+API keys for use by convention web site integrations.
+
+*Model Name:* Api_Key
+*Fields:*
+* Client Key
+* Client Secret
+
 ### Organizer
 
 An organization that works/creates/owns a convention
