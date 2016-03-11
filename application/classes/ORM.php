@@ -64,4 +64,8 @@ class ORM extends Kohana_ORM {
 		$this->_build(Database::SELECT);
 		return $this->_db_builder->compile();
 	}
+	
+	public static function gen_slug($title) {
+		return strtolower(preg_replace('/[a-zA-Zא-ת]+/', '-', $title));
+	}
 }
