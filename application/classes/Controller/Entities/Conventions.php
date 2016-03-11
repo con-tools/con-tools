@@ -53,6 +53,7 @@ class Controller_Entities_Conventions extends Api_Controller {
 				if (!$con->loaded())
 					throw new Model_Exception_NotFound();
 				$this->send([
+						'id' => $con->id,
 						'title' => $con->title,
 						'slug' => $con->slug,
 						'series' => $con->series,
@@ -64,6 +65,7 @@ class Controller_Entities_Conventions extends Api_Controller {
 			$out = [];
 			foreach (ORM::factory('Convention')->find_all() as $con) {
 				$out[] = [
+						'id' => $con->id,
 						'title' => $con->title,
 						'slug' => $con->slug,
 						'series' => $con->series,
