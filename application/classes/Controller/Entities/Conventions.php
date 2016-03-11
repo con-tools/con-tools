@@ -15,15 +15,15 @@ class Controller_Entities_Conventions extends Api_Controller {
 		}
 	}
 	
-	private function update(Model_Convention $con, Model_User $user, $id, $data) {
+	private function update(Model_User $user, $id, $data) {
 		throw new Api_Exception_Unimplemented($this);
 	}
 	
-	private function delete(Model_Convention $con, Model_User $user, $id) {
+	private function delete(Model_User $user, $id) {
 		throw new Api_Exception_Unimplemented($this);
 	}
 	
-	private function create(Model_Convention $con, Model_User $user, $data) {
+	private function create(Model_User $user, $data) {
 		$con = Model_Convention::persist($data['title'], $data['series'], $data['location'], @$location['slug']);
 		$key = $con->generateApiKey();
 		$this->send([
@@ -35,7 +35,7 @@ class Controller_Entities_Conventions extends Api_Controller {
 		]);
 	}
 
-	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
+	private function retrieve(Model_User $user = null, $id) {
 		try {
 			$con = new Model_Convention($id);
 			if (!$con->loaded())
