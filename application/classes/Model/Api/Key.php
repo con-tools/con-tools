@@ -38,7 +38,7 @@ class Model_Api_Key extends ORM {
 	}
 	
 	private static function debase64($string) {
-		return str_replace('+','-',str_replace('=','',$string));
+		return str_replace('/','-',str_replace('+','-',str_replace('=','',$string)));
 	}
 	
 }
