@@ -2,16 +2,18 @@
 class Controller_Entities_Conventions extends Api_Controller {
 	
 	public function action_index() {
-		$user = $this->verifyAuthentication()->user;
 		switch ($this->request->method()) {
 			case 'POST':
+				$user = $this->verifyAuthentication()->user;
 				return $this->create($user, json_decode($this->request->body(), true));
 			case 'PUT':
+				$user = $this->verifyAuthentication()->user;
 				return $this->update($user, $this->request->param('id'), json_decode($this->request->body(), true));
 			case 'DELETE':
+				$user = $this->verifyAuthentication()->user;
 				return $this->delete($user, $this->request->param('id'));
 			case 'GET':
-				return $this->retrieve($user, $this->request->param('id'));
+				return $this->retrieve($this->request->param('id'));
 		}
 	}
 	
