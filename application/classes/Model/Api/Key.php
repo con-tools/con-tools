@@ -31,8 +31,8 @@ class Model_Api_Key extends ORM {
 	public static function persist(Model_Convention $convention) {
 		$obj = new Model_Api_Key();
 		$obj->convention = $convention;
-		$obj->client_secret = str_replace('=','', base64_encode(random_bytes(10) . sha1($convention->title . random_bytes(20) . time())));
-		$obj->client_key = str_replace('=','',base64_encode(random_bytes(20))) . '_' . dechex(time());
+		$obj->client_secret = str_replace('=','', base64_encode(random_bytes(40) . sha1($convention->title . random_bytes(20) . time())));
+		$obj->client_key = str_replace('=','',base64_encode(random_bytes(10))) . '_' . dechex(time());
 		$obj->save();
 		return $obj;
 	}
