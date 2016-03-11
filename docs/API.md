@@ -126,7 +126,7 @@ call semantic.
 
 *Example:*
 ```
-curl http://api.con-troll.org/auth/signin \
+$ curl http://api.con-troll.org/auth/signin \
   -H 'Content-Type: application/json' \
   -d '{"email":"oded+21@geek.co.il","password":"123456"}'
 ```
@@ -253,6 +253,9 @@ Conventions are managed as a data entity and supports GET (retrieve) and POST (c
 
 `POST /entities/conventions` : Create a new convention and client key
 
+This method requires a user authorization and that user becomes the owner for
+the convention.
+
 **Input:**: Property list with the following fields
 * `title`: Name of the new convention.
 * `series`: (optional) Name of the convention series.
@@ -270,10 +273,51 @@ fields:
 *Example:*
 ```
 $ curl http://api.con-troll.org/entities/convention \
+  -H 'Authorization: ABCD1234' \
   -H Content-Type:application/json \
   -d '{"title":"My Convention"}'
 ```
 *Response:*
 ```
 {"status":true,"slug":"my-convention","id":15,"key":"asdfjsadf","secret":"lskadjfas"}
+```
+
+`GET /entities/conventions/<id>` : Retrieve public convention information
+
+
+**Input:**: Convention numeric ID or slug as the URL parameter
+**Output:** A property list containing the public details of the convention record
+fields:
+* `title`: text descriptor for the convention URLs.
+* `slug`: text descriptor for the convention URLs.
+* `id`: numeric identifier for the convention in the system.
+* `series`: name of the convention series
+
+*Example:*
+```
+$ curl http://api.con-troll.org/entities/convention/1
+```
+*Response:*
+```
+{"id":"1","title":"ביגור 16","slug":"ביגור-16","series":"ביגור"}
+```
+
+`GET /entities/conventions` : Retrieve a list of all conventions
+
+
+**Input:**: No input needed
+**Output:** An array containing a list of property lists containing the public details of the convention record
+fields:
+* `title`: text descriptor for the convention URLs.
+* `slug`: text descriptor for the convention URLs.
+* `id`: numeric identifier for the convention in the system.
+* `series`: name of the convention series
+
+*Example:*
+```
+$ curl http://api.con-troll.org/entities/convention
+```
+*Response:*
+```
+[{"id":"1","title":"ביגור 16","slug":"ביגור-16","series":""},{"id":"2","title":"ביגור 16 פאבקון","slug":"ביגור-16-פאבקון","series":""},{"id":"82","title":"ביגור 16 לארפ פורים","slug":"ביגור-לארפ-פורים","series":""}]
 ```
