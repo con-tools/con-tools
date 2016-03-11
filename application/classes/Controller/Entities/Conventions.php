@@ -26,15 +26,22 @@ class Controller_Entities_Conventions extends Api_Controller {
 	private function create(Model_User $user, $data) {
 		if (!isset($data['title']))
 			return $this->send(['status' => false, 'error' => 'missing title']);
-		$con = Model_Convention::persist($data['title'], @$data['series'], @$data['location'], @$location['slug']);
-		$key = $con->generateApiKey();
-		$this->send([
-				'status' => true,
-				'slug' => $con->slug,
-				'id' => $con->id,
-				'key' => $key->client_key,
-				'secret' => $key->client_secret,
-		]);
+		try {
+			$con = Model_Convention::persist($data['title'], @$data['series'], @$data['location'], @$location['slug']);
+			$key = $con->generateApiKey();
+			$this->send([
+					'status' => true,
+					'slug' => $con->slug,
+					'id' => $con->id,
+					'key' => $key->client_key,
+					'secret' => $key->client_secret,
+			]);
+		} catch (Api_Exception_Duplicate $e) {
+			$this->send([
+					'status' => false,
+					'error' => "Convention {$data['title']} already exists"
+			]);
+		}
 	}
 
 	private function retrieve(Model_User $user = null, $id) {
