@@ -24,7 +24,9 @@ class Controller_Entities_Conventions extends Api_Controller {
 	}
 	
 	private function create(Model_User $user, $data) {
-		$con = Model_Convention::persist($data['title'], $data['series'], $data['location'], @$location['slug']);
+		if (!isset($data['title']))
+			return $this->send(['status' => false, 'error' => 'missing title']);
+		$con = Model_Convention::persist($data['title'], @$data['series'], @$data['location'], @$location['slug']);
 		$key = $con->generateApiKey();
 		$this->send([
 				'status' => true,
