@@ -66,6 +66,6 @@ class ORM extends Kohana_ORM {
 	}
 	
 	public static function gen_slug($title) {
-		return strtolower(preg_replace('/[a-zA-Zא-ת]+/', '-', $title));
+		return strtolower(preg_replace('/[^a-zA-Zא-ת]+/', '-', $title));
 	}
 }
