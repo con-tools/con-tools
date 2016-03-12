@@ -2,3 +2,4 @@ vendor/
 .vagrant/
 node_modules/
 application/logs/
+.secrets
