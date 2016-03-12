@@ -47,7 +47,7 @@ class Model_User_Record extends ORM {
 	 * @throws Model_Exception_NotFound in case there is no such records
 	 * @return Model_User_Record record found
 	 */
-	public static function allByDescriptor(Model_Convention $con, $descriptor) {
+	public static function allByDescriptor(Model_Convention $con, $descriptor, $get_all_versions = FALSE) {
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->id)
 			->where('descriptor', '=', $descriptor)
@@ -56,7 +56,7 @@ class Model_User_Record extends ORM {
 		$result = [];
 		$userids = [];
 		foreach ($o->find_all() as $record) {
-			if (array_key_exists($record->user_id, $userids))
+			if (array_key_exists($record->user_id, $userids) and !$get_all_versions)
 				continue;
 			$userids[$record->user_id] = true;
 			$result[] = array_merge($record->as_array(), [
