@@ -2,14 +2,19 @@
 
 class Input {
 	
+	/**
+	 * @var  Request  Request that created the controller
+	 */
 	private $_request = null;
+	
 	private $_rest = null;
 	const ISSET_DETECTION_MAGIC_VALUE = 0xDE7EC7;
 	
 	public function __construct($request) {
 		$this->_rest = $request->headers('Content-Type') == 'application/json';
 		$this->_request = $request;
-		$this->_data = $this->isREST() ? json_decode($this->_request->body(), true) : $this->_request->post();
+		$this->_data = $this->isREST() ? json_decode($this->_request->body(), true) : array_merge(
+				$this->_request->query(), $this->_request->post());
 	}
 	
 	public function isREST() {
