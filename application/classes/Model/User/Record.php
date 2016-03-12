@@ -55,6 +55,7 @@ class Model_User_Record extends ORM {
 			->order_by('created_time','DESC');
 		$result = [];
 		$userids = [];
+		error_log("Fetch all records: {$get_all_versions}");
 		foreach ($o->find_all() as $record) {
 			if (array_key_exists($record->user_id, $userids) and !$get_all_versions)
 				continue;
