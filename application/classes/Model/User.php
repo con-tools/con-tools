@@ -61,18 +61,46 @@ class Model_User extends ORM {
 	 * @param string $type
 	 *        	type of token to use. One of 'web', 'api'
 	 */
-	public function login($type = 'web') {
+	public function login($type = Model_Token::TYPE_WEB_LOGIN) {
 		$token = $this->getValidToken($type);
 		$token->touch();
 		$this->login_time = new DateTime();
 		$this->save();
 		return $token;
 	}
-
+	
+	/**
+	 * Check if the user (or user's authentication provider) provided a valid email.
+	 * The authentication provider may sometime not provide an Email address, in which case
+	 * the auth provider layer substitutes the value "-" for the email.
+	 * @return boolean whether the user has an email address
+	 */
 	public function emailIsValid() {
 		return $this->email != '-';
 	}
-
+	
+	/**
+	 * Check if the user has a password in the local password database. Users without such
+	 * passwords are not allowed to add them, change them or reset them.
+	 * @return boolean whether the user has a password in the local database 
+	 */
+	public function hasPassword() {
+		return $this->provider == self::PASSWORD_PROVIDER;
+	}
+	
+	/**
+	 * Allow updating the password for a user registerd in the builtin password database
+	 * @param string $password
+	 * @throws Exception in case trying to update password for a user authenticated with an external provider
+	 */
+	public function changePassword($password) {
+		if (!$this->hasPassword())
+			throw new Exception("No password change allowed for non-builtin users");
+		$this->password = password_hash($password, PASSWORD_DEFAULT, self::PASSWORD_HASH_OPTIONS);
+		$this->save();
+		return $this;
+	}
+	
 	public function get($column) {
 		if ($column == 'email' && parent::get($column) == self::NOT_REALLY_EMAIL)
 			return '-';
@@ -157,5 +185,18 @@ class Model_User extends ORM {
 		}
 		return $user;
 	}
-
+	
+	/**
+	 * Return an array containing the fields from the user records that would be interesting to
+	 * an authorized client.
+	 * This list contains only fields that do not reveal authentication information on the user
+	 */
+	public function export() {
+		return [
+				'name' => $this->name,
+				'email' => $this->email,
+				'phone' => $this->phone,
+				'date_of_birth' => $this->date_of_birth,
+		];
+	}
 }

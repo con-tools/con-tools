@@ -7,9 +7,11 @@
 abstract class Api_Controller extends Controller {
 
 	public $auto_render = false;
+	private $_input = null;
 	
 	public function __construct($request, $response) {
 		parent::__construct($request, $response);
+		$this->_input = new Input($request);
 	}
 
 	/**
@@ -19,6 +21,7 @@ abstract class Api_Controller extends Controller {
 	 */
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
+		$auto = $auth ?: Session::instance()->get('logged-in-user-token'); // if no user submitted auto, try to use auth from session
 		if (!$auth)
 			throw new Api_Exception_Unauthorized($this, "No Authorization header present");
 		try {
@@ -27,17 +30,39 @@ abstract class Api_Controller extends Controller {
 				throw new Api_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {
+			error_log("Failed to find authorization token '$auth'");
 			throw new Api_Exception_Unauthorized($this, "Invalid Authorization header");
 		}
 	}
 	
+	/**
+	 * Check that the conention authentication and possibly authorization is legal and retrieve
+	 * the convention record
+	 * @return Model_Convention
+	 * @throws Api_Exception_Unauthorized
+	 */
 	protected function verifyConventionKey() {
-		$auth = $this->request->headers('Convention') ?: $this->request->query('convention');
-		if (!$auth)
-			throw new Api_Exception_Unauthorized($this, "No Convention authorization header present");
+		$authen = $this->request->headers('Convention') ?: $this->request->query('convention');
+		if (!$authen)
+			throw new Api_Exception_Unauthorized($this, "No Convention authentication header present");
+		error_log("Authenication header for convention " . $authen);
 		try {
-			$convention = Model_Convention::byAPIKey($auth);
-			return $convention;
+			$apiKey = Model_Api_Key::byClientKey($authen);
+			$con = $apiKey->convention;
+			error_log("Got convention {$con}");
+			@list($type,$auth) = explode(" ",$this->request->headers('Authorization') ?: $this->request->query('token'));
+			if (stristr($type, 'convention')) {
+				error_log("Convention tries to authorize");
+				@list($time, $salt, $signature) = explode(':', $auth);
+				if (abs(time() - (int)$time) > 600) // prevent replay attacks
+					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization");
+				if (sha1("{$time}:{$salt}".$apiKey->client_secret) != $signature)
+					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization ");
+				error_log("Convention authorized");
+				$con->setAuthorized();
+			}
+			
+			return $con;
 		} catch (Model_Exception_NotFound $e) {
 			throw new Api_Exception_Unauthorized($this, "Invalid Convention authorization header");
 		}
@@ -49,6 +74,7 @@ abstract class Api_Controller extends Controller {
 	public function execute() {
 		// handle CORS pre-flight
 		if ($this->request->method() == 'OPTIONS') {
+			error_log("Answering a pre-flight request to " . $this->request->uri());
 			return $this->generatePreFlightResponse();
 		}
 		
@@ -68,7 +94,16 @@ abstract class Api_Controller extends Controller {
 		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
 		$this->response->headers('Access-Control-Max-Age', '1728000');
 		$this->response->body('');
+		error_log("Sending pre-flight response");
 		return $this->response;
+	}
+
+	/**
+	 * Return Input object that can be used to query the request data
+	 * @return Input Input handling object
+	 */
+	protected function input() {
+		return $this->_input;
 	}
 	
 	/**
@@ -76,8 +111,8 @@ abstract class Api_Controller extends Controller {
 	 * @param mixed $data Data to send
 	 */
 	protected function send($data) {
-		$this->response->headers('Content-Type', 'application/json');
-		$this->response->body(json_encode($data));
+		$this->response->headers('Content-Type', 'application/json; charset=utf-8');
+		$this->response->body(json_encode($data, JSON_UNESCAPED_UNICODE));
 	}
 
 }

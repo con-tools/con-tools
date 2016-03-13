@@ -3,12 +3,24 @@ class Controller_Entities_Records extends Api_Controller {
 	
 	public function action_index() {
 		$con = $this->verifyConventionKey();
+		$user = null;
 		try {
 			$user = $this->verifyAuthentication()->user;
 		} catch (Api_Exception_Unauthorized $e) {
-			if ($this->tryHandlePublicRetrieve($con))
-				return;
-			throw $e;
+			if (!$con->isAuthorized()) {
+				if ($this->tryHandlePublicRetrieve($con))
+					return;
+				throw $e;
+			}
+		}
+		if (is_null($user) && $con->isAuthorized()) {// check if convention want to work on a per-user record
+			if ($access_user = $this->request->query('user')) {
+				try {
+					$user = Model_User::byEmail($access_user);
+				} catch (Model_Exception_NotFound $e) {
+					throw new HTTP_Exception_404("User not found");
+				}
+			}
 		}
 		switch ($this->request->method()) {
 			case 'POST':
@@ -38,11 +50,33 @@ class Controller_Entities_Records extends Api_Controller {
 	}
 	
 	private function create(Model_Convention $con, Model_User $user, $data) {
+		$email_report = null;
+		if (@$data['data'] and $data['content_type'] == 'application/json') {
+			$user_record = json_decode($data['data'], true);
+			if (@$user_record['post-save-email'])
+				$email_report = $user_record['post-save-email'];
+		}
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
+		if ($email_report) {
+			error_log("Sending email notification to {$email_report}");
+			$email = Twig::factory('user-record-notify');
+			$email->descriptor = $data['descriptor'];
+			$email->user = $user;
+			$email->record = $user_record;
+			Email::send("noreply@con-troll.org", $email_report, "Stored user record {$data['descriptor']}", $email->__toString(), [
+					"Content-Type" => "text/html"
+			]);
+		}
 		$this->send(['status' => true]);
 	}
 
-	private function retrieve(Model_Convention $con, Model_User $user, $id) {
+	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
+		if (!$user && $con->isAuthorized()) {// convention wants a catalog
+			error_log("Getting catalog for {$id}, Convention {$con}");
+			$records = Model_User_Record::allByDescriptor($con, $id, $this->input()->fetch('all',FALSE));
+			return $this->send(['data' => $records]);
+		}
+			
 		try {
 			$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
 		} catch (Model_Exception_NotFound $e) {

@@ -11,6 +11,9 @@ class Model_Token extends ORM {
 			'user' => [],
 	];
 	
+	const TYPE_PASSWORD_RESET = 'password-reset';
+	const TYPE_WEB_LOGIN = 'web';
+	
 	/**
 	 * Check if the token has expired. Expired tokens are immediately deleted
 	 * @return boolean whether the token has expired and was deleted
@@ -56,6 +59,18 @@ class Model_Token extends ORM {
 		if (!$tok->loaded())
 			throw new Model_Exception_NotFound("Invalid token '{$token}'");
 		return $tok;
+	}
+	
+	/**
+	 * Forget all user token of a specific type
+	 * @param Model_User $user User for which to remove token
+	 * @param string $type type of token to remove
+	 */
+	public static function remove_all(Model_User $user, $type) {
+		DB::delete((new Model_Token())->table_name())
+			->where('user_id', '=', $user->pk())
+			->where('type','=',$type)
+			->execute();
 	}
 	
 	private static function genToken($iv) {

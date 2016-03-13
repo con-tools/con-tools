@@ -15,9 +15,8 @@ class Controller_Auth extends Api_Controller {
 	}
 
 	public function action_start() {
-		$data = json_decode($this->request->body(), true) ?  : [ ];
 		$this->send([ 
-				"auth-url" => $this->startAuth(@$data['provider'] ?  : 'google', @$data['redirect-url'])
+				"auth-url" => $this->startAuth($this->input()->provider ?  : 'google', $this->input()->redirect_url)
 		]);
 	}
 	
@@ -26,7 +25,49 @@ class Controller_Auth extends Api_Controller {
 			$tok = $this->verifyAuthentication();
 			$tok->delete();
 		} catch (Api_Exception_Unauthorized $e) {} // if we can't find a valid token, its like we logged out, right?
+		Session::instance()->delete('logged-in-user-token');
 		$this->send([ 'status' => true ]);
+	}
+	
+	public function action_passwordreset() {
+		try {
+			$user = Model_User::byEmail($this->input()->email);
+			if (!$user->hasPassword())
+				throw new Model_Exception_NotFound("User " . $user->email . " does not have a local password");
+			Model_Token::remove_all($user, Model_Token::TYPE_PASSWORD_RESET);
+			$token = Model_Token::persist($user, Model_Token::TYPE_PASSWORD_RESET, Time_Unit::days(1));
+			$email = Twig::factory('auth/passwordreset');
+			error_log("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
+			$email->reseturl = $this->addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
+			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ], 
+					'Password reset from ConTroll', $email->__toString(), [
+					"Content-Type" => "text/html"
+			]);
+		} catch (Model_Exception_NotFound $e) {
+			// agree that the user got the password reset token 
+			// (because I don't want to let an attacker know that there's no such user)
+		} catch (Email_Exception $e) {
+			error_log("Problem sending email");
+		}
+		$this->send([ 'status' => true ]);
+	}
+	
+	public function action_passwordchange() {
+		try {
+			$tok = $this->verifyAuthentication();
+			if ($this->input()->password)
+				$tok->user->changePassword($this->input()->password);
+			else
+				throw new Exception("No password specified");
+			if ($tok->type == Model_Token::TYPE_PASSWORD_RESET)
+				$tok->delete(); // forget a password reset token
+			$this->send([ 'status' => true ]);
+		} catch (Api_Exception_Unauthorized $e) {
+			$this->send([ 'status' => false ]);
+		} catch (Exception $e) {
+			error_log("Got error trying to update password: " . $e->getMessage());
+			$this->send([ 'status' => false, 'error' => $e->getMessage() ]);
+		}
 	}
 	
 	public function action_list() {
@@ -56,33 +97,52 @@ class Controller_Auth extends Api_Controller {
 	
 	public function action_signin() {
 		try {
-			$u = Model_User::byPassword($this->request->post('email'), $this->request->post('password'));
-			$this->completeAuthToApp($this->request->post('redirect-url'), $u->login()->token);
+			$u = Model_User::byPassword($this->input()->email, $this->input()->password);
+			if ($this->input()->redirect_url) {
+				$this->completeAuthToApp($this->input()->redirect_url, $u->login()->token);
+			} else {
+				$token = $u->login()->token;
+				Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
+				$this->send([
+						"status" => true,
+						"token" => $token,
+				]);
+			}
 		} catch (Model_Exception_NotFound $e) {
-			$this->errorToSselector("No account with that email and password found.", $this->request->post('redirect-url'));
+			$error = "No account with that email and password found.";
+			$this->errorToSelectorOrCaller($error, $this->input()->redirect_url);
 		}
 	}
 	
 	public function action_register() {
-		$email = $this->request->post('email');
-		error_log('starting to register ' . $email);
-		if (!$email)
-			$this->errorToSselector("A valid email address is required", $this->request->post('redirect-url'));
-		Session::instance()->set('select-register-email', $email);
-		error_log('Checking existing user');
+		if (!$this->input()->email)
+			return $this->errorToSelectorOrCaller("A valid email address is required", $this->input()->redirect_url);
+		error_log('Auth/Register: starting to register ' . $this->input()->email . ' Checking existing user');
 		try {
-			Model_User::byEmail($email);
-			error_log('found existing user');
-			$this->errorToSselector("This email address is already registered", $this->request->post('redirect-url'));
+			Model_User::byEmail($this->input()->email);
+			error_log('Auth/Register: found existing user');
+			$this->errorToSelectorOrCaller("This email address is already registered", $this->input()->redirect_url);
 		} catch (Model_Exception_NotFound $e) { } // this is the OK case
-		if (!$this->request->post('password-register'))
-			$this->errorToSselector("Password must not be empty",$this->request->post('redirect-url'));
-		if ($this->request->post('password-register') != $this->request->post('password-confirm'))
-			$this->errorToSselector("Passwords must match", $this->request->post('redirect-url'));
-		$u = Model_User::persistWithPassword(explode('@',$email)[0], $email, $this->request->post('password-register'));
-		error_log('saved user ' . $u->id);
+		
+		if (!$this->input()->password_register)
+			$this->errorToSelectorOrCaller("Password must not be empty",$this->input()->redirect_url);
+		
+		if (!$this->input()->isREST()) {
+			// in POST form, the client has no logic and relies on us to verify that the user knows
+			// their own password
+			Session::instance()->set('select-register-email', $this->input()->email);
+			if ($this->input()->password_register != $this->input()->password_confirm)
+				$this->errorToSselector("Passwords must match", $this->input()->redirect_url);
+		}
+		
+		$u = Model_User::persistWithPassword($this->input()->name ?: explode('@',$this->input()->email)[0], $this->input()->email, 
+				$this->input()->password_register);
+		error_log('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
-		$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->request->post('redirect-url')));
+		if ($this->input()->isREST())
+			$this->send([ "status" => true ]);
+		else
+			$this->redirect('/auth/update/' . $u->id . '?redirect-url=' . urlencode($this->input()->redirect_url));
 	}
 	
 	public function action_update() {
@@ -135,9 +195,14 @@ class Controller_Auth extends Api_Controller {
 		} catch (Auth_Cancelled $e) {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => 'User cancelled' ];
+		} catch (ORM_Validation_Exception $e) {
+			$callback = $provider->getRedirectURL();
+			$response = ['status' => false, 'error' => "Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'" ];
+			error_log("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
 		} catch (Exception $e) {
-			throw $e;
+			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => "$e" ];
+			error_log("Unexpected error on auth callback: $e");
 		}
 		
 		// TODO: handle client side only without redirects
@@ -164,27 +229,37 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	private function completeAuthToApp($callback, $token) {
-		$url = parse_url($callback);
-		$query = explode('&',@$url['query'] ?: '');
-		$query[] = urlencode('status') . '=' . urlencode(true);
-		$query[] = urlencode('token') . '=' . urlencode($token);
-		$url['query'] = join('&', $query);
-		$this->redirect($this->buildUrl($url));
+		Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
+		$this->redirect($this->addQueryToURL($callback, [
+				'status' => true,
+				'token' => $token,
+		]));
 	}
 	
 	private function failAuthToApp($callback, $error) {
-		$url = parse_url($callback);
-		$query = explode('&',@$url['query'] ?: '');
-		$query[] = urlencode('status') . '=' . urlencode(false);
-		$query[] = urlencode('error') . '=' . urlencode($error);
-		$url['query'] = join('&', $query);
-		$this->redirect($this->buildUrl($url));
+		$this->redirect($this->addQueryToURL($callback, [
+				'status' => false,
+				'error' => $error,
+		]));
 	}
 	
-	private function errorToSselector($error_message, $redirect_url) {
-		sleep(1.5); // make it a bit harder to bruteforce a password
-		Session::instance()->set('select-login-error', $error_message);
-		$this->redirect_to_action('select', ['redirect-url' => $redirect_url]);
+	private function addQueryToURL($url, $params) {
+		$parsed = parse_url($url);
+		$query = explode('&',@$parsed['query'] ?: '');
+		foreach ($params as $key => $value) {
+			$query[] = urlencode($key) . '=' . urlencode($value);
+		}
+		$parsed['query'] = join('&', $query);
+		return $this->buildUrl($parsed);
+	}
+	
+	private function errorToSelectorOrCaller($error_message, $redirect_url) {
+		if ($redirect_url) {
+			Session::instance()->set('select-login-error', $error_message);
+			$this->redirect_to_action('select', ['redirect-url' => $redirect_url]);
+		} else {
+			$this->send([ 'status' => false, 'error' => $error_message]);
+		}
 	}
 	
 	private function startAuth($provider, $redirect_url) {
@@ -192,14 +267,14 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	private function buildUrl($spec) {
-		$url = "{$spec['scheme']}://";
+		$url = @$spec['scheme'] . "://";
 		if (@$spec['user']) {
 			$url .= $spec['user'];
 			if (@$spec['pass'])
 				$url .= ":{$spec['pass']}";
 			$url .= "@";
 		}
-		$url .= $spec['host'];
+		$url .= @$spec['host'];
 		if (@$spec['port'])
 			$url .= ":{$spec['port']}";
 		$url .= @$spec['path'] ?: '/' ;

@@ -59,8 +59,6 @@ CREATE TABLE `organizers` (
   CONSTRAINT `timeslot_hosts_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE,
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
-
-
-
+ALTER TABLE `events` ADD COLUMN `logistical_requirements` TEXT DEFAULT NULL COMMENT 'logistical requirements for event' AFTER `notes_to_staff`;
 
 UPDATE `system_settings` SET `value` = '3' WHERE `name` = 'data-version';

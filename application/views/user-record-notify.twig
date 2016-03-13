@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: sans;
+}
+</style>
+</head>
+<body>
+<p>
+
+<h3>Submission for {{descriptor}}</h3>
+
+<p>
+From <a href="{{user.email}}">{{user.name}}</a>
+</p>
+
+<table>
+<thead>
+<tr><th>Field Name</th><th>Value</th></tr>
+</thead>
+<tbody>
+{% for field,value in record %}
+<tr>
+	<th>{{field}}</th>
+	<td>{{value}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

@@ -81,7 +81,7 @@ class Auth_LeagueOAuth2 implements Auth_ProviderIf {
 	 * @see Auth_ProviderIf::getName()
 	 */
 	public function getName() {
-		return $this->user->getName();
+		return $this->user->getName() ?: explode('@',$this->user->getEmail())[0];
 	}
 
 	/*
