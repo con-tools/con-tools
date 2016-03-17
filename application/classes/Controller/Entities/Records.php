@@ -59,14 +59,19 @@ class Controller_Entities_Records extends Api_Controller {
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		if ($email_report) {
 			foreach (explode(",",$email_report) as $emailad) {
-			error_log("Sending email notification to {$emailad}");
-			$email = Twig::factory('user-record-notify');
-			$email->descriptor = $data['descriptor'];
-			$email->user = $user;
-			$email->record = $user_record;
-			Email::send("noreply@con-troll.org", $emailad, "Stored user record {$data['descriptor']}", $email->__toString(), [
-					"Content-Type" => "text/html"
-			]);
+				error_log("Sending email notification to {$emailad}");
+				$email = Twig::factory('user-record-notify');
+				$email->descriptor = $data['descriptor'];
+				$email->user = $user;
+				
+				try {
+					$email->record = $user_record;
+					Email::send("noreply@con-troll.org", $emailad, "Stored user record {$data['descriptor']}", $email->__toString(), [
+							"Content-Type" => "text/html"
+					]);
+				} catch (Email_Exception $e) {
+					error_log("Error sending email to $emailad: {$e}");
+				}
 			}
 		}
 		$this->send(['status' => true]);
