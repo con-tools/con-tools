@@ -51,8 +51,8 @@ class Model_User_Record extends ORM {
 			->where('convention_id', '=', $con->pk())
 			->distinct('descriptor')
 			->execute()
-			->as_array() as $column => $value)
-			$out[] = $value;
+			->as_array() as $row)
+			$out[] = $row['descriptor'];
 		return $out;
 	}
 
