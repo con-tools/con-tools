@@ -46,7 +46,7 @@ class Model_User_Record extends ORM {
 	 */
 	public static function listDescriptors(Model_Convention $con) {
 		return DB::select('descriptor')
-			->from($this->_table_name)
+			->from((new Model_User_Record)->_table_name)
 			->where('convention_id', '=', $con->pk())
 			->distinct('descriptor')
 			->execute()
