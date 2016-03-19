@@ -39,6 +39,19 @@ class Model_User_Record extends ORM {
 		$o->save();
 		return $o;
 	}
+	
+	/**
+	 * List all user record descriptors stored for the convention
+	 * @param Model_Convention $con
+	 */
+	public static function listDescriptors(Model_Convention $con) {
+		return DB::select('descriptor')
+			->from($this->_table_name)
+			->where('convention_id', '=', $con->pk())
+			->distinct('descriptor')
+			->execute()
+			->as_array();
+	}
 
 	/**
 	 * Retrieve all user records from the database
