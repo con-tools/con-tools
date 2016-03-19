@@ -45,12 +45,15 @@ class Model_User_Record extends ORM {
 	 * @param Model_Convention $con
 	 */
 	public static function listDescriptors(Model_Convention $con) {
-		return DB::select('descriptor')
+		$out = [];
+		foreach (DB::select('descriptor')
 			->from((new Model_User_Record)->_table_name)
 			->where('convention_id', '=', $con->pk())
 			->distinct('descriptor')
 			->execute()
-			->as_array();
+			->as_array() as $column => $value)
+			$out[] = $value;
+		return $out;
 	}
 
 	/**
