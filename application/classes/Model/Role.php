@@ -10,7 +10,7 @@ class Model_Role extends ORM {
 	];
 	
 	protected $_has_many = [
-			'organizers' => [],
+			'managers' => [],
 	];
 	
 	protected $_columns = [
@@ -29,7 +29,7 @@ class Model_Role extends ORM {
 	private function getImpl() {
 		if ($this->impl)
 			return $this->impl;
-		$clazz = 'Model_Role_' . $this->key;
+		$clazz = 'Model_Role_' . ucfirst($this->key);
 		return $this->impl = new $clazz();
 	}
 	
