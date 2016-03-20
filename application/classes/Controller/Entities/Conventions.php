@@ -31,6 +31,7 @@ class Controller_Entities_Conventions extends Api_Controller {
 		try {
 			$con = Model_Convention::persist($data['title'], @$data['series'], @$data['location'], @$location['slug']);
 			$key = $con->generateApiKey();
+			$owner = Model_Manager::persist($con, $user, (new Model_Role_Manager())->getRole());
 			$this->send([
 					'status' => true,
 					'slug' => $con->slug,
