@@ -256,7 +256,7 @@ Conventions are managed as a data entity and supports GET (retrieve) and POST (c
 This method requires a user authorization and that user becomes the owner for
 the convention.
 
-**Input:**: Property list with the following fields
+**Input:** Property list with the following fields
 * `title`: Name of the new convention.
 * `series`: (optional) Name of the convention series.
 * `location`: (optional) Convention venue and address.
@@ -285,7 +285,7 @@ $ curl http://api.con-troll.org/entities/convention \
 `GET /entities/conventions/<id>` : Retrieve public convention information
 
 
-**Input:**: Convention numeric ID or slug as the URL parameter
+**Input:** Convention numeric ID or slug as the URL parameter  
 **Output:** A property list containing the public details of the convention record
 fields:
 * `title`: text descriptor for the convention URLs.
@@ -305,7 +305,7 @@ $ curl http://api.con-troll.org/entities/convention/1
 `GET /entities/conventions` : Retrieve a list of all conventions
 
 
-**Input:**: No input needed
+**Input:** No input needed  
 **Output:** An array containing a list of property lists containing the public details of the convention record
 fields:
 * `title`: text descriptor for the convention URLs.
