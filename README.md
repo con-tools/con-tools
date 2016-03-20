@@ -56,7 +56,7 @@ the database.
 
 ## Testing the application
 
-The docker setup includes a full Heruko stack for testing. Run `docker-compose up web` to start the full web application.
+The docker setup includes a full Heruko stack for testing. Run `docker-compose up` to start the full web application.
 When the docker web service is up, the application is accessible on port 8080 of the docker host.
 
 In order to perform Single-Sign-On authentication (with Google/Facebook/Twitter), you'd need a `.secrets` "environment file"
