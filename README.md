@@ -56,6 +56,18 @@ the database.
 
 ## Testing the application
 
+The application can be tested using Docker Compose. 
+
+### Setup
+
+1. Make sure the docker-compose command line tool is working on your system.
+2. The application uses a non-default Heroku local docker setup, using PHP 7.0. To get it to run:
+  1. Clone the Github repo for the docker image at https://github.com/heroku/docker-php.git
+  2. Edit the `Dockerfile` and replace the `PHP_VERSION` value to `7.0.3`
+  3. Build the required local image using `docker build -t heroku/php:7.0`
+
+### Running
+
 The docker setup includes a full Heruko stack for testing. Run `docker-compose up` to start the full web application.
 When the docker web service is up, the application is accessible on port 8080 of the docker host.
 

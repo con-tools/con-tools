@@ -15,18 +15,18 @@ web:
   links:
     - mysql
 
-shell:
-  build: .
-  command: bash
-  working_dir: /app/user
-  environment:
-    PORT: 8080
-  ports:
-    - '8080:8080'
-  volumes:
-    - '.:/app/user'
-  links:
-   - mysql
+#shell:
+#  build: .
+#  command: bash
+#  working_dir: /app/user
+#  environment:
+#    PORT: 8080
+#  ports:
+#    - '8080:8080'
+#  volumes:
+#    - '.:/app/user'
+#  links:
+#   - mysql
 
 mysql:
   image: mysql:latest

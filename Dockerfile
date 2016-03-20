@@ -1,1 +1,1 @@
-FROM heroku/php
+FROM heroku/php:7.0
