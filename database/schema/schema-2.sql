@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `coupons` (
   `user_id` INT UNSIGNED NOT NULL COMMENT '',
   `coupon_type_id` INT UNSIGNED NOT NULL COMMENT '',
   `sale_id` INT UNSIGNED NOT NULL COMMENT '',
-  `amount` INT UNSIGNED NOT NULL COMMENT 'Im not shor the this is the corect type',
+  `amount` DECIMAL(5,2) NOT NULL COMMENT '',
   PRIMARY KEY (`id`) COMMENT '',
   FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   FOREIGN KEY `fk_coupon_type_id` (`coupon_type_id`) REFERENCES `coupon_types` (`id`) ON DELETE CASCADE,
