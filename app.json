@@ -1,6 +1,7 @@
 {
-  "name": "master",
-  "description": "",
+  "name": "ConTroll",
+  "description": "ConTroll Convention Manager Web Service",
+  "image": "heroku/php",
   "scripts": {},
   "env": {
     "DB_URL_ENV_NAME": {
