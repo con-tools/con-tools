@@ -22,7 +22,15 @@ class Model_Role extends ORM {
 	
 	private $impl = null;
 	
-	public function has_privilege($priv) {
+	public static function persiste(Model_Role_Base $role_proto) {
+		$o = new Model_Role();
+		$o->key = $role_proto->getKey();
+		$o->title = $role_proto->getTitle();
+		$o->save();
+		return $o;
+	}
+	
+	public function hasPrivilege($priv) {
 		return getImpl()->check_privilege($priv);
 	} 
 	
@@ -33,10 +41,10 @@ class Model_Role extends ORM {
 		return $this->impl = new $clazz();
 	}
 	
-	public function update_table() {
+	public function updateTable() {
 		foreach (static::ROLES as $role_class) {
 			$role_impl = new $role_class();
-			// TODO: actually implement the generator
+			self::persiste($role_impl);
 		}
 	}
 	
