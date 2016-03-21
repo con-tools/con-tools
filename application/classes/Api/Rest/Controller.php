@@ -40,7 +40,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param stdClass $data Data to create the record
 	 * @return ORM Model object created
 	 */
-	abstract function create(Model_Convention $con, Model_User $user, $data);
+	abstract protected function create(Model_Convention $con, Model_User $user);
 	
 	/**
 	 * Retrieve an existing record by ID
@@ -49,7 +49,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param int $id record ID
 	 * @return stdClass Record data
 	 */	
-	abstract function retrieve(Model_Convention $con, Model_User $user, $id);
+	abstract protected function retrieve(Model_Convention $con, Model_User $user, $id);
 	
 	/**
 	 * Update an existing record
@@ -59,7 +59,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param stdClass $data Data to update the record
 	 * @return boolean Whether the create succeeded
 	 */
-	abstract function update(Model_Convention $con, Model_User $user, $id, $data);
+	abstract protected function update(Model_Convention $con, Model_User $user, $id);
 	
 	/**
 	 * Delete an existing record
@@ -68,5 +68,5 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param unknown $id record ID
 	 * @return boolean Whther the delete succeeded
 	 */
-	abstract function delete(Model_Convention $con, Model_User $user, $id);
+	abstract protected function delete(Model_Convention $con, Model_User $user, $id);
 }
