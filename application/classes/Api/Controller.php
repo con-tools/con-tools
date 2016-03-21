@@ -92,7 +92,7 @@ abstract class Api_Controller extends Controller {
 		$response->headers('Access-Control-Allow-Credentials', 'true');
 	}
 
-	protected function generatePreFlightResponse() {
+	protected function generatePreFlightResponse() : Response {
 		$this->addCORSHeaders($this->response);
 		$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
 		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
@@ -106,7 +106,7 @@ abstract class Api_Controller extends Controller {
 	 * Return Input object that can be used to query the request data
 	 * @return Input Input handling object
 	 */
-	protected function input() {
+	protected function input() : Input {
 		return $this->_input;
 	}
 	
