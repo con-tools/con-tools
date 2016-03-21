@@ -111,6 +111,10 @@ class Model_Event extends ORM {
 		return $this->add('event_tag_values', $tag);
 	}
 	
+	public function isPublic() {
+		return $this->status == self::STATUS_APPROVED;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see ORM::for_json()
