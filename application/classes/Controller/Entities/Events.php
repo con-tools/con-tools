@@ -88,7 +88,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		if (!is_null($this->user)) {
 			if ($this->convention->isManager($this->user)) // admins have full access
 				return array_map(function($event){
-					return $event->for_json();
+					return $event->as_array();
 				}, $this->convention->events->find_all());
 			else // return public and owned events
 				return array_map(function($event){ 
