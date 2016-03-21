@@ -22,9 +22,13 @@ abstract class Api_Rest_Controller extends Api_Controller {
 					$this->send([ 'status' => true, 'id' => $obj->pk() ]);
 				return;
 			case 'GET':
-				$this->send(
-					$this->retrieve($this->request->param('id'))
-				);
+				if ($this->request->param('id')) {
+					$this->send(
+						$this->retrieve($this->request->param('id'))
+					);
+				} else {
+					$this->send($this->catalog());
+				}
 				return;
 			case 'PUT':
 				$this->send([
@@ -43,8 +47,6 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	
 	/**
 	 * Create a new record
-	 * @param Model_Convention $con Convention that owns the record
-	 * @param Model_User $user User that is trying to access
 	 * @param stdClass $data Data to create the record
 	 * @return ORM Model object created
 	 */
@@ -52,8 +54,6 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	
 	/**
 	 * Retrieve an existing record by ID
-	 * @param Model_Convention $con Convention that owns the record
-	 * @param Model_User $user User that is trying to access
 	 * @param int $id record ID
 	 * @return stdClass Record data
 	 */	
@@ -61,8 +61,6 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	
 	/**
 	 * Update an existing record
-	 * @param Model_Convention $con Convention that owns the record
-	 * @param Model_User $user User that is trying to access
 	 * @param int $id record ID
 	 * @param stdClass $data Data to update the record
 	 * @return boolean Whether the create succeeded
@@ -71,10 +69,14 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	
 	/**
 	 * Delete an existing record
-	 * @param Model_Convention $con Convention that owns the record
-	 * @param Model_User $user User that is trying to access
-	 * @param unknown $id record ID
-	 * @return boolean Whther the delete succeeded
+	 * @param int $id record ID
+	 * @return boolean Whether the delete succeeded
 	 */
 	abstract protected function delete($id);
+	
+	/**
+	 * Retrieve the catalog of entities
+	 * @return array
+	 */
+	abstract protected function catalog();
 }
