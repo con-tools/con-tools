@@ -78,4 +78,17 @@ class ORM extends Kohana_ORM {
 	public static function gen_slug($title) {
 		return strtolower(preg_replace('/[^a-zA-Zא-ת]+/', '-', $title));
 	}
+	
+	/**
+	 * Return a JSON friendly array presentation of the data
+	 * based on Kohana_ORM#as_array()
+	 */
+	public function for_json() {
+		$ar = $this->as_array();
+		$out = [];
+		foreach ($ar as $key => $value) {
+			$out[str_replace('_', '-', $key)] = $value;
+		}
+		return $out;
+	}
 }
