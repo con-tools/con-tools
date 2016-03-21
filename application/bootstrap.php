@@ -2,6 +2,11 @@
 
 // -- Environment setup --------------------------------------------------------
 
+/**
+ * Autoload composer libraries
+ */
+require $vendor_path . 'autoload.php';
+
 // Load the core Kohana class
 require SYSPATH.'classes/Kohana/Core'.EXT;
 
@@ -141,11 +146,6 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
-
-/**
- * Autoload composer libraries
- */
-require $vendor_path . 'autoload.php';
 
 Cookie::$salt = 'this is a secret salt';
 
