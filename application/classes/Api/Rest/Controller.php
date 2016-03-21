@@ -7,7 +7,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 		$user = $this->verifyAuthentication()->user;
 		switch ($this->request->method()) {
 			case 'POST':
-				$obj = $this->create($con, $user, json_decode($this->request->body()));
+				$obj = $this->create($con, $user);
 				if (is_null($obj))
 					$this->send([ 'status' => false ]);
 				else
@@ -20,7 +20,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 				return;
 			case 'PUT':
 				$this->send([
-					'status' => $this->update($con, $user, $this->request->param('id'), json_decode($this->request->body()))
+					'status' => $this->update($con, $user, $this->request->param('id'))
 				]);
 				return;
 			case 'DELETE':
