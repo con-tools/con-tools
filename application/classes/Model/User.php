@@ -199,4 +199,14 @@ class Model_User extends ORM {
 				'date_of_birth' => $this->date_of_birth,
 		];
 	}
+	
+	/**
+	 * Return public data for the user - namely, name and email - for JSON presetnation to other people
+	 */
+	public function for_public_json() {
+		return [
+				'name' => $this->name,
+				'email' => $this->email,
+		];
+	}
 }
