@@ -48,6 +48,12 @@ CREATE TABLE `organizers` (
 
 ALTER TABLE `events` ADD COLUMN `logistical_requirements` TEXT DEFAULT NULL COMMENT 'logistical requirements for event' AFTER `notes_to_staff`;
 ALTER TABLE `events` ADD COLUMN `custom_data` TEXT DEFAULT NULL COMMENT 'JSON encoded user data' AFTER `scheduling_constraints`;
+ALTER TABLE `events` MODIFY COLUMN `staff_contact_id` INT UNSIGNED DEFAULT NULL COMMENT '';
+ALTER TABLE `events` MODIFY COLUMN `price` DECIMAL(5,2) DEFAULT NULL COMMENT '';
+ALTER TABLE `events` MODIfY COLUMN `teaser` TEXT DEFAULT NULL COMMENT '';
+ALTER TABLE `events` MODIfY COLUMN `notes_to_staff` TEXT DEFAULT NULL COMMENT '';
+ALTER TABLE `events` MODIfY COLUMN `notes_to_attendees` TEXT DEFAULT NULL COMMENT '';
+ALTER TABLE `events` MODIfY COLUMN `scheduling_constraints` TEXT DEFAULT NULL COMMENT '';
 
 INSERT INTO `roles` (`key`, `title`) VALUES ('administrator','System Administrator'), ('manager', 'Convention Manager');
 
