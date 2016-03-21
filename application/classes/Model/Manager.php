@@ -26,11 +26,18 @@ class Model_Manager extends ORM {
 			'role_id' => [],
 	];
 	
-	public static function persist(Model_Convention $con, Model_User $user, Model_Role $role) {
+	/**
+	 * Generate a new manager role for a convention
+	 * @param Model_Convention $con Convention being manager
+	 * @param Model_User $user User doing the managing
+	 * @param Model_Role $role the managerial role
+	 * @return Model_Manager
+	 */
+	public static function persist(Model_Convention $con, Model_User $user, Model_Role $role) : Model_Manager {
 		$o = new Model_Manager();
 		$o->convention = $con;
 		$o->user = $user;
-		$o->role = role;
+		$o->role = $role;
 		$o->save();
 		return $o;
 	}
