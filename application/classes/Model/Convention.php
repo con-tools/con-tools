@@ -6,7 +6,7 @@ class Model_Convention extends ORM {
 			'organizers' => [],
 			'events' => [],
 			'locations' => [],
-			'event_tags_types' => [],
+			'event_tag_types' => [],
 			'crm_queues' => [],
 	];
 	
