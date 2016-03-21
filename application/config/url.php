@@ -2,7 +2,9 @@
 
 return [
 	'trusted_hosts' => [
-			'.*\.con-troll\.org'
+			'.*\.con-troll\.org',
+			'con-troll.*herokuapp.com',
+			'localhost:8080'
 	],
 
 ];
