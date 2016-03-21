@@ -376,3 +376,43 @@ $ curl http://api.con-troll.org/entities/convention
 [{"id":"1","title":"ביגור 16","slug":"ביגור-16","series":""},{"id":"2","title":"ביגור 16 פאבקון","slug":"ביגור-16-פאבקון","series":""},{"id":"82","title":"ביגור 16 לארפ פורים","slug":"ביגור-לארפ-פורים","series":""}]
 ```
 
+### Event Management
+
+Events are managed as a data entity and supports GET (retrieve), POST (create), PUT (update) and DELETE (delete).
+
+All methods require both user authentication and convention public identification (i.e. select the convention for which
+to apply the operation using the convention key).
+
+#### API
+
+`POST /entities/events` : Create a new event
+
+This method requires a convention identity and a user authorization. The submitting user becomes the event owner and
+point of contact.
+
+**Input:** Property list with the following fields
+* `title`: Name of the new convention.
+* `series`: (optional) Name of the convention series.
+* `location`: (optional) Convention venue and address.
+* `website`: (optional) Convention website URL.
+* `slug`: (optional) text descriptor for the convention URLs. Generated from title if not provided.
+
+**Output:** A property list containing the details of the new convention record, with the following
+fields:
+* `status`: the boolean value true if the creation succeeded.
+* `slug`: text descriptor for the convention URLs.
+* `id`: numeric identifier for the convention in the system.
+* `key`: Client key identifier, for use in website integrations.
+* `secret`: Client key secret, for use in website backend integrations.
+
+*Example:*
+```
+$ curl http://api.con-troll.org/entities/convention \
+  -H 'Authorization: ABCD1234' \
+  -H Content-Type:application/json \
+  -d '{"title":"My Convention"}'
+```
+*Response:*
+```
+{"status":true,"slug":"my-convention","id":15,"key":"asdfjsadf","secret":"lskadjfas"}
+```
