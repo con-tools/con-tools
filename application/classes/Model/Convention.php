@@ -8,6 +8,7 @@ class Model_Convention extends ORM {
 			'locations' => [],
 			'event_tag_types' => [],
 			'crm_queues' => [],
+			'managers' => [],
 	];
 	
 	protected $_columns = [
@@ -64,4 +65,7 @@ class Model_Convention extends ORM {
 		return $this->client_authorized;
 	}
 	
+	public function isManager(Model_User $user) {
+		$this->has('managers', $user);
+	}
 }
