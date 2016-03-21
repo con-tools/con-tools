@@ -34,6 +34,16 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		return null;
 	}
 	
-	protected function update(Model_Convention $con, Model_User $user, $id) {}
-	protected function delete(Model_Convention $con, Model_User $user, $id) {}
+	protected function update($id) {}
+	protected function delete($id) {}
+
+	protected function catalog() {
+		if (!is_null($user) and $this->convention->isManager($this->user))
+			return array_map(function($event){
+				return $event->for_json();
+			}, $convention->events);
+		return array_map(function($event){
+			return $event->for_json();
+		}, $convention->public_events);
+	}
 }
