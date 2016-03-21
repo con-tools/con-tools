@@ -326,7 +326,7 @@ fields:
 
 *Example:*
 ```
-$ curl http://api.con-troll.org/entities/convention \
+$ curl http://api.con-troll.org/entities/conventions \
   -H 'Authorization: ABCD1234' \
   -H Content-Type:application/json \
   -d '{"title":"My Convention"}'
@@ -349,7 +349,7 @@ fields:
 
 *Example:*
 ```
-$ curl http://api.con-troll.org/entities/convention/1
+$ curl http://api.con-troll.org/entities/conventions/1
 ```
 *Response:*
 ```
@@ -369,7 +369,7 @@ fields:
 
 *Example:*
 ```
-$ curl http://api.con-troll.org/entities/convention
+$ curl http://api.con-troll.org/entities/conventions
 ```
 *Response:*
 ```
@@ -390,29 +390,41 @@ to apply the operation using the convention key).
 This method requires a convention identity and a user authorization. The submitting user becomes the event owner and
 point of contact.
 
-**Input:** Property list with the following fields
-* `title`: Name of the new convention.
-* `series`: (optional) Name of the convention series.
-* `location`: (optional) Convention venue and address.
-* `website`: (optional) Convention website URL.
-* `slug`: (optional) text descriptor for the convention URLs. Generated from title if not provided.
+**Input:** Property list with the following fields  
+* `title`: Event title
+* `teaser`: Event teaser text
+* `description`: Event long description text
+* `requires-registration`: Does the event requires people to register, or is it free for all (boolean value)
+* `duration`: Event expected duration in minutes
+* `event_type`: Event type, as specified by the `event_type` tag type
+* `age-requirement`: Event age requirements as specified by the `age_requirement` tag type
+* `min-attendees`: Minimum number of attendees required to start the event
+* `max-attendees`: Maximum number of attendees that can be accommodated
+* `notes-to-staff`: Note about the event for the management staff
+* `logitsical-requirements`: Notes about the events for the logistics team
+* `notes-to-attendees`: Notes about the event to show potential attendees
+* `scheduling-constraints`: Notes about the availability of the event submitter for scheduling
+* `data`: Custom data to be stored and retrieved - can be any JSON value
 
-**Output:** A property list containing the details of the new convention record, with the following
+**Output:** A property list containing the details of the new event record, with the following
 fields:
 * `status`: the boolean value true if the creation succeeded.
-* `slug`: text descriptor for the convention URLs.
 * `id`: numeric identifier for the convention in the system.
-* `key`: Client key identifier, for use in website integrations.
-* `secret`: Client key secret, for use in website backend integrations.
 
 *Example:*
 ```
-$ curl http://api.con-troll.org/entities/convention \
+$ curl http://api.con-troll.org/entities/events \
   -H 'Authorization: ABCD1234' \
+  -H 'Convention: CON123456' \
   -H Content-Type:application/json \
-  -d '{"title":"My Convention"}'
+  -d '{"title": "my event","event_type": "Role playing game","teaser": "This is a very fancy game",
+  "description": "In this very fancy game, we will frolic and have fun","requires-registration": true,
+  "duration": 60,"age-requirement": "all ages","min-attendees": 3,"max-attendees": 6,"notes-to-staff": null,
+  "logitsical-requirements": "Brooms, lots and lots of brooms",
+  "notes-to-attendees": "Bring your dirt on, and don't forget to have a lot of fun",
+  "scheduling-constraints": "I'm like, good, with like, whenever","data":{"field":"This is just some custom field"}}'
 ```
 *Response:*
 ```
-{"status":true,"slug":"my-convention","id":15,"key":"asdfjsadf","secret":"lskadjfas"}
+{"status":true,"id":123}
 ```
