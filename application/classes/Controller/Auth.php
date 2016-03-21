@@ -110,7 +110,7 @@ class Controller_Auth extends Api_Controller {
 			}
 		} catch (Model_Exception_NotFound $e) {
 			$error = "No account with that email and password found.";
-			$this->errorToSelectorOrCaller($error, $this->input()->redirect_url);
+			$this->errorToSelectorOrCaller($error, $this->input()->redirect_url, 401);
 		}
 	}
 	
@@ -253,11 +253,12 @@ class Controller_Auth extends Api_Controller {
 		return $this->buildUrl($parsed);
 	}
 	
-	private function errorToSelectorOrCaller($error_message, $redirect_url) {
+	private function errorToSelectorOrCaller($error_message, $redirect_url, $status = 400) {
 		if ($redirect_url) {
 			Session::instance()->set('select-login-error', $error_message);
 			$this->redirect_to_action('select', ['redirect-url' => $redirect_url]);
 		} else {
+			$this->response->status($status);
 			$this->send([ 'status' => false, 'error' => $error_message]);
 		}
 	}
