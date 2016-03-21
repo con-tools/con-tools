@@ -7,7 +7,17 @@ class Input {
 	 */
 	private $_request = null;
 	
+	/**
+	 * Whether the request is using JSON REST
+	 * @var boolean
+	 */
 	private $_rest = null;
+	
+	/**
+	 * Input data
+	 * @var array
+	 */
+	private $_data = null;
 	const ISSET_DETECTION_MAGIC_VALUE = 0xDE7EC7;
 	
 	public function __construct($request) {
