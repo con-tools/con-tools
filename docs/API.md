@@ -260,6 +260,7 @@ the convention.
 * `title`: Name of the new convention.
 * `series`: (optional) Name of the convention series.
 * `location`: (optional) Convention venue and address.
+* `website`: (optional) Convention website URL.
 * `slug`: (optional) text descriptor for the convention URLs. Generated from title if not provided.
 
 **Output:** A property list containing the details of the new convention record, with the following
