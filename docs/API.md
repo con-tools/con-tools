@@ -380,8 +380,8 @@ $ curl http://api.con-troll.org/entities/conventions
 
 Events are managed as a data entity and supports GET (retrieve), POST (create), PUT (update) and DELETE (delete).
 
-All methods require both user authentication and convention public identification (i.e. select the convention for which
-to apply the operation using the convention key).
+Some methods require both user authentication and convention public identification (i.e. select the convention for which
+to apply the operation using the convention key), while other require only convention public identification.
 
 #### API
 
@@ -408,8 +408,8 @@ point of contact.
 
 **Output:** A property list containing the details of the new event record, with the following
 fields:
-* `status`: the boolean value true if the creation succeeded.
-* `id`: numeric identifier for the convention in the system.
+* `status`: the boolean value true if the creation succeeded
+* `id`: numeric identifier for the event in the system
 
 *Example:*
 ```
@@ -428,3 +428,29 @@ $ curl http://api.con-troll.org/entities/events \
 ```
 {"status":true,"id":123}
 ```
+
+`GET /entities/events/:id` : Retrieve an existing event by id.
+
+This method requires a convention public identity to retrieve an event that has the status
+"approved". To retireve events with other statuses, the call must carry a user authorization
+for a user that is a manager for the convention.
+
+**Input:** The id of the event must be specified in the URI  
+**Output:** A property list containing the details of the new event record, with the following
+fields:
+* `id`: numeric identifier for the convention in the system.
+* `title`: Event title
+* `teaser`: Event teaser text
+* `description`: Event long description text
+* `requires-registration`: Does the event requires people to register, or is it free for all (boolean value)
+* `duration`: Event expected duration in minutes
+* `event_type`: Event type, as specified by the `event_type` tag type
+* `age-requirement`: Event age requirements as specified by the `age_requirement` tag type
+* `min-attendees`: Minimum number of attendees required to start the event
+* `max-attendees`: Maximum number of attendees that can be accommodated
+* `notes-to-staff`: Note about the event for the management staff
+* `logitsical-requirements`: Notes about the events for the logistics team
+* `notes-to-attendees`: Notes about the event to show potential attendees
+* `scheduling-constraints`: Notes about the availability of the event submitter for scheduling
+* `data`: Custom data to be stored and retrieved - can be any JSON value
+
