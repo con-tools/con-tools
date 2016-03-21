@@ -47,6 +47,7 @@ CREATE TABLE `organizers` (
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
 ALTER TABLE `events` ADD COLUMN `logistical_requirements` TEXT DEFAULT NULL COMMENT 'logistical requirements for event' AFTER `notes_to_staff`;
+ALTER TABLE `events` ADD COLUMN `custom_data` TEXT DEFAULT NULL COMMENT 'JSON encoded user data' AFTER `scheduling_constraints`;
 
 INSERT INTO `roles` (`key`, `title`) VALUES ('administrator','System Administrator'), ('manager', 'Convention Manager');
 
