@@ -2,7 +2,7 @@
 class Controller_Entities_Events extends Api_Rest_Controller {
 	
 	protected function create(Model_Convention $con, Model_User $user) {
-		if (is_null($this->user)) throw new Api_Exception_Unauthorized();
+		if (is_null($this->user)) throw new Api_Exception_Unauthorized($this);
 		$data = $this->input();
 		$tag_event_type = Model_Event_Tag_Type::generate($con, 'event_type');
 		$event_type = Model_Event_Tag_Value::generate($tag_event_type, $data->event_type);
@@ -35,10 +35,18 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	}
 	
 	protected function update($id) {}
-	protected function delete($id) {}
+	
+	protected function delete($id) {
+		if (is_null($this->user) or !$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this);
+		$o = new Model_Event($id);
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
+		$o->cancel();
+	}
 
 	protected function catalog() {
-		if (!is_null($user) and $this->convention->isManager($this->user))
+		if (!is_null($this->user) and $this->convention->isManager($this->user))
 			return array_map(function($event){
 				return $event->for_json();
 			}, $convention->events);
