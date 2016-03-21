@@ -111,4 +111,17 @@ class Model_Event extends ORM {
 		return $this->add('event_tag_values', $tag);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see ORM::for_json()
+	 */
+	public function for_json() {
+		$ar = parent::for_json();
+		unset($ar['user-id']);
+		unset($ar['staff-contact-id']);
+		$ar['user'] = $this->user->for_public_json();
+		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_public_json() : null;
+		return $ar;
+	}
+	
 }
