@@ -116,6 +116,16 @@ class Model_Event extends ORM {
 	}
 	
 	/**
+	 * Cancel the event and don't let it show anywhere
+	 * @return Model_Event
+	 */
+	public function cancel() : Model_Event {
+		$this->status = self::STATUS_CANCELLED;
+		$this->save();
+		return $this;
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 * @see ORM::for_json()
 	 */
