@@ -7,6 +7,10 @@
 abstract class Api_Controller extends Controller {
 
 	public $auto_render = false;
+	/**
+	 * Request parser
+	 * @var Input
+	 */
 	private $_input = null;
 	
 	public function __construct($request, $response) {
