@@ -22,11 +22,28 @@ class Model_Role extends ORM {
 	
 	private $impl = null;
 	
-	public static function persiste(Model_Role_Base $role_proto) {
+	/**
+	 * Generate a new role record
+	 * @param Model_Role_Base $role_proto Role implementation
+	 * @return Model_Role role generated
+	 */
+	public static function persist(Model_Role_Base $role_proto) : Model_Role  {
 		$o = new Model_Role();
 		$o->key = $role_proto->getKey();
 		$o->title = $role_proto->getTitle();
 		$o->save();
+		return $o;
+	}
+	
+	/**
+	 * Load a role by its key
+	 * @param string $key
+	 * @return Model_Role role loaded
+	 */
+	public static function byKey(string $key) : Model_Role {
+		$o = (new Model_Role)->where('key', '=', $key)->find();
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
 		return $o;
 	}
 	
