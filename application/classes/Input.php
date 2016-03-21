@@ -42,4 +42,14 @@ class Input {
 	public function fetch($field, $default = null) {
 		return Arr::path($this->_data, $field, $default);
 	}
+	
+	public function isset($field) {
+		$normalized_field = str_replace('-','_', $field);
+		foreach ($this->_data as $key => $value) {
+			$normalized_key = str_replace('-','_', $key);
+			if ($normalized_field == $normalized_key)
+				return true;
+		}
+		return false;
+	}
 }
