@@ -46,6 +46,7 @@ CREATE TABLE `organizers` (
   CONSTRAINT `organizer_convention_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
+ALTER TABLE `events` ADD COLUMN `status` INT NOT NULL DEFAULT 0 COMMENT 'see event mode for valid status';
 ALTER TABLE `events` ADD COLUMN `logistical_requirements` TEXT DEFAULT NULL COMMENT 'logistical requirements for event' AFTER `notes_to_staff`;
 ALTER TABLE `events` ADD COLUMN `custom_data` TEXT DEFAULT NULL COMMENT 'JSON encoded user data' AFTER `scheduling_constraints`;
 ALTER TABLE `events` MODIFY COLUMN `staff_contact_id` INT UNSIGNED DEFAULT NULL COMMENT '';
