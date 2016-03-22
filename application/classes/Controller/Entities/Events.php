@@ -105,9 +105,10 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		$o = new Model_Event($id);
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
-		if (!$o->convention_id != $this->convention->pk())
+		if ($o->convention_id != $this->convention->pk())
 			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected!"); // can't hack around convention keys
 		$o->cancel();
+		return true;
 	}
 
 	protected function catalog() {
