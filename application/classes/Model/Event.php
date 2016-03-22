@@ -102,16 +102,41 @@ class Model_Event extends ORM {
 	}
 	
 	/**
-	 * Add a generic tag to the event
+	 * Retrieve all event tags of the specified type
+	 * @param Model_Event_Tag_Type $type type of tag to retrieve
+	 */
+	public function getTags(Model_Event_Tag_Type $type) {
+		return $this->event_tag_values->where('event_tag_type_id', '=', $type->pk())->find_all();
+	}
+	
+	/**
+	 * Add a system tag to the event
 	 * @param Model_Event_Tag_Value $tag Tag to apply to the event
 	 * @return Model_Event the event object
 	 */
 	public function tag(Model_Event_Tag_Value $tag) : Model_Event {
 		if ($tag->getType()->requiredOne()) { // when adding a "required one" tag, replace existing
-			foreach ($this->event_tag_values->where('event_tag_type_id', '=', $tag->getType()->pk())->find_all() as $evtag)
+			foreach ($this->getTags($tag->getType()) as $evtag)
 				$this->remove('event_tag_values', $evtag);
 		}
 		return $this->add('event_tag_values', $tag);
+	}
+	
+	/**
+	 * Remove a system tag from the event, if possible to maintain tag requirements
+	 * @param Model_Event_Tag_Value $tag Tag to remove
+	 * @throws InvalidArgumentException in case the removal will break tag requirement specification
+	 */
+	public function untag(Model_Event_Tag_Value $tag) {
+		// check if we are allowed to untag
+		if ($tag->getType()->requiredOne() && $this->has('event_tag_values',$tag))
+			throw new InvalidArgumentException("Not allowed to remove required tag '{$tag->type}:{$tag->title}' without providing a replacement");
+		if ($tag->getType()->requiredMany()) {
+			$curtags = $this->getTags($tag->getType());
+			if (count($curtags) == 1 && $curtags[0]->pk() == $tag->pk())
+				throw new InvalidArgumentException("Not allowed to remove the last tag of a 'required' type");
+		}
+		return $this->remove('event_tag_values', $tag);
 	}
 	
 	public function isPublic() {
