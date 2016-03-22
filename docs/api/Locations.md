@@ -31,7 +31,7 @@ $ curl -X GET "http://localhost:8080/entities/locations" \
 [{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall"}]
 ```
 
-### Retreive A Location
+### Retrieve A Location
 
 `GET /entities/locations/:slug`
 
@@ -68,7 +68,7 @@ Both title and slug (if provided) must be unique in the convention.
 * `area` : (optional) a general description of the area where the location can be found, such as "main hall" or "green rooms"
 * `max_attendees` : (integer) the maximum number of people that can be hosted in that location
 * `slug`: (optional) use a pre-generated slug (URL friendly name) for the location, instead of generating one automatically
-**Output:** A property list showing the created location information, with the followign fields:
+**Output:** A property list showing the created location information, with the following fields:
 * `status`: (boolean) whether the operation was successful or not
 * `error`: (optional) error text describing the error if the operation was not successful
 * `title` : the title to for the location
