@@ -61,6 +61,25 @@ class Model_Event_Tag_Type extends ORM {
 				'title' => $this->title,
 				'requirement' => $this->requirement,
 				'public' => $this->visible ? true : false,
+				'values' => $this->getValues()
 		];
+	}
+	
+	/**
+	 * Retrieve all known values of the this type
+	 * @return Database_Result known values
+	 */
+	public function getValues() {
+		return array_map(function(Model_Event_Tag_Value $val){
+			return $val->title;
+		}, $this->event_tag_values->find_all()->as_array());
+	}
+	
+	/**
+	 * Retrieve all event tags associated with this type (i.e. events that have a value for this tag)
+	 * @return Database_Result event tags
+	 */
+	public function getEventTags() {
+		return (new Model_Event_Tag)->with('event_tag_value')->where('event_tag_type_id','=',$this->pk())->with('event')->find_all();
 	}
 }
