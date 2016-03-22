@@ -18,8 +18,10 @@ abstract class Api_Rest_Controller extends Api_Controller {
 				$obj = $this->create();
 				if (is_null($obj))
 					$this->send([ 'status' => false ]);
-				else
+				elseif ($obj instanceof ORM)
 					$this->send([ 'status' => true, 'id' => $obj->pk() ]);
+				else
+					$this->send([ 'status' => true ]);
 				return;
 			case 'GET':
 				if ($this->request->param('id')) {
