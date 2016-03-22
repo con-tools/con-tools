@@ -66,6 +66,6 @@ class Model_Convention extends ORM {
 	}
 	
 	public function isManager(Model_User $user) {
-		$this->has('managers', $user);
+		return count($this->managers->where('user_id','=', $user->pk())->find_all()) > 0;
 	}
 }
