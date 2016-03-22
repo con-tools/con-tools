@@ -64,7 +64,7 @@ class Model_Event extends ORM {
 	 * @param unknown $custom_data Custom convention-specific arbitrary data 
 	 */
 	public static function persist(Model_Convention $con, Model_User $user, 
-			string $title, string $teaser, string $description, $registration_required,
+			string $title, string $teaser, $description, $registration_required,
 			int $duration, $min_attendees, $max_attendees, 
 			$notes_to_staff, $logistical_requirements, $notes_to_attendees,
 			$scheduling_constraints, $custom_data) : Model_Event {
@@ -108,7 +108,8 @@ class Model_Event extends ORM {
 	 */
 	public function tag(Model_Event_Tag_Value $tag) : Model_Event {
 		if ($tag->getType()->requiredOne()) { // when adding a "required one" tag, replace existing
-			$this->event_tag_values->where('event_tag_type_id', '=', $tag->getType()->pk())->delete();
+			foreach ($this->event_tag_values->where('event_tag_type_id', '=', $tag->getType()->pk())->find_all() as $evtag)
+				$this->remove('event_tag_values', $evtag);
 		}
 		return $this->add('event_tag_values', $tag);
 	}
