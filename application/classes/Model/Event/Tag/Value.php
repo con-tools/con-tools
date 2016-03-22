@@ -24,10 +24,11 @@ class Model_Event_Tag_Value extends ORM {
 	 * @param string $title text of the value
 	 */
 	public static function generate(Model_Event_Tag_Type $type, string $title) {
-		$o = $type->event_tag_values->where('title', '=', $title)->find();
-		if ($o->loaded())
-			return $o;
-		return self::persist($type, $title);
+		try {
+			return self::byTitle($type, $title);
+		} catch (Model_Exception_NotFound $e) {
+			return self::persist($type, $title);
+		}
 	}
 	
 	public static function persist(Model_Event_Tag_Type $type, string $title) {
@@ -36,6 +37,13 @@ class Model_Event_Tag_Value extends ORM {
 		$o->title = $title;
 		$o->save();
 		return $o;
+	}
+	
+	public static function byTitle(Model_Event_Tag_Type $type, string $title) {
+		$o = $type->event_tag_values->where('title', '=', $title)->find();
+		if ($o->loaded())
+			return $o;
+		throw new Model_Exception_NotFound();
 	}
 	
 	/**
