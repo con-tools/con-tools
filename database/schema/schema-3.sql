@@ -57,6 +57,10 @@ ALTER TABLE `events` MODIfY COLUMN `notes_to_attendees` TEXT DEFAULT NULL COMMEN
 ALTER TABLE `events` MODIfY COLUMN `scheduling_constraints` TEXT DEFAULT NULL COMMENT '';
 
 ALTER TABLE `event_tag_types` MODIFY COLUMN `requirement` CHAR(1) DEFAULT '+' COMMENT 'Req-spec, can be one of "1", "+" or "*"';
+ALTER TABLE `event_tag_values` DROP FOREIGN KEY `event_tag_values_ibfk_1`;
+ALTER TABLE `event_tag_values` ADD CONSTRAINT `event_tag_values_ibfk_1` FOREIGN KEY (`event_tag_type_id`) REFERENCES `event_tag_types` (`id`) ON DELETE RESTRICT;
+ALTER TABLE `event_tags` DROP FOREIGN KEY `event_tags_ibfk_2`;
+ALTER TABLE `event_tags` ADD CONSTRAINT `event_tags_ibfk_2` FOREIGN KEY (`event_tag_value_id`) REFERENCES `event_tag_values` (`id`) ON DELETE RESTRICT;
 
 INSERT INTO `roles` (`key`, `title`) VALUES ('administrator','System Administrator'), ('manager', 'Convention Manager');
 
