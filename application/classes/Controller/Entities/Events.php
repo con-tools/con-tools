@@ -10,7 +10,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 			$tag_type = Model_Event_Tag_Type::generate($this->convention, $key, true, is_array($values));
 			// check for consistency
 			if ($tag_type->requiredOne() and is_array($values))
-				throw new Api_Exception_InvalidInput("Tag '$key' does not support multiple values!");
+				throw new Api_Exception_InvalidInput($this, "Tag '$key' does not support multiple values!");
 			if (!is_array($values))
 				$values = [ $values ];
 			foreach ($values as $value) {
@@ -82,7 +82,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 						$o->untag($tag);
 					}
 				} catch (InvalidArgumentException $e) {
-					throw new Api_Exception_InvalidInput($e->getMessage());
+					throw new Api_Exception_InvalidInput($this, $e->getMessage());
 				}
 			}
 			return $o->for_json();
