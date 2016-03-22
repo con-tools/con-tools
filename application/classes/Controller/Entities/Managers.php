@@ -11,23 +11,8 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 		$data = $this->input();
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
-		$user_id = $data->id;
-		$email = $data->email;
-		if ($user_id and $email)
-			throw new Api_Exception_InvalidInput($this, "Please provide either an `id` or `email` but not both");
-		if ($user_id) {
-			$user = new Model_User($user_id);
-			if (!$user->loaded())
-				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-		} elseif ($email) {
-			try {
-				$user = Model_User::byEmail($email);
-			} catch (Model_Exception_NotFound $e) {
-				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-			}
-		} else {
-			throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-		}
+		
+		$user = $this->loadUserByIdOrEmail($data->id, $data->email);
 		$this->convention->addManager($user);
 		return array_merge($user->for_public_json(), [ 'id' => $user->pk() ]);
 	}
