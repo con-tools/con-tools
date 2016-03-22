@@ -65,8 +65,14 @@ class Model_Convention extends ORM {
 		return $this->client_authorized;
 	}
 	
-	public function isManager(Model_User $user) {
-		return count($this->managers->where('user_id','=', $user->pk())->find_all()) > 0;
+	/**
+	 * Check whether the user is a manager for the convention
+	 * @param Model_User|null $user user or no user to check
+	 */
+	public function isManager($user) {
+		if ($user instanceof Model_user)
+			return count($this->managers->where('user_id','=', $user->pk())->find_all()) > 0;
+		return false; // not a user - not a manager
 	}
 
 	public function addManager(Model_User $user) {
