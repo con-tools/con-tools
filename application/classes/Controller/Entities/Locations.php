@@ -31,6 +31,8 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 	}
 	
 	protected function delete($id) {
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete locations!");
 		try {
 			$loc = Model_Location::bySlug($id);
 			try {
