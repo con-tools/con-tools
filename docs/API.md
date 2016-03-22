@@ -63,6 +63,7 @@ the fake authorization token `ABCD1234`.
 
 In order to perform "convention authorization", the caller must retrieve both the convention's
 public API access key as well as the private secret, then create authorization headers as follows:
+
 1. The caller must create a `Convention` header as described under "Convention Identity".
 2. The caller must generate a salt value and encode it in to the Base64 character range (the 
 actual encoding and the content is not enforced, but it is highly recommended that the salt will be
@@ -81,4 +82,5 @@ characters (e.g. `"Convention " + time + ":" + salt + ":" + signature`).
 * [Authentication](api/Authentication.md)
 * [Conventions](api/Conventions.md)
 * [Managers](api/Managers.md)
+* [Tags](api/Tags.md)
 * [Events](api/Events.md)
