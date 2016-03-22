@@ -38,4 +38,13 @@ class Model_Event_Tag_Value extends ORM {
 		return $o;
 	}
 	
+	public function get($column) {
+		switch ($column) {
+			case 'type':
+				return $this->event_tag_type->title;
+			default:
+				return parent::get($column);
+		}
+	}
+	
 };
