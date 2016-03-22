@@ -9,7 +9,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 */
 	protected function create() {
 		$data = $this->input();
-		if (is_null($this->user) or !$this->convention->isManager($this->user))
+		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
 		$user_id = $data->id;
 		$email = $data->email;
@@ -57,7 +57,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @return boolean Whether the delete succeeded
 	 */
 	protected function delete($id) {
-		if (is_null($this->user) or !$this->convention->isManager($this->user))
+		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
 		if (!$id)
 			throw new Api_Exception_InvalidInput($this, "Invalid user specified");
@@ -75,7 +75,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @return array
 	 */
 	protected function catalog() {
-		if (is_null($this->user) or !$this->convention->isManager($this->user))
+		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to list managers!");
 		$managers = [];
 		foreach ($this->convention->managers->find_all() as $management) {
