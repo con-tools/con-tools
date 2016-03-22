@@ -425,13 +425,18 @@ $ curl http://api.con-troll.org/entities/events \
   "logitsical-requirements": "Brooms, lots and lots of brooms",
   "notes-to-attendees": "Bring your dirt on, and don't forget to have a lot of fun",
   "scheduling-constraints": "I'm like, good, with like, whenever",
-  "tags":{"age-requirement":"all ages","event_type": "Role playing game"},
+  "tags":{"age-requirement":"all ages","event_type": "Role playing game", "taxonomy":["rpg","pen&paper"]},
   "data":{"field":"This is just some custom field"}}'
 ```
 *Response:*
 ```
 {"status":true,"id":123}
 ```
+
+*Note about "free text tags"*: The system supports free form text text by allowed the convention manager
+to create a system tag called "taxonomy" whose requirement specification is "any" (`*`). This method
+allows the manager to manage free form taxonomy like any other system tag offering features such as
+consolidating almost identical tags, removing confusing tags across the entire convention, etc`.
 
 `GET /entities/events/:id` : Retrieve an existing event by id.
 
