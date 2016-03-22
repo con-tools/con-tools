@@ -54,6 +54,14 @@ class Model_Event_Tag_Value extends ORM {
 		return $this->event_tag_type;
 	}
 	
+	/**
+	 * Retrieve event tags (links to events) that reference this value
+	 * @return Database_Result list of event tags
+	 */
+	public function getEventTags() : Database_Result {
+		return $this->event_tags->find_all();
+	}
+	
 	public function get($column) {
 		switch ($column) {
 			case 'type':
