@@ -56,6 +56,8 @@ ALTER TABLE `events` MODIfY COLUMN `notes_to_staff` TEXT DEFAULT NULL COMMENT ''
 ALTER TABLE `events` MODIfY COLUMN `notes_to_attendees` TEXT DEFAULT NULL COMMENT '';
 ALTER TABLE `events` MODIfY COLUMN `scheduling_constraints` TEXT DEFAULT NULL COMMENT '';
 
+ALTER TABLE `event_tag_types` MODIFY COLUMN `requirement` CHAR(1) DEFAULT '+' COMMENT 'Req-spec, can be one of "1", "+" or "*"';
+
 INSERT INTO `roles` (`key`, `title`) VALUES ('administrator','System Administrator'), ('manager', 'Convention Manager');
 
 CREATE TABLE `managers` (

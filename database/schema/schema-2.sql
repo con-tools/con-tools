@@ -45,7 +45,7 @@ CREATE TABLE `event_tag_types` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `convention_id` INT UNSIGNED NOT NULL COMMENT '',
   `title` VARCHAR(50) NOT NULL COMMENT '',
-  `requirement` VARCHAR(50) NOT NULL COMMENT '', /* I'm not sure what this does */
+  `requirement` VARCHAR(50) NOT NULL COMMENT '', -- see update on schema-3
   `visible` BOOLEAN NOT NULL DEFAULT TRUE COMMENT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `event_tag_types_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
