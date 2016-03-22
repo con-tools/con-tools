@@ -5,7 +5,7 @@ CREATE TABLE `timeslots` (
   `duration` INT UNSIGNED NOT NULL COMMENT '',
   `min_attendees` INT UNSIGNED NOT NULL COMMENT '',
   `max_attendees` INT UNSIGNED NOT NULL COMMENT '',
-  `node_to_attendees` TEXT COMMENT '',
+  `notes_to_attendees` TEXT COMMENT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `timeslot_event_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
