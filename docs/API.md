@@ -23,11 +23,11 @@ levels of authorization (though some operations support multiple levels).
 The authorization levels are:
 
 1. Public access: No authorization is required at all - any client including automated tools
-can perform these requests
+can perform these requests  
 2. Convention identity: This is not actually an authorization and is different from "public
 access" only in that the caller selects the convention being operated on using the convention's
-*public* access key. This type of operation is most common for convention website integrations.
-3. User authorization: A logged in user must authorize this call using a session token.
+*public* access key. This type of operation is most common for convention website integrations.  
+3. User authorization: A logged in user must authorize this call using a session token.  
 4. Convention authorization: A convention automation tool (e.g. backend to backend website
 integration) must authorize the call by signing the request with the convention's secret
 key. This kind of call also require the "convention identity" level to select the correct
