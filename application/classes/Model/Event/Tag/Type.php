@@ -55,4 +55,12 @@ class Model_Event_Tag_Type extends ORM {
 	public function optional() {
 		return $this->requirement == '*';
 	}
+	
+	public function for_json() {
+		return [
+				'title' => $this->title,
+				'requirement' => $this->requirement,
+				'public' => $this->visible ? true : false,
+		];
+	}
 }
