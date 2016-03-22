@@ -158,9 +158,11 @@ class Model_Event extends ORM {
 	 * @see ORM::for_json()
 	 */
 	public function for_json() {
-		$ar = parent::for_json();
-		unset($ar['user-id']);
-		unset($ar['staff-contact-id']);
+		$ar = array_filter(parent::for_json(), function($key){
+			return in_array($key, ['id', 'title', 'teaser', 'description', 'price', 'requires-registration', 'duration',
+					'min-attendees', 'max-attendees', 'notes-to-staff', 'logistical-requirements', 'notes-to-attendees',
+					'scheduling-constraints', 'custom-data', 'status' ]);
+		},ARRAY_FILTER_USE_KEY);
 		$ar['user'] = $this->user->for_public_json();
 		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_public_json() : null;
 		$ar['tags'] = [];
