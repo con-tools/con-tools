@@ -27,9 +27,9 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		try {
 			// try to figure out tags ahead of generating the event - if the user messed up the tag spec, we
 			// should not create the event
-			$typed_tags = $this->generateTags($data-tags);
+			$typed_tags = $this->generateTags($data->tags);
 			
-			$ev = Model_Event::persist($this->convention, $this->user, $data->title, $data->teaser, $data->description, 
+			$ev = Model_Event::persist($this->convention, $this->user, $data->title, $data->teaser, $data->description,
 					$data->requires_registration, $data->duration, $data->min_attendees,
 					$data->max_attendees, $data->notes_to_staff, $data->logistical_requirements,
 					$data->notes_to_attendees, $data->scheduling_constraints, $data->data);
