@@ -70,7 +70,7 @@ class ORM extends Kohana_ORM {
 			return parent::save($validation);
 		} catch (Database_Exception $e) {
 			if (strstr($e->getMessage(), 'Duplicate entry'))
-					throw new Api_Exception_Duplicate();
+					throw new Api_Exception_Duplicate(null,"Duplicate " . $this->_table_name);
 			throw $e;
 		}
 	}
