@@ -68,4 +68,15 @@ class Model_Convention extends ORM {
 	public function isManager(Model_User $user) {
 		return count($this->managers->where('user_id','=', $user->pk())->find_all()) > 0;
 	}
+
+	public function addManager(Model_User $user) {
+		if (!$this->isManager($user))
+			Model_Manager::persist($this, $user, (new Model_Role_Manager)->getRole());
+	}
+	
+	public function removeManager(Model_User $user) {
+		$manager = $this->managers->where('user_id','=',$user->pk())->find();
+		if ($manager->loaded())
+			$manager->delete();
+	}
 }

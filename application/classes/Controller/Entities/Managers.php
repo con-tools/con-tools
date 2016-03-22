@@ -7,14 +7,39 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @param stdClass $data Data to create the record
 	 * @return ORM Model object created
 	 */
-	protected function create() {}
+	protected function create() {
+		$data = $this->input();
+		if (is_null($this->user) or !$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
+		$user_id = $data->id;
+		$email = $data->email;
+		if ($user_id and $email)
+			throw new Api_Exception_InvalidInput($this, "Please provide either an `id` or `email` but not both");
+		if ($user_id) {
+			$user = new Model_User($user_id);
+			if (!$user->loaded())
+				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
+		} elseif ($email) {
+			try {
+				$user = Model_User::byEmail($email);
+			} catch (Model_Exception_NotFound $e) {
+				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
+			}
+		} else {
+			throw new Api_Exception_InvalidInput($this, "Invalid user specified");
+		}
+		$this->convention->addManager($user);
+		return array_merge($user->for_public_json(), [ 'id' => $user->pk() ]);
+	}
 	
 	/**
 	 * Retrieve an existing record by ID
 	 * @param int $id record ID
 	 * @return stdClass Record data
 	 */
-	protected function retrieve($id) {}
+	protected function retrieve($id) {
+		throw new Api_Exception_InvalidInput($this, 'Not implemented');
+	}
 	
 	/**
 	 * Update an existing record
@@ -22,14 +47,28 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @param stdClass $data Data to update the record
 	 * @return boolean Whether the create succeeded
 	 */
-	protected function update($id) {}
+	protected function update($id) {
+		throw new Api_Exception_InvalidInput($this, 'Not implemented');
+	}
 	
 	/**
 	 * Delete an existing record
 	 * @param int $id record ID
 	 * @return boolean Whether the delete succeeded
 	 */
-	protected function delete($id) {}
+	protected function delete($id) {
+		if (is_null($this->user) or !$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
+		if (!$id)
+			throw new Api_Exception_InvalidInput($this, "Invalid user specified");
+		$user = new Model_User($id);
+		if (!$user->loaded())
+			return true;
+		if ($this->user == $user)
+			throw new Api_Exception_InvalidInput($this, "You cannot remove yourself!");
+		$this->convention->removeManager($user);
+		return true;
+	}
 	
 	/**
 	 * Retrieve the list of managers for the convention

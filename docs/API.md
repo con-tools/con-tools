@@ -80,4 +80,5 @@ characters (e.g. `"Convention " + time + ":" + salt + ":" + signature`).
 
 * [Authentication](api/Authentication.md)
 * [Conventions](api/Conventions.md)
+* [Managers](api/Managers.md)
 * [Events](api/Events.md)
