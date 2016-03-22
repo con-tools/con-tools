@@ -203,7 +203,7 @@ class Model_User extends ORM {
 	/**
 	 * Return public data for the user - namely, name and email - for JSON presetnation to other people
 	 */
-	public function for_public_json() {
+	public function for_json() {
 		return [
 				'name' => $this->name,
 				'email' => $this->email,

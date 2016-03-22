@@ -163,8 +163,8 @@ class Model_Event extends ORM {
 					'min-attendees', 'max-attendees', 'notes-to-staff', 'logistical-requirements', 'notes-to-attendees',
 					'scheduling-constraints', 'custom-data', 'status' ]);
 		},ARRAY_FILTER_USE_KEY);
-		$ar['user'] = $this->user->for_public_json();
-		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_public_json() : null;
+		$ar['user'] = $this->user->for_json();
+		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_json() : null;
 		$ar['tags'] = [];
 		foreach ($this->event_tag_values->find_all() as $tag_value) {
 			if ($tag_value->event_tag_type->requiredOne())

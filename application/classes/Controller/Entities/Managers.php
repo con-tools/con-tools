@@ -14,7 +14,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 		
 		$user = $this->loadUserByIdOrEmail($data->id, $data->email);
 		$this->convention->addManager($user);
-		return array_merge($user->for_public_json(), [ 'id' => $user->pk() ]);
+		return array_merge($user->for_json(), [ 'id' => $user->pk() ]);
 	}
 	
 	/**
