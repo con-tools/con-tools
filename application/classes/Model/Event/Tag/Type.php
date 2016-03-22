@@ -16,7 +16,7 @@ class Model_Event_Tag_Type extends ORM {
 			'convention_id' => [],
 			// data fields
 			'title' => [],
-			'requirement' => [],
+			'requirement' => [], // requirement specification, one of '1' (one and only one), '*' (zero or more) or '+' (one or more)
 			'visible' => [ 'type' => 'boolean' ],
 	];
 	
@@ -25,20 +25,34 @@ class Model_Event_Tag_Type extends ORM {
 	 * @param Model_Convention $con Convention to which this type belongs
 	 * @param string $title tag type 
 	 */
-	public static function generate(Model_Convention $con, string $title) : Model_Event_Tag_Type {
+	public static function generate(Model_Convention $con, string $title, $required = true, 
+			$support_multiple = false) : Model_Event_Tag_Type {
 		$o = $con->event_tag_types->where('title','=', $title)->find();
 		if ($o->loaded())
 			return $o;
-		return self::persist($con, $title);
+		return self::persist($con, $title, $required, $support_multiple);
 	}
 	
-	public static function persist(Model_Convention $con, string $title) : Model_Event_Tag_Type {
+	public static function persist(Model_Convention $con, string $title, $required = true, 
+			$support_multiple = false) : Model_Event_Tag_Type {
 		$o = new Model_Event_Tag_Type();
 		$o->convention = $con;
 		$o->title = $title;
-		$o->requirement = true;
+		$o->requirement = $required ? ($support_multiple ? '+' : '1') : '*';
 		$o->visible = true;
 		$o->save();
 		return $o;
+	}
+	
+	public function requiredOne() {
+		return $this->requirement == '1';
+	}
+	
+	public function requiredMany() {
+		return $this->requirement == '+';
+	}
+	
+	public function optional() {
+		return $this->requirement == '*';
 	}
 }
