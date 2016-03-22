@@ -23,7 +23,7 @@ class Model_Event_Tag_Value extends ORM {
 	 * @param Model_Event_Tag_Type $type event tag type this value belongs to
 	 * @param string $title text of the value
 	 */
-	public static function generate(Model_Event_Tag_Type $type, string $title) {
+	public static function generate(Model_Event_Tag_Type $type, string $title) : Model_Event_Tag_Value {
 		try {
 			return self::byTitle($type, $title);
 		} catch (Model_Exception_NotFound $e) {
@@ -31,7 +31,7 @@ class Model_Event_Tag_Value extends ORM {
 		}
 	}
 	
-	public static function persist(Model_Event_Tag_Type $type, string $title) {
+	public static function persist(Model_Event_Tag_Type $type, string $title) : Model_Event_Tag_Value {
 		$o = new Model_Event_Tag_Value();
 		$o->event_tag_type = $type;
 		$o->title = $title;
@@ -39,7 +39,7 @@ class Model_Event_Tag_Value extends ORM {
 		return $o;
 	}
 	
-	public static function byTitle(Model_Event_Tag_Type $type, string $title) {
+	public static function byTitle(Model_Event_Tag_Type $type, string $title) : Model_Event_Tag_Value {
 		$o = $type->event_tag_values->where('title', '=', $title)->find();
 		if ($o->loaded())
 			return $o;
