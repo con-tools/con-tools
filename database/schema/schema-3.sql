@@ -37,7 +37,7 @@ CREATE TABLE `timeslot_locations` (
   `timeslot_id` INT UNSIGNED NOT NULL COMMENT '',
   `location_id` INT UNSIGNED NOT NULL COMMENT '',
   PRIMARY KEY (`id`),
-  CONSTRAINT `timeslot_instance_ibfk_1` FOREIGN KEY (`timeslot_id`) REFERENCES `timeslots` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `timeslot_instance_ibfk_1` FOREIGN KEY (`timeslot_id`) REFERENCES `timeslots` (`id`) ON DELETE CASCADE,
   CONSTRAINT `timeslot_location_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
