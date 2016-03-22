@@ -49,9 +49,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 	}
 	
 	protected function catalog() {
-		return array_map(function(Model_Location $loc){
-			return $loc->for_json();
-		}, $this->convention->locations->find_all()->as_array());
+		return ORM::result_for_json($this->convention->locations->find_all());
 	}
 	
 }
