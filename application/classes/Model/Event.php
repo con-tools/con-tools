@@ -107,6 +107,9 @@ class Model_Event extends ORM {
 	 * @return Model_Event the event object
 	 */
 	public function tag(Model_Event_Tag_Value $tag) : Model_Event {
+		if ($tag->getType()->requiredOne()) { // when adding a "required one" tag, replace existing
+			$this->event_tag_values->where('event_tag_type_id', '=', $tag->getType()->pk())->delete();
+		}
 		return $this->add('event_tag_values', $tag);
 	}
 	
