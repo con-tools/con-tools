@@ -85,3 +85,4 @@ characters (e.g. `"Convention " + time + ":" + salt + ":" + signature`).
 * [Tags](api/Tags.md)
 * [Events](api/Events.md)
 * [Locations](api/Locations.md)
+* [Time slots](api/Timeslots.md) (scheduling)
