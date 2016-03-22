@@ -453,4 +453,80 @@ fields:
 * `notes-to-attendees`: Notes about the event to show potential attendees
 * `scheduling-constraints`: Notes about the availability of the event submitter for scheduling
 * `data`: Custom data to be stored and retrieved - can be any JSON value
+* `user`: Name and e-mail address of the owner of the event
+* `staff_contact`: Name and email address of the staff contact fot the event (if set) 
 
+`GET /entities/events` : Retrieve a list of events for this convention.
+
+This method requires a convention public identity to retrieve the public event list (events that are approved).
+
+If user authorization is provided, the list of events will also include any events submitted by the authorizing
+user, regardless of status.
+
+If user authorization is provided and the authorizing user is a manager of the convention, then all events are
+returned, regardless of status.
+
+**Input:** No input required  
+**Output:** Array of event objects, each presented as a property list with the following fields:
+* `id`: numeric identifier for the convention in the system.
+* `title`: Event title
+* `teaser`: Event teaser text
+* `description`: Event long description text
+* `requires-registration`: Does the event requires people to register, or is it free for all (boolean value)
+* `duration`: Event expected duration in minutes
+* `event_type`: Event type, as specified by the `event_type` tag type
+* `age-requirement`: Event age requirements as specified by the `age_requirement` tag type
+* `min-attendees`: Minimum number of attendees required to start the event
+* `max-attendees`: Maximum number of attendees that can be accommodated
+* `notes-to-staff`: Note about the event for the management staff
+* `logitsical-requirements`: Notes about the events for the logistics team
+* `notes-to-attendees`: Notes about the event to show potential attendees
+* `scheduling-constraints`: Notes about the availability of the event submitter for scheduling
+* `data`: Custom data to be stored and retrieved - can be any JSON value
+* `user`: Name and e-mail address of the owner of the event
+* `staff_contact`: Name and email address of the staff contact fot the event (if set) 
+* `price`: default registration cost for the event
+* `status`: approval status of the event
+
+`PUT /entities/events/:id` : Update event data.
+
+This method requires a convention public identity as well as user authorization. If the authorizing user is
+not a manager in the convention, then they may still update some of the fields of the event - if they are
+the owner of the event and the event is still in the initial status of `SUBMITTED`. Otherwise the authorizing
+user must be a manager in the convention.
+
+**Input:** A property list including all the fields that should be changed. It is not required to send fields
+whose value should not be changed. For the full list of fields, consult the table in the *output* section.
+**Output:** The event details after the update has completed, including the following fields:
+* `id`: numeric identifier for the convention in the system.
+* `title`: Event title
+* `teaser`: Event teaser text
+* `description`: Event long description text
+* `requires-registration`: Does the event requires people to register, or is it free for all (boolean value)
+* `duration`: Event expected duration in minutes
+* `event_type`: Event type, as specified by the `event_type` tag type
+* `age-requirement`: Event age requirements as specified by the `age_requirement` tag type
+* `min-attendees`: Minimum number of attendees required to start the event
+* `max-attendees`: Maximum number of attendees that can be accommodated
+* `notes-to-staff`: Note about the event for the management staff
+* `logitsical-requirements`: Notes about the events for the logistics team
+* `notes-to-attendees`: Notes about the event to show potential attendees
+* `scheduling-constraints`: Notes about the availability of the event submitter for scheduling
+* `data`: Custom data to be stored and retrieved - can be any JSON value
+* `user`: Name and e-mail address of the owner of the event
+* `staff_contact`: Name and email address of the staff contact fot the event (if set) 
+* `price`: default registration cost for the event
+* `status`: approval status of the event
+
+`DELETE /entities/events/:id` : Cancel an event.
+
+This method requires a convention public identity and a user authorization for a user that is a manager
+in the convention.
+
+The event is not actually deleted, it is just moved immediately to the `CANCELLED` status where it is not
+shown in any public list.
+
+**Input:** The id of the event must be specified in the URI  
+**Output:** A property list containing the status of the operation:
+* `status`: boolean value set to `true` if the operation was successful.
+* `error`: the error message if the operation has failed
