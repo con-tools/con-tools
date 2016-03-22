@@ -38,7 +38,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @return stdClass Record data
 	 */
 	protected function retrieve($id) {
-		throw new Api_Exception_InvalidInput($this, 'Not implemented');
+		throw new Api_Exception_Unimplemented($this);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	 * @return boolean Whether the create succeeded
 	 */
 	protected function update($id) {
-		throw new Api_Exception_InvalidInput($this, 'Not implemented');
+		throw new Api_Exception_Unimplemented($this);
 	}
 	
 	/**
