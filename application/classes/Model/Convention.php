@@ -93,4 +93,12 @@ class Model_Convention extends ORM {
 	public function getTimeSlots() : Database_Result {
 		return (new Model_Timeslot)->with('event')->where('convention_id', '=', $this->pk())->find_all();
 	}
+	
+	/**
+	 * Retrieve all events that have been "published"
+	 * @return Database_Result listing of published events
+	 */
+	public function getPublicEvents() : Database_Result {
+		return $this->events->where('status', '=', Model_Event::STATUS_APPROVED)->find_all();
+	}
 }
