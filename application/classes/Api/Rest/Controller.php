@@ -20,6 +20,8 @@ abstract class Api_Rest_Controller extends Api_Controller {
 					$this->send([ 'status' => false ]);
 				elseif ($obj instanceof ORM)
 					$this->send([ 'status' => true, 'id' => $obj->pk() ]);
+				elseif (is_array($obj))
+					$this->send(array_merge([ 'status' => true ], $obj));
 				else
 					$this->send([ 'status' => true ]);
 				return;
