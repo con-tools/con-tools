@@ -59,7 +59,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		if (is_null($this->user))
 			throw new Api_Exception_Unauthorized($this, "Must be logged in!");
 		$o = new Model_Event($id);
-		if (!$o->convention_id != $this->convention->pk())
+		if ($o->convention_id != $this->convention->pk())
 			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected!"); // can't hack around convention keys
 		if ($this->convention->isManager($this->user)) { // allow to change all fields
 			$o->update(new Validation($data->getFields([
@@ -74,6 +74,15 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 			if ($data->tags) {
 				foreach ($this->generateTags($data->tags) as $tag) {
 					$o->tag($tag);
+				}
+			}
+			if ($data->remove_tags) {
+				try {
+					foreach ($this->generateTags($data->remove_tags) as $tag) {
+						$o->untag($tag);
+					}
+				} catch (InvalidArgumentException $e) {
+					throw new Api_Exception_InvalidInput($e->getMessage());
 				}
 			}
 			return $o->for_json();
