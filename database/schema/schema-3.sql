@@ -23,10 +23,13 @@ CREATE TABLE `locations` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `convention_id` INT UNSIGNED NOT NULL COMMENT '',
   `title` VARCHAR(50) NOT NULL COMMENT '',
+  `slug` VARCHAR(50) NOT NULL COMMENT '',
   `max_attendees` INT UNSIGNED NOT NULL COMMENT '',
   `area` VARCHAR(50) DEFAULT NULL COMMENT 'area specification for areas with subdivisions, such as "main hall" or "blue rooms"',
   PRIMARY KEY (`id`),
-  CONSTRAINT `location_convention_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
+  CONSTRAINT `location_convention_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE,
+  UNIQUE INDEX `location_title_uk_1` (`convention_id`, `title`),
+  UNIQUE INDEX `location_title_uk_2` (`convention_id`, `slug`) 
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
 CREATE TABLE `timeslot_locations` (
@@ -34,8 +37,8 @@ CREATE TABLE `timeslot_locations` (
   `timeslot_id` INT UNSIGNED NOT NULL COMMENT '',
   `location_id` INT UNSIGNED NOT NULL COMMENT '',
   PRIMARY KEY (`id`),
-  CONSTRAINT `timeslot_instance_ibfk_1` FOREIGN KEY (`timeslot_id`) REFERENCES `timeslots` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `timeslot_location_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE
+  CONSTRAINT `timeslot_instance_ibfk_1` FOREIGN KEY (`timeslot_id`) REFERENCES `timeslots` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `timeslot_location_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE RESTRICT
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
 CREATE TABLE `organizers` (
