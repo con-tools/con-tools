@@ -38,6 +38,14 @@ class Model_Event_Tag_Value extends ORM {
 		return $o;
 	}
 	
+	/**
+	 * Typed helper for lazy folks
+	 * @return Model_Event_Tag_Type type who owns this value
+	 */
+	public function getType() : Model_Event_Tag_Type {
+		return $this->event_tag_type;
+	}
+	
 	public function get($column) {
 		switch ($column) {
 			case 'type':
