@@ -1,13 +1,84 @@
 <?php
 class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 	
-	protected function create() {}
+	protected function create() {
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tag types!");
+		$data = $this->input();
+		if (!$data->title)
+			throw new Api_Exception_InvalidInput($this, "No title specified");
+		$title = $data->title;
+		$public = $data->fetch('public', true);
+		$requirement = $data->fetch('requirement','1');
+		$type = Model_Event_Tag_Type::generate($this->convention, $title, $requirement != '*', $requirement != '1');
+		foreach ($data->fetch('values',[]) as $value)
+			Model_Event_Tag_Value::generate($type, $value);
+		return $type->for_json();
+	}
 	
-	protected function retrieve($id) {}
+	protected function retrieve($id) {
+		$type = $this->convention->event_tag_types->where('title', '=', $id)->find();
+		if ($type->loaded() and ($type->visible or $this->convention->isManager($this->user)))
+			return $type->for_json();
+		return false;
+	}
 	
-	protected function update($id) {}
+	protected function update($id) {
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tag types!");
+		$type = $this->convention->event_tag_types->where('title', '=', $id)->find();
+		$data = $this->input();
+		if (!$type->loaded())
+			throw new Api_Exception_InvalidInput($this,"Tag Type '$id' not found");
+		foreach ($data->fetch('replace-values', []) as $oldval => $newval) {
+			$newval = Model_Event_Tag_Value::generate($type, $newval);
+			try {
+				$oldval = Model_Event_Tag_Value::byTitle($type, $oldval);
+				foreach ($oldval->getEventTags() as $evt) {
+					$evt->event_tag_value = $newval;
+					$evt->save();
+				}
+				$oldval->delete(); // should be safe now
+			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
+		}
+		foreach ($data->fetch('remove-values',[]) as $value) {
+			try {
+				$val = Model_Event_Tag_Value::byTitle($type, $value);
+				try {
+					$val->delete();
+				} catch (Database_Exception $e) {
+					throw new Api_Exception_InvalidInput($this, "Cannot remove value '$value' for tag type '$id' as existing events " .
+							join(', ', array_map(function(Model_Event_Tag $evt){
+								return $evt->event_id;
+							}, $val->getEventTags()->as_array())) . " use it");
+				}
+			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
+		}
+		foreach ($data->fetch('values',[]) as $value)
+			Model_Event_Tag_Value::generate($type, $value);
+		return $type->for_json();
+	}
 	
-	protected function delete($id) {}
+	protected function delete($id) {
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tag types!");
+		$type = $this->convention->event_tag_types->where('title', '=', $id)->find();
+		if (!$type->loaded())
+			return true; // no need to delete, it is already gone
+		try {
+			$type->delete();
+		} catch (Database_Exception $e) {
+			if ($this->input()->force) {
+				foreach ($type->getEventTags() as $evt) $evt->delete();
+				$type->delete();
+			} else {
+				throw new Api_Exception_InvalidInput($this, "Cannot delete tag type '$id': existing events ".
+					join(', ', array_map(function(Model_Event_Tag $evt){ return $evt->event->pk(); }, $type->getEventTags()->as_array())) . 
+					" use it");
+			}
+		}
+		return true;
+	}
 	
 	protected function catalog() {
 		$isadmin = $this->convention->isManager($this->user);
