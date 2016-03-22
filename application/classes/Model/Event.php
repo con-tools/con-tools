@@ -20,7 +20,6 @@ class Model_Event extends ORM {
 			'timeslots' => [],
 			'event_tag_values' => [ 'through' => 'event_tags' ],
 			'crm_issues' => [],
-			'tags' => [],
 			'media' => [],
 	];
 	
@@ -135,6 +134,13 @@ class Model_Event extends ORM {
 		unset($ar['staff-contact-id']);
 		$ar['user'] = $this->user->for_public_json();
 		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_public_json() : null;
+		$ar['tags'] = [];
+		foreach ($this->event_tag_values->find_all() as $tag_value) {
+			if ($tag_value->event_tag_type->requiredOne())
+				$ar['tags'][$tag_value->type] = $tag_value->title;
+			else
+				$ar['tags'][$tag_value->type][] = $tag_value->title;
+		}
 		return $ar;
 	}
 	
