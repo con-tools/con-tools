@@ -66,7 +66,7 @@ only public tag types will be listed.
 
 *Example:*
 ```
-$ curl -X GET "http://localhost:8080/entities/tagtypes" \
+$ curl -X GET "http://api.con-troll.org/entities/tagtypes" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"
@@ -94,7 +94,7 @@ convention manager, a private tag type can be retrieved, otherwise only public t
 
 *Example:*
 ```
-curl -X GET "http://localhost:8080/entities/tagtypes/event-type" \
+curl -X GET "http://api.con-troll.org/entities/tagtypes/event-type" \
   -H "Content-Type: application/json" 
     -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"
@@ -125,7 +125,7 @@ Create a new tag type, possibly populating its value list.
 
 *Example:*
 ```
-curl -X POST "http://localhost:8080/entities/tagtypes" \
+curl -X POST "http://api.con-troll.org/entities/tagtypes" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
   -H "Content-Type: application/json" 
@@ -163,7 +163,7 @@ Convention manager user authorization is required for this operation.
 
 *Example:*
 ```
-curl -X PUT "http://localhost:8080/entities/tagtypes/event-type" \
+curl -X PUT "http://api.con-troll.org/entities/tagtypes/event-type" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
@@ -191,7 +191,7 @@ are still using this tag type and should be updated before removing this tag typ
 
 *Example:*
 ```
-curl -X DELETE "http://localhost:8080/entities/tagtypes/age-requirement" \
+curl -X DELETE "http://api.con-troll.org/entities/tagtypes/age-requirement" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"
