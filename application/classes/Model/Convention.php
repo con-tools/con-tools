@@ -9,6 +9,7 @@ class Model_Convention extends ORM {
 			'event_tag_types' => [],
 			'crm_queues' => [],
 			'managers' => [],
+			'api_keys' => [],
 	];
 	
 	protected $_columns = [
@@ -38,7 +39,7 @@ class Model_Convention extends ORM {
 	
 	/**
 	 * Retrieve a convention for a submitted API key
-	 * @param Model_Api_Key|string $apikey 
+	 * @param Model_Api_Key|string $apikey
 	 * @return Model_Convention
 	 */
 	public static function byAPIKey($apikey) {
