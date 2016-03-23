@@ -65,12 +65,19 @@ class Controller_Entities_Conventions extends Api_Controller {
 		} else {
 			$out = [];
 			foreach (ORM::factory('Convention')->find_all() as $con) {
-				$out[] = [
+				$condata = [
 						'id' => $con->id,
 						'title' => $con->title,
 						'slug' => $con->slug,
 						'series' => $con->series,
 				];
+				if ($this->request->query('keys')) {
+					foreach ($con->api_keys->find_all() as $key) {
+						$condata['public-key'] = $key->client_key;
+						break;
+					}
+				}
+				$out[] = $condata;
 			}
 			$this->send($out);
 		}
