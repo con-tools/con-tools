@@ -2,7 +2,7 @@ ALTER TABLE `conventions` DROP INDEX `name_UNIQUE`;
 ALTER TABLE `conventions` CHANGE COLUMN `name` `title` VARCHAR(255) NOT NULL;
 ALTER TABLE `conventions` ADD UNIQUE INDEX `title_UNIQUE` (`title`)  COMMENT '';
 ALTER TABLE `conventions` ADD COLUMN `slug` VARCHAR(50) DEFAULT '' COMMENT '' AFTER `id`;
-UPDATE `conventions` SET slug = REPLACE(title, ' ', '-');
+UPDATE `conventions` SET slug = REPLACE(title, ' ', '-') WHERE id > 0;
 ALTER TABLE `conventions` CHANGE COLUMN `slug` `slug` VARCHAR(50) NOT NULL COMMENT '';
 ALTER TABLE `conventions` ADD COLUMN (
 	`series` VARCHAR(50) DEFAULT '' COMMENT '',
@@ -45,7 +45,7 @@ CREATE TABLE `event_tag_types` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `convention_id` INT UNSIGNED NOT NULL COMMENT '',
   `title` VARCHAR(50) NOT NULL COMMENT '',
-  `requirement` VARCHAR(50) NOT NULL COMMENT '', /* I'm not sure what this does */
+  `requirement` VARCHAR(50) NOT NULL COMMENT '', -- see update on schema-3
   `visible` BOOLEAN NOT NULL DEFAULT TRUE COMMENT '',
   PRIMARY KEY (`id`),
   CONSTRAINT `event_tag_types_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
@@ -116,16 +116,31 @@ CREATE TABLE `coupon_types` (
   CONSTRAINT `coupon_types_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
 
-CREATE TABLE IF NOT EXISTS 'coupons' (
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
+  `user_id` INT UNSIGNED NOT NULL COMMENT '',
+  `cashier_id` INT UNSIGNED DEFAULT NULL COMMENT 'If null, this is self-service (i.e. website)',
+  `transaction_id` VARCHAR(255) NOT NULL COMMENT 'transaction confirmation ID recived from payment processor',
+  `original_sale_id` INT UNSIGNED DEFAULT NULL COMMENT 'for cancellations, the original sale that is cancelled',
+  `sale_time` TIMESTAMP,
+  `cancellation_notes` TEXT DEFAULT NULL COMMENT 'for cancellation, cashier or user notes',
+  PRIMARY KEY (`id`),
+  INDEX `sale_cancellation_idx` (`original_sale_id`),
+  CONSTRAINT `sale_customer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `sale_cashier_ibfk_1` FOREIGN KEY (`cashier_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `sale_cancellation_ibfk_1` FOREIGN KEY (`original_sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS `coupons` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
   `user_id` INT UNSIGNED NOT NULL COMMENT '',
   `coupon_type_id` INT UNSIGNED NOT NULL COMMENT '',
   `sale_id` INT UNSIGNED NOT NULL COMMENT '',
-  `amount` INT UNSIGNED NOT NULL COMMENT 'Im not shor the this is the corect type',
+  `amount` DECIMAL(5,2) NOT NULL COMMENT '',
   PRIMARY KEY (`id`) COMMENT '',
-  FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-  FOREIGN KEY `fk_coupon_type_id` (`coupon_type_id`) REFERENCES `coupon_type` (`id`) ON DELETE CASCADE
-  FOREIGN KEY `fk_sale_id` (`sale_id`) REFERENCES `sale` (`id`) ON DELETE CASCADE
+  FOREIGN KEY `fk_user_id` (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY `fk_coupon_type_id` (`coupon_type_id`) REFERENCES `coupon_types` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY `fk_sale_id` (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
-UPDATE `system_settings` SET `value` = '2' WHERE `name` = 'data-version';
+UPDATE `system_settings` SET `value` = '2' WHERE `name` = 'data-version' and `id` > 0;

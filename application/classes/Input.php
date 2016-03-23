@@ -7,7 +7,17 @@ class Input {
 	 */
 	private $_request = null;
 	
+	/**
+	 * Whether the request is using JSON REST
+	 * @var boolean
+	 */
 	private $_rest = null;
+	
+	/**
+	 * Input data
+	 * @var array
+	 */
+	private $_data = null;
 	const ISSET_DETECTION_MAGIC_VALUE = 0xDE7EC7;
 	
 	public function __construct($request) {
@@ -31,5 +41,31 @@ class Input {
 	
 	public function fetch($field, $default = null) {
 		return Arr::path($this->_data, $field, $default);
+	}
+	
+	public function isset($field) {
+		$normalized_field = str_replace('-','_', $field);
+		foreach ($this->_data as $key => $value) {
+			$normalized_key = str_replace('-','_', $key);
+			if ($normalized_field == $normalized_key)
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Retrieve a list of data fields according to the specified list
+	 * Only data fields found in the incoming data are retrieved.
+	 * Field lookup in insensitive to dash vs. underscore, but return
+	 * keys as specified in the input list
+	 * @param array $list
+	 * @return array data fields found
+	 */
+	public function getFields($list) {
+		$out = [];
+		foreach ($list as $field)
+			if ($this->isset($field))
+				$out[$field] = $this->{$field};
+		return $out;
 	}
 }

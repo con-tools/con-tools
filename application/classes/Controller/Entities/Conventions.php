@@ -29,8 +29,9 @@ class Controller_Entities_Conventions extends Api_Controller {
 		if (!isset($data['title']))
 			return $this->send(['status' => false, 'error' => 'missing title']);
 		try {
-			$con = Model_Convention::persist($data['title'], @$data['series'], @$data['location'], @$location['slug']);
+			$con = Model_Convention::persist($data['title'], @$data['series'], @$data['website'], @$data['location'], @$data['slug']);
 			$key = $con->generateApiKey();
+			$owner = Model_Manager::persist($con, $user, (new Model_Role_Manager())->getRole());
 			$this->send([
 					'status' => true,
 					'slug' => $con->slug,

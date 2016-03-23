@@ -70,12 +70,37 @@ class ORM extends Kohana_ORM {
 			return parent::save($validation);
 		} catch (Database_Exception $e) {
 			if (strstr($e->getMessage(), 'Duplicate entry'))
-					throw new Api_Exception_Duplicate();
+					throw new Api_Exception_Duplicate(null,"Duplicate " . $this->_table_name);
 			throw $e;
 		}
 	}
 	
 	public static function gen_slug($title) {
-		return strtolower(preg_replace('/[^a-zA-Zא-ת]+/', '-', $title));
+		return strtolower(preg_replace('/[^a-zA-Zא-ת0-9]+/', '-', $title));
+	}
+	
+	/**
+	 * Return a JSON friendly array presentation of the data
+	 * based on Kohana_ORM#as_array()
+	 */
+	public function for_json() {
+		$ar = $this->as_array();
+		$out = [];
+		foreach ($ar as $key => $value) {
+			$out[str_replace('_', '-', $key)] = $value;
+		}
+		return $out;
+	}
+	
+	/**
+	 * Helper call to convert an array or Database_Result to an array of "for_json" objects
+	 * @param array|Database_Result $result
+	 */
+	public static function result_for_json($result) {
+		if ($result instanceof Database_Result)
+			$result = $result->as_array();
+		return array_map(function(ORM $ent){
+			return $ent->for_json();
+		}, $result);
 	}
 }

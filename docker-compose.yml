@@ -1,8 +1,44 @@
+web:
+  build: .
+  command: 'bash -c ''vendor/bin/heroku-php-apache2 public/'''
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+    DOCKER_DSN: mysql://root:secret@mysql/controll
+    DB_URL_ENV_NAME: DOCKER_DSN
+  volumes:
+   - ./application:/app/user/application
+  env_file:
+   - .secrets
+  ports:
+    - '8080:8080'
+  links:
+    - mysql
+
+#shell:
+#  build: .
+#  command: bash
+#  working_dir: /app/user
+#  environment:
+#    PORT: 8080
+#  ports:
+#    - '8080:8080'
+#  volumes:
+#    - '.:/app/user'
+#  links:
+#   - mysql
+
 mysql:
-  dockerfile: mysql.Dockerfile
-  build: database
+  image: mysql:latest
   environment:
    - MYSQL_ROOT_PASSWORD=secret
+  volumes:
+    - ./database/docker-init.sh:/docker-entrypoint-initdb.d/00.init.sh
+    - ./database/dumps/dump-2.sql:/docker-entrypoint-initdb-sh.d/01.dump-2.sql
+#    - ./database/schema/schema-1.sql:/docker-entrypoint-initdb-sh.d/01.schema-1.sql
+#    - ./database/schema/schema-2.sql:/docker-entrypoint-initdb-sh.d/01.schema-2.sql
+    - ./database/schema/schema-3.sql:/docker-entrypoint-initdb-sh.d/01.schema-3.sql
+    - ~/tmp/controll-data:/var/lib/mysql
 #  volumes_from:
 #   - data
 #data:

@@ -1,16 +1,12 @@
 <?php
 
-class Api_Exception_Duplicate extends HTTP_Exception_409 {
+class Api_Exception_InvalidInput extends HTTP_Exception_400 {
+	
 	private $source; // Controller that thrown this error
 	
-	public function __construct(Api_Controller $source_controller = null, $message = NULL, $variables = NULL, $previous = NULL) {
+	public function __construct(Api_Controller $source_controller, $message = NULL, $variables = NULL, $previous = NULL) {
 		$this->source = $source_controller;
 		parent::__construct($message, $variables, $previous);
-	}
-	
-	public function setControll(Api_Controller $controller) {
-		if (!$this->source)
-			$this->source = $controller;
 	}
 	
 	/**
@@ -24,12 +20,11 @@ class Api_Exception_Duplicate extends HTTP_Exception_409 {
 				'status' => false,
 				'error' => $this->getMessage(),
 				//'server_html' => $res->body()
-		];
+				];
 		$res->headers('Content-Type', 'application/json');
 		$res->body(json_encode($data));
-		if ($this->source)
-			$this->source->addCORSHeaders($res);
+		$this->source->addCORSHeaders($res);
 		return $res;
 	}
-	
+
 }
