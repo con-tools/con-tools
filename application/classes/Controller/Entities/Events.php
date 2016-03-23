@@ -104,10 +104,10 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not authorized to cancel events!");
 		$o = new Model_Event($id);
 		if (!$o->loaded())
-			throw new Model_Exception_NotFound();
+			return true; // that's fine
 		if ($o->convention_id != $this->convention->pk())
 			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected!"); // can't hack around convention keys
-		$o->cancel();
+		$o->delete();
 		return true;
 	}
 
