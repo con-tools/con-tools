@@ -24,7 +24,7 @@ registered as a manager for the convention.
 
 *Example:*
 ```
-$ curl -X GET "http://localhost:8080/entities/managers" \
+$ curl -X GET "http://api.con-troll.org/entities/managers" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"
@@ -52,7 +52,7 @@ fields are supported:
 
 *Example:*
 ```
-curl -X POST "http://localhost:8080/entities/managers" \
+curl -X POST "http://api.con-troll.org/entities/managers" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
@@ -78,7 +78,7 @@ Remove a manager from the convention.
 
 *Example:*
 ```
-curl -X DELETE "http://localhost:8080/entities/managers/1" \
+curl -X DELETE "http://api.con-troll.org/entities/managers/1" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"

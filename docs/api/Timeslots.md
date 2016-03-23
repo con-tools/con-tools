@@ -30,7 +30,7 @@ where it happens and who hosts the time slot - containing the following fields:
 
 *Example:*
 ```
-$ curl -X GET "http://localhost:8080/entities/timeslots" \
+$ curl -X GET "http://api.con-troll.org/entities/timeslots" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456"
 ```
@@ -63,7 +63,7 @@ Retrieve information for a single time slot, the event that happens there, the l
 
 *Example:*
 ```
-curl -X GET "http://localhost:8080/entities/timeslots/456" \
+curl -X GET "http://api.con-troll.org/entities/timeslots/456" \
   -H "Content-Type: application/json" 
   -H "Convention: CON123456"
 ```
@@ -106,7 +106,7 @@ Schedule a new time slot. This API call requires convention manager user authori
 
 *Example:*
 ```
-curl -X POST "http://localhost:8080/entities/timeslots" \
+curl -X POST "http://api.con-troll.org/entities/timeslots" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
   -H "Content-Type: application/json" 
@@ -155,7 +155,7 @@ removing locations and hosts. This API call requires convention manager user aut
 
 *Example:*
 ```
-curl -X POST "http://localhost:8080/entities/timeslots" \
+curl -X POST "http://api.con-troll.org/entities/timeslots" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
   -H "Content-Type: application/json" 
@@ -185,7 +185,7 @@ Cancel the scheduling of a time slot in the convention. This API call requires c
 
 *Example:*
 ```
-curl -X DELETE "http://localhost:8080/entities/timeslots/456" \
+curl -X DELETE "http://api.con-troll.org/entities/timeslots/456" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"

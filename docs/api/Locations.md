@@ -22,7 +22,7 @@ except catalog and retrieve.
 
 *Example:*
 ```
-$ curl -X GET "http://localhost:8080/entities/locations" \
+$ curl -X GET "http://api.con-troll.org/entities/locations" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456"
 ```
@@ -46,7 +46,7 @@ Retrieve information of a single location.
 
 *Example:*
 ```
-curl -X GET "http://localhost:8080/entities/locations/table-2" \
+curl -X GET "http://api.con-troll.org/entities/locations/table-2" \
   -H "Content-Type: application/json" 
   -H "Convention: CON123456"
 ```
@@ -78,7 +78,7 @@ Both title and slug (if provided) must be unique in the convention.
 
 *Example:*
 ```
-curl -X POST "http://localhost:8080/entities/locations" \
+curl -X POST "http://api.con-troll.org/entities/locations" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234" \
   -H "Content-Type: application/json" 
@@ -105,7 +105,7 @@ message will note which time slots are still using this location and should be u
 
 *Example:*
 ```
-curl -X DELETE "http://localhost:8080/entities/locations/table-2" \
+curl -X DELETE "http://api.con-troll.org/entities/locations/table-2" \
   -H "Content-Type: application/json" \
   -H "Convention: CON123456" \
   -H "Authorization: ABCD1234"
