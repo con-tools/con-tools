@@ -23,7 +23,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		if (is_array($hosts) and empty($hosts))
 			throw new Api_Exception_InvalidInput($this, "Please specify a valid host");
 		
-		$timeslot = Model_Timeslot::persist($event, $start, $data->duration, $data->min_attendees, $data->max_attendees, 
+		$timeslot = Model_Timeslot::persist($event, $start, $data->duration, $data->min_attendees, $data->max_attendees,
 				$data->notes_to_attendees);
 		
 		foreach ($locations as $location)
@@ -118,20 +118,6 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 	
 	protected function catalog() {
 		return ORM::result_for_json($this->convention->getTimeSlots());
-	}
-	
-	private function parseDateTime($value) {
-		if (!$value)
-			return false;
-		
-		try {
-			if (is_numeric($data->start))
-				return new DateTime("@" . $data->start);
-			else
-				return new DateTime($data->start); // lets hope the SPL can do something with this
-		} catch (Exception $e) {
-			return false;
-		}
 	}
 	
 	private function getHostList($data) {
