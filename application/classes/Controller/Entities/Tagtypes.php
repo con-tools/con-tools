@@ -30,6 +30,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 		$data = $this->input();
 		if (!$type->loaded())
 			throw new Api_Exception_InvalidInput($this,"Tag Type '$id' not found");
+		// handle value replacement
 		foreach ($data->fetch('replace-values', []) as $oldval => $newval) {
 			$newval = Model_Event_Tag_Value::generate($type, $newval);
 			try {
@@ -41,6 +42,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 				$oldval->delete(); // should be safe now
 			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
 		}
+		// handle value removal
 		foreach ($data->fetch('remove-values',[]) as $value) {
 			try {
 				$val = Model_Event_Tag_Value::byTitle($type, $value);
@@ -54,8 +56,17 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 				}
 			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
 		}
+		// handle value addition
 		foreach ($data->fetch('values',[]) as $value)
 			Model_Event_Tag_Value::generate($type, $value);
+		// handle property change
+		if ($data->title)
+			$type->title = $data->title;
+		if ($data->requirement)
+			$type->requirement = $data->requirement;
+		if ($data->isset('public'))
+			$type->visible = $data->public;
+		$type->save();
 		return $type->for_json();
 	}
 	
@@ -73,7 +84,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 				$type->delete();
 			} else {
 				throw new Api_Exception_InvalidInput($this, "Cannot delete tag type '$id': existing events ".
-					join(', ', array_map(function(Model_Event_Tag $evt){ return $evt->event->pk(); }, $type->getEventTags()->as_array())) . 
+					join(', ', array_map(function(Model_Event_Tag $evt){ return $evt->event->pk(); }, $type->getEventTags()->as_array())) .
 					" use it");
 			}
 		}
@@ -82,7 +93,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 	
 	protected function catalog() {
 		$isadmin = $this->convention->isManager($this->user);
-		return ORM::result_for_json(array_filter($this->convention->event_tag_types->find_all()->as_array(), 
+		return ORM::result_for_json(array_filter($this->convention->event_tag_types->find_all()->as_array(),
 				function(Model_Event_Tag_Type $type) use ($isadmin){
 			return $isadmin or $type->visible;
 		}));
