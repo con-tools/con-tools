@@ -60,7 +60,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * Retrieve an existing record by ID
 	 * @param int $id record ID
 	 * @return stdClass Record data
-	 */	
+	 */
 	abstract protected function retrieve($id);
 	
 	/**
@@ -111,4 +111,19 @@ abstract class Api_Rest_Controller extends Api_Controller {
 		
 		throw new Api_Exception_InvalidInput($this, "Invalid user specified");
 	}
+	
+	protected function parseDateTime($value) {
+		if (!$value)
+			return false;
+	
+			try {
+				if (is_numeric($data->start))
+					return new DateTime("@" . $data->start);
+					else
+						return new DateTime($data->start); // lets hope the SPL can do something with this
+			} catch (Exception $e) {
+				return false;
+			}
+	}
+	
 }

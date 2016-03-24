@@ -87,6 +87,9 @@ class ORM extends Kohana_ORM {
 		$ar = $this->as_array();
 		$out = [];
 		foreach ($ar as $key => $value) {
+			if ($value instanceof DateTime) { // format DateTime for consumption
+				$value = $value->format(DateTime::ATOM);
+			}
 			$out[str_replace('_', '-', $key)] = $value;
 		}
 		return $out;

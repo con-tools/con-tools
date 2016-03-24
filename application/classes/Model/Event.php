@@ -33,6 +33,8 @@ class Model_Event extends ORM {
 			'title' => [],
 			'teaser' => [],
 			'description' => [],
+			'created_time' => [ 'type' => 'DateTime' ],
+			'updated_time' => [ 'type' => 'DateTime' ],
 			'price' => [],
 			'status' => [],
 			'requires_registration' => [],
@@ -61,11 +63,11 @@ class Model_Event extends ORM {
 	 * @param string $logistical_requirements Requirements for the logistic team
 	 * @param string $notes_to_attendees Notes to show potential attendees
 	 * @param string $scheduling_constraints Note to scheduling staff
-	 * @param unknown $custom_data Custom convention-specific arbitrary data 
+	 * @param unknown $custom_data Custom convention-specific arbitrary data
 	 */
-	public static function persist(Model_Convention $con, Model_User $user, 
+	public static function persist(Model_Convention $con, Model_User $user,
 			string $title, string $teaser, $description, $registration_required,
-			int $duration, $min_attendees, $max_attendees, 
+			int $duration, $min_attendees, $max_attendees,
 			$notes_to_staff, $logistical_requirements, $notes_to_attendees,
 			$scheduling_constraints, $custom_data) : Model_Event {
 		$o = new Model_Event();
@@ -161,7 +163,7 @@ class Model_Event extends ORM {
 		$ar = array_filter(parent::for_json(), function($key){
 			return in_array($key, ['id', 'title', 'teaser', 'description', 'price', 'requires-registration', 'duration',
 					'min-attendees', 'max-attendees', 'notes-to-staff', 'logistical-requirements', 'notes-to-attendees',
-					'scheduling-constraints', 'custom-data', 'status' ]);
+					'scheduling-constraints', 'custom-data', 'status', 'created-time', 'updated-time' ]);
 		},ARRAY_FILTER_USE_KEY);
 		$ar['user'] = $this->user->for_json();
 		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_json() : null;

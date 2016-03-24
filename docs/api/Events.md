@@ -14,7 +14,9 @@ to apply the operation using the convention key), while other require only conve
 `POST /entities/events`
 
 This method requires a convention identity and a user authorization. The submitting user becomes the event owner and
-point of contact.
+point of contact. Alternatively, if the authorized user is a convention manager, they can specify a different event
+owner by including in the input field named `user` with a value of a property list which can include either the field
+`id` whose value is a user's system id number or a field `email` whose value is a user's e-mail address.
 
 **Input:** Property list with the following fields  
 * `title`: Event title
@@ -32,6 +34,9 @@ point of contact.
 	system tag value or an array of system tag values. The system will not complain if new tags, are
 	submitted, instead generating them as default tag specification with requirement of "one" if a
 	single value is provided or "one-or-more" if a list is provided
+* `user`: a property list describing the user that will be set as the event owner and PoC. only
+	supported if the authorizing user is a convention manager, otherwise its an error to provide this
+	field.
 * `data`: Custom data to be stored and retrieved - can be any JSON value
 
 **Output:** A property list containing the details of the new event record, with the following
