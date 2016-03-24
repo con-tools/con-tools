@@ -27,16 +27,18 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		
 		// check if a convention manager wants to set a different event owner
 		if ($data->isset('user')) {
-			if (!$this->convention->isManager($user))
+			if (!$this->convention->isManager($this->user))
 				throw new Api_Exception_Unauthorized($this, 'Not authorized to set event owner to another user');
-			$userdesc = $data->user;
-			if (!is_array($userdesc))
-				throw new Api_Exception_InvalidInput($this, 'Invalid user specification');
-			$owner = $this->loadUserByIdOrEmail($userdesc['id'], $userdesc['email']);
+			$owner = $this->loadUserByIdOrEmail($data->fetch('user.id'), $data->fetch('user.email'));
 		} else
 			$owner = $this->user;
 		
 		try {
+			$created_time = null;
+			if ($data->created_time) {
+				$created_time = $this->parseDateTime($data->created_time);
+			}
+			
 			// try to figure out tags ahead of generating the event - if the user messed up the tag spec, we
 			// should not create the event
 			$typed_tags = $this->generateTags($data->tags);
@@ -45,6 +47,10 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 					$data->requires_registration, $data->duration, $data->min_attendees,
 					$data->max_attendees, $data->notes_to_staff, $data->logistical_requirements,
 					$data->notes_to_attendees, $data->scheduling_constraints, $data->data);
+			if (!is_null($created_time)) {
+				$ev->created_time = $created_time;
+				$ev->saved();
+			}
 			foreach ($typed_tags as $tag)
 				$ev->tag($tag);
 			return $ev;
@@ -71,14 +77,16 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		if (is_null($this->user))
 			throw new Api_Exception_Unauthorized($this, "Must be logged in!");
 		$o = new Model_Event($id);
+		if (!$o->loaded())
+			throw new Api_Exception_InvalidInput($this, "Event not found");
 		if ($o->convention_id != $this->convention->pk())
-			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected!"); // can't hack around convention keys
+			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected ({$o->convention_id} != {$this->convention->pk()})!"); // can't hack around convention keys
 		if ($this->convention->isManager($this->user)) { // allow to change all fields
-			$o->update(new Validation($data->getFields([
+			foreach ($data->getFields([
 					'title', 'teaser', 'description', 'duration', 'min_attendees', 'max_attendees',
 					'notes_to_staff', 'logistical_requirements', 'notes_to_attendees', 'scheduling_constraints', 'data',
-					'status', 'price', 'requires_registration'
-			])));
+					'status', 'price', 'requires_registration']) as $column => $value)
+				$o->set($column, $value);
 			if ($data->staff_contact) { // load staff contact
 				$o->staff_contact = Model_User::byEmail($data->staff_contact);
 			}

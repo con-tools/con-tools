@@ -1,4 +1,5 @@
-ALTER TABLE `events` ADD COLUMN `created_time` DATETIME DEFAULT CURRENT_TIMESTAMP AFTER `description`;
-ALTER TABLE `events` ADD COLUMN `updated_time` TIMESTAMP AFTER `created_time`;
+ALTER TABLE `events` ADD COLUMN `created_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '' AFTER `description`;
+ALTER TABLE `events` ADD COLUMN `updated_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '' AFTER `created_time`;
+ALTER TABLE `events` MODIFY COLUMN `description` TEXT DEFAULT NULL COMMENT 'may be empty if submitting teasers only';
 
 UPDATE `system_settings` SET `value` = '4' WHERE `name` = 'data-version' and `id` > 0;
