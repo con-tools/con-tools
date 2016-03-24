@@ -4,18 +4,18 @@ class Controller_Auth extends Api_Controller {
 	public function action_verify() {
 		try {
 			$this->verifyAuthentication();
-			$this->send([ 
-					"status" => true 
+			$this->send([
+					"status" => true
 			]);
 		} catch (HTTP_Exception_403 $e) {
-			$this->send([ 
-					"status" => false 
+			$this->send([
+					"status" => false
 			]);
 		}
 	}
 
 	public function action_start() {
-		$this->send([ 
+		$this->send([
 				"auth-url" => $this->startAuth($this->input()->provider ?  : 'google', $this->input()->redirect_url)
 		]);
 	}
@@ -39,12 +39,12 @@ class Controller_Auth extends Api_Controller {
 			$email = Twig::factory('auth/passwordreset');
 			error_log("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
 			$email->reseturl = $this->addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
-			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ], 
+			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ],
 					'Password reset from ConTroll', $email->__toString(), [
 					"Content-Type" => "text/html"
 			]);
 		} catch (Model_Exception_NotFound $e) {
-			// agree that the user got the password reset token 
+			// agree that the user got the password reset token
 			// (because I don't want to let an attacker know that there's no such user)
 		} catch (Email_Exception $e) {
 			error_log("Problem sending email");
@@ -135,7 +135,7 @@ class Controller_Auth extends Api_Controller {
 				$this->errorToSselector("Passwords must match", $this->input()->redirect_url);
 		}
 		
-		$u = Model_User::persistWithPassword($this->input()->name ?: explode('@',$this->input()->email)[0], $this->input()->email, 
+		$u = Model_User::persistWithPassword($this->input()->name ?: explode('@',$this->input()->email)[0], $this->input()->email,
 				$this->input()->password_register);
 		error_log('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
@@ -171,6 +171,7 @@ class Controller_Auth extends Api_Controller {
 		$tok = $this->verifyAuthentication();
 		$user = $tok->user;
 		$this->send([
+				'id' => $user->pk(),
 				'email' => $user->email,
 				'name' => $user->name,
 		]);
