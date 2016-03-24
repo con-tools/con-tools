@@ -78,15 +78,17 @@ class Controller_Entities_Records extends Api_Controller {
 	}
 
 	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
-		if (!$user && $con->isAuthorized()) {// convention wants a catalog
-			if ($id) {
-				error_log("Getting catalog for {$id}, Convention {$con}");
-				$records = Model_User_Record::allByDescriptor($con, $id, $this->input()->fetch('all',FALSE));
-				return $this->send(['data' => $records]);
-			} else {
+		if (!$id) { // catalog request
+			if ($con->isAuthorized() or $con->isManager($user)) {// convention or manager wants a catalog
 				// return identifier catalog
 				return $this->send(['data' => Model_User_Record::listDescriptors($con)]);
-			}
+			} else
+				throw new Api_Exception_Unauthorized($this, "Not authorized to list record identifiers");
+		}
+		
+		if ($con->isAuthorized() or ($con->isManager($user) and $this->input()->fetch('list',FALSE))) {
+			error_log("Getting catalog for {$id}, Convention {$con}");
+			return $this->send(Model_User_Record::allByDescriptor($con, $id, $this->input()->fetch('all',FALSE)));
 		}
 			
 		try {
