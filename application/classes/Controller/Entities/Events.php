@@ -28,7 +28,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 		// check if a convention manager wants to set a different event owner
 		if ($data->isset('user')) {
 			if (!$this->convention->isManager($this->user))
-				throw new Api_Exception_Unauthorized($this, 'Not authorized to set event owner to another user');
+				throw new Api_Exception_Unauthorized($this, '{$this->user->email} Not authorized to set event owner to another user');
 			$owner = $this->loadUserByIdOrEmail($data->fetch('user.id'), $data->fetch('user.email'));
 		} else
 			$owner = $this->user;
