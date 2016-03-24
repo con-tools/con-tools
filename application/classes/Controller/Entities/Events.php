@@ -21,15 +21,27 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	}
 	
 	protected function create() {
-		if (is_null($this->user)) throw new Api_Exception_Unauthorized($this, "Must be logged in!");
+		if (is_null($this->user))
+			throw new Api_Exception_Unauthorized($this, "Must be logged in!");
 		$data = $this->input();
+		
+		// check if a convention manager wants to set a different event owner
+		if ($data->isset('user')) {
+			if (!$this->convention->isManager($user))
+				throw new Api_Exception_Unauthorized($this, 'Not authorized to set event owner to another user');
+			$userdesc = $data->user;
+			if (!is_array($userdesc))
+				throw new Api_Exception_InvalidInput($this, 'Invalid user specification');
+			$owner = $this->loadUserByIdOrEmail($userdesc['id'], $userdesc['email']);
+		} else
+			$owner = $this->user;
 		
 		try {
 			// try to figure out tags ahead of generating the event - if the user messed up the tag spec, we
 			// should not create the event
 			$typed_tags = $this->generateTags($data->tags);
 			
-			$ev = Model_Event::persist($this->convention, $this->user, $data->title, $data->teaser, $data->description,
+			$ev = Model_Event::persist($this->convention, $owner, $data->title, $data->teaser, $data->description,
 					$data->requires_registration, $data->duration, $data->min_attendees,
 					$data->max_attendees, $data->notes_to_staff, $data->logistical_requirements,
 					$data->notes_to_attendees, $data->scheduling_constraints, $data->data);
