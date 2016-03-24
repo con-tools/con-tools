@@ -34,10 +34,10 @@ mysql:
    - MYSQL_ROOT_PASSWORD=secret
   volumes:
     - ./database/docker-init.sh:/docker-entrypoint-initdb.d/00.init.sh
-    - ./database/dumps/dump-2.sql:/docker-entrypoint-initdb-sh.d/01.dump-2.sql
+    - ./database/dumps/dump-3.sql:/docker-entrypoint-initdb-sh.d/01.dump-3.sql
 #    - ./database/schema/schema-1.sql:/docker-entrypoint-initdb-sh.d/01.schema-1.sql
 #    - ./database/schema/schema-2.sql:/docker-entrypoint-initdb-sh.d/01.schema-2.sql
-    - ./database/schema/schema-3.sql:/docker-entrypoint-initdb-sh.d/01.schema-3.sql
+#    - ./database/schema/schema-3.sql:/docker-entrypoint-initdb-sh.d/01.schema-3.sql
     - ~/tmp/controll-data:/var/lib/mysql
 #  volumes_from:
 #   - data
