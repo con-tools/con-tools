@@ -35,9 +35,12 @@ abstract class Api_Rest_Controller extends Api_Controller {
 				}
 				return;
 			case 'PUT':
-				$this->send([
-					'status' => $this->update($this->request->param('id'))
-				]);
+				$ret = $this->update($this->request->param('id'));
+				if (is_bool($ret)) // updater just want to say "ok" (or not)
+					$data = [ 'status' => $ret ];
+				else // updater wants to show what its done
+					$data = array_merge([ 'status' => true], $ret);
+				$this->send($data);
 				return;
 			case 'DELETE':
 				$this->send([
