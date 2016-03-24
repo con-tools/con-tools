@@ -2,6 +2,8 @@
 
 // -- Environment setup --------------------------------------------------------
 
+date_default_timezone_set('UTC'); // PHP has a really weird default time zone
+
 /**
  * Autoload composer libraries
  */
@@ -91,7 +93,7 @@ if ( ! function_exists('__'))
 {
 	/**
 	 * I18n translate alias function.
-	 * 
+	 *
 	 * @deprecated 3.4 Use I18n::translate() instead
 	 */
 	function __($string, array $values = NULL, $lang = 'en-us')
