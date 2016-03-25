@@ -53,7 +53,7 @@ class Model_Location extends ORM {
 	public function for_json() {
 		return array_filter(parent::for_json(), function($key){
 			return in_array($key, [
-					'title', 'area', 'max_attendees', 'slug'
+					'title', 'area', 'max-attendees', 'slug'
 			]);
 		},ARRAY_FILTER_USE_KEY);
 	}

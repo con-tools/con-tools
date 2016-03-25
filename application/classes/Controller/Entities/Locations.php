@@ -27,7 +27,21 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 	}
 	
 	protected function update($id) {
-		throw new Api_Exception_Unimplemented($this);
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to update locations!");
+		$data = $this->input();
+		try {
+			$o = Model_Location::bySlug($id);
+			if ($data->title)
+				$o->title = $data->title;
+			if ($data->area)
+				$o->area = $data->area;
+			if ($data->max_attendees)
+				$o->max_attendees = $data->max_attendees;
+			return $o->for_json();
+		} catch (Model_Exception_NotFound $e) {
+			throw new Api_Exception_InvalidInput($this, "Location {$id} not found");
+		}
 	}
 	
 	protected function delete($id) {
