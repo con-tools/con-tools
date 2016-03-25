@@ -139,7 +139,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 				return ORM::result_for_json($this->convention->events->find_all());
 			else // return public and owned events
 				return ORM::result_for_json($this->convention->events->
-					or_where('status', '=', Model_Event::STATUS_APPROVED)->
+					where('status', '=', Model_Event::STATUS_APPROVED)->
 					or_where('user_id', '=', $this->user->pk())->find_all());
 		}
 		
