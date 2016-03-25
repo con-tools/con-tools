@@ -115,6 +115,7 @@ Create a new tag type, possibly populating its value list.
 * `requirement` : (optional) The requirement specification for the tag type. If not specified, default to '1'
 * `public` : (boolean, optional) Whether that tag type is public or not. Default to `true`
 * `values`: (optional) an array of valid values to associate with the tag type
+
 **Output:** A property list showing the created tag type content:
 * `status`: (boolean) whether the operation was successful or not
 * `error`: (optional) error text describing the error if the operation was not successful
@@ -146,6 +147,7 @@ so the only other option is to remove the tag and recreate it.
 Convention manager user authorization is required for this operation.
 
 **Input:** The tag type title as the URI parameter and a property list with the following fields:
+* `title` : (optional) a new title to set for this tag type (field name)
 * `public` : (boolean, optional) if set, will change the public visibility of the tag type
 * `values` : (optional) an array of tag values to add to the tag type. This will not duplicate existing values.
 * `remove-values` : (optional) an array of tag values to delete. If there are exiting events that have this value set, the operation
@@ -153,6 +155,7 @@ Convention manager user authorization is required for this operation.
 * `replace-values` : (optional) a property list of values to replace, where the key is the value to be removed from the system
   (and events that are using it) and the value for each key is the tag value to replace it with. The new value will be created if
   needed.
+
 ** Output:** A property list showing the created tag type content:
 * `status`: (boolean) whether the operation was successful or not
 * `error`: (optional) error text describing the error if the operation was not successful

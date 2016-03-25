@@ -120,7 +120,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	}
 	
 	protected function delete($id) {
-		if (is_null($this->user) or !$this->convention->isManager($this->user))
+		if ($this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to cancel events!");
 		$o = new Model_Event($id);
 		if (!$o->loaded())
