@@ -122,7 +122,8 @@ class Model_Event extends ORM {
 				$this->remove('event_tag_values', $evtag);
 		}
 		if (!$this->has('event_tag_values', $tag))
-			return $this->add('event_tag_values', $tag);
+			$this->add('event_tag_values', $tag);
+		return $this;
 	}
 	
 	/**
