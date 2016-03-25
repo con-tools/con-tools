@@ -27,19 +27,21 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tag types!");
 		$type = $this->convention->event_tag_types->where('title', '=', $id)->find();
-		$data = $this->input();
 		if (!$type->loaded())
 			throw new Api_Exception_InvalidInput($this,"Tag Type '$id' not found");
+		$data = $this->input();
 		// handle value replacement
 		foreach ($data->fetch('replace-values', []) as $oldval => $newval) {
-			$newval = Model_Event_Tag_Value::generate($type, $newval);
+			$newvalO = Model_Event_Tag_Value::generate($type, $newval);
 			try {
-				$oldval = Model_Event_Tag_Value::byTitle($type, $oldval);
-				foreach ($oldval->getEventTags() as $evt) {
-					$evt->event_tag_value = $newval;
+				$oldvalO = Model_Event_Tag_Value::byTitle($type, $oldval);
+				if ($oldvalO->pk() == $newvalO->pk())
+					throw new Api_Exception_InvalidInput($this, "Replacing the same value is not allowed (old: '$oldval' == new: '$newval')");
+				foreach ($oldvalO->getEventTags() as $evt) {
+					$evt->event_tag_value = $newvalO;
 					$evt->save();
 				}
-				$oldval->delete(); // should be safe now
+				$oldvalO->delete(); // should be safe now
 			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
 		}
 		// handle value removal
