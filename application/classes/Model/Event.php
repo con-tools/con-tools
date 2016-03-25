@@ -37,7 +37,7 @@ class Model_Event extends ORM {
 			'updated_time' => [ 'type' => 'DateTime' ],
 			'price' => [],
 			'status' => [],
-			'requires_registration' => [],
+			'requires_registration' => [ 'type' => 'boolean' ],
 			'duration' => [],
 			'min_attendees' => [],
 			'max_attendees' => [],

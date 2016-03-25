@@ -16,6 +16,8 @@ class ORM extends Kohana_ORM {
 				case 'DateTime':
 					$value = $this->sqlize($value);
 					break;
+				case 'boolean':
+					$value = $value ? '1' : '0';
 			}
 		}
 		
@@ -31,9 +33,12 @@ class ORM extends Kohana_ORM {
 		// handle type conversions, if the model specifies it
 		$field_def = @$this->_columns[$column];
 		if (is_array($field_def)) {
-			switch (@$field_def['type']) {
+					switch (@$field_def['type']) {
 				case 'DateTime':
 					$value = $this->unsqlize($value);
+					break;
+				case 'boolean':
+					$value = is_numeric($value) ? ($value != 0) : $value;
 					break;
 			}
 		}
