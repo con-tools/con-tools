@@ -91,11 +91,13 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 				$o->staff_contact = Model_User::byEmail($data->staff_contact);
 			}
 			$o->save();
+			// add tags to the event
 			if ($data->tags) {
 				foreach ($this->generateTags($data->tags) as $tag) {
 					$o->tag($tag);
 				}
 			}
+			// remove tags from event
 			if ($data->remove_tags) {
 				try {
 					foreach ($this->generateTags($data->remove_tags) as $tag) {
