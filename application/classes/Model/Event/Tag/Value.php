@@ -40,7 +40,7 @@ class Model_Event_Tag_Value extends ORM {
 	}
 	
 	public static function byTitle(Model_Event_Tag_Type $type, string $title) : Model_Event_Tag_Value {
-		$o = $type->event_tag_values->where('title', '=', $title)->find();
+		$o = $type->event_tag_values->where('title', 'like', $title)->find();
 		if ($o->loaded())
 			return $o;
 		throw new Model_Exception_NotFound();
