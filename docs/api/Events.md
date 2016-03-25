@@ -136,7 +136,9 @@ returned, regardless of status.
 * `price`: default registration cost for the event
 * `status`: approval status of the event
 
-`PUT /entities/events/:id` : Update event data.
+### Update An Event
+
+`PUT /entities/events/:id`
 
 This method requires a convention public identity as well as user authorization. If the authorizing user is
 not a manager in the convention, then they may still update some of the fields of the event - if they are
