@@ -60,8 +60,6 @@ class Model_Timeslot extends ORM {
 	 */
 	public function conflicts(DateTime $start, DateTime $end) {
 		$beforeend = (clone $end)->sub(new DateInterval("PT1S"));
-		error_log("Comparing timeslot " . $this->start_time->getTimestamp() . "-" . $this->end_time->getTimestamp() .
-				" and " . $start->getTimestamp() . "-" . $end->getTimestamp());
 		return !(
 				($this->end_time->diff($start)->invert == 0) // my end is <= than their start
 				or
