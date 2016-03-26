@@ -126,7 +126,11 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 	}
 	
 	protected function catalog() {
-		return ORM::result_for_json($this->convention->getTimeSlots(), 'for_json_with_locations');
+		$data = $this->input();
+		$filters = [];
+		if ($data->by_event)
+			$filters['event_id'] = $data->by_event;
+		return ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
 	}
 	
 	private function getHostList($data) {
