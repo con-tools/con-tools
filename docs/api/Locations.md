@@ -19,6 +19,8 @@ except catalog and retrieve.
 * `area` : (optional) a general description of the area where the location can be found, such as "main hall" or "green rooms"
 * `max_attendees` : (integer) the maximum number of people that can be hosted in that location
 * `slug`: (optional) a URL friendly name for the location
+* `timeslots`: array of timeslot objects ([see Time Slots API for details](./Timeslots.md)) for each event scheduled in
+  this location 
 
 *Example:*
 ```
@@ -28,7 +30,7 @@ $ curl -X GET "http://api.con-troll.org/entities/locations" \
 ```
 *Response:*
 ```
-[{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall"}]
+[{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall","timeslots":[]}]
 ```
 
 ### Retrieve A Location
@@ -43,6 +45,8 @@ Retrieve information of a single location.
 * `area` : (optional) a general description of the area where the location can be found, such as "main hall" or "green rooms"
 * `max_attendees` : (integer) the maximum number of people that can be hosted in that location
 * `slug`: (optional) a URL friendly name for the location
+* `timeslots`: array of timeslot objects ([see Time Slots API for details](./Timeslots.md)) for each event scheduled in
+  this location 
 
 *Example:*
 ```
@@ -52,7 +56,7 @@ curl -X GET "http://api.con-troll.org/entities/locations/table-2" \
 ```
 *Response:*
 ```
-{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall"}
+{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall","timeslots":[]}
 ```
 
 ### Add A Location
@@ -75,6 +79,8 @@ Both title and slug (if provided) must be unique in the convention.
 * `area` : (optional) a general description of the area where the location can be found, such as "main hall" or "green rooms"
 * `max_attendees` : (integer) the maximum number of people that can be hosted in that location
 * `slug`: (optional) a URL friendly name for the location
+* `timeslots`: array of timeslot objects ([see Time Slots API for details](./Timeslots.md)) for each event scheduled in
+  this location 
 
 *Example:*
 ```
@@ -86,7 +92,7 @@ curl -X POST "http://api.con-troll.org/entities/locations" \
 ```
 *Response:*
 ```
-{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall"}
+{"status":true,"title":"Table 2","slug":"table-2","area":"Main Hall","timeslots":[]}
 ```
 
 ### Delete Location

@@ -7,7 +7,7 @@ class Model_Location extends ORM {
 	];
 	
 	protected $_has_many = [
-			'timeslots' => [ 'model' => 'timeslot', 'through' => 'timeslot_location' ],
+			'timeslots' => [ 'model' => 'Timeslot', 'through' => 'timeslot_locations' ],
 	];
 	
 	protected $_columns = [
@@ -51,10 +51,12 @@ class Model_Location extends ORM {
 	}
 	
 	public function for_json() {
-		return array_filter(parent::for_json(), function($key){
+		$ar = array_filter(parent::for_json(), function($key){
 			return in_array($key, [
 					'title', 'area', 'max-attendees', 'slug'
 			]);
 		},ARRAY_FILTER_USE_KEY);
+		$ar['timeslots'] = ORM::result_for_json($this->timeslots->find_all());
+		return $ar;
 	}
 };
