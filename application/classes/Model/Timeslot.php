@@ -8,6 +8,7 @@ class Model_Timeslot extends ORM {
 	
 	protected $_has_many = [
 			'hosts' => [ 'model' => 'User', 'through' => 'timeslot_hosts', 'far_key' => 'user_id' ],
+			'host_names' => [ 'model' => 'Timeslot_Host' ],
 			'locations' => [ 'model' => 'Location', 'through' => 'timeslot_locations' ],
 			'tickets' => [],
 	];
@@ -42,6 +43,14 @@ class Model_Timeslot extends ORM {
 				return (clone $this->start_time)->add(new DateInterval("P".$this->duration."M"));
 			default: return parent::get($column);
 		}
+	}
+	
+	public function addHost(Model_User $user, $name = null) {
+		if ($this->has('hosts', $user))
+			return; // don't add multiple users
+		if (!$name)
+			$name = $user->name; // make sure we always store a name to make is easier for readers
+		Model_Timeslot_Host::persist($this, $user, $name);
 	}
 	
 	/**
