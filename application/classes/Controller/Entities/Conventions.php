@@ -49,6 +49,16 @@ class Controller_Entities_Conventions extends Api_Controller {
 
 	private function retrieve($id) {
 		if ($id) {
+			if ($id == 'self') { // self lookup for a convention
+				$con = $this->verifyConventionKey();
+				error_log('Looking up self convention id: ' . $con->pk());
+				try {
+					if ($con->isManager($user = $this->verifyAuthentication()->user))
+						return $this->send($con->for_private_json());
+				} catch (Api_Exception_Unauthorized $e) { }
+				return $this->send($con->for_json());
+			}
+			
 			try {
 				$con = new Model_Convention($id);
 				if (!$con->loaded())

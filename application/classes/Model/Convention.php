@@ -102,4 +102,16 @@ class Model_Convention extends ORM {
 	public function getPublicEvents() : Database_Result {
 		return $this->events->where('status', '=', Model_Event::STATUS_APPROVED)->find_all();
 	}
+	
+	/**
+	 * Export private data for managers only
+	 */
+	public function for_private_json() {
+		$ar = $this->for_json();
+		foreach ($this->api_keys->find_all() as $key) {
+			$ar['public-key'] = $key->client_key;
+			$ar['secret-key'] = $key->client_secret;
+		}
+		return $ar;
+	}
 }
