@@ -40,9 +40,9 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		
 		if (is_array($hosts)) {
 			foreach ($hosts as $host)
-				$timeslot->add('hosts', $host);
+				$timeslot->addHost($host['user'],$host['name']);
 		} else {
-			$timeslot->add('hosts', $timeslot->event->user);
+			$timeslot->addHost($timeslot->event->user);
 		}
 		
 		return $timeslot->for_json_with_locations();
@@ -88,8 +88,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			
 			// update hosts
 			foreach ($hosts as $host)
-				if (!$timeslot->has('hosts', $host))
-					$timeslot->add('hosts', $host);
+				$timeslot->addHost($host['user'], $host['name']);
 			foreach ($remhosts as $host)
 				$timeslot->remove('hosts', $host);
 			if ($timeslot->hosts->count_all() < 1)
@@ -137,7 +136,11 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		if (!is_array($data))
 			return null; // no host list specified has a special meaning
 		return array_map(function($user){
-			return $this->loadUserByIdOrEmail(@$user['id'], @$user['email']);
+			$obj = $this->loadUserByIdOrEmail(@$user['id'], @$user['email']);
+			return [
+					'user' => $obj,
+					'name' => @$user['name'] ?: $user->name
+			];
 		}, $data);
 	}
 	

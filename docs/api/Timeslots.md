@@ -91,7 +91,7 @@ Schedule a new time slot. This API call requires convention manager user authori
 * `locations`: specify a list of slugs of locations where the time slot takes place. At least one location must be provided.
 * `hosts`: (optional) specify a list of users that will be the hosts of the event, for each user specify a property
   list with either an `id` field containing the user id or an `email` field containing the user's email. If this 
-  field is not specified, the event owner is added by default as the time slot host.
+  field is not specified, the event owner is added by default as the time slot host.  
 **Output:** A property list showing the created time slot information, with the following fields:
 * `status`: (boolean) whether the operation was successful or not
 * `error`: (optional) error text describing the error if the operation was not successful

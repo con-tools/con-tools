@@ -8,6 +8,7 @@ class Model_Timeslot extends ORM {
 	
 	protected $_has_many = [
 			'hosts' => [ 'model' => 'User', 'through' => 'timeslot_hosts', 'far_key' => 'user_id' ],
+			'host_names' => [ 'model' => 'Timeslot_Host' ],
 			'locations' => [ 'model' => 'Location', 'through' => 'timeslot_locations' ],
 			'tickets' => [],
 	];
@@ -44,6 +45,14 @@ class Model_Timeslot extends ORM {
 		}
 	}
 	
+	public function addHost(Model_User $user, $name = null) {
+		if ($this->has('hosts', $user))
+			return; // don't add multiple users
+		if (!$name)
+			$name = $user->name; // make sure we always store a name to make is easier for readers
+		Model_Timeslot_Host::persist($this, $user, $name);
+	}
+	
 	/**
 	 * Check if this time slot conflicts with the time range specified by the arguments
 	 * @param DateTime $start Start time to check against
@@ -77,7 +86,7 @@ class Model_Timeslot extends ORM {
 		},ARRAY_FILTER_USE_KEY),[
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
-				'hosts' => self::result_for_json($this->hosts->find_all()),
+				'hosts' => self::result_for_json($this->host_names->find_all()),
 		]);
 	}
 }
