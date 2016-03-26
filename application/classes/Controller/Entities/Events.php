@@ -47,6 +47,8 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 				throw new Api_Exception_InvalidInput($this,'Please provide "title" field');
 			if (!$data->teaser)
 				throw new Api_Exception_InvalidInput($this,'Please provide "teaser" field');
+			if (!$data->duration)
+				throw new Api_Exception_InvalidInput($this,'Please provide "duration" field');
 				
 			$ev = Model_Event::persist($this->convention, $owner, $data->title, $data->teaser, $data->description,
 					$data->requires_registration, $data->duration, $data->min_attendees,
@@ -127,8 +129,8 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	}
 	
 	protected function delete($id) {
-		if ($this->convention->isManager($this->user))
-			throw new Api_Exception_Unauthorized($this, "Not authorized to cancel events!");
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete events!");
 		$o = new Model_Event($id);
 		if (!$o->loaded())
 			return true; // that's fine
