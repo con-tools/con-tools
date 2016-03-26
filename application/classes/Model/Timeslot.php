@@ -36,6 +36,28 @@ class Model_Timeslot extends ORM {
 		return $o->save();
 	}
 	
+	public function get($column) {
+		switch ($column) {
+			case 'end_time':
+				return (clone $this->start_time)->add(new DateInterval("P".$this->duration."M"));
+			default: return parent::get($column);
+		}
+	}
+	
+	/**
+	 * Check if this time slot conflicts with the time range specified by the arguments
+	 * @param DateTime $start Start time to check against
+	 * @param DateTime $end End time to check against
+	 */
+	public function conflicts(DateTime $start, DateTime $end) {
+		$beforeend = (clone $end)->sub(new DateInterval("PT1S"));
+		return !(
+				($this->end_time->diff($start)->invert == 0) // my end is <= than their start
+				or
+				($this->start_time->diff($beforeend)->invert == 1) // my start is >= than their time
+				);
+	}
+	
 	/**
 	 * Special for_json used by Timeslots REST API, to prevent infinite recursions
 	 * @return array

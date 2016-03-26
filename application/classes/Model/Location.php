@@ -43,6 +43,20 @@ class Model_Location extends ORM {
 	}
 	
 	/**
+	 * Check if the location is availale (i.e. not already scheduled) for
+	 * the specified duration
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 */
+	public function isAvailable(DateTime $start, DateTime $end) {
+		foreach ($this->getTimeslots() as $timeslot) {
+			if ($timeslot->conflicts($start, $end))
+				return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Retrieve timeslots for this location
 	 * @return Database_Result
 	 */

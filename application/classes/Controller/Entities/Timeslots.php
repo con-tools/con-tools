@@ -18,6 +18,15 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		if (empty($locations))
 			throw new Api_Exception_InvalidInput($this, "Please specify at least one location");
 		
+		// check that we don't input conflicting time slots
+		$duration = $data->duration ?: $event->duration;
+		$endtime = (clone $start)->add(new DateInterval("PT{$duration}M"));
+		foreach ($locations as $location) {
+			if (!$location->isAvailable($start, $endtime))
+				throw new Api_Exception_InvalidInput($this, "Location {$location->title} is not available between ".
+						$start->format(DateTime::ATOM)." and ".$endtime->format(DateTime::ATOM)."!");
+		}
+				
 		// verify hosts
 		$hosts = $this->getHostList($data->fetch('hosts'));
 		if (is_array($hosts) and empty($hosts))
