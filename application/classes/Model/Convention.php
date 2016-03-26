@@ -91,8 +91,11 @@ class Model_Convention extends ORM {
 	 * Retrieve all scheduled time slots for this convention
 	 * @return Database_Result listing all time slots in the convention
 	 */
-	public function getTimeSlots() : Database_Result {
-		return (new Model_Timeslot)->with('event')->where('convention_id', '=', $this->pk())->find_all();
+	public function getTimeSlots($filters = []) : Database_Result {
+		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $this->pk());
+		foreach ($filters as $field  => $value)
+			$query = $query->where($field,'=',$value);
+		return $query->find_all();
 	}
 	
 	/**
