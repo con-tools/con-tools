@@ -7,7 +7,7 @@ class Model_Timeslot extends ORM {
 	];
 	
 	protected $_has_many = [
-			'hosts' => [ 'model' => 'user', 'through' => 'timeslot_hosts', 'far_key' => 'user_id' ],
+			'hosts' => [ 'model' => 'User', 'through' => 'timeslot_hosts', 'far_key' => 'user_id' ],
 			'locations' => [ 'model' => 'Location', 'through' => 'timeslot_locations' ],
 			'tickets' => [],
 	];
@@ -24,16 +24,49 @@ class Model_Timeslot extends ORM {
 			'notes_to_attendees' => [],
 	];
 	
-	public static function persist(Model_Event $event, DateTime $start, $duration, $min_attendees, $max_attendees, 
+	public static function persist(Model_Event $event, DateTime $start, $duration, $min_attendees, $max_attendees,
 			$notes_to_attendees) : Model_Timeslot {
 		$o = new Model_Timeslot();
 		$o->event = $event;
 		$o->start_time = $start;
 		$o->duration = $duration ?: $event->duration;
 		$o->min_attendees = $min_attendees ?: $event->min_attendees;
-		$o->max_attendees = $max_attendees ?: $event->max_attendees; 
+		$o->max_attendees = $max_attendees ?: $event->max_attendees;
 		$o->notes_to_attendees = $notes_to_attendees ?: $event->notes_to_attendees;
 		return $o->save();
+	}
+	
+	public function get($column) {
+		switch ($column) {
+			case 'end_time':
+				return (clone $this->start_time)->add(new DateInterval("P".$this->duration."M"));
+			default: return parent::get($column);
+		}
+	}
+	
+	/**
+	 * Check if this time slot conflicts with the time range specified by the arguments
+	 * @param DateTime $start Start time to check against
+	 * @param DateTime $end End time to check against
+	 */
+	public function conflicts(DateTime $start, DateTime $end) {
+		$beforeend = (clone $end)->sub(new DateInterval("PT1S"));
+		return !(
+				($this->end_time->diff($start)->invert == 0) // my end is <= than their start
+				or
+				($this->start_time->diff($beforeend)->invert == 1) // my start is >= than their time
+				);
+	}
+	
+	/**
+	 * Special for_json used by Timeslots REST API, to prevent infinite recursions
+	 * @return array
+	 */
+	public function for_json_with_locations() {
+		return array_merge(
+				$this->for_json(),
+				[ 'locations' => self::result_for_json($this->locations->find_all()) ]
+				);
 	}
 	
 	public function for_json() {
@@ -44,7 +77,6 @@ class Model_Timeslot extends ORM {
 		},ARRAY_FILTER_USE_KEY),[
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
-				'locations' => self::result_for_json($this->locations->find_all()),
 				'hosts' => self::result_for_json($this->hosts->find_all()),
 		]);
 	}

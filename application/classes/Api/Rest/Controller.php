@@ -118,15 +118,16 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	protected function parseDateTime($value) {
 		if (!$value)
 			return false;
-	
-			try {
-				if (is_numeric($data->start))
-					return new DateTime("@" . $data->start);
-					else
-						return new DateTime($data->start); // lets hope the SPL can do something with this
-			} catch (Exception $e) {
-				return false;
-			}
+		
+		try {
+			if (is_numeric($value))
+				return new DateTime("@" . $value);
+			else
+				return new DateTime($value); // lets hope the SPL can do something with this
+		} catch (Exception $e) {
+			error_log("Error parsing time value '$value': ". $e->getMessage());
+			return false;
+		}
 	}
 	
 }

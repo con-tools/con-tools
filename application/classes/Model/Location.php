@@ -7,7 +7,7 @@ class Model_Location extends ORM {
 	];
 	
 	protected $_has_many = [
-			'timeslots' => [ 'model' => 'timeslot', 'through' => 'timeslot_location' ],
+			'timeslots' => [ 'model' => 'Timeslot', 'through' => 'timeslot_locations' ],
 	];
 	
 	protected $_columns = [
@@ -43,11 +43,36 @@ class Model_Location extends ORM {
 	}
 	
 	/**
+	 * Check if the location is availale (i.e. not already scheduled) for
+	 * the specified duration
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 */
+	public function isAvailable(DateTime $start, DateTime $end) {
+		foreach ($this->getTimeslots() as $timeslot) {
+			if ($timeslot->conflicts($start, $end))
+				return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Retrieve timeslots for this location
 	 * @return Database_Result
 	 */
 	public function getTimeslots() : Database_Result {
 		return $this->timeslots->find_all();
+	}
+	
+	/**
+	 * Special for_json used by Locations REST API, to prevent infinite recursions
+	 * @return array
+	 */
+	public function for_json_with_timeslots() {
+		return array_merge(
+				$this->for_json(),
+				['timeslots' => self::result_for_json($this->timeslots->find_all()) ]
+				);
 	}
 	
 	public function for_json() {
