@@ -24,4 +24,11 @@ class Model_Timeslot_Host extends ORM {
     	$o->save();
     	return $o;
     }
+    
+    public function for_json() {
+    	return array_merge($this->user->for_json(), [
+    			'id' => $this->user->pk(),
+    			'name' => $this->name ?: $this->user->name
+    	]);
+    }
 }

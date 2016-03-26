@@ -86,7 +86,7 @@ class Model_Timeslot extends ORM {
 		},ARRAY_FILTER_USE_KEY),[
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
-				'hosts' => self::result_for_json($this->hosts->find_all()),
+				'hosts' => self::result_for_json($this->host_names->find_all()),
 		]);
 	}
 }
