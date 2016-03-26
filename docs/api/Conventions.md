@@ -44,14 +44,27 @@ $ curl http://api.con-troll.org/entities/conventions \
 
 `GET /entities/conventions/<id>`
 
+This method retrieves the public information for a single convention. If the authorized
+user is a convention manager, this call will also retrieve the convention's public *and
+private key*.
 
-**Input:** Convention numeric ID or slug as the URL parameter   
+Instead of providing an ID, if the request includes a convention identification (using the
+convnetion's public key), then the magic value `self` can be provided instead of an ID
+to return the "current convention's" information. 
+
+**Input:** Convention numeric ID or slug as the URL parameter, or the value `self`  
 **Output:** A property list containing the public details of the convention record
 fields:
 * `title`: text descriptor for the convention URLs.
 * `slug`: text descriptor for the convention URLs.
 * `id`: numeric identifier for the convention in the system.
 * `series`: name of the convention series
+* `website`: URL of the convention web site
+* `location`: address of the convention's venue
+* `start-date`: the date when the convention start (in ISO 8601 format)
+* `end-date`: the date when the convention ends (in ISO 8601 format)
+* `public-key`: the convention's public key (only for convention managers)
+* `secret-key`: the convention's secret key (only for convention managers)
 
 *Example:*
 ```
