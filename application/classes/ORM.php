@@ -104,11 +104,11 @@ class ORM extends Kohana_ORM {
 	 * Helper call to convert an array or Database_Result to an array of "for_json" objects
 	 * @param array|Database_Result $result
 	 */
-	public static function result_for_json($result) {
+	public static function result_for_json($result, $for_json_method = 'for_json') {
 		if ($result instanceof Database_Result)
 			$result = $result->as_array();
-		return array_map(function(ORM $ent){
-			return $ent->for_json();
+		return array_map(function(ORM $ent) use($for_json_method) {
+			return $ent->{$for_json_method}();
 		}, $result);
 	}
 }

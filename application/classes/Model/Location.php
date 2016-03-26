@@ -50,13 +50,22 @@ class Model_Location extends ORM {
 		return $this->timeslots->find_all();
 	}
 	
+	/**
+	 * Special for_json used by Locations REST API, to prevent infinite recursions
+	 * @return array
+	 */
+	public function for_json_with_timeslots() {
+		return array_merge(
+				$this->for_json(),
+				['timeslots' => self::result_for_json($this->timeslots->find_all()) ]
+				);
+	}
+	
 	public function for_json() {
-		$ar = array_filter(parent::for_json(), function($key){
+		return array_filter(parent::for_json(), function($key){
 			return in_array($key, [
 					'title', 'area', 'max-attendees', 'slug'
 			]);
 		},ARRAY_FILTER_USE_KEY);
-		$ar['timeslots'] = ORM::result_for_json($this->timeslots->find_all());
-		return $ar;
 	}
 };

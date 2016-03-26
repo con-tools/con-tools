@@ -36,13 +36,13 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			$timeslot->add('hosts', $timeslot->event->user);
 		}
 		
-		return $timeslot->for_json();
+		return $timeslot->for_json_with_locations();
 	}
 	
 	protected function retrieve($id) {
 		$timeslot = new Model_Timeslot($id);
 		if ($timeslot->loaded())
-			return $timeslot->for_json();
+			return $timeslot->for_json_with_locations();
 		return null;
 	}
 	
@@ -104,7 +104,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			throw $e;
 		}
 		Database::instance()->commit();
-		return $timeslot->for_json();
+		return $timeslot->for_json_with_locations();
 	}
 	
 	protected function delete($id) {
@@ -117,7 +117,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 	}
 	
 	protected function catalog() {
-		return ORM::result_for_json($this->convention->getTimeSlots());
+		return ORM::result_for_json($this->convention->getTimeSlots(), 'for_json_with_locations');
 	}
 	
 	private function getHostList($data) {
