@@ -129,6 +129,8 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		$filters = [];
 		if ($data->by_event)
 			$filters['event_id'] = $data->by_event;
+		if ($data->by_event_status)
+			$filters['status'] = $data->by_event_status;
 		return ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
 	}
 	
