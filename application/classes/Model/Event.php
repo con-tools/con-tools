@@ -147,6 +147,13 @@ class Model_Event extends ORM {
 		return $this->status == self::STATUS_APPROVED;
 	}
 	
+	public function scheduled() {
+		if ($this->status >= self::STATUS_SCHEDULED)
+			return;
+		$this->status = self::STATUS_SCHEDULED;
+		return $this->save();
+	}
+	
 	/**
 	 * Cancel the event and don't let it show anywhere
 	 * @return Model_Event
