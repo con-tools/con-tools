@@ -107,13 +107,13 @@ class Model_Event extends ORM {
 				return json_decode(parent::get($column));
 			case 'status_text':
 				switch ($this->status) {
-					case STATUS_SUBMITTED: return 'submitted';
-					case STATUS_HAS_TEASER: return 'has teaser';
-					case STATUS_CONTENT_APPROVED: return 'content approved';
-					case STATUS_LOGISTICS_APPROVED: return 'logistics approved';
-					case STATUS_SCHEDULED: return 'scheduled';
-					case STATUS_APPROVED: return 'approved';
-					case STATUS_CANCELLED: return 'cancelled';
+					case self::STATUS_SUBMITTED: return 'submitted';
+					case self::STATUS_HAS_TEASER: return 'has teaser';
+					case self::STATUS_CONTENT_APPROVED: return 'content approved';
+					case self::STATUS_LOGISTICS_APPROVED: return 'logistics approved';
+					case self::STATUS_SCHEDULED: return 'scheduled';
+					case self::STATUS_APPROVED: return 'approved';
+					case self::STATUS_CANCELLED: return 'cancelled';
 				}
 			default:
 				return parent::get($column);
