@@ -48,6 +48,13 @@ class Model_Event extends ORM {
 			'custom_data' => [],
 	];
 	
+	public static function public_statuses() {
+		return [
+				self::STATUS_SCHEDULED,
+				self::STATUS_APPROVED,
+		];
+	}
+	
 	/**
 	 * Generate a new event in the system
 	 * @param Model_Convention $con Convention where this event takes place

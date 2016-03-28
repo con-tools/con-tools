@@ -92,13 +92,24 @@ class Model_Convention extends ORM {
 	 * @return Database_Result listing all time slots in the convention
 	 */
 	public function getTimeSlots($filters = []) : Database_Result {
-		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $this->pk());
+		$query = Model_Timeslot::queryForConvention($this);
 		foreach ($filters as $field  => $value)
 			$query = $query->where($field,'=',$value);
 		return $query->find_all();
 	}
 	
 	/**
+	 * Retrieve all scheduled time slots for events that are OK to be published
+	 * @return Database_Result listing all time slots in the convention
+	 */
+	public function getPublicTimeSlots($filters = []) : Database_Result {
+		$query = Model_Timeslot::queryForConvention($this, true);
+		foreach ($filters as $field  => $value)
+			$query = $query->where($field,'=',$value);
+		return $query->find_all();
+	}
+	
+/**
 	 * Retrieve all events that have been "published"
 	 * @return Database_Result listing of published events
 	 */
