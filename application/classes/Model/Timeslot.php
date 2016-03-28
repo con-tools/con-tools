@@ -40,7 +40,20 @@ class Model_Timeslot extends ORM {
 			$event->scheduled();
 		}
 	}
-	
+
+	/**
+	 * Generate a query for all timeslots belonging to events in a convention
+	 * @param Model_Convention $con convention to list for
+	 * @param boolean $public whether to list only timeslots for public events
+	 * @return ORM a model object with the query loaded
+	 */
+	public static function queryForConvention(Model_Convention $con, $public = false) : ORM {
+		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $con->pk());
+		if ($public)
+			$query = $query->where('event.status', 'IN', Model_Event::public_statuses());
+		return $query;
+	}
+
 	public function get($column) {
 		switch ($column) {
 			case 'end_time':

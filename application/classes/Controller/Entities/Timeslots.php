@@ -131,7 +131,10 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			$filters['event_id'] = $data->by_event;
 		if ($data->by_event_status)
 			$filters['status'] = $data->by_event_status;
-		return ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
+		if ($this->convention->isAuthorized() || $this->convention->isManager($this->user))
+			return ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
+		// if not specifically authorized, get public list
+		return ORM::result_for_json($this->convention->getPublicTimeSlots($filters), 'for_json_with_locations');
 	}
 	
 	private function getHostList($data) {

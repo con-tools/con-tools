@@ -48,6 +48,13 @@ class Model_Event extends ORM {
 			'custom_data' => [],
 	];
 	
+	public static function public_statuses() {
+		return [
+				self::STATUS_SCHEDULED,
+				self::STATUS_APPROVED,
+		];
+	}
+	
 	/**
 	 * Generate a new event in the system
 	 * @param Model_Convention $con Convention where this event takes place
@@ -98,6 +105,16 @@ class Model_Event extends ORM {
 		switch ($column) {
 			case 'custom_data':
 				return json_decode(parent::get($column));
+			case 'status_text':
+				switch ($this->status) {
+					case STATUS_SUBMITTED: return 'submitted';
+					case STATUS_HAS_TEASER: return 'has teaser';
+					case STATUS_CONTENT_APPROVED: return 'content approved';
+					case STATUS_LOGISTICS_APPROVED: return 'logistics approved';
+					case STATUS_SCHEDULED: return 'scheduled';
+					case STATUS_APPROVED: return 'approved';
+					case STATUS_CANCELLED: return 'cancelled';
+				}
 			default:
 				return parent::get($column);
 		}
@@ -174,6 +191,7 @@ class Model_Event extends ORM {
 					'min-attendees', 'max-attendees', 'notes-to-staff', 'logistical-requirements', 'notes-to-attendees',
 					'scheduling-constraints', 'custom-data', 'status', 'created-time', 'updated-time' ]);
 		},ARRAY_FILTER_USE_KEY);
+		$ar['status-text'] = $this->get('status_text');
 		$ar['user'] = $this->user->for_json();
 		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_json() : null;
 		$ar['tags'] = [];
