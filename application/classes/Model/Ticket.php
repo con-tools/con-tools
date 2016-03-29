@@ -29,7 +29,7 @@ class Model_Ticket extends ORM {
 		$o->user = $user;
 		$o->timeslot = $timeslot;
 		$o->status = self::STATUS_RESERVED;
-		$p->amount = $amount;
+		$o->amount = $amount;
 		return $o->save();
 	}
 	
