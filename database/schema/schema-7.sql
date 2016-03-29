@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `tickets` (
   PRIMARY KEY (`id`)  COMMENT '',
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `timeslots_ibfk_1` FOREIGN KEY (`timeslot_id`) REFERENCES `timeslots` (`id`) ON DELETE RESTRICT,
-  CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE
+  CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
 
