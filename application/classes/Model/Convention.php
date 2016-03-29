@@ -108,6 +108,18 @@ class Model_Convention extends ORM {
 			$query = $query->where($field,'=',$value);
 		return $query->find_all();
 	}
+
+	/**
+	 * Retrieve all tickets registered on a convention (including cancelled tickets)
+	 * @param array $filters list of filters to add to the quer
+	 * @return Database_Result list of all tickets
+	 */
+	public function getTickets($filters = []) : Database_Result {
+		$query = Model_Ticket::queryForConvention($this);
+		foreach ($filters as $field  => $value)
+			$query = $query->where($field,'=',$value);
+		return $query->find_all();
+	}
 	
 /**
 	 * Retrieve all events that have been "published"
