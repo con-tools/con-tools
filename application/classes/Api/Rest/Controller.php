@@ -1,8 +1,26 @@
 <?php
 
+/**
+ * Implementation of a REST controller that accepts CRUD operations using HTTP verbs.
+ *
+ * Currently this implementation assumes that a convention has been identified. If you
+ * need to support convention-less operations, don't use this as a base
+ *
+ * @author odeda
+ *
+ */
 abstract class Api_Rest_Controller extends Api_Controller {
 	
+	/**
+	 * Identified, and possibly authenticated convention
+	 * @var Model_Convention $convention
+	 */
 	protected $convention = null;
+	
+	/**
+	 * Logged in users, if authenticated
+	 * @var Model_User $user
+	 */
 	protected $user = null;
 	
 	public function action_index() {
