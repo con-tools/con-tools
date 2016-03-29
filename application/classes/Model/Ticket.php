@@ -42,9 +42,14 @@ class Model_Ticket extends ORM {
 		// no caching, always return all tickets as of now
 		return DB::select([DB::expr('SUM(`amount`)'), 'total_tickets'])->
 				from((new Model_Ticket())->table_name())->
-				where('timeslot_id', '=', $this->pk())->
+				where('timeslot_id', '=', $timeslot->pk())->
 				where('status','<>', self::STATUS_CANCELLED)->
-				execute()->get('total_tickets');
+				execute()->get('total_tickets') ?: 0;
 	}
 	
-};
+	public static function queryForConvention(Model_Convention $con) {
+		$query = (new Model_Tag())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
+		return $query;
+	}
+	
+}
