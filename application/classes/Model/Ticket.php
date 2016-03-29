@@ -52,4 +52,8 @@ class Model_Ticket extends ORM {
 		return $query;
 	}
 	
+	public function isAuthorized() {
+		return $this->status == self::STATUS_AUTHORIZED;
+	}
+	
 }
