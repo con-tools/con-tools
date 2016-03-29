@@ -48,7 +48,7 @@ class Model_Ticket extends ORM {
 	}
 	
 	public static function queryForConvention(Model_Convention $con) {
-		$query = (new Model_Tag())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
+		$query = (new Model_Ticket())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
 	}
 	
