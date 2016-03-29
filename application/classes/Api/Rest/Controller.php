@@ -106,6 +106,15 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	abstract protected function catalog();
 
 	/**
+	 * Helper method for common paradigm of checking if either a user is a manager or we have
+	 * a secret convention auth, to gain system level access to convention resources
+	 * @return boolean whether system level access should be granted
+	 */
+	protected function systemAccessAllowed() {
+		return $this->convention->isManager($this->user) || $this->convention->isAuthorized();
+	}
+	
+	/**
 	 * Implement the common behavior of getting a user
 	 * from either a user id or a user email (but never both) and
 	 * verifying everything
