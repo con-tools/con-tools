@@ -28,7 +28,9 @@ class Controller_Checkout extends Api_Controller {
 	 */
 	public function action_index() {
 		if ($this->request->method() == 'POST')
-			$this->startCheckout();
+			return $this->startCheckout();
+		elseif ($this->request->method() == 'GET')
+			return $this->renderDummyCart();
 		else
 			throw new Api_Exception_InvalidInput($this, "This API supports only POST requestes");
 	}
@@ -57,7 +59,21 @@ class Controller_Checkout extends Api_Controller {
 			throw new Api_Exception_InvalidInput($this, "Checkout requires an 'ok' URL and a 'fail' URL");
 		
 		$sale = Model_Sale::persist($user, $convention);
-		$html = $convention->getPaymentProcessor()->createTransactionHTML($sale, $data->ok, $data->fail);
-		echo $html;
+		return $this->response->body($convention->getPaymentProcessor()->createTransactionHTML($sale, $data->ok, $data->fail));
+	}
+	
+	private function renderDummyCart() {
+		$convention = $this->verifyConventionKey();
+		try {
+			$user = $this->verifyAuthentication()->user;
+			$view = Twig::factory('payment/cart');
+			$view->convention_key = $convention->getPublicKey();
+			$view->tickets = Model_Ticket::shoppingCart($convention, $user);
+			$view->total = Model_Sale::computeTotal($view->tickets);
+			$view->baseurl = URL::base();
+			return $this->response->body($view->render());
+		} catch (Api_Exception_Unauthorized $e) {
+			return $this->redirect('/auth/select?redirect-url=' . urlencode(URL::base(). $this->request->uri() . URL::query()));
+		}
 	}
 }

@@ -1,0 +1,39 @@
+<html>
+<head>
+<style>
+</style>
+<script src="/ready.min.js"></script>
+</head>
+<body>
+
+<table>
+<thead>
+	<tr>
+		<th>Event</th>
+		<th>Amount</th>
+		<th>Cost</th>
+	</tr>
+</thead>
+<tbody>
+{% for ticket in tickets %}
+	<tr>
+		<td>{{ticket.timeslot.event.title}}</td>
+		<td>{{ticket.amount}}</td>
+		<td>{{ticket.price}}</td>
+	</tr>
+{% endfor %}
+	<tr>
+		<td colspan="2">
+			<form method="POST" action="/checkout">
+			<input type="hidden" name="convention" value="{{convention_key}}">
+			<input type="hidden" name="ok" value="{{baseurl}}/checkout/ok">
+			<input type="hidden" name="fail" value="{{baseurl}}/checkout/fail">
+			<input type="submit" value="Checkout">
+			</form>
+		</td>
+		<td>{{total}}</td>
+	</tr>
+</tbody>
+
+</body>
+</html>
