@@ -1,13 +1,33 @@
 <?php
 class Controller_Auth extends Api_Controller {
 	
+	public static function getSessionLogin() {
+		return Session::instance()->get('logged-in-user-token');
+	}
+	
+	public static function setSessionLogin($token) {
+		return Session::instance()->set('logged-in-user-token', $token);
+	}
+	
+	public static function clearSessionLogin() {
+		return Session::instance()->delete('logged-in-user-token');
+	}
+	
 	public function action_verify() {
+		$callback = $this->input()->fetch('redirect-url');
 		try {
 			$this->verifyAuthentication();
+			if ($callback)
+				return $this->redirect($this->addQueryToURL($callback, [
+						'status' => true,
+						'token' => self::getSessionLogin(),
+				]));
 			$this->send([
 					"status" => true
 			]);
 		} catch (HTTP_Exception_403 $e) {
+			if ($callback)
+				return $this->redirect_to_action('select', ['redirect-url' => $callback]);
 			$this->send([
 					"status" => false
 			]);
@@ -25,7 +45,7 @@ class Controller_Auth extends Api_Controller {
 			$tok = $this->verifyAuthentication();
 			$tok->delete();
 		} catch (Api_Exception_Unauthorized $e) {} // if we can't find a valid token, its like we logged out, right?
-		Session::instance()->delete('logged-in-user-token');
+		self::clearSessionLogin();
 		$this->send([ 'status' => true ]);
 	}
 	
@@ -102,7 +122,7 @@ class Controller_Auth extends Api_Controller {
 				$this->completeAuthToApp($this->input()->redirect_url, $u->login()->token);
 			} else {
 				$token = $u->login()->token;
-				Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
+				self::setSessionLogin($token); // cache token in session for faster auth next time
 				$this->send([
 						"status" => true,
 						"token" => $token,
@@ -231,7 +251,7 @@ class Controller_Auth extends Api_Controller {
 	
 	private function completeAuthToApp($callback, $token) {
 		Logger::debug('Setting session token to :token',[':token' => $token]);
-		Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
+		self::setSessionLogin($token); // cache token in session for faster auth next time
 		$this->redirect($this->addQueryToURL($callback, [
 				'status' => true,
 				'token' => $token,
