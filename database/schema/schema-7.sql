@@ -15,4 +15,6 @@ CREATE TABLE IF NOT EXISTS `tickets` (
 ALTER TABLE `conventions` ADD COLUMN `settings` TEXT DEFAULT NULL COMMENT 'json encoded convention specific settings document';
 UPDATE `conventions` SET `settings` = '{"payment-processor":{"type":"pelepay","id":"treasurer@roleplay.org.il"}}' WHERE slug = 'ביגור-16' and id > 0;
 
+ALTER TABLE `tickets` ADD COLUMN `price` DECIMAL(5,2) NOT NULL COMMENT 'price for the fullfilment, i.e. for amount > 1, for all tickets in this record' AFTER `amount`;
+
 UPDATE `system_settings` SET `value` = '7' WHERE `name` = 'data-version' and `id` > 0;

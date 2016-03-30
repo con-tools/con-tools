@@ -20,16 +20,18 @@ class Model_Ticket extends ORM {
 			'timeslot_id' => [],
 			'sale_id' => [],
 			// data fields
-			'amount' => [],
+			'amount' => [], // number of tickets
+			'price' => [], // fullfilment price for the entire model (i.e when amount > 1, for all the amount)
 			'status' => [ 'type' => 'enum', 'values' => [ 'reserved', 'processing', 'authorized', 'cancelled' ]],
 	];
 	
-	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1) : Model_Ticket {
+	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1, $price = null) : Model_Ticket {
 		$o = new Model_Ticket();
 		$o->user = $user;
 		$o->timeslot = $timeslot;
 		$o->status = self::STATUS_RESERVED;
 		$o->amount = $amount;
+		$o->price = $price ?: ($this->amount * $this->timeslot->event->price);
 		return $o->save();
 	}
 	
