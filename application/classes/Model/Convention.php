@@ -22,6 +22,7 @@ class Model_Convention extends ORM {
 			'location' => [],
 			'start_date' => [ 'type' => 'DateTime' ],
 			'end_date' => [ 'type' => 'DateTime' ],
+			'settings' => [],
 	];
 	
 	private $client_authorized = false;
@@ -127,6 +128,17 @@ class Model_Convention extends ORM {
 	 */
 	public function getPublicEvents() : Database_Result {
 		return $this->events->where('status', '=', Model_Event::STATUS_APPROVED)->find_all();
+	}
+
+	/**
+	 * Don't expose private convention settings in public convnetion view
+	 * {@inheritDoc}
+	 * @see ORM::for_json()
+	 */
+	public function for_json() {
+		return array_filter(parent::for_json(),function($key){
+			return $key != 'settings';
+		},ARRAY_FILTER_USE_KEY);
 	}
 	
 	/**

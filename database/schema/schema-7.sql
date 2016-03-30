@@ -12,5 +12,7 @@ CREATE TABLE IF NOT EXISTS `tickets` (
   CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB CHARACTER SET UTF8;
 
+ALTER TABLE `conventions` ADD COLUMN `settings` TEXT DEFAULT NULL COMMENT 'json encoded convention specific settings document';
+UPDATE `conventions` SET `settings` = '{"payment-processor":{"type":"pelepay","id":"treasurer@roleplay.org.il"}}' WHERE slug = 'ביגור-16' and id > 0;
 
 UPDATE `system_settings` SET `value` = '7' WHERE `name` = 'data-version' and `id` > 0;
