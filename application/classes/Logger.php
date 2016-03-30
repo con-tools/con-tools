@@ -15,6 +15,7 @@ class Logger {
 	}
 	
 	public static function error($message, array $context = NULL, array $additional = NULL) {
+		error_log($message);
 		return Kohana::$log->add(Kohana_Log::ERROR, $message, self::parseContext($context), $additional);
 	}
 	
