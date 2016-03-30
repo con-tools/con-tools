@@ -35,7 +35,7 @@ abstract class Controller extends Kohana_Controller {
 				$q[] = urlencode($key) . '=' . urlencode($val);
 			$url .= '?' . join('&',$q);
 		}
-		$this->redirect($url);
+		return $this->redirect($url);
 	}
 
 	public function action_url($action, $full = false) {
