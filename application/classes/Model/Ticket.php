@@ -61,7 +61,7 @@ class Model_Ticket extends ORM {
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'status', 'amount', 'sale-id', 'timeslot', 'user'
+					'id', 'status', 'amount', 'sale-id', 'timeslot', 'user', 'price'
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 		]);
