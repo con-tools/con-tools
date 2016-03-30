@@ -8,6 +8,7 @@ web:
     DB_URL_ENV_NAME: DOCKER_DSN
   volumes:
    - ./application:/app/user/application
+   - ./public:/app/user/public
   env_file:
    - .secrets
   ports:
