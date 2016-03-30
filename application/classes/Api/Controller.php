@@ -25,7 +25,8 @@ abstract class Api_Controller extends Controller {
 	 */
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
-		$auto = $auth ?: Session::instance()->get('logged-in-user-token'); // if no user submitted auto, try to use auth from session
+		$auth = $auth ?: Session::instance()->get('logged-in-user-token'); // if no user submitted auto, try to use auth from session
+		Logger::debug("Checking authorization header: " . $auth);
 		if (!$auth)
 			throw new Api_Exception_Unauthorized($this, "No Authorization header present");
 		try {
