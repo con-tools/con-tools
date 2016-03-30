@@ -3,8 +3,6 @@
 class Controller_Entities_Tickets extends Api_Rest_Controller {
 	
 	public function create() {
-		if (!$this->user)
-			throw new Api_Exception_Unauthorized($this, "You must be logged in to purchase a ticket");
 		$data = $this->input();
 		$timeslot = new Model_Timeslot($data->timeslot);
 		if (!$timeslot->loaded())
@@ -14,7 +12,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			throw new Api_Exception_Duplicate($this, "Not enough tickets left");
 		// start the reservation
 		Database::instance()->begin();
-		$ticket = Model_Ticket::persist($timeslot, $this->user);
+		$ticket = Model_Ticket::persist($timeslot, $this->getValidUser());
 		if ($timeslot->available_tickets < 0) { // someone took our tickets first
 			Database::instance()->rollback();
 			throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
@@ -30,7 +28,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	
 	public function retrieve($id) {
 		$ticket = new Model_Ticket($id);
-		if ($ticket->loaded() && ($ticket->user == $this->user || $this->systemAccessAllowed()))
+		if ($ticket->loaded() && ($ticket->user == $this->getValidUser() || $this->systemAccessAllowed()))
 			return $ticket->for_json();
 		throw new Api_Exception_InvalidInput($this, "No valid tickets found to display");
 	}
@@ -41,7 +39,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		if (!is_numeric($amount))
 			throw new Api_Exception_InvalidInput($this, "Amount must be a numerical value");
 		$ticket = new Model_Ticket($id);
-		if (!$ticket->loaded() || $ticket->user != $this->user)
+		if (!$ticket->loaded() || $ticket->user != $this->getValidUser())
 			throw new Api_Exception_InvalidInput($this, "No ticket found");
 		Database::instance()->begin();
 		$ticket->setAmount($amount);
@@ -90,9 +88,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			}
 		} else {
 			// verify user and filter by them
-			if (!$this->user)
-				throw new Api_Exception_Unauthorized($this, "You must be logged in to see your tickets");
-			$filters['user_id'] = $this->user->pk();
+			$filters['user_id'] = $this->getValidUser()->pk();
 		}
 		
 		if ($data->by_event)
@@ -102,6 +98,14 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		if ($data->is_valid)
 			$filters['valid'] = 1;
 		return ORM::result_for_json($this->convention->getTickets($filters), 'for_json');
+	}
+	
+	private function getValidUser() {
+		if ($this->user) // user authenticated themselves - fine
+			return $this->user;
+		if ($this->convention->isAuthorized() and $this->input()->user)
+			return $this->loadUserByIdOrEmail($this->input()->user, $this->input()->user);
+		throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
 	}
 	
 }
