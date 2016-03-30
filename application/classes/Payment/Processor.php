@@ -4,7 +4,7 @@
  * Abstract adapter to payment processor implementations
  * @author odeda
  */
-class Payment_Processor {
+abstract class Payment_Processor {
 	
 	private static $instances = [];
 	
