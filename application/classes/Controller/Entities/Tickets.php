@@ -36,7 +36,32 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	}
 	
 	public function update($id) {
-		// TODO: do stuff
+		// allow user to update the amount of tickets they want to buy, if there are tickets available
+		$amount = $this->input()->amount;
+		if (!is_numeric($amount))
+			throw new Api_Exception_InvalidInput($this, "Amount must be a numerical value");
+		$ticket = new Model_Ticket($id);
+		if (!$ticket->loaded() || $ticket->user != $this->user)
+			throw new Api_Exception_InvalidInput($this, "No ticket found");
+		Database::instance()->begin();
+		$ticket->setAmount($amount);
+		
+		if ($ticket->amount <= 0) { // cancel the ticket
+			$ticket->cancel();
+			Database::instance()->commit();
+			return $ticket->for_json();
+		}
+
+		$ticket->save();
+		// check if we're still OK
+		if ($ticket->timeslot->available_tickets < 0) {
+			// cancel the transaction
+			Database::instance()->rollback();
+			throw new Api_Exception_InvalidInput($this, "No more tickets left");
+		}
+		
+		Database::instance()->commit();
+		return $ticket->for_json();
 	}
 	
 	public function delete($id) {
@@ -74,6 +99,8 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$filters['event_id'] = $data->by_event;
 		if ($data->by_timeslot)
 			$filters['timeslot_id'] = $data->by_timeslot;
+		if ($data->is_valid)
+			$filters['valid'] = 1;
 		return ORM::result_for_json($this->convention->getTickets($filters), 'for_json');
 	}
 	
