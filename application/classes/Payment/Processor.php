@@ -42,7 +42,7 @@ class Payment_Processor {
 	 * @param array $fields query data that can be encoded and submitted back by the processor.
 	 */
 	protected function generateCallbackURL($fields) {
-		return Controller_Checkout::getCallbackURL($this->convention->pk(), $fields);
+		return Controller_Checkout::getCallbackURL($this->convention->slug, $fields);
 	}
 	
 	/**
