@@ -58,6 +58,8 @@ class Model_Timeslot extends ORM {
 		switch ($column) {
 			case 'end_time':
 				return (clone $this->start_time)->add(new DateInterval("PT".$this->duration."M"));
+			case 'available_tickets':
+				return $this->max_attendees - Model_Ticket::countForTimeslot($this);
 			default: return parent::get($column);
 		}
 	}
@@ -104,6 +106,7 @@ class Model_Timeslot extends ORM {
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
 				'hosts' => self::result_for_json($this->host_names->find_all()),
+				'available_tickets' => $this->available_tickets,
 		]);
 	}
 }

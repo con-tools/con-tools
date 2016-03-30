@@ -199,11 +199,11 @@ class Controller_Auth extends Api_Controller {
 		} catch (ORM_Validation_Exception $e) {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => "Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'" ];
-			error_log("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
+			Logger::error("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
 		} catch (Exception $e) {
 			$callback = $provider->getRedirectURL();
 			$response = ['status' => false, 'error' => "$e" ];
-			error_log("Unexpected error on auth callback: $e");
+			Logger::error("Unexpected error on auth callback: $e");
 		}
 		
 		// TODO: handle client side only without redirects
@@ -230,6 +230,7 @@ class Controller_Auth extends Api_Controller {
 	}
 	
 	private function completeAuthToApp($callback, $token) {
+		Logger::debug('Setting session token to :token',[':token' => $token]);
 		Session::instance()->set('logged-in-user-token', $token); // cache token in session for faster auth next time
 		$this->redirect($this->addQueryToURL($callback, [
 				'status' => true,

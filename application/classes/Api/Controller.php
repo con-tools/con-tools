@@ -25,7 +25,8 @@ abstract class Api_Controller extends Controller {
 	 */
 	protected function verifyAuthentication() {
 		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
-		$auto = $auth ?: Session::instance()->get('logged-in-user-token'); // if no user submitted auto, try to use auth from session
+		$auth = $auth ?: Session::instance()->get('logged-in-user-token'); // if no user submitted auto, try to use auth from session
+		Logger::debug("Checking authorization header: " . $auth);
 		if (!$auth)
 			throw new Api_Exception_Unauthorized($this, "No Authorization header present");
 		try {
@@ -46,23 +47,23 @@ abstract class Api_Controller extends Controller {
 	 * @throws Api_Exception_Unauthorized
 	 */
 	protected function verifyConventionKey() {
-		$authen = $this->request->headers('Convention') ?: $this->request->query('convention');
+		$authen = $this->request->headers('Convention') ?: $this->input()->convention;
 		if (!$authen)
 			throw new Api_Exception_Unauthorized($this, "No Convention authentication header present");
-		error_log("Authenication header for convention " . $authen);
+		Logger::info("Authentication header for convention " . $authen);
 		try {
 			$apiKey = Model_Api_Key::byClientKey($authen);
 			$con = $apiKey->convention;
-			error_log("Got convention {$con}");
-			@list($type,$auth) = explode(" ",$this->request->headers('Authorization') ?: $this->request->query('token'));
+			Logger::debug("Got convention {$con}");
+			@list($type,$auth) = explode(" ",$this->request->headers('Authorization') ?: $this->input()->token);
 			if (stristr($type, 'convention')) {
-				error_log("Convention tries to authorize");
+				Logger::debug("Convention tries to authorize");
 				@list($time, $salt, $signature) = explode(':', $auth);
 				if (abs(time() - (int)$time) > 600) // prevent replay attacks
 					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization");
 				if (sha1("{$time}:{$salt}".$apiKey->client_secret) != $signature)
 					throw new Api_Exception_Unauthorized($this, "Invalid convention authorization ");
-				error_log("Convention authorized");
+				Logger::debug("Convention authorized");
 				$con->setAuthorized();
 			}
 			

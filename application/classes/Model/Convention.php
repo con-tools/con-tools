@@ -22,6 +22,7 @@ class Model_Convention extends ORM {
 			'location' => [],
 			'start_date' => [ 'type' => 'DateTime' ],
 			'end_date' => [ 'type' => 'DateTime' ],
+			'settings' => [],
 	];
 	
 	private $client_authorized = false;
@@ -46,6 +47,17 @@ class Model_Convention extends ORM {
 		if (!($apikey instanceof Model_Api_Key))
 			$apikey = Model_Api_Key::byClientKey($apikey);
 		return $apikey->convention;
+	}
+	
+	/**
+	 * Locate convention instance by its slug
+	 * @param string $slug convention slug
+	 */
+	public static function bySlug($slug) : Model_Convention {
+		$o = (new Model_Convention())->where('slug', 'like', $slug)->find();
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
+		return $o;
 	}
 	
 	public function generateApiKey() {
@@ -108,6 +120,34 @@ class Model_Convention extends ORM {
 			$query = $query->where($field,'=',$value);
 		return $query->find_all();
 	}
+
+	/**
+	 * Retrieve all tickets registered on a convention (including cancelled tickets)
+	 * @param array $filters list of filters to add to the quer
+	 * @return Database_Result list of all tickets
+	 */
+	public function getTickets($filters = []) : Database_Result {
+		$query = Model_Ticket::queryForConvention($this);
+		foreach ($filters as $field  => $value) {
+			if ($field == 'valid') // don't show cancelled
+				$query = $query->where('ticket.status', '<>', Model_Ticket::STATUS_CANCELLED);
+			else
+				$query = $query->where($field,'=',$value);
+		}
+		return $query->find_all();
+	}
+	
+	public function get($column) {
+		switch ($column) {
+			case 'settings':
+				return json_decode(parent::get('settings'), true);
+			default: return parent::get($column);
+		}
+	}
+	
+	public function getPaymentProcessor() : Payment_Processor {
+		return Payment_Processor::instance($this, @$this->get('settings')['payment-processor']);
+	}
 	
 /**
 	 * Retrieve all events that have been "published"
@@ -115,6 +155,23 @@ class Model_Convention extends ORM {
 	 */
 	public function getPublicEvents() : Database_Result {
 		return $this->events->where('status', '=', Model_Event::STATUS_APPROVED)->find_all();
+	}
+	
+	public function getPublicKey() {
+		foreach ($this->api_keys->find_all() as $key)
+			return $key->client_key;
+		return false;
+	}
+	
+	/**
+	 * Don't expose private convention settings in public convnetion view
+	 * {@inheritDoc}
+	 * @see ORM::for_json()
+	 */
+	public function for_json() {
+		return array_filter(parent::for_json(),function($key){
+			return $key != 'settings';
+		},ARRAY_FILTER_USE_KEY);
 	}
 	
 	/**
