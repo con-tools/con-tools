@@ -23,6 +23,8 @@ class Model_Ticket extends ORM {
 			'amount' => [], // number of tickets
 			'price' => [], // fullfilment price for the entire model (i.e when amount > 1, for all the amount)
 			'status' => [ 'type' => 'enum', 'values' => [ 'reserved', 'processing', 'authorized', 'cancelled' ]],
+			'reserved_time' => [ 'type' => 'DateTime' ],
+			'cancel_reason' => [],
 	];
 	
 	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1, $price = null) : Model_Ticket {
@@ -30,6 +32,7 @@ class Model_Ticket extends ORM {
 		$o->user = $user;
 		$o->timeslot = $timeslot;
 		$o->status = self::STATUS_RESERVED;
+		$o->reserved_time = new DateTime();
 		$o->amount = $amount;
 		$o->price = $price ?: ($o->amount * $o->timeslot->event->price);
 		return $o->save();
@@ -69,6 +72,16 @@ class Model_Ticket extends ORM {
 				find_all();
 	}
 	
+	public static function oldTickets(DateTime $than) {
+		return (new Model_Ticket())->
+			with('timeslot:event')->
+		with('user')->
+		where('convention_id', '=', $con->pk())->
+		where('ticket.user_id','=',$user->pk())->
+		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
+		find_all();
+	}
+	
 	public function setSale(Model_Sale $sale) {
 		$this->sale = $sale;
 		$this->status = self::sTATUS_PROCESSING;
@@ -83,6 +96,17 @@ class Model_Ticket extends ORM {
 	public function cancel() : Model_Ticket {
 		$this->status = self::STATUS_CANCELLED;
 		return $this->save();
+	}
+	
+	public function authorize() {
+		$this->status = self::STATUS_AUTHORIZED;
+		return $this->save();
+	}
+	
+	public function returnToCart() {
+		$this->status = self::STATUS_RESERVED;
+		$this->reserved_time = new DateTime();
+		$this->save();
 	}
 	
 	public function isAuthorized() {

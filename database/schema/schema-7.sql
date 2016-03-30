@@ -16,10 +16,13 @@ ALTER TABLE `conventions` ADD COLUMN `settings` TEXT DEFAULT NULL COMMENT 'json 
 UPDATE `conventions` SET `settings` = '{"payment-processor":{"type":"pelepay","id":"treasurer@roleplay.org.il"}}' WHERE slug = 'ביגור-16' and id > 0;
 
 ALTER TABLE `tickets` ADD COLUMN `price` DECIMAL(5,2) NOT NULL COMMENT 'price for the fullfilment, i.e. for amount > 1, for all tickets in this record' AFTER `amount`;
+ALTER TABLE `tickets` ADD COLUMN `reserved_time` DATETIME NOT NULL COMMENT '' AFTER `status`;
+ALTER TABLE `tickets` ADD COLUMN `cancel_reason` VARCHAR(45) NULL DEFAULT NULL COMMENT '' AFTER `reserved_time`;
+ALTER TABLE `tickets` ADD INDEX `reservation_idx` (`reserved_time` ASC)  COMMENT '';
 
 ALTER TABLE `sales` ADD COLUMN `convention_id` INT UNSIGNED NOT NULL COMMENT '' AFTER `id`;
 ALTER TABLE `sales` ADD COLUMN `processor_data` TEXT NULL DEFAULT NULL COMMENT 'processor specific transactio meta data' AFTER `cancellation_notes`;
-ALTER TABLE`sales` CHANGE COLUMN `transaction_id` `transaction_id` VARCHAR(255) NULL DEFAULT NULL COMMENT 'transaction confirmation ID recived from payment processor';
+ALTER TABLE `sales` CHANGE COLUMN `transaction_id` `transaction_id` VARCHAR(255) NULL DEFAULT NULL COMMENT 'transaction confirmation ID recived from payment processor';
 
 ALTER TABLE `sales` ADD CONSTRAINT `conventions_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE RESTRICT;
 
