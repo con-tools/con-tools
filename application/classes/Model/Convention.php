@@ -53,7 +53,7 @@ class Model_Convention extends ORM {
 	 * Locate convention instance by its slug
 	 * @param string $slug convention slug
 	 */
-	public static function bySlug($slug) {
+	public static function bySlug($slug) : Model_Convention {
 		$o = (new Model_Convention())->where('slug', 'like', $slug)->find();
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
