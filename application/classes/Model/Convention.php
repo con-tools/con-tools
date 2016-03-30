@@ -49,6 +49,17 @@ class Model_Convention extends ORM {
 		return $apikey->convention;
 	}
 	
+	/**
+	 * Locate convention instance by its slug
+	 * @param string $slug convention slug
+	 */
+	public static function bySlug($slug) {
+		$o = (new Model_Convention())->where('slug', 'like', $slug)->find();
+		if (!$o->loaded())
+			throw new Model_Exception_NotFound();
+		return $o;
+	}
+	
 	public function generateApiKey() {
 		return Model_Api_Key::persist($this);
 	}
