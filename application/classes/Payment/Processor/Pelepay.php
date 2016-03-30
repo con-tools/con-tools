@@ -11,12 +11,15 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 	public function createTransactionHTML(Model_Sale $sale, $okurl, $failurl) {
 		$callback_data = [ 'ok' => $okurl, 'fail' => $failurl ];
 		
-		$sale->processor_data = json_encode($callback_data);
+		$sale->processor_data = $callback_data;
+		$sale->save();
 		$view = Twig::factory('payment/pelepay-form');
 		$view->config = $this->config;
 		$view->price = $sale->getTotal();
 		$view->orderid = $sale->pk();
-		$view->description = urlencode("Sale #" . $sale->pk() . " for " . $sale->convention->title); // must encode everything, hates pelepay.
+		// the description field is displayed as is to the user, and then sent back in the query string
+		// without encoding, so be careful what you put there
+		$view->description = "עסקה-" . $sale->pk() . " בשביל " . $sale->convention->title;
 		$view->onsuccess = $this->generateCallbackURL(['status' => 'success' ]);
 		$view->onfail = $this->generateCallbackURL(['status' => 'fail' ]);
 		$view->oncancel = $this->generateCallbackURL(['status' => 'cancel' ]);
@@ -57,18 +60,17 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		];
 		$callback_data = $sale->processor_data;
 		$callback_data['pelepay-response'] = $sale_data;
-		$sale->processor_data = json_encode($callback_data);
-		$sale->transaction_id = $request->index . ':' . $request->ConfirmationCode;
+		$sale->processor_data = $callback_data;
 		switch ($fields['status']) {
 			case 'success':
-				$sale->authorized();
-				break;
+				$sale->authorized($request->index . ':' . $request->ConfirmationCode);
+				return $callback_data['ok'];
 			case 'fail':
 				$sale->failed($request->Response);
-				break;
+				return $callback_data['fail'];
 			case 'cancel':
 				$sale->cancelled();
-				break;
+				return $callback_data['fail'];
 			default:
 				throw new Exception("Invalid status '{$fields['status']}'");
 		}
