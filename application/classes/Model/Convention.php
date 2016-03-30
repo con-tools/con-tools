@@ -156,7 +156,13 @@ class Model_Convention extends ORM {
 	public function getPublicEvents() : Database_Result {
 		return $this->events->where('status', '=', Model_Event::STATUS_APPROVED)->find_all();
 	}
-
+	
+	public function getPublicKey() {
+		foreach ($this->api_keys->find_all() as $key)
+			return $key->client_key;
+		return false;
+	}
+	
 	/**
 	 * Don't expose private convention settings in public convnetion view
 	 * {@inheritDoc}
