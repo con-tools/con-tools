@@ -65,7 +65,7 @@ class Model_Ticket extends ORM {
 				with('user')->
 				where('convention_id', '=', $con->pk())->
 				where('ticket.user_id','=',$user->pk())->
-				where('ticket.status', '=', self::STATUS_RESERVED)->
+				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
 				find_all();
 	}
 	
