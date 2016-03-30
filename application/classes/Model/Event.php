@@ -121,6 +121,9 @@ class Model_Event extends ORM {
 	}
 	
 	public function set($column, $value) {
+		if (empty($this->_object_name)) // object initialization, don't override anything yet
+			return parent::set($column, $value);
+		
 		switch ($column) {
 			// set some fields also for timeslots
 			case 'min_attendees':
