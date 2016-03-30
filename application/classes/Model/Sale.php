@@ -67,4 +67,32 @@ class Model_Sale extends ORM {
 		return self::computeTotal($this->tickets->find_all());
 	}
 	
+	/**
+	 * Finished transaction
+	 * @param string $transaction_id payment processor transaction id
+	 */
+	public function authorized($transaction_id) {
+		$this->transaction_id = $transaction_id;
+		$this->save();
+		foreach ($this->tickets->find_all() as $ticket)
+			$ticket->authorize();
+	}
+	
+	/**
+	 * User cancelled the transaction, return all tickets to "reserved"
+	 * so they can try again later
+	 */
+	public function cancelled() {
+		$this->failed("internal:user-cancelled");
+	}
+	
+	/**
+	 * Payment processor failed the transaction, return all tickets to "reserved"
+	 * so they can try again later
+	 */
+	public function failed($reasonCode) {
+		foreach ($this->tickets->find_all() as $ticket)
+			$ticket->returnToCart();
+		$this->transaction_id("FAILED:" . $reasonCode);
+	}
 };
