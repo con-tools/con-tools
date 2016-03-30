@@ -128,8 +128,12 @@ class Model_Convention extends ORM {
 	 */
 	public function getTickets($filters = []) : Database_Result {
 		$query = Model_Ticket::queryForConvention($this);
-		foreach ($filters as $field  => $value)
-			$query = $query->where($field,'=',$value);
+		foreach ($filters as $field  => $value) {
+			if ($field == 'valid') // don't show cancelled
+				$query = $query->where('ticket.status', '<>', Model_Ticket::STATUS_CANCELLED);
+			else
+				$query = $query->where($field,'=',$value);
+		}
 		return $query->find_all();
 	}
 	
