@@ -55,7 +55,7 @@ class Model_Sale extends ORM {
 	 * @param array|Database_Result $tickets list or result set of Model_Ticket
 	 */
 	public static function computeTotal($tickets) {
-		return array_reduce(is_array($tickets) ? $tickets : $tickets->as_array(), function($total, $ticket){
+		return array_reduce(is_array($tickets) ? $tickets : $tickets->as_array(), function(int $total, Model_Ticket $ticket){
 			return $total + $ticket->price;
 		}, 0);
 	}
@@ -64,7 +64,7 @@ class Model_Sale extends ORM {
 	 * Get total cost of this sale
 	 */
 	public function getTotal() {
-		return self::computeTotal($this->tickets);
+		return self::computeTotal($this->tickets->find_all());
 	}
 	
 };
