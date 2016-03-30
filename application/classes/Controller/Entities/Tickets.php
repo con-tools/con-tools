@@ -42,12 +42,13 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	public function delete($id) {
 		if (!$this->systemAccessAllowed())
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tickets");
-		$ticket = new Model_Ticket($id);
-		if ($ticket->loaded())
-			throw new Api_Exception_InvalidInput($this, "No ticket found");
+		$ticket = new Model_Ticket((int)$id);
+		if (!$ticket->loaded())
+			throw new Api_Exception_InvalidInput($this, "No ticket found for '$id'");
 		if ($ticket->isAuthorized())
 			throw new Api_Exception_InvalidInput($this, "Can't delete authorized tickets, cancel it first");
 		$ticket->delete();
+		return true;
 	}
 	
 	public function catalog() {
