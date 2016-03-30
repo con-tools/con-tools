@@ -16,7 +16,7 @@ class Controller_Checkout extends Api_Controller {
 		$query_string = [];
 		foreach ($fields as $key => $val)
 			$query_string[] = urlencode($key) . '=' . urlencode($val);
-		return Route::get('default')->uri([
+		return URL::base().Route::get('default')->uri([
 				'controller' => 'checkout',
 				'action' => 'callback',
 				'id' => $id,
