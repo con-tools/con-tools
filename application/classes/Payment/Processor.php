@@ -1,22 +1,48 @@
 <?php
 
+/**
+ * Abstract adapter to payment processor implementations
+ * @author odeda
+ */
 class Payment_Processor {
 	
 	private static $instances = [];
 	
-	public static function instance($config) : Payment_Processor {
+	protected $config;
+		/**
+		 * Convention using this processor
+		 * @var Model_Convention
+		 */
+	protected $convention;
+	
+	public static function instance(Model_Convention $convention, $config) : Payment_Processor {
+		if (@$instances[$convention->slug])
+			return $instances[$convention->slug];
+		
 		if (!is_array($config) or !($type = @$config['type']))
 			throw new Exception("Invalid payment processor configuration");
 		
-		if (@$instances[$type])
-			return $instances[$type];
-		
 		$className = "Payment_Processor_" . ucfirst($type);
 		try {
-			return $instances[$type] = new $className($config);
+			return $instances[$convention->slug] = new $className($convention, $config);
 		} catch (Error $e) {
 			throw new Excecption("Invalid payment processor '$type'");
 		}
+	}
+	
+	protected function __construct(Model_Convention $con, $config) {
+		$this->config = $config;
+		$this->convention = $con;
+	}
+	
+	/**
+	 * Genearte a URL to call back this payment processor, through
+	 * the checkout controller, for use as callback URL for a payment
+	 * processor.
+	 * @param array $fields query data that can be encoded and submitted back by the processor.
+	 */
+	protected function generateCallbackURL($fields) {
+		return Controller_Checkout::getCallbackURL($this->convention->pk(), $fields);
 	}
 	
 	/**

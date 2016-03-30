@@ -131,7 +131,7 @@ class Model_Convention extends ORM {
 	}
 	
 	public function getPaymentProcessor() : Payment_Processor {
-		return Payment_Processor::instance(@$this->get('settings')['payment-processor']);
+		return Payment_Processor::instance($this, @$this->get('settings')['payment-processor']);
 	}
 	
 /**
