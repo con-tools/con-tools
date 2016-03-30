@@ -45,7 +45,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		$ticket->setAmount($amount);
 		
 		if ($ticket->amount <= 0) { // cancel the ticket
-			$ticket->cancel();
+			$ticket->cancel("user-deleted");
 			Database::instance()->commit();
 			return $ticket->for_json();
 		}

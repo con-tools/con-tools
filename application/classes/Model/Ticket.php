@@ -93,8 +93,9 @@ class Model_Ticket extends ORM {
 		$this->price = $this->timeslot->event->price * $this->amount;
 	}
 	
-	public function cancel() : Model_Ticket {
+	public function cancel($reason) : Model_Ticket {
 		$this->status = self::STATUS_CANCELLED;
+		$this->cancel_reason = $reason;
 		return $this->save();
 	}
 	
@@ -105,7 +106,7 @@ class Model_Ticket extends ORM {
 	
 	public function returnToCart() {
 		$this->status = self::STATUS_RESERVED;
-		$this->reserved_time = new DateTime();
+		$this->reserved_time = new DateTime(); // give the user a bit more time
 		$this->save();
 	}
 	
