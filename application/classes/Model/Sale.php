@@ -3,6 +3,7 @@
 class Model_Sale extends ORM {
 	
 	protected $_belongs_to = [
+			'convention' => [],
 			'user' => [],
 			'cashier' => [ 'model' => 'user', 'foreign_key' => 'cashier_id' ],
 			'sale' => [ 'model' => 'sale', 'foreign_key' => 'original_sale_id' ],
