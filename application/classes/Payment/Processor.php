@@ -56,4 +56,10 @@ class Payment_Processor {
 	 */
 	abstract public function createTransactionHTML(Model_Sale $sale, $okurl, $failurl);
 	
+	/**
+	 * Called by the payment processor service when the callback gets called
+	 * @param Input $request request data submitted to the callback endpoint. this
+	 *   should contain the fields submitted to {@link #generateCallbackURL()}
+	 */
+	abstract public function handleCallback(Input $request);
 }
