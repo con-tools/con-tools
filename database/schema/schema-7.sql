@@ -19,6 +19,8 @@ ALTER TABLE `tickets` ADD COLUMN `price` DECIMAL(5,2) NOT NULL COMMENT 'price fo
 
 ALTER TABLE `sales` ADD COLUMN `convention_id` INT UNSIGNED NOT NULL COMMENT '' AFTER `id`;
 ALTER TABLE `sales` ADD COLUMN `processor_data` TEXT NULL DEFAULT NULL COMMENT 'processor specific transactio meta data' AFTER `cancellation_notes`;
+ALTER TABLE`sales` CHANGE COLUMN `transaction_id` `transaction_id` VARCHAR(255) NULL DEFAULT NULL COMMENT 'transaction confirmation ID recived from payment processor';
+
 ALTER TABLE `sales` ADD CONSTRAINT `conventions_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE RESTRICT;
 
 UPDATE `system_settings` SET `value` = '7' WHERE `name` = 'data-version' and `id` > 0;
