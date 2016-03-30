@@ -12,7 +12,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		$callback_data = [ 'ok' => $okurl, 'fail' => $failurl ];
 		
 		$sale->processor_data = json_encode($callback_data);
-		$view = View::factory('payment/pelepay-form');
+		$view = Twig::factory('payment/pelepay-form');
 		$view->config = $this->config;
 		$view->price = $sale->getTotal();
 		$view->orderid = $sale->pk();
