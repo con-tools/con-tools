@@ -120,6 +120,21 @@ class Model_Event extends ORM {
 		}
 	}
 	
+	public function set($column, $value) {
+		switch ($column) {
+			// set some fields also for timeslots
+			case 'min_attendees':
+			case 'max_attendees':
+			case 'duration':
+			case 'notes_to_attendees':
+				$this->updateTimeslots($column, $value);
+				return parent::set($column, $value);
+			case 'custom_data':
+				return parent::set($column, json_encode($value));
+			default: return parent::set($column, $value);
+		}
+	}
+	
 	/**
 	 * Retrieve all event tags of the specified type
 	 * @param Model_Event_Tag_Type $type type of tag to retrieve
@@ -141,6 +156,18 @@ class Model_Event extends ORM {
 		if (!$this->has('event_tag_values', $tag))
 			$this->add('event_tag_values', $tag);
 		return $this;
+	}
+	
+	/**
+	 * Update specified values in all timeslots for this event
+	 * @param string $column field name to update
+	 * @param mixed $value value to set
+	 */
+	public function updateTimeslots($column, $value) {
+		foreach ($this->timeslots->find_all() as $timeslot) {
+			$timeslot->set($column, $value);
+			$timeslot->save();
+		}
 	}
 	
 	/**
