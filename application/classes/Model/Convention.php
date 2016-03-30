@@ -122,6 +122,18 @@ class Model_Convention extends ORM {
 		return $query->find_all();
 	}
 	
+	public function get($column) {
+		switch ($column) {
+			case 'settings':
+				return json_decode(parent::get('settings'), true);
+			default: return parent::get($column);
+		}
+	}
+	
+	public function getPaymentProcessor() : Payment_Processor {
+		return Payment_Processor::instance(@$this->get('settings')['payment-processor']);
+	}
+	
 /**
 	 * Retrieve all events that have been "published"
 	 * @return Database_Result listing of published events
