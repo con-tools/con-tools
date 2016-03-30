@@ -60,6 +60,22 @@ class Model_Sale extends ORM {
 		}, 0);
 	}
 	
+	public function get($column) {
+		switch ($column) {
+			case 'processor_data':
+				return json_decode(parent::get('processor_data'), true);
+			default: return parent::get($column);
+		}
+	}
+	
+	public function set($column, $value) {
+		switch ($column) {
+			case 'processor_data':
+				return parent::set('processor_data', json_encode($value));
+			default: return parent::set($column, $value);
+		}
+	}
+	
 	/**
 	 * Get total cost of this sale
 	 */
