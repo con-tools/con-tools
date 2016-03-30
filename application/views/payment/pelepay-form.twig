@@ -1,0 +1,26 @@
+<html>
+<head>
+<style>
+form { display: none; }
+</style>
+</head>
+<body>
+
+<form id="pelepay-form" name="pelepayform" action="https://www.pelepay.co.il/pay/paypage.aspx" method="post">
+	<input type="hidden" value="{{config.id}}" name="business">
+	<INPUT TYPE="hidden" value="{{price}}" NAME="amount">
+	<INPUT TYPE="hidden" value="{{orderid}}" NAME="orderid">
+	<INPUT TYPE="hidden" value="{{description}}" NAME="description">
+	<input type="image" src="http://www.pelepay.co.il/btn_images/pay_button_1.gif" name="submit" alt="Make payments with pelepay">
+	<input type="hidden" name="success_return" value="{{onsuccess}}">
+	<input type="hidden" name="fail_return" value="{{onfail}}">
+	<input type="hidden" name="cancel_return" value="{{oncancel}}">
+	<input type="hidden" name="notify_url" value="{{onb2bcomplete}}">
+	<input type="hidden" name="active_notify_url" value="1">
+	{% for name, value in additional_fields %}
+	<input type="hidden" name="{{name}}" value="{{value}}">
+	{% endfor %}
+</form>
+
+</body>
+</html>
