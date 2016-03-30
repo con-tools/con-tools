@@ -70,9 +70,19 @@ class Model_Ticket extends ORM {
 	}
 	
 	public function setSale(Model_Sale $sale) {
-		$o->sale = $sale;
-		$o->status = self::sTATUS_PROCESSING;
-		$o->save();
+		$this->sale = $sale;
+		$this->status = self::sTATUS_PROCESSING;
+		return $this->save();
+	}
+	
+	public function setAmount(int $amount) {
+		$this->amount = $amount < 0 ? 0 : $amount;
+		$this->price = $this->timeslot->event->price * $this->amount;
+	}
+	
+	public function cancel() : Model_Ticket {
+		$this->status = self::STATUS_CANCELLED;
+		return $this->save();
 	}
 	
 	public function isAuthorized() {
