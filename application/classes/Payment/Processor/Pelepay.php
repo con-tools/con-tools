@@ -16,11 +16,11 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		$view->config = $this->config;
 		$view->price = $sale->getTotal();
 		$view->orderid = $sale->pk();
-		$view->description = "Sale #" . $sale->pk() . " for " . $sale->convention->title;
-		$view->onsuccess = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'success' ]);
-		$view->onfail = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'fail' ]);
-		$view->oncancel = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'cancel' ]);
-		$view->onb2bcomplete = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'b2b' ]);
+		$view->description = urlencode("Sale #" . $sale->pk() . " for " . $sale->convention->title); // must encode everything, hates pelepay.
+		$view->onsuccess = $this->generateCallbackURL(['status' => 'success' ]);
+		$view->onfail = $this->generateCallbackURL(['status' => 'fail' ]);
+		$view->oncancel = $this->generateCallbackURL(['status' => 'cancel' ]);
+		$view->onb2bcomplete = $this->generateCallbackURL(['status' => 'b2b' ]);
 		
 		// pre-fill user data in pelepay
 		$view->additional_fields = [];
@@ -37,11 +37,11 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		return $view->render();
 	}
 
-	public function handleCallback(Input $request) {
-		error_log("Got pelepay callback: ". print_r($request,true));
-		$sale = new Model_Sale($request->sale);
+	public function handleCallback(Input $request, $fields) {
+		Logger::debug("Got pelepay callback: ". print_r($request,true));
+		$sale = new Model_Sale($request->orderid);
 		if (!$sale->loaded())
-			throw new Exception("Failed to locate sale id ".$request->sale);
+			throw new Exception("Failed to locate sale id ".$request->orderid);
 		$sale_data = [
 				'response' => $request->Response,
 				'confirmation-code' => $request->ConfirmationCode,
@@ -55,11 +55,11 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				'custom' => $request->custom,
 				'orderid' => $request->orderid,
 		];
-		$callback_data = $sale->sale_data;
+		$callback_data = $sale->processor_data;
 		$callback_data['pelepay-response'] = $sale_data;
-		$sale->sale_data = json_encode($callback_data);
+		$sale->processor_data = json_encode($callback_data);
 		$sale->transaction_id = $request->index . ':' . $request->ConfirmationCode;
-		switch ($request->status) {
+		switch ($fields['status']) {
 			case 'success':
 				$sale->authorized();
 				break;
@@ -70,7 +70,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				$sale->cancelled();
 				break;
 			default:
-				throw new Exception("Invalid status '{$request->status}'");
+				throw new Exception("Invalid status '{$fields['status']}'");
 		}
 	}
 }

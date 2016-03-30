@@ -58,8 +58,8 @@ abstract class Payment_Processor {
 	
 	/**
 	 * Called by the payment processor service when the callback gets called
-	 * @param Input $request request data submitted to the callback endpoint. this
-	 *   should contain the fields submitted to {@link #generateCallbackURL()}
+	 * @param Input $request request data submitted to the callback endpoint. This comes from the payment processor
+	 * @param array $fields contains the fields submitted to {@link #generateCallbackURL()}
 	 */
-	abstract public function handleCallback(Input $request);
+	abstract public function handleCallback(Input $request, $fields);
 }

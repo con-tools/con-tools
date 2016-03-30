@@ -13,14 +13,12 @@ class Controller_Checkout extends Api_Controller {
 	 * @param array $fields data for URL query string
 	 */
 	public static function getCallbackURL($id, $fields) {
-		$query_string = [];
-		foreach ($fields as $key => $val)
-			$query_string[] = urlencode($key) . '=' . urlencode($val);
+		$id = base64_encode(serialize(['i'=>$id,'f'=>$fields]));
 		return URL::base().Route::get('default')->uri([
 				'controller' => 'checkout',
 				'action' => 'callback',
 				'id' => $id,
-		]) . '?' . join('&', $query_string);
+		]);
 	}
 	
 	/**
@@ -39,9 +37,14 @@ class Controller_Checkout extends Api_Controller {
 	 * Called by the payment processor service to trigger our payment processor adapter callbacks
 	 */
 	public function action_callback() {
+		$calldata = @unserialize(base64_decode($this->request->param('id')));
+		if (!$calldata)
+			throw new Exception("Invalid callback ID. Please contact the administrator"); // shouldn't happen
+		$id = $calldata['i'];
+		$fields = $calldata['f'];
 		try {
-			$con = Model_Convention::bySlug($this->request->param('id'));
-			$redirect = $con->getPaymentProcessor()->handleCallback($this->input());
+			$con = Model_Convention::bySlug($id);
+			$redirect = $con->getPaymentProcessor()->handleCallback($this->input(), $fields);
 			if (!is_string($redirect))
 				throw new Exception("Payment processing adapter returned ". print_r($redirect, true));
 			return $this->redirect($redirect);
