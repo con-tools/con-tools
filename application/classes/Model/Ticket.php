@@ -49,9 +49,30 @@ class Model_Ticket extends ORM {
 				execute()->get('total_tickets') ?: 0;
 	}
 	
-	public static function queryForConvention(Model_Convention $con) {
+	public static function queryForConvention(Model_Convention $con) : ORM {
 		$query = (new Model_Ticket())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
+	}
+	
+	/**
+	 * Retrieve the ticket shopping card for the user
+	 * @param Model_Convention $con Convention where the user goes
+	 * @param Model_User $user User that goes to a convention
+	 */
+	public static function shoppingCart(Model_Convention $con, Model_User $user) : Database_Result {
+		return (new Model_Ticket())->
+				with('timeslot:event')->
+				with('user')->
+				where('convention_id', '=', $con->pk())->
+				where('ticket.user_id','=',$user->pk())->
+				where('ticket.status', '=', self::STATUS_RESERVED)->
+				find_all();
+	}
+	
+	public function setSale(Model_Sale $sale) {
+		$o->sale = $sale;
+		$o->status = self::sTATUS_PROCESSING;
+		$o->save();
 	}
 	
 	public function isAuthorized() {

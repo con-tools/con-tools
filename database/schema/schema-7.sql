@@ -17,4 +17,8 @@ UPDATE `conventions` SET `settings` = '{"payment-processor":{"type":"pelepay","i
 
 ALTER TABLE `tickets` ADD COLUMN `price` DECIMAL(5,2) NOT NULL COMMENT 'price for the fullfilment, i.e. for amount > 1, for all tickets in this record' AFTER `amount`;
 
+ALTER TABLE `sales` ADD COLUMN `convention_id` INT UNSIGNED NOT NULL COMMENT '' AFTER `id`;
+ALTER TABLE `sales` ADD COLUMN `processor_data` TEXT NULL DEFAULT NULL COMMENT 'processor specific transactio meta data' AFTER `cancellation_notes`;
+ALTER TABLE `sales` ADD CONSTRAINT `conventions_ibfk_1` FOREIGN KEY (`convention_id`) REFERENCES `conventions` (`id`) ON DELETE RESTRICT;
+
 UPDATE `system_settings` SET `value` = '7' WHERE `name` = 'data-version' and `id` > 0;
