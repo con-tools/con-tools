@@ -31,7 +31,7 @@ class Model_Ticket extends ORM {
 		$o->timeslot = $timeslot;
 		$o->status = self::STATUS_RESERVED;
 		$o->amount = $amount;
-		$o->price = $price ?: ($this->amount * $this->timeslot->event->price);
+		$o->price = $price ?: ($o->amount * $o->timeslot->event->price);
 		return $o->save();
 	}
 	
