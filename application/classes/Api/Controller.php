@@ -102,7 +102,36 @@ abstract class Api_Controller extends Controller {
 		error_log("Sending pre-flight response");
 		return $this->response;
 	}
-
+	
+	public static function addQueryToURL($url, $params) {
+		$parsed = parse_url($url);
+		$query = explode('&',@$parsed['query'] ?: '');
+		foreach ($params as $key => $value) {
+			$query[] = urlencode($key) . '=' . urlencode($value);
+		}
+		$parsed['query'] = join('&', $query);
+		return self::buildUrl($parsed);
+	}
+	
+	private static function buildUrl($spec) {
+		$url = @$spec['scheme'] . "://";
+		if (@$spec['user']) {
+			$url .= $spec['user'];
+			if (@$spec['pass'])
+				$url .= ":{$spec['pass']}";
+			$url .= "@";
+		}
+		$url .= @$spec['host'];
+		if (@$spec['port'])
+			$url .= ":{$spec['port']}";
+		$url .= @$spec['path'] ?: '/' ;
+		if (@$spec['query'])
+			$url .= "?{$spec['query']}";
+		if (@$spec['fragment'])
+			$url .= "#{$spec['fragment']}";
+		return $url;
+	}
+	
 	/**
 	 * Return Input object that can be used to query the request data
 	 * @return Input Input handling object

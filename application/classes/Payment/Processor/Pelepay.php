@@ -67,10 +67,10 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				return $callback_data['ok'];
 			case 'fail':
 				$sale->failed($request->Response);
-				return $callback_data['fail'];
+				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => $sale->failReason() ]);
 			case 'cancel':
 				$sale->cancelled();
-				return $callback_data['fail'];
+				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => 'user cancelled' ]);
 			default:
 				throw new Exception("Invalid status '{$fields['status']}'");
 		}
