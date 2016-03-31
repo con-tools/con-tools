@@ -21,8 +21,8 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		// without encoding, so be careful what you put there
 		$view->description = "עסקה-" . $sale->pk() . " בשביל " . $sale->convention->title;
 		$view->onsuccess = $this->generateCallbackURL(['status' => 'success' ]);
-		$view->onfail = $this->generateCallbackURL(['status' => 'fail' ]);
-		$view->oncancel = $this->generateCallbackURL(['status' => 'cancel' ]);
+		$view->onfail = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'fail' ]);
+		$view->oncancel = $this->generateCallbackURL([ 'sale' => $sale->pk(), 'status' => 'cancel' ]);
 		$view->onb2bcomplete = $this->generateCallbackURL(['status' => 'b2b' ]);
 		
 		// pre-fill user data in pelepay
@@ -42,7 +42,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 
 	public function handleCallback(Input $request, $fields) {
 		Logger::debug("Got pelepay callback: ". print_r($request,true));
-		$sale = new Model_Sale($request->orderid);
+		$sale = new Model_Sale($request->orderid ?: @$fields['sale']);
 		if (!$sale->loaded())
 			throw new Exception("Failed to locate sale id ".$request->orderid);
 		$sale_data = [
