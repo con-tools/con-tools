@@ -109,6 +109,10 @@ class Model_Sale extends ORM {
 	public function failed($reasonCode) {
 		foreach ($this->tickets->find_all() as $ticket)
 			$ticket->returnToCart();
-		$this->transaction_id("FAILED:" . $reasonCode);
+		$this->transaction_id = "FAILED:" . $reasonCode;
+	}
+	
+	public function failReason() {
+		return str_replace("FAILED:","", $this->transaction_id);
 	}
 };
