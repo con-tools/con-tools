@@ -131,6 +131,7 @@ class Model_User extends ORM {
 		if ($provider != self::PASSWORD_PROVIDER) // unless the user provided the email, whom I can't trust
 			try {
 				$user = static::byEmail($email);
+				Logger::debug("Updating existing user $email " . $user->pk());
 				// update fields
 				if ($name)
 					$user->name = $name;
@@ -141,7 +142,7 @@ class Model_User extends ORM {
 			} catch ( Model_Exception_NotFound $e ) {
 			}
 			
-			// need to create a new account
+		// need to create a new account
 		$o = new Model_User();
 		$o->name = $name;
 		$o->email = $email;
@@ -149,6 +150,7 @@ class Model_User extends ORM {
 		$o->password = $token;
 		$o->login_time = new DateTime();
 		$o->save();
+		Logger::debug("Created a new user $email " . $o->pk());
 		return $o;
 	}
 
