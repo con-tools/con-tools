@@ -29,6 +29,7 @@ class Input {
 	}
 	
 	private function decode() {
+		Logger::debug("Decoding JSON request: ".$this->_request->body());
 		$i = json_decode($this->_request->body(), true);
 		if ($i === false or $i === null) throw new Exception("Invalid JSON input '".$this->_request->body()."'");
 		return $i;
