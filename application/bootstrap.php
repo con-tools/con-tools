@@ -153,6 +153,8 @@ Kohana::init(array(
  */
 Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 
+Kohana::$log->attach(new Log_Papertrail());
+
 /**
  * Attach a file reader to config. Multiple readers are supported.
  */

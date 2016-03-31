@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2ad9441002d5206465c9ad62f1463202",
-    "content-hash": "f255c09008b41bc6dd95e9364d2bc287",
+    "hash": "68ccec182da87a47258b0dbc153b2f71",
+    "content-hash": "647c63496f443e87e9f4f920c371cb85",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -1444,6 +1444,49 @@
             "time": "2015-07-29 00:03:24"
         },
         {
+            "name": "stephanecoinon/papertrail",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stephanecoinon/papertrail.git",
+                "reference": "003492d3c699ea079a12fa2637930e3950439309"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stephanecoinon/papertrail/zipball/003492d3c699ea079a12fa2637930e3950439309",
+                "reference": "003492d3c699ea079a12fa2637930e3950439309",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "crysalead/kahlan": "^1.2",
+                "guzzlehttp/guzzle": "^6.1",
+                "illuminate/log": "~4.2",
+                "monolog/monolog": "~1.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StephaneCoinon\\Papertrail\\": "src/",
+                    "StephaneCoinon\\Papertrail\\Spec\\": "spec//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephane Coinon",
+                    "email": "me@stephanecoinon.co.uk"
+                }
+            ],
+            "description": "Integrate Papertrail log monitor in your PHP applications",
+            "time": "2015-11-01 22:51:31"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -1679,7 +1722,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/416fb8ad1d095a87f1d21bc40711843cd122fd4a",
                 "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
                 "shasum": ""
             },

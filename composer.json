@@ -32,7 +32,8 @@
 		"league/oauth1-client" : "~1.0",
 		"swiftmailer/swiftmailer": "^5.4",
 		"psr/log": "^1.0",
-		"rollbar/rollbar": "^0.15.0"
+		"rollbar/rollbar": "^0.15.0",
+		"stephanecoinon/papertrail": "^1.0"
 	},
 	"require-dev" : {
 		"phing/phing" : "dev-master",
