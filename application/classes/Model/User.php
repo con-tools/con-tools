@@ -16,7 +16,7 @@ class Model_User extends ORM {
 		'provider' => [], // identity provider
 		'password' => [], // may not actually be a password, but if it is, its crypted
 		'created_time' => [ 'type' => 'DateTime' ],
-		'login_time' => [ 'type' => 'DateTime' ], 
+		'login_time' => [ 'type' => 'DateTime' ],
 	];
 
 	protected $_has_many = [
@@ -25,31 +25,31 @@ class Model_User extends ORM {
 		'events' => [],
 		'contact_for' => [
 			'model' => 'event',
-			'foreign_key' => 'staff_contact_id' 
+			'foreign_key' => 'staff_contact_id'
 		],
 		'timeslots' => [
 			'model' => 'timeslot',
-			'through' => 'timeslot_hosts' 
+			'through' => 'timeslot_hosts'
 		],
 		'issues' => [
 			'model' => 'crm_issues',
-			'foreign_key' => 'agent_id' 
+			'foreign_key' => 'agent_id'
 		],
 		'messages' => [
 			'model' => 'crm_messages',
-			'foreign_key' => 'sender_id' 
+			'foreign_key' => 'sender_id'
 		],
-		'tickets' => [] 
+		'tickets' => []
 	];
 
 	public function rules() {
 		return [
 			'email' => [
-				[ 'not_empty'  ], 
-				[ 'email' ] 
+				[ 'not_empty'  ],
+				[ 'email' ]
 			],
 			'name' => [
-				[ 'not_empty' ] 
+				[ 'not_empty' ]
 			],
 		];
 	}
@@ -57,7 +57,7 @@ class Model_User extends ORM {
 	/**
 	 * Perform a login by retrieving or generating a relevant login token
 	 * and updating all relevant time fields
-	 * 
+	 *
 	 * @param string $type
 	 *        	type of token to use. One of 'web', 'api'
 	 */
@@ -82,7 +82,7 @@ class Model_User extends ORM {
 	/**
 	 * Check if the user has a password in the local password database. Users without such
 	 * passwords are not allowed to add them, change them or reset them.
-	 * @return boolean whether the user has a password in the local database 
+	 * @return boolean whether the user has a password in the local database
 	 */
 	public function hasPassword() {
 		return $this->provider == self::PASSWORD_PROVIDER;
@@ -167,7 +167,7 @@ class Model_User extends ORM {
 	}
 
 	public static function byEmail($email) {
-		$o = Model::factory("user")->where('email', '=', $email)->find();
+		$o = Model::factory("user")->where('email', 'like', $email)->find();
 		if (! $o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
