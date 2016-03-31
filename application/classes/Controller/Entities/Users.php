@@ -10,7 +10,7 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 		if ($this->systemAccessAllowed()) {
 			$data = $this->input();
 			if ($data->email && $data->name) {
-				return (Model_User::persist($data->name, $data->email, "manager-added", 'manager-added'))->for_json();
+				return (Model_User::persist($data->name, $data->email, "manager-added", 'manager-added-' . bin2hex(random_bytes(4)) ))->for_json();
 			}
 			throw new Api_Exception_InvalidInput($this, "Must provide 'email' and 'name'");
 		}
