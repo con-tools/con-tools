@@ -45,6 +45,8 @@ class Controller_Checkout extends Api_Controller {
 		try {
 			$con = Model_Convention::bySlug($id);
 			$redirect = $con->getPaymentProcessor()->handleCallback($this->input(), $fields);
+			if ($redirect === true)
+				return $this->response->body('OK');
 			if (!is_string($redirect))
 				throw new Exception("Payment processing adapter returned ". print_r($redirect, true));
 			return $this->redirect($redirect);
