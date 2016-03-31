@@ -5,6 +5,7 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	public static function handler($e)
 	{
 		error_log("Error: $e");
+		Rollbar::report_exception($e);
 		if ($e instanceof Exception)
 			return Kohana_Kohana_Exception::handler($e);
 		elseif ($e instanceof Error)
