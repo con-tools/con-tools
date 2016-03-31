@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a91a3482c3de1b287d6fa99d99300640",
-    "content-hash": "d581e17a9f12a004054b1c95e15e3f5c",
+    "hash": "2ad9441002d5206465c9ad62f1463202",
+    "content-hash": "f255c09008b41bc6dd95e9364d2bc287",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -70,12 +70,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "0d061bff8273df2f4a45287209acfb769a01a02d"
+                "reference": "6aac6a0a931ad06780fa7c574f27178d48109ec7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/0d061bff8273df2f4a45287209acfb769a01a02d",
-                "reference": "0d061bff8273df2f4a45287209acfb769a01a02d",
+                "url": "https://api.github.com/repos/composer/installers/zipball/6aac6a0a931ad06780fa7c574f27178d48109ec7",
+                "reference": "6aac6a0a931ad06780fa7c574f27178d48109ec7",
                 "shasum": ""
             },
             "require": {
@@ -113,7 +113,7 @@
                 }
             ],
             "description": "A multi-framework Composer library installer",
-            "homepage": "http://composer.github.com/installers/",
+            "homepage": "https://composer.github.io/installers/",
             "keywords": [
                 "Craft",
                 "Dolibarr",
@@ -161,7 +161,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2016-03-11 13:58:36"
+            "time": "2016-03-23 16:25:33"
         },
         {
             "name": "con-troll/auth-openid-connect",
@@ -259,12 +259,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-routing.git",
-                "reference": "a9138a30b9c68123c55b713f17cb32ef631f10fc"
+                "reference": "f969eaeb318e3d50dd2bc03ed339db35aac3e180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/a9138a30b9c68123c55b713f17cb32ef631f10fc",
-                "reference": "a9138a30b9c68123c55b713f17cb32ef631f10fc",
+                "url": "https://api.github.com/repos/guss77/kohana-routing/zipball/f969eaeb318e3d50dd2bc03ed339db35aac3e180",
+                "reference": "f969eaeb318e3d50dd2bc03ed339db35aac3e180",
                 "shasum": ""
             },
             "require": {
@@ -296,7 +296,7 @@
                 "kohana",
                 "routing"
             ],
-            "time": "2015-09-14 20:23:31"
+            "time": "2016-03-31 06:28:56"
         },
         {
             "name": "guzzle/guzzle",
@@ -399,12 +399,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "6a173ddae1a8e58be871f6d010e88c029eaf5cae"
+                "reference": "d094e337976dff9d8e2424e8485872194e768662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6a173ddae1a8e58be871f6d010e88c029eaf5cae",
-                "reference": "6a173ddae1a8e58be871f6d010e88c029eaf5cae",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d094e337976dff9d8e2424e8485872194e768662",
+                "reference": "d094e337976dff9d8e2424e8485872194e768662",
                 "shasum": ""
             },
             "require": {
@@ -453,7 +453,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-03-11 16:36:56"
+            "time": "2016-03-21 20:02:09"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1151,16 +1151,16 @@
         },
         {
             "name": "league/oauth2-facebook",
-            "version": "1.3.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-facebook.git",
-                "reference": "19a000ec7ce514f57983588cca4479f00edfa31f"
+                "reference": "c7ea7041b597a4d215abe49cf82dbede6eaed1c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-facebook/zipball/19a000ec7ce514f57983588cca4479f00edfa31f",
-                "reference": "19a000ec7ce514f57983588cca4479f00edfa31f",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-facebook/zipball/c7ea7041b597a4d215abe49cf82dbede6eaed1c1",
+                "reference": "c7ea7041b597a4d215abe49cf82dbede6eaed1c1",
                 "shasum": ""
             },
             "require": {
@@ -1198,7 +1198,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2016-03-17 22:26:08"
+            "time": "2016-03-28 17:44:07"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1393,6 +1393,55 @@
                 "psr-3"
             ],
             "time": "2016-01-06 21:40:42"
+        },
+        {
+            "name": "rollbar/rollbar",
+            "version": "v0.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rollbar/rollbar-php.git",
+                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
+                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/rollbar.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rollbar, Inc.",
+                    "email": "support@rollbar.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitors errors and exceptions and reports them to Rollbar",
+            "homepage": "http://github.com/rollbar/rollbar-php",
+            "keywords": [
+                "debugging",
+                "errors",
+                "exceptions",
+                "logging",
+                "monitoring"
+            ],
+            "time": "2015-07-29 00:03:24"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1782,12 +1831,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/vfsStream.git",
-                "reference": "fefd182fa739d4e23d9dc7c80d3344f528d600ab"
+                "reference": "233f48f1146a7f520ad603c46481abcfe39e979d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/fefd182fa739d4e23d9dc7c80d3344f528d600ab",
-                "reference": "fefd182fa739d4e23d9dc7c80d3344f528d600ab",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/233f48f1146a7f520ad603c46481abcfe39e979d",
+                "reference": "233f48f1146a7f520ad603c46481abcfe39e979d",
                 "shasum": ""
             },
             "require": {
@@ -1820,7 +1869,7 @@
             ],
             "description": "Virtual file system to mock the real file system in unit tests.",
             "homepage": "http://vfs.bovigo.org/",
-            "time": "2016-01-13 09:41:49"
+            "time": "2016-03-23 19:42:51"
         },
         {
             "name": "phing/phing",
@@ -1828,12 +1877,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "47c65d20c364d2ef61177fab70ea4204197807dd"
+                "reference": "322f6f5b70ebd9609ef1929f22ee2d88f04a5f6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/47c65d20c364d2ef61177fab70ea4204197807dd",
-                "reference": "47c65d20c364d2ef61177fab70ea4204197807dd",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/322f6f5b70ebd9609ef1929f22ee2d88f04a5f6e",
+                "reference": "322f6f5b70ebd9609ef1929f22ee2d88f04a5f6e",
                 "shasum": ""
             },
             "require": {
@@ -1911,7 +1960,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2016-03-20 16:37:51"
+            "time": "2016-03-28 16:21:55"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2770,12 +2819,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "38aebd1045f91caaf25db0164e2703b21fb5359d"
+                "reference": "407e31ad9742ace5c3d01642f02a3b2e6062bae5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/38aebd1045f91caaf25db0164e2703b21fb5359d",
-                "reference": "38aebd1045f91caaf25db0164e2703b21fb5359d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/407e31ad9742ace5c3d01642f02a3b2e6062bae5",
+                "reference": "407e31ad9742ace5c3d01642f02a3b2e6062bae5",
                 "shasum": ""
             },
             "require": {
@@ -2811,7 +2860,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-10 14:06:18"
+            "time": "2016-03-30 14:44:34"
         }
     ],
     "aliases": [],

@@ -15,4 +15,8 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 		}
 	}
 	
+	public static function log($e, $level = \Psr\Log\LogLevel::EMERGENCY) {
+		Rollbar::report_exception($e);
+		return Kohana_Kohana_Exception::log($e, $level);
+	}
 }

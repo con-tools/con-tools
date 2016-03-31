@@ -24,8 +24,14 @@ class Input {
 		$this->_rest = $request->headers('Content-Type') == 'application/json';
 		$this->_request = $request;
 		$this->_data = ($this->isREST() and !empty($this->_request->body())) ?
-				json_decode($this->_request->body(), true) :
+				$this->decode() :
 				array_merge($this->_request->query(), $this->_request->post());
+	}
+	
+	private function decode() {
+		$i = json_decode($this->_request->body(), true);
+		if ($i == false) throw new Exception("Invalid JSON input");
+		return $i;
 	}
 	
 	public function isREST() {
