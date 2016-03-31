@@ -76,6 +76,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => 'user cancelled' ]);
 			case 'b2b':
 				Logger::debug("Got B2B notification from Pelepay: :data", [ ':data' => $request ]);
+				return true;
 			default:
 				throw new Exception("Invalid status '{$fields['status']}'");
 		}
