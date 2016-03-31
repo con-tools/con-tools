@@ -79,7 +79,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		$data = $this->input();
 		// two different base modes - user and admin/convention
 		$filters = [];
-		if ($this->systemAccessAllowed()) {
+		if ($data->all and $this->systemAccessAllowed()) {
 			// ehmm.. no default filters, unless the caller asked for a user filter
 			if ($data->by_user) {
 				if (is_numeric($data->by_user))
