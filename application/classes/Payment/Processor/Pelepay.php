@@ -41,7 +41,6 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 	}
 
 	public function handleCallback(Input $request, $fields) {
-		Logger::debug("Got pelepay callback: ". print_r($request,true));
 		$sale = new Model_Sale($request->orderid ?: @$fields['sale']);
 		if (!$sale->loaded())
 			throw new Exception("Failed to locate sale id ".$request->orderid);
@@ -76,6 +75,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => 'user cancelled' ]);
 			case 'b2b':
 				Logger::debug("Got B2B notification from Pelepay: :data", [ ':data' => $request ]);
+				return true;
 			default:
 				throw new Exception("Invalid status '{$fields['status']}'");
 		}
