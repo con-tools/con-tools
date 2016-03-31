@@ -24,7 +24,7 @@ abstract class Api_Controller extends Controller {
 	 * @return Model_Token The authorization token
 	 */
 	protected function verifyAuthentication() {
-		$auth = $this->request->headers('Authorization') ?: $this->request->query('token');
+		$auth = $this->request->headers('Authorization') ?: $this->input()->token;
 		$auth = $auth ?: Controller_Auth::getSessionLogin(); // if no user submitted auto, try to use auth from session
 		Logger::debug("Checking authorization header: " . $auth);
 		if (!$auth)
