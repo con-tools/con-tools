@@ -7,7 +7,14 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 	 * @return ORM Model object created
 	 */
 	protected function create() {
-		throw new Api_Exception_Unimplemented($this, "Cannot add users. Please try to login as the user first.");
+		if ($this->systemAccessAllowed()) {
+			$data = $this->input();
+			if ($data->email && $data->name) {
+				return (Model_User::persist($data->name, $data->email, "manager-added", 'manager-added'))->for_json();
+			}
+			throw new Api_Exception_InvalidInput($this, "Must provide 'email' and 'name'");
+		}
+		throw new Api_Exception_Unauthorized($this, "Cannot add users. Please try to login as the user first.");
 	}
 	
 	/**
