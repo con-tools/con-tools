@@ -145,6 +145,7 @@ Rollbar::init([
 Kohana::init(array(
 	'base_url'   => 'http://' . $_SERVER['HTTP_HOST'] . '/',
 	'index_file' => '',
+	'errors' => true,
 ));
 
 /**
