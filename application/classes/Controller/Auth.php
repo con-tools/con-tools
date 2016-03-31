@@ -18,7 +18,7 @@ class Controller_Auth extends Api_Controller {
 		try {
 			$this->verifyAuthentication();
 			if ($callback)
-				return $this->redirect($this->addQueryToURL($callback, [
+				return $this->redirect(self::addQueryToURL($callback, [
 						'status' => true,
 						'token' => self::getSessionLogin(),
 				]));
@@ -58,7 +58,7 @@ class Controller_Auth extends Api_Controller {
 			$token = Model_Token::persist($user, Model_Token::TYPE_PASSWORD_RESET, Time_Unit::days(1));
 			$email = Twig::factory('auth/passwordreset');
 			error_log("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
-			$email->reseturl = $this->addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
+			$email->reseturl = self::addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
 			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ],
 					'Password reset from ConTroll', $email->__toString(), [
 					"Content-Type" => "text/html"
@@ -252,27 +252,17 @@ class Controller_Auth extends Api_Controller {
 	private function completeAuthToApp($callback, $token) {
 		Logger::debug('Setting session token to :token',[':token' => $token]);
 		self::setSessionLogin($token); // cache token in session for faster auth next time
-		$this->redirect($this->addQueryToURL($callback, [
+		$this->redirect(self::addQueryToURL($callback, [
 				'status' => true,
 				'token' => $token,
 		]));
 	}
 	
 	private function failAuthToApp($callback, $error) {
-		$this->redirect($this->addQueryToURL($callback, [
+		$this->redirect(self::addQueryToURL($callback, [
 				'status' => false,
 				'error' => $error,
 		]));
-	}
-	
-	private function addQueryToURL($url, $params) {
-		$parsed = parse_url($url);
-		$query = explode('&',@$parsed['query'] ?: '');
-		foreach ($params as $key => $value) {
-			$query[] = urlencode($key) . '=' . urlencode($value);
-		}
-		$parsed['query'] = join('&', $query);
-		return $this->buildUrl($parsed);
 	}
 	
 	private function errorToSelectorOrCaller($error_message, $redirect_url, $status = 400) {
@@ -287,25 +277,6 @@ class Controller_Auth extends Api_Controller {
 	
 	private function startAuth($provider, $redirect_url) {
 		return Auth::getProvider($provider, strtolower($this->action_url('callback', true)))->getAuthenticationURL($redirect_url);
-	}
-	
-	private function buildUrl($spec) {
-		$url = @$spec['scheme'] . "://";
-		if (@$spec['user']) {
-			$url .= $spec['user'];
-			if (@$spec['pass'])
-				$url .= ":{$spec['pass']}";
-			$url .= "@";
-		}
-		$url .= @$spec['host'];
-		if (@$spec['port'])
-			$url .= ":{$spec['port']}";
-		$url .= @$spec['path'] ?: '/' ;
-		if (@$spec['query'])
-			$url .= "?{$spec['query']}";
-		if (@$spec['fragment'])
-			$url .= "#{$spec['fragment']}";
-		return $url;
 	}
 
 }
