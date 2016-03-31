@@ -4,6 +4,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	
 	public function create() {
 		$data = $this->input();
+		Logger::debug("Loading timeslot '".$data->timeslot."'for ticket creation");
 		$timeslot = new Model_Timeslot($data->timeslot);
 		if (!$timeslot->loaded())
 			throw new Api_Exception_InvalidInput($this, "No time slot specified for the sell");
