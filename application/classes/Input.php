@@ -30,7 +30,7 @@ class Input {
 	
 	private function decode() {
 		$i = json_decode($this->_request->body(), true);
-		if ($i == false) throw new Exception("Invalid JSON input '".$this->_request->body()."'");
+		if ($i === false or $i === null) throw new Exception("Invalid JSON input '".$this->_request->body()."'");
 		return $i;
 	}
 	
