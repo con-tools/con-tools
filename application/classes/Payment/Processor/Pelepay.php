@@ -41,7 +41,6 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 	}
 
 	public function handleCallback(Input $request, $fields) {
-		Logger::debug("Got pelepay callback: ". print_r($request,true));
 		$sale = new Model_Sale($request->orderid ?: @$fields['sale']);
 		if (!$sale->loaded())
 			throw new Exception("Failed to locate sale id ".$request->orderid);
