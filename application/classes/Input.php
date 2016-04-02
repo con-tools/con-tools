@@ -69,7 +69,9 @@ class Input {
 	 * @param array $list
 	 * @return array data fields found
 	 */
-	public function getFields($list) {
+	public function getFields($list = []) {
+		if (empty($list))
+			return $this->_data;
 		$out = [];
 		foreach ($list as $field)
 			if ($this->isset($field))
