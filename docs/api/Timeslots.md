@@ -17,6 +17,15 @@ except catalog and retrieve.
 `GET /entities/timeslots`
 
 **Input:** No input is required.  
+Optionally, this call can accept filters to show only some of the time slots normally retrieved. Filters are provided
+as query string parameters on the URL, and start with the text "by_" following by the filter specification. The following
+filters are currently supported:
+* `by_event` : Show only time slots for a specific event ID
+* `by_event_status` : show only time slots whose event's status is the specified ordinal. This filter doesn't make
+  much sense without a manager authorization because the public list only shows events that are approved or scheduled
+  any way.
+* `by_tag:<tag name>` : show only time slots for events that have the specified tag with the specified value. Please
+  note that the tag name is encoded into the query string "field name".
 **Output:** An array of property list, each containing the details of a time slot, the event that happens there, the locations
 where it happens and who hosts the time slot - containing the following fields:
 * `id`: time slot id for the created time slot
