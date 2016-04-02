@@ -115,7 +115,7 @@ class Model_Coupon extends ORM {
 	
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
-			return $key ==  'value';
+			return in_array($key, [ 'id', 'value' ]);
 		},ARRAY_FILTER_USE_KEY), [
 				'user' => $this->user->for_json(),
 				'type' => $this->coupon_type->for_json(),
