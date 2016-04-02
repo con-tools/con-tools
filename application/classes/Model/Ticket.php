@@ -158,6 +158,7 @@ class Model_Ticket extends ORM {
 		},ARRAY_FILTER_USE_KEY),[
 				'timeslot' => $this->timeslot->for_json(),
 				'user' => $this->user->for_json(),
+				'coupons' => self::result_for_json($this->coupons->find_all()),
 		]);
 		
 	}
