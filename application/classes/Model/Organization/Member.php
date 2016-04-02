@@ -48,4 +48,18 @@ class Model_Organization_Member extends ORM {
 	public static function getByConvention(Model_Convention $con) : Database_Result {
 		return (new Model_Organization_Member())->with('organizer')->where('convention_id', '=', $con->pk())->find_all();
 	}
+	
+
+	/**
+	 * Return public data for the user - namely, name and email - for JSON presetnation to other people
+	 */
+	public function for_json() {
+		return [
+				'id' => $this->pk(),
+				'membership' => $this->membership,
+				'organizer' => $this->organizer->for_json(),
+				'user' => $this->user->for_json(),
+		];
+	}
+	
 }
