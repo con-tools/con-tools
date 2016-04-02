@@ -3,7 +3,7 @@
 class Model_Ticket extends ORM {
 	
 	const STATUS_RESERVED = 'reserved';
-	const sTATUS_PROCESSING = 'processing';
+	const STATUS_PROCESSING = 'processing';
 	const STATUS_AUTHORIZED = 'authorized';
 	const STATUS_CANCELLED = 'cancelled';
 	
@@ -74,7 +74,7 @@ class Model_Ticket extends ORM {
 				with('user')->
 				where('convention_id', '=', $con->pk())->
 				where('ticket.user_id','=',$user->pk())->
-				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
+				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
 				find_all();
 	}
 	
@@ -84,7 +84,7 @@ class Model_Ticket extends ORM {
 		with('user')->
 		where('convention_id', '=', $con->pk())->
 		where('ticket.user_id','=',$user->pk())->
-		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
+		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
 		find_all();
 	}
 	
@@ -110,7 +110,7 @@ class Model_Ticket extends ORM {
 	
 	public function setSale(Model_Sale $sale) {
 		$this->sale = $sale;
-		$this->status = self::sTATUS_PROCESSING;
+		$this->status = self::STATUS_PROCESSING;
 		return $this->save();
 	}
 	
