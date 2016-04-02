@@ -37,6 +37,14 @@ class Model_Coupon_Type extends ORM {
 		return (new Model_Coupon_Type())->where('convention_id','=',$con->pk())->find_all();
 	}
 	
+	public function isFixed() {
+		return $this->discount_type == 'fixed';
+	}
+	
+	public function isMultiuse() {
+		return $this->multiuse;
+	}
+	
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return $key != 'convention_id';
