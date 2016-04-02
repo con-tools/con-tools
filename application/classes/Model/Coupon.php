@@ -5,7 +5,7 @@ class Model_Coupon extends ORM {
 	protected $_belongs_to = [
 			'user' => [],
 			'coupon_type' => [],
-			'sale' => [],
+			'ticket' => [],
 	];
 	
 	protected $_columns = [
@@ -13,7 +13,7 @@ class Model_Coupon extends ORM {
 			// foreign keys
 			'user_id' => [],
 			'coupon_type_id' => [],
-			'sale_id' => [],
+			'ticket_id' => [],
 			// data fields
 			'amount' => [ 'type' => 'decimal' ],
 	];
