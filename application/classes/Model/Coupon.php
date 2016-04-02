@@ -115,13 +115,17 @@ class Model_Coupon extends ORM {
 	}
 	
 	public function for_json() {
+		$user = $this->user->for_json();
+		$type = $this->coupon_type->for_json();
+		$ticket = $this->ticket_id ? $this->ticket->for_json : null;
+		$con = $this->coupon_type->convention->for_json();
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [ 'id', 'value' ]);
 		},ARRAY_FILTER_USE_KEY), [
-				'user' => $this->user->for_json(),
-				'type' => $this->coupon_type->for_json(),
-				'ticket' => $this->ticket_id ? $this->ticket->for_json : null,
-				'convention' => $this->coupon_type->convention->for_json(),
+				'user' => $user,
+				'type' => $type,
+				'ticket' => $ticket,
+				'convention' => $con,
 		]);
 	}
 	
