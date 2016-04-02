@@ -153,7 +153,7 @@ class Model_Ticket extends ORM {
 	public function for_json_with_coupons() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'status', 'amount', 'sale-id', 'price'
+					'id', 'status', 'amount', 'sale-id', 'price', 'reserved-time',
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 				'timeslot' => $this->timeslot->for_json(),
