@@ -49,7 +49,7 @@ class Model_Coupon extends ORM {
 	
 	public function alreadyUsesMultiuse(Model_Ticket $ticket) {
 		return (new Model_Coupon())
-				->where('coupon_type', '=', $this->coupon_type_id)
+				->where('coupon_type_id', '=', $this->coupon_type_id)
 				->where('ticket_id','=',$ticket->pk())->count_all() > 0;
 	}
 	
