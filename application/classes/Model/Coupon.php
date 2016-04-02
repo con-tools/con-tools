@@ -35,7 +35,8 @@ class Model_Coupon extends ORM {
 		$o->user = $user;
 		$o->coupon_type = $coupon;
 		$o->value = $value ?: $coupon->value;
-		$o->ticket = $ticket;
+		if ($ticket)
+			$o->ticket = $ticket;
 		$o->save();
 		return $o;
 	}
