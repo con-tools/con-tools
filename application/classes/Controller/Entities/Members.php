@@ -8,14 +8,14 @@ class Controller_Entities_Members extends Api_Rest_Controller {
 		$data = $this->input();
 		if (!$data->user)
 			throw new Api_Exception_InvalidInput($this, "Required field 'user' is missing");
-		$user = $this->loadUserByIdOrEmail(is_array($data->user) ? @$data->user['id'] : $data->user,
+		$user = $this->loadUserByIdOrEmail(is_array($data->user) ? @$data->user['id'] : null,
 				is_array($data->user) ? @$data->user['email'] : $data->user);
 		if (!$data->membership)
 			throw new Api_Exception_InvalidInput($this, "Required field 'membership' is missing");
 		if (!$data->organizer)
 			throw new Api_Exception_InvalidInput($this, "Required field 'organizer' is missing");
 		$organizer = new Model_Organizer($data->organizer);
-		if (!$organizer)
+		if (!$organizer->loaded())
 			try {
 				$organizer = Model_Organizer::byTitle($data->organizer);
 			} catch (Model_Exception_NotFound $e) {
