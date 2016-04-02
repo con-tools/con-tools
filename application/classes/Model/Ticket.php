@@ -3,7 +3,7 @@
 class Model_Ticket extends ORM {
 	
 	const STATUS_RESERVED = 'reserved';
-	const sTATUS_PROCESSING = 'processing';
+	const STATUS_PROCESSING = 'processing';
 	const STATUS_AUTHORIZED = 'authorized';
 	const STATUS_CANCELLED = 'cancelled';
 	
@@ -11,6 +11,10 @@ class Model_Ticket extends ORM {
 			'user' => [],
 			'timeslot' => [],
 			'sale' => [],
+	];
+	
+	protected $_has_many = [
+			'coupons' => [],
 	];
 	
 	protected $_columns = [
@@ -35,7 +39,9 @@ class Model_Ticket extends ORM {
 		$o->reserved_time = new DateTime();
 		$o->amount = $amount;
 		$o->price = $price ?: ($o->amount * $o->timeslot->event->price);
-		return $o->save();
+		$o->save();
+		$o->consumeCoupons(); // see if there are any coupons that apply to these tickets
+		return $o;
 	}
 	
 	/**
@@ -68,7 +74,7 @@ class Model_Ticket extends ORM {
 				with('user')->
 				where('convention_id', '=', $con->pk())->
 				where('ticket.user_id','=',$user->pk())->
-				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
+				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
 				find_all();
 	}
 	
@@ -78,19 +84,49 @@ class Model_Ticket extends ORM {
 		with('user')->
 		where('convention_id', '=', $con->pk())->
 		where('ticket.user_id','=',$user->pk())->
-		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::sTATUS_PROCESSING ])->
+		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
 		find_all();
+	}
+	
+	public function consumeCoupons() {
+		Database::instance()->begin(); // work in transactions, in case I need to duplicate coupons
+		foreach (Model_Coupon::unconsumedForUser($this->user, $this->convention) as $coupon) {
+			$coupon->consume($this);
+			if ($this->price <= 0)
+				break; // stop consuming coupons, there's no more need
+		}
+		$this->save();
+		Database::instance()->commit();
+	}
+	
+	public function get($column) {
+		switch($column) {
+			case 'convention':
+				return $this->timeslot->event->convention;
+			default:
+				return parent::get($column);
+		}
 	}
 	
 	public function setSale(Model_Sale $sale) {
 		$this->sale = $sale;
-		$this->status = self::sTATUS_PROCESSING;
+		$this->status = self::STATUS_PROCESSING;
 		return $this->save();
 	}
 	
+	/**
+	 * Update the amount of tickets purchased for the time slot, and re-consume coupons
+	 * @param int $amount
+	 */
 	public function setAmount(int $amount) {
+		// update amount and price
 		$this->amount = $amount < 0 ? 0 : $amount;
 		$this->price = $this->timeslot->event->price * $this->amount;
+		// return all coupons
+		foreach ($this->coupons->find_all() as $coupon) {
+			$coupon->release();
+		}
+		$this->consumeCoupons();
 	}
 	
 	public function cancel($reason) : Model_Ticket {
@@ -112,6 +148,19 @@ class Model_Ticket extends ORM {
 	
 	public function isAuthorized() {
 		return $this->status == self::STATUS_AUTHORIZED;
+	}
+	
+	public function for_json_with_coupons() {
+		return array_merge(array_filter(parent::for_json(),function($key){
+			return in_array($key, [
+					'id', 'status', 'amount', 'sale-id', 'price'
+			]);
+		},ARRAY_FILTER_USE_KEY),[
+				'timeslot' => $this->timeslot->for_json(),
+				'user' => $this->user->for_json(),
+				'coupons' => self::result_for_json($this->coupons->find_all()),
+		]);
+		
 	}
 	
 	public function for_json() {

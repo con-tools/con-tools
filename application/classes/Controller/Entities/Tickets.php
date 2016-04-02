@@ -24,13 +24,13 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$ticket->delete();
 			throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
 		}
-		return $ticket->for_json();
+		return $ticket->for_json_with_coupons();
 	}
 	
 	public function retrieve($id) {
 		$ticket = new Model_Ticket($id);
 		if ($ticket->loaded() && ($ticket->user == $this->getValidUser() || $this->systemAccessAllowed()))
-			return $ticket->for_json();
+			return $ticket->for_json_with_coupons();
 		throw new Api_Exception_InvalidInput($this, "No valid tickets found to display");
 	}
 	
@@ -48,7 +48,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		if ($ticket->amount <= 0) { // cancel the ticket
 			$ticket->cancel("user-deleted");
 			Database::instance()->commit();
-			return $ticket->for_json();
+			return $ticket->for_json_with_coupons();
 		}
 
 		$ticket->save();
@@ -60,7 +60,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		}
 		
 		Database::instance()->commit();
-		return $ticket->for_json();
+		return $ticket->for_json_with_coupons();
 	}
 	
 	public function delete($id) {
@@ -98,7 +98,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$filters['timeslot_id'] = $data->by_timeslot;
 		if ($data->is_valid)
 			$filters['valid'] = 1;
-		return ORM::result_for_json($this->convention->getTickets($filters), 'for_json');
+		return ORM::result_for_json($this->convention->getTickets($filters), 'for_json_with_coupons');
 	}
 	
 	private function getValidUser() {

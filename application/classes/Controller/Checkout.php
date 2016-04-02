@@ -64,7 +64,14 @@ class Controller_Checkout extends Api_Controller {
 			throw new Api_Exception_InvalidInput($this, "Checkout requires an 'ok' URL and a 'fail' URL");
 		
 		$sale = Model_Sale::persist($user, $convention);
-		return $this->response->body($convention->getPaymentProcessor()->createTransactionHTML($sale, $data->ok, $data->fail));
+		if (($total = $sale->getTotal()) == 0) {
+			Logger::info("User ".$user->pk()." completes sale with 0 cost");
+			$sale->authorized("internal:zero-transaction");
+			return $this->redirect($data->ok);
+		} else {
+			Logger::info("User ".$user->pk()." starts sale with total cost $total");
+			return $this->response->body($convention->getPaymentProcessor()->createTransactionHTML($sale, $data->ok, $data->fail));
+		}
 	}
 	
 	private function renderDummyCart() {
