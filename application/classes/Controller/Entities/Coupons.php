@@ -45,7 +45,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	public function catalog() {
 		if (!$this->systemAccessAllowed())
 			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
-		return ORM::result_for_json(Model_Coupon::byConvention($this->convention));
+		return ORM::result_for_json(Model_Coupon::byConvention($this->convention), 'for_json_With_tickets');
 	}
 	
 }
