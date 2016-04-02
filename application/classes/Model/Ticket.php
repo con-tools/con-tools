@@ -150,7 +150,7 @@ class Model_Ticket extends ORM {
 		return $this->status == self::STATUS_AUTHORIZED;
 	}
 	
-	public function for_json() {
+	public function for_json_with_coupons() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
 					'id', 'status', 'amount', 'sale-id', 'price'
@@ -159,6 +159,18 @@ class Model_Ticket extends ORM {
 				'timeslot' => $this->timeslot->for_json(),
 				'user' => $this->user->for_json(),
 				'coupons' => self::result_for_json($this->coupons->find_all()),
+		]);
+		
+	}
+	
+	public function for_json() {
+		return array_merge(array_filter(parent::for_json(),function($key){
+			return in_array($key, [
+					'id', 'status', 'amount', 'sale-id', 'price'
+			]);
+		},ARRAY_FILTER_USE_KEY),[
+				'timeslot' => $this->timeslot->for_json(),
+				'user' => $this->user->for_json(),
 		]);
 		
 	}

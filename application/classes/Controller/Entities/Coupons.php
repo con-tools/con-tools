@@ -15,7 +15,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "Mandatory field 'user' is missing");
 		$user = $this->loadUserByIdOrEmail(is_array($data->user) ? @$data->user['id'] : null,
 				is_array($data->user) ? @$data->user['email'] : $data->user);
-		return Model_Coupon::persist($couponType, $user)->for_json();
+		return Model_Coupon::persist($couponType, $user)->for_json_With_tickets();
 	}
 	
 	public function retrieve($id) {
@@ -23,7 +23,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
 		$coupon = new Model_Coupon($id);
 		if ($coupon->loaded())
-			return $coupon->for_json();
+			return $coupon->for_json_With_tickets();
 		throw new Api_Exception_InvalidInput($this, "Failed to find coupong type $id");
 	}
 	
