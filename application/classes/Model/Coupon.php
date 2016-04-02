@@ -26,7 +26,7 @@ class Model_Coupon extends ORM {
 		return (new Model_Coupon())->with('coupon_type')
 				->where('user_id','=',$user->pk())
 				->where('convention_id','=',$con->pk())
-				->where('ticket_id', 'IS', 'NULL')
+				->where('ticket_id', 'IS', DB::expr("NULL"))
 				->find_all();
 	}
 
