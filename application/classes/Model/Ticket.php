@@ -40,8 +40,8 @@ class Model_Ticket extends ORM {
 		$o->amount = $amount;
 		$o->price = $price ?: ($o->amount * $o->timeslot->event->price);
 		$o->save();
-		$this->consumeCoupons(); // see if there are any coupons that apply to these tickets
-		$o->save();
+		$o->consumeCoupons(); // see if there are any coupons that apply to these tickets
+		return $o;
 	}
 	
 	/**
