@@ -62,7 +62,7 @@ class Model_Coupon extends ORM {
 	 * @param Model_Ticket $ticket Ticket that is consuming this coupon
 	 */
 	public function consume(Model_Ticket $ticket) {
-		if ($this->ticket) // sanity - we already have a ticket
+		if ($this->ticket_id) // sanity - we already have a ticket
 			throw new Exception("Trying to double consume coupon " . $this->pk() . " for ticket " . $ticket->pk() . "!");
 		
 		if ($this->isMultiuse()) {
@@ -119,7 +119,7 @@ class Model_Coupon extends ORM {
 		},ARRAY_FILTER_USE_KEY), [
 				'user' => $this->user->for_json(),
 				'type' => $this->coupon_type->for_json(),
-				'ticket' => $this->ticket ? $this->ticket->for_json : null,
+				'ticket' => $this->ticket_id ? $this->ticket->for_json : null,
 				'convention' => $this->coupon_type->convention->for_json(),
 		]);
 	}
