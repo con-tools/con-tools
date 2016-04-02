@@ -59,8 +59,10 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
 		}
 		// handle value addition
-		foreach ($data->fetch('values',[]) as $value)
-			Model_Event_Tag_Value::generate($type, $value);
+		foreach ($data->fetch('values',[]) as $value) {
+			if ($value)
+				Model_Event_Tag_Value::generate($type, $value);
+		}
 		// handle property change
 		if ($data->title)
 			$type->title = $data->title;
