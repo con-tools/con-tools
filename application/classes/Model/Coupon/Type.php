@@ -13,19 +13,19 @@ class Model_Coupon_Type extends ORM {
 			// data fields
 			'title' => [],
 			'discount_type' => [ 'type' => 'enum', 'values' => [ 'percent', 'fixed' ] ],
-			'amount' => [ 'type' => 'decimal' ],
+			'value' => [ 'type' => 'decimal' ],
 			'category' => [],
 			'multiuse' => [ 'type' => 'boolean' ], // allow multiple coupons of the same category or not
 			'code' => [],
 	];
 	
-	public static function persist(Model_Convention $con, string $title, $fixed_discount, $amount,
+	public static function persist(Model_Convention $con, string $title, $fixed_discount, $value,
 				string $category, $multiuse, $code = null) : Model_Coupon_Type {
 		$o = new Model_Coupon_Type();
 		$o->convention = $con;
 		$o->title = $title;
 		$o->discount_type = $fixed_discount ? 'fixed' : 'percent';
-		$o->amount = $amount;
+		$o->value = $value;
 		$o->category = $category;
 		$o->multiuse = $multiuse;
 		$o->code = $code;

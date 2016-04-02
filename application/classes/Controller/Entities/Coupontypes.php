@@ -10,14 +10,14 @@ class Controller_Entities_Coupontypes extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "Mandatory field 'title' is missing");
 		if (!$data->type)
 			throw new Api_Exception_InvalidInput($this, "Madatory field 'type' is missing");
-		if (!$data->amount)
-			throw new Api_Exception_InvalidInput($this, "Mandatory field 'amount' is missing");
+		if (!$data->value)
+			throw new Api_Exception_InvalidInput($this, "Mandatory field 'value' is missing");
 		if (!$data->category)
 			throw new Api_Exception_InvalidInput($this, "Mandatory field 'category' is missing");
 		if (!is_bool($data->multiuse))
 			throw new Api_Exception_InvalidInput($this, "Mandatory boolean field 'multiuse' is missing or invalid");
 		return Model_Coupon_Type::persist($this->convention, $data->title, stristr($data->type, 'fixed')?true:false,
-				$data->amount, $data->category, $data->multiuse, $data->code)->for_json();
+				$data->value, $data->category, $data->multiuse, $data->code)->for_json();
 	}
 
 	public function retrieve($id) {

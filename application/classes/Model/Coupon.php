@@ -15,7 +15,7 @@ class Model_Coupon extends ORM {
 			'coupon_type_id' => [],
 			'ticket_id' => [],
 			// data fields
-			'amount' => [ 'type' => 'decimal' ],
+			'value' => [ 'type' => 'decimal' ],
 	];
 	
 	public static function byConvention(Model_Convention $con) {
@@ -30,11 +30,12 @@ class Model_Coupon extends ORM {
 				->find_all();
 	}
 
-	public static function persist(Model_Coupon_Type $coupon, Model_User $user, $amount = null) {
+	public static function persist(Model_Coupon_Type $coupon, Model_User $user, $value = null, Model_Ticket $ticket = null) : Model_Coupon{
 		$o = new Model_Coupon();
 		$o->user = $user;
 		$o->coupon_type = $coupon;
-		$o->amount = $amount ?: $coupon->amount;
+		$o->value = $value ?: $coupon->value;
+		$o->ticket = $ticket;
 		$o->save();
 		return $o;
 	}
@@ -55,7 +56,7 @@ class Model_Coupon extends ORM {
 	
 	/**
 	 * Consume this coupon for a discount on the specified ticket.
-	 * The ticket provided will have its price reduced by the relevant amount.
+	 * The ticket provided will have its price reduced by the relevant value.
 	 * Note: this method asssumes that all consumptions of multiple coupons happen
 	 * in a database transaction.
 	 * @param Model_Ticket $ticket Ticket that is consuming this coupon
@@ -71,33 +72,30 @@ class Model_Coupon extends ORM {
 				return; // duplicate use is not allowed
 			
 			// safe to use
-			$new = Model_Coupon::persist($this->coupon_type, $this->user);
-			$new->setTicket($ticket);
+			Model_Coupon::persist($this->coupon_type, $this->user, null, $ticket);
 			if ($this->isFixed()) {
-				$ticket->price -= $this->amount;
+				$ticket->price -= $this->value;
+				if($ticket->price < 0) $ticket->price=0;
 			} else {
-				$ticket->price -= $ticket->price * $this->amount / 100; // "amount" says "percent discount"
+				$ticket->price -= $ticket->price * $this->value / 100; // "value" says "percent discount"
 			}
 			$ticket->save();
 			return;
 		}
 		
 		// one use coupons are simply consumed
-		$this->amount -= $ticket->price;
-		if ($this->amount > 0) {
-			// ha ha, too big for you puny ticket!
+		if ($this->value > $ticket->price) {
+			Model_Coupon::persist($this->coupon_type, $this->user, $ticket->price, $ticket);
+			$this->value -= $ticket->price;
 			$ticket->price = 0;
-			$ticket->save;
-			$this->setTicket($ticket);
-			return;
+			$this->save();
+		} else {
+			$ticket->price -= $this->value;
+			$this->value = 0;
+			$this->ticket = $ticket;
+			$this->save();
 		}
-		
-		// I'm not strong enough!
-		
-		$ticket->price = -1 * $this->amount; // leave the rest of the money that we didn't discount on the ticket
 		$ticket->save();
-		$this->amount = 0;
-		$this->setTicket($ticket);
 	}
 	
 	/**
@@ -115,17 +113,13 @@ class Model_Coupon extends ORM {
 		$this->save();
 	}
 	
-	public function setTicket(Model_Ticket $ticket) : Model_Ticket {
-		$this->ticket = $ticket;
-		return $this->save();
-	}
-	
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
-			return in_array($key, [ 'sale-id', 'amount']);
+			return $key ==  'value';
 		},ARRAY_FILTER_USE_KEY), [
 				'user' => $this->user->for_json(),
 				'type' => $this->coupon_type->for_json(),
+				'ticket' => $this->ticket ? $this->ticket->for_json : null,
 				'convention' => $this->coupon_type->convention->for_json(),
 		]);
 	}
