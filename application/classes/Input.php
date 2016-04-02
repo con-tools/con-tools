@@ -25,7 +25,7 @@ class Input {
 		$this->_request = $request;
 		$this->_data = ($this->isREST() and !empty($this->_request->body())) ?
 				$this->decode() :
-				array_merge($this->_request->query(), $this->_request->post());
+				array_merge($this->parse_query_string(), $this->_request->post());
 	}
 	
 	private function decode() {
@@ -77,5 +77,14 @@ class Input {
 			if ($this->isset($field))
 				$out[$field] = $this->{$field};
 		return $out;
+	}
+	
+	private function parse_query_string() {
+		return array_reduce(array_map(function($part){
+			return array_map(function($kv){ return urldecode($kv); },explode('=', $part,2));
+		}, explode('&', $_SERVER['QUERY_STRING'])), function($query, $pair) {
+			$query[$pair[0]] = @$pair[1];
+			return $query;
+		}, []);
 	}
 }
