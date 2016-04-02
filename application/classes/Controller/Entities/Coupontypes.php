@@ -26,7 +26,7 @@ class Controller_Entities_Coupontypes extends Api_Rest_Controller {
 		$coupontype = new Model_Coupon_Type($id);
 		if ($coupontype->loaded())
 			return $coupontype->for_json();
-		throw new Api_Exception_InvalidInput($this, "Failed to find coupong type $id");
+		throw new Api_Exception_InvalidInput($this, "Failed to find coupon type $id");
 	}
 
 	public function update($id) {
