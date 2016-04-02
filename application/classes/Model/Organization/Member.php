@@ -27,6 +27,7 @@ class Model_Organization_Member extends ORM {
 		$o = new Model_Organization_Member();
 		$o->organizer = $organizer;
 		$o->user = $user;
+		$o->membership = $membership;
 		$o->save();
 		return $o;
 	}
