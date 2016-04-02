@@ -131,10 +131,23 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			$filters['event_id'] = $data->by_event;
 		if ($data->by_event_status)
 			$filters['status'] = $data->by_event_status;
+		
 		if ($this->convention->isAuthorized() || $this->convention->isManager($this->user))
-			return ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
-		// if not specifically authorized, get public list
-		return ORM::result_for_json($this->convention->getPublicTimeSlots($filters), 'for_json_with_locations');
+			$catalog = ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
+		else // if not specifically authorized, get public list
+			$catalog = ORM::result_for_json($this->convention->getPublicTimeSlots($filters), 'for_json_with_locations');
+		// check if we need to filter by tags
+		foreach ($data->getFields() as $key => $value)
+			if (strpos($key, 'by_tag:') === 0) {
+				$tagname = explode(':', $key, 2)[1];
+				$catalog = array_filter($catalog, function($timeslot) use($tagname, $value) {
+					$tagvalue = @$timeslot['event']['tags'][$tagname];
+					if (is_array($tagvalue))
+						return in_array($value, $tagvalue);
+					return $tagvalue == $value;
+				});
+			}
+		return $catalog;
 	}
 	
 	private function getHostList($data) {
