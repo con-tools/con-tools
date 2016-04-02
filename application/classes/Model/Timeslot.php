@@ -107,6 +107,7 @@ class Model_Timeslot extends ORM {
 				'start' => $this->start_time->format(DateTime::ATOM),
 				'hosts' => self::result_for_json($this->host_names->find_all()),
 				'available_tickets' => $this->available_tickets,
+				'locations' => self::result_for_json($this->locations->find_all()),
 		]);
 	}
 }
