@@ -121,7 +121,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param int $user_id numeric user ID from the database
 	 * @param string $email user's login email
 	 */
-	protected function loadUserByIdOrEmail($user_id, $email) {
+	protected function loadUserByIdOrEmail($user_id, $email) : Model_User {
 		if ($user_id and $email)
 			throw new Api_Exception_InvalidInput($this, "Please provide either an `id` or `email` but not both");
 		if ($user_id) {
