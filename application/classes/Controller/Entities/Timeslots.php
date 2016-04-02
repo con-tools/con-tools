@@ -140,12 +140,12 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		foreach ($data->getFields() as $key => $value)
 			if (strpos($key, 'by_tag:') === 0) {
 				$tagname = explode(':', $key, 2)[1];
-				$catalog = array_filter($catalog, function($timeslot) use($tagname, $value) {
+				$catalog = array_values(array_filter($catalog, function($timeslot) use($tagname, $value) {
 					$tagvalue = @$timeslot['event']['tags'][$tagname];
 					if (is_array($tagvalue))
 						return in_array($value, $tagvalue);
 					return $tagvalue == $value;
-				});
+				}));
 			}
 		return $catalog;
 	}
