@@ -53,7 +53,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 				} catch (Database_Exception $e) {
 					throw new Api_Exception_InvalidInput($this, "Cannot remove value '$value' for tag type '$id' as existing events " .
 							join(', ', array_map(function(Model_Event_Tag $evt){
-								return $evt->event_id;
+								return $evt->event_id . ":" . $evt->event->title;
 							}, $val->getEventTags()->as_array())) . " use it");
 				}
 			} catch (Model_Exception_NotFound $e) {} // everything is fine, nothing to see here, move along now... move along...
@@ -88,7 +88,9 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 				$type->delete();
 			} else {
 				throw new Api_Exception_InvalidInput($this, "Cannot delete tag type '$id': existing events ".
-					join(', ', array_map(function(Model_Event_Tag $evt){ return $evt->event->pk(); }, $type->getEventTags()->as_array())) .
+					join(', ', array_map(function(Model_Event_Tag $evt){
+						return $evt->event->pk() . ":" . $evt->event->title;
+					}, $type->getEventTags()->as_array())) .
 					" use it");
 			}
 		}
