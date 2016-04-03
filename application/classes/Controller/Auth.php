@@ -221,9 +221,10 @@ class Controller_Auth extends Api_Controller {
 			$response = ['status' => false, 'error' => "Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'" ];
 			Logger::error("Error getting name and/or email for '{$provider->getName()}','{$provider->getEmail()}'");
 		} catch (Exception $e) {
-			$callback = $provider->getRedirectURL();
-			$response = ['status' => false, 'error' => "$e" ];
 			Logger::error("Unexpected error on auth callback: $e");
+			if (@$provider)
+				$callback = $provider->getRedirectURL();
+			$response = ['status' => false, 'error' => "$e" ];
 		}
 		
 		// TODO: handle client side only without redirects
