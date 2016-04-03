@@ -121,15 +121,17 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	 * @param int $user_id numeric user ID from the database
 	 * @param string $email user's login email
 	 */
-	protected function loadUserByIdOrEmail($user_id, $email) : Model_User {
+	protected function loadUserByIdOrEmail($user_id, $email = null) : Model_User {
 		if ($user_id and $email)
 			throw new Api_Exception_InvalidInput($this, "Please provide either an `id` or `email` but not both");
 		if ($user_id) {
 			$user = new Model_User($user_id);
-			if (!$user->loaded())
-				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-			return $user;
+			if ($user->loaded())
+				return $user;
 		}
+		
+		if (strstr($user_id, '@'))
+			$email = $user_id; // sometimes people will pass an email as a user id - you know what: I don't care
 		
 		if ($email) {
 			try {
