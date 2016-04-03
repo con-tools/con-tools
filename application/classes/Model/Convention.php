@@ -103,13 +103,14 @@ class Model_Convention extends ORM {
 	 * Retrieve all scheduled time slots for this convention
 	 * @return Database_Result listing all time slots in the convention
 	 */
-	public function getTimeSlots($filters = []) : Database_Result {
-		$query = Model_Timeslot::queryForConvention($this);
+	public function getTimeSlots($filters = [], $public = false) : Database_Result {
+		$query = Model_Timeslot::queryForConvention($this, $public);
 		if (array_key_exists('host', $filters)) {
-			$q = Model_Timeslot_Host::queryForConvention($this)->where('timeslot_host.user_id','=',$filters['host']);
-			$query->where('timeslot.id','IN',
-					array_map(function($tshost) { return $tshost->timeslot->pk(); },
-					$q->find_all()->as_array()));
+			$hosted_ts = Model_Timeslot_Host::queryForConvention($this)
+				->where('timeslot_host.user_id','=',$filters['host'])
+				->find_all()->as_array();
+			$query->where('timeslot.id','IN', count($hosted_ts) ? array_map(
+					function($tshost) { return $tshost->timeslot->pk(); }, $hosted_ts) : [0]); // fake invalid query if no timeslot_hosts
 			unset($filters['host']);
 		}
 		foreach ($filters as $field  => $value)
@@ -122,17 +123,7 @@ class Model_Convention extends ORM {
 	 * @return Database_Result listing all time slots in the convention
 	 */
 	public function getPublicTimeSlots($filters = []) : Database_Result {
-		$query = Model_Timeslot::queryForConvention($this, true);
-		if (array_key_exists('host', $filters)) {
-			$q = Model_Timeslot_Host::queryForConvention($this)->where('timeslot_host.user_id','=',$filters['host']);
-			$query->where('timeslot.id','IN',
-					array_map(function($tshost) { return $tshost->timeslot->pk(); },
-					$q->find_all()->as_array()));
-			unset($filters['host']);
-		}
-		foreach ($filters as $field  => $value)
-			$query = $query->where($field,'=',$value);
-		return $query->find_all();
+		return $this->getTimeSlots($filters, true);
 	}
 
 	/**
