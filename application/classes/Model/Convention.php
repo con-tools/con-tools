@@ -105,7 +105,7 @@ class Model_Convention extends ORM {
 	 */
 	public function getTimeSlots($filters = []) : Database_Result {
 		$query = Model_Timeslot::queryForConvention($this);
-		if ($filters['host']) {
+		if (array_key_exists('host', $filters)) {
 			$q = Model_Timeslot_Host::queryForConvention($this)->where('timeslot_host.user_id','=',$filters['host']);
 			$query->where('timeslot.id','IN',
 					array_map(function($tshost) { return $tshost->timeslot->pk(); },
@@ -123,7 +123,7 @@ class Model_Convention extends ORM {
 	 */
 	public function getPublicTimeSlots($filters = []) : Database_Result {
 		$query = Model_Timeslot::queryForConvention($this, true);
-		if ($filters['host']) {
+		if (array_key_exists('host', $filters)) {
 			$q = Model_Timeslot_Host::queryForConvention($this)->where('timeslot_host.user_id','=',$filters['host']);
 			$query->where('timeslot.id','IN',
 					array_map(function($tshost) { return $tshost->timeslot->pk(); },
