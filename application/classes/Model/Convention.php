@@ -137,6 +137,18 @@ class Model_Convention extends ORM {
 		return $query->find_all();
 	}
 	
+	public function expireReservedTickets() {
+		$reservetime = @$this->get('settings')['reservation-time'];
+		if (!$reservetime) return; // sanity
+		// calculate oldest reserve time
+		$reservetime = new DateInterval($reservetime);
+		$reservetime->invert = 1;
+		$last = new DateTime();
+		$last->add($reservetime);
+		foreach (Model_Ticket::reservedByReserveTime($last) as $ticket)
+			$ticket->cancel("internal:reservation-timeout");
+	}
+	
 	public function get($column) {
 		switch ($column) {
 			case 'settings':
