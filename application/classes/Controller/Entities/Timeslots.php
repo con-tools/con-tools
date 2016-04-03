@@ -132,13 +132,16 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		$this->convention->expireReservedTickets();
 		
 		$data = $this->input();
+		
 		$filters = [];
 		if ($data->by_event)
 			$filters['event_id'] = $data->by_event;
 		if ($data->by_event_status)
 			$filters['status'] = $data->by_event_status;
+		if ($data->by_host)
+			$filters['host'] = $data->by_host == 'self' ? $this->user->pk() : $this->loadUserByIdOrEmail($data->by_host)->pk();
 		
-		if ($this->convention->isAuthorized() || $this->convention->isManager($this->user))
+		if ($this->systemAccessAllowed())
 			$catalog = ORM::result_for_json($this->convention->getTimeSlots($filters), 'for_json_with_locations');
 		else // if not specifically authorized, get public list
 			$catalog = ORM::result_for_json($this->convention->getPublicTimeSlots($filters), 'for_json_with_locations');
