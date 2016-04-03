@@ -63,6 +63,13 @@ class Model_Ticket extends ORM {
 		return $query;
 	}
 	
+	public static function reservedByReserveTime(DateTime $latest) : Database_Result {
+		return (new Model_Ticket())
+				->where('status','=', self::STATUS_RESERVED)
+				->where('reserved_time', '<', $latest->format('Y-m-d H:i:s'))
+				->find_all();
+	}
+	
 	/**
 	 * Retrieve the ticket shopping card for the user
 	 * @param Model_Convention $con Convention where the user goes
@@ -132,6 +139,11 @@ class Model_Ticket extends ORM {
 	public function cancel($reason) : Model_Ticket {
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
+		foreach ($this->coupons->find_all() as $coupon) {
+			$coupon->release();
+		}
+		// recompute price, so we'll see how much that ticket would have cost without coupons
+		$this->price = $this->timeslot->event->price * $this->amount;
 		return $this->save();
 	}
 	
