@@ -49,6 +49,9 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 	}
 	
 	protected function retrieve($id) {
+		// expire reserved tickets before listing timeslots, so we can show correct availability
+		$this->convention->expireReservedTickets();
+	
 		$timeslot = new Model_Timeslot($id);
 		if ($timeslot->loaded())
 			return $timeslot->for_json_with_locations();
