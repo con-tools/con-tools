@@ -139,6 +139,9 @@ class Model_Ticket extends ORM {
 	public function cancel($reason) : Model_Ticket {
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
+		foreach ($this->coupons->find_all() as $coupon) {
+			$coupon->release();
+		}
 		return $this->save();
 	}
 	
