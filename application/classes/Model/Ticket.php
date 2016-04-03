@@ -142,6 +142,8 @@ class Model_Ticket extends ORM {
 		foreach ($this->coupons->find_all() as $coupon) {
 			$coupon->release();
 		}
+		// recompute price, so we'll see how much that ticket would have cost without coupons
+		$this->price = $this->timeslot->event->price * $this->amount;
 		return $this->save();
 	}
 	
