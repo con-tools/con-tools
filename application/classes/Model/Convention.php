@@ -145,8 +145,11 @@ class Model_Convention extends ORM {
 		$reservetime->invert = 1;
 		$last = new DateTime();
 		$last->add($reservetime);
-		foreach (Model_Ticket::reservedByReserveTime($last) as $ticket)
+		foreach (Model_Ticket::reservedByReserveTime($last) as $ticket) {
+			Logger::info("Expiring old reserve ticket " . $ticket->pk() . " for " . $ticket->user->email .
+					" from " . $ticket->reserved_time->format(DateTime::ATOM));
 			$ticket->cancel("internal:reservation-timeout");
+		}
 	}
 	
 	public function get($column) {
