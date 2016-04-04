@@ -28,7 +28,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		// pre-fill user data in pelepay
 		$view->additional_fields = [];
 		if ($sale->user->name) {
-			list($first, $last) = @explode(" ", $sale->user->name, 2);
+			@list($first, $last) = @explode(" ", $sale->user->name, 2);
 			$view->additional_fields["firstname"] = $first;
 			$view->additional_fields["lastname"] = $last;
 		}
