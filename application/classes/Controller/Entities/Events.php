@@ -69,7 +69,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	protected function retrieve($id) {
 		$o = new Model_Event($id);
 		if (!$o->loaded())
-			throw new Model_Exception_NotFound();
+			throw new Api_Exception_Notfound($this, "Event $id was not found");
 		if ($o->convention_id != $this->convention->pk())
 			throw new Api_Exception_Unauthorized($this, "Incorrect convention selected for event {$o->pk()} ({$o->convention->pk()} != {$o->convention_id})"); // can't hack around convention keys
 		if ($o->isPublic())
