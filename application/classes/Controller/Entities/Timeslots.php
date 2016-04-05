@@ -122,9 +122,13 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete time slots!");
 		$timeslot = new Model_Timeslot($id);
-		if ($timeslot->loaded())
-			$timeslot->delete();
-		return true;
+		if (!$timeslot->loaded())
+			return true;
+		
+		$timeslot->deleteCancelledTickets();
+		if (count($timeslot->tickets->as_array()))
+			throw new Api_Exception_InvalidInput($this, "Not allowed to delete timeslots with authorized or reserved tickets!");
+		$timeslot->delete();
 	}
 	
 	protected function catalog() {
