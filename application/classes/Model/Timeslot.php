@@ -72,6 +72,11 @@ class Model_Timeslot extends ORM {
 		Model_Timeslot_Host::persist($this, $user, $name);
 	}
 	
+	public function deleteCancelledTickets() {
+		foreach ($this->tickets->where('status','=',Model_Ticket::STATUS_CANCELLED)->find_all() as $ticket)
+			$ticket->delete();
+	}
+	
 	/**
 	 * Check if this time slot conflicts with the time range specified by the arguments
 	 * @param DateTime $start Start time to check against
