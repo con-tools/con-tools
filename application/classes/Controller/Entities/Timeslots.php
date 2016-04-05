@@ -126,7 +126,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			return true;
 		
 		$timeslot->deleteCancelledTickets();
-		if (count($timeslot->tickets->as_array()))
+		if (count($timeslot->tickets->find_all()->as_array()))
 			throw new Api_Exception_InvalidInput($this, "Not allowed to delete timeslots with authorized or reserved tickets!");
 		$timeslot->delete();
 		return true;
