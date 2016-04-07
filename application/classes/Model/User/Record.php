@@ -92,6 +92,7 @@ class Model_User_Record extends ORM {
 	 * @return Model_User_Record record found
 	 */
 	public static function byDescriptor(Model_Convention $con, Model_User $user, $descriptor) {
+		Logger::debug("Getting record '$descriptor' for " .$user->email);
 		$o = Model::factory('user_record')
 			->where('convention_id', '=', $con->id)
 			->where('user_id', '=', $user->id)
