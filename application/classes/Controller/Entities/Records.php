@@ -90,7 +90,17 @@ class Controller_Entities_Records extends Api_Controller {
 			error_log("Getting catalog for {$id}, Convention {$con}");
 			return $this->send(Model_User_Record::allByDescriptor($con, $id, $this->input()->fetch('all',FALSE)));
 		}
-			
+		
+		if (($con->isAuthorized() or $con->isManager($user)) and $this->input()->fetch('user')) {
+			// retrieve a single user record
+			$user = $this->loadUserByIdOrEmail($this->input()->fetch('user'));
+			try {
+				$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
+			} catch (Model_Exception_NotFound $e) {
+				$this->send(['data'=> null]);
+			}
+		}
+		
 		try {
 			$this->send(['data' => Model_User_Record::byDescriptor($con, $user, $id)->as_array()]);
 		} catch (Model_Exception_NotFound $e) {

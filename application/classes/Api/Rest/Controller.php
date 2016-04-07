@@ -114,36 +114,6 @@ abstract class Api_Rest_Controller extends Api_Controller {
 		return $this->convention->isManager($this->user) || $this->convention->isAuthorized();
 	}
 	
-	/**
-	 * Implement the common behavior of getting a user
-	 * from either a user id or a user email (but never both) and
-	 * verifying everything
-	 * @param int $user_id numeric user ID from the database
-	 * @param string $email user's login email
-	 */
-	protected function loadUserByIdOrEmail($user_id, $email = null) : Model_User {
-		if ($user_id and $email)
-			throw new Api_Exception_InvalidInput($this, "Please provide either an `id` or `email` but not both");
-		if ($user_id) {
-			$user = new Model_User($user_id);
-			if ($user->loaded())
-				return $user;
-		}
-		
-		if (strstr($user_id, '@'))
-			$email = $user_id; // sometimes people will pass an email as a user id - you know what: I don't care
-		
-		if ($email) {
-			try {
-				return Model_User::byEmail($email);
-			} catch (Model_Exception_NotFound $e) {
-				throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-			}
-		}
-		
-		throw new Api_Exception_InvalidInput($this, "Invalid user specified");
-	}
-	
 	protected function parseDateTime($value) {
 		if (!$value)
 			return false;
