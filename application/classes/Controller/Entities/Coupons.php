@@ -45,7 +45,19 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	public function catalog() {
 		if (!$this->systemAccessAllowed())
 			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
-		return ORM::result_for_json(Model_Coupon::byConvention($this->convention), 'for_json_With_tickets');
+		$filters = [];
+		$data = $this->input();
+		if ($data->by_type)
+			$filters['coupon_type_id'] = $data->by_type;
+		return ORM::result_for_json(
+				array_filter(Model_Coupon::byConvention($this->convention)->as_array(),
+						function($coupon) use ($filters) {
+							foreach ($filters as $field => $value) {
+								if ($coupon->get($field) != $value)
+									return false;
+							}
+							return true;
+						}), 'for_json_With_tickets');
 	}
 	
 }
