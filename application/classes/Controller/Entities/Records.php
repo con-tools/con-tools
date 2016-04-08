@@ -8,6 +8,7 @@ class Controller_Entities_Records extends Api_Controller {
 			$user = $this->verifyAuthentication()->user;
 		} catch (Api_Exception_Unauthorized $e) {
 			if (!$con->isAuthorized()) {
+				Logger::debug("No user, and no con authorization: trying to public retrieve");
 				if ($this->tryHandlePublicRetrieve($con))
 					return;
 				throw $e;
@@ -20,6 +21,7 @@ class Controller_Entities_Records extends Api_Controller {
 				} catch (Model_Exception_NotFound $e) {
 					throw new HTTP_Exception_404("User not found");
 				}
+				Logger::debug("Convention queries records for ".$user->email);
 			}
 		}
 		switch ($this->request->method()) {
@@ -79,6 +81,7 @@ class Controller_Entities_Records extends Api_Controller {
 
 	private function retrieve(Model_Convention $con, Model_User $user = null, $id) {
 		if (!$id) { // catalog request
+			Logger::debug("Convention ".$con->pk()." retrieves identifier catalog");
 			if ($con->isAuthorized() or $con->isManager($user)) {// convention or manager wants a catalog
 				// return identifier catalog
 				return $this->send(['data' => Model_User_Record::listDescriptors($con)]);
@@ -86,8 +89,9 @@ class Controller_Entities_Records extends Api_Controller {
 				throw new Api_Exception_Unauthorized($this, "Not authorized to list record identifiers");
 		}
 		
-		if ($con->isAuthorized() or ($con->isManager($user) and $this->input()->fetch('list',FALSE))) {
-			error_log("Getting catalog for {$id}, Convention {$con}");
+		if (($con->isAuthorized() or $con->isManager($user)) and $this->input()->fetch('list',FALSE)) {
+			var_dump($this->input()->fetch('list',FALSE));
+			Logger::debug("Getting catalog for {$id}, Convention {$con}");
 			return $this->send(Model_User_Record::allByDescriptor($con, $id, $this->input()->fetch('all',FALSE)));
 		}
 		
