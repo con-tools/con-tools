@@ -6,6 +6,7 @@ web:
     PORT: 8080
     DOCKER_DSN: mysql://root:secret@mysql/controll
     DB_URL_ENV_NAME: DOCKER_DSN
+    LOGENTRIES_TOKEN: 67c76483-9e29-4299-bb08-655389e6e4bd
   volumes:
    - ./application:/app/user/application
    - ./public:/app/user/public
