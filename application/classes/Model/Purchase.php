@@ -9,7 +9,7 @@ class Model_Purchase extends ORM {
 	
 	protected $_belongs_to = [
 			'user' => [],
-			'sku' => [],
+			'sku' => [ 'model' => 'Merchandise_Sku' ],
 			'sale' => [],
 	];
 	
@@ -45,7 +45,7 @@ class Model_Purchase extends ORM {
 	}
 	
 	public static function queryForConvention(Model_Convention $con) : ORM {
-		$query = (new Model_Purchase())->with('merchandise_sku')->with('user')->where('convention_id', '=', $con->pk());
+		$query = (new Model_Purchase())->with('sku')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
 	}
 	
@@ -89,7 +89,7 @@ class Model_Purchase extends ORM {
 		$this->price = ($this->amount * $this->sku->price);
 	}
 	
-	public function cancel($reason) : Model_Ticket {
+	public function cancel($reason) : Model_Purchase {
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
 		return $this->save();
