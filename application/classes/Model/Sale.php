@@ -11,7 +11,7 @@ class Model_Sale extends ORM {
 	
 	protected $_has_many = [
 			'tickets' => [],
-			'purchases' => [],
+			'purchases' => [ 'model' => 'purchase' ],
 	];
 	
 	protected $_columns = [
@@ -58,7 +58,7 @@ class Model_Sale extends ORM {
 	 */
 	public static function computeTotal($items) {
 		return array_reduce(is_array($items) ? $items : $items->as_array(), function(int $total, ORM $item){
-			return $total + $items->price;
+			return $total + $item->price;
 		}, 0);
 	}
 	
