@@ -46,10 +46,10 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	}
 	
 	public function catalog() {
-		if (!$this->systemAccessAllowed())
-			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
-		$filters = [];
 		$data = $this->input();
+		if (!$this->systemAccessAllowed() || $data->self)
+			return $this->getUserCoupons();
+		$filters = [];
 		if ($data->by_type)
 			$filters['coupon_type_id'] = $data->by_type;
 		return ORM::result_for_json(
@@ -61,6 +61,11 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 							}
 							return true;
 						}), 'for_json_With_tickets');
+	}
+	
+	private function getUserCoupons() {
+		$data = $this->input();
+		return ORM::result_for_json( Model_Coupon::unconsumedForUser($this->user, $this->convention));
 	}
 	
 }
