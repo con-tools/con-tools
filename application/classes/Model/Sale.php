@@ -95,6 +95,8 @@ class Model_Sale extends ORM {
 		$this->save();
 		foreach ($this->tickets->find_all() as $ticket)
 			$ticket->authorize();
+		foreach ($this->purchases->find_all() as $purchase)
+			$purchase->authorize();
 	}
 	
 	/**
@@ -112,6 +114,8 @@ class Model_Sale extends ORM {
 	public function failed($reasonCode) {
 		foreach ($this->tickets->find_all() as $ticket)
 			$ticket->returnToCart();
+		foreach ($this->purchases->find_all() as $purchase)
+			$purchase->returnToCart();
 		$this->transaction_id = "FAILED:" . $reasonCode;
 	}
 	
