@@ -22,6 +22,17 @@ class Model_Merchandise_Sku extends ORM {
 			'price' => [],
 	];
 	
+	public static function byCodeOrId($code) : Model_Merchandise_Sku {
+		$sku = (new Model_Merchandise_Sku())->where('code', 'like', $code)->find();
+		if ($sku->loaded())
+			return $sku;
+		// could be an ID to an SKU?
+		$sku = new Model_Merchandise_Sku($code);
+		if ($sku->loaded())
+			return $sku;
+		throw new Model_Exception_NotFound(); // nah
+	}
+	
 	public static function persist(Model_Convention $con, string $title, string $code, $price, $description = null) : Model_Merchandise_Sku {
 		$o = new Model_Merchandise_Sku();
 		$o->convention = $con;

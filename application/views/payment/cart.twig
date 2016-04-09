@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<h2>Tickets</h2>
 <table>
 <thead>
 	<tr>
@@ -24,16 +25,44 @@
 {% endfor %}
 	<tr>
 		<td colspan="2">
-			<form method="POST" action="/checkout">
-			<input type="hidden" name="convention" value="{{convention_key}}">
-			<input type="hidden" name="ok" value="{{baseurl}}/checkout/ok">
-			<input type="hidden" name="fail" value="{{baseurl}}/checkout/fail">
-			<input type="submit" value="Checkout">
-			</form>
 		</td>
-		<td>{{total}}</td>
+		<td>{{total_tickets}}</td>
 	</tr>
 </tbody>
+</table>
+
+<h2>Merchandise</h2>
+<table>
+<thead>
+	<tr>
+		<th>Item</th>
+		<th>Amount</th>
+		<th>Cost</th>
+	</tr>
+</thead>
+<tbody>
+{% for purchase in purchases %}
+	<tr>
+		<td>{{purchase.sku.title}}</td>
+		<td>{{purchase.amount}}</td>
+		<td>{{purchase.price}}</td>
+	</tr>
+{% endfor %}
+	<tr>
+		<td colspan="2">
+		</td>
+		<td>{{total_purchases}}</td>
+	</tr>
+</tbody>
+</table>
+
+<form method="POST" action="/checkout">
+<input type="hidden" name="convention" value="{{convention_key}}">
+<input type="hidden" name="ok" value="{{baseurl}}/checkout/ok">
+<input type="hidden" name="fail" value="{{baseurl}}/checkout/fail">
+Total: {{total}}
+<input type="submit" value="Checkout">
+</form>
 
 </body>
 </html>

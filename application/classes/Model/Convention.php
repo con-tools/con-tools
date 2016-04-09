@@ -127,8 +127,24 @@ class Model_Convention extends ORM {
 	}
 
 	/**
+	 * Retrieve all merchandise purchases registered on a convention (including cancelled purchases)
+	 * @param array $filters list of filters to add to the query
+	 * @return Database_Result list of all purchases
+	 */
+	public function getPurchases($filters = []) : Database_Result {
+		$query = Model_Purchase::queryForConvention($this);
+		foreach ($filters as $field  => $value) {
+			if ($field == 'valid') // don't show cancelled
+				$query = $query->where('purchase.status', '<>', Model_Purchase::STATUS_CANCELLED);
+			else
+				$query = $query->where($field,'=',$value);
+		}
+		return $query->find_all();
+	}
+	
+	/**
 	 * Retrieve all tickets registered on a convention (including cancelled tickets)
-	 * @param array $filters list of filters to add to the quer
+	 * @param array $filters list of filters to add to the query
 	 * @return Database_Result list of all tickets
 	 */
 	public function getTickets($filters = []) : Database_Result {
