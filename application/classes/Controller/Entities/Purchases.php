@@ -26,9 +26,23 @@ class Controller_Entities_Purchases extends Api_Rest_Controller {
 		$amount = $this->input()->amount;
 		if (!is_numeric($amount))
 			throw new Api_Exception_InvalidInput($this, "Amount must be a numerical value");
-		$purchase = new Model_Purchase($id);
-		if (!$purchase->loaded() || $purchase->user != $this->getValidUser())
-			throw new Api_Exception_InvalidInput($this, "No purchases found");
+		
+		// allow admins to load and update any purchase, as long as they know the ID
+		$purchase = null;
+		if ($this->systemAccessAllowed()) {
+			$purchase = new Model_Purchase($id);
+			if (!$purchase->loaded())
+				$purchase = null; // zero out, so we can try again
+		}
+		
+		// users get access through a loader that checks that they own the purchase and also understand sku codes
+		if (!$purchase) {
+			try {
+				$purchase = Model_Purchase::byIdOrSkuCode($this->getValidUser(), $id);
+			} catch (Model_Exception_NotFound $e) {
+				throw new Api_Exception_InvalidInput($this, "No purchases found");
+			}
+		}
 		$purchase->setAmount($amount);
 		
 		if ($purchase->amount <= 0) { // cancel the purchase

@@ -44,6 +44,30 @@ class Model_Purchase extends ORM {
 		return $o;
 	}
 	
+	/**
+	 * Load a purchase for the given user, by SKU code or purchase ID
+	 * @param Model_User $user user whose purchase we need to load
+	 * @param mixed $code SKU code or purchase adtabase ID
+	 */
+	public static function byIdOrSkuCode(Model_User $user, $code) : Model_Purchase {
+		try {
+			$sku = Model_Merchandise_Sku::byCodeOrId($code);
+			$purchase = (new Model_Purchase())
+				->where('user_id','=',$user->pk())
+				->where('sku_id','=',$sku->pk())
+				->find();
+			if ($purchase->loaded())
+				return $purchase;
+			// if we can't find it, try the second method...
+		} catch (Model_Exception_NotFound $e) {
+		}
+		// try to get the purchase by id
+		$purchase = new Model_Purchase($code);
+		if ($purchase->loaded() and $purchase->user_id == $user->pk())
+			return $purchase;
+		throw new Model_Exception_NotFound();
+	}
+	
 	public static function queryForConvention(Model_Convention $con) : ORM {
 		$query = (new Model_Purchase())->with('sku')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
