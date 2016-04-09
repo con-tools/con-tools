@@ -11,7 +11,7 @@ class Model_Sale extends ORM {
 	
 	protected $_has_many = [
 			'tickets' => [],
-			'coupons' => [],
+			'purchases' => [],
 	];
 	
 	protected $_columns = [
@@ -46,17 +46,19 @@ class Model_Sale extends ORM {
 		foreach (Model_Ticket::shoppingCart($con, $user) as $ticket) {
 			$ticket->setSale($o);
 		}
+		foreach (Model_Purchase::shoppingCart($con, $user) as $purchase) {
+			$purchase->setSale($o);
+		}
 		return $o;
 	}
 
 	/**
-	 * Given an arbitrary collection of tickets (and in the future also coupons), figure out the
-	 * shopping cart cost.
-	 * @param array|Database_Result $tickets list or result set of Model_Ticket
+	 * Given an arbitrary collection of tickets and/or purchases, figure out the shopping cart cost.
+	 * @param array|Database_Result $items list or result set of Model_Ticket or Model_Purchase
 	 */
-	public static function computeTotal($tickets) {
-		return array_reduce(is_array($tickets) ? $tickets : $tickets->as_array(), function(int $total, Model_Ticket $ticket){
-			return $total + $ticket->price;
+	public static function computeTotal($items) {
+		return array_reduce(is_array($items) ? $items : $items->as_array(), function(int $total, ORM $item){
+			return $total + $items->price;
 		}, 0);
 	}
 	
@@ -80,7 +82,8 @@ class Model_Sale extends ORM {
 	 * Get total cost of this sale
 	 */
 	public function getTotal() {
-		return self::computeTotal($this->tickets->find_all());
+		return self::computeTotal($this->tickets->find_all()) +
+			self::computeTotal($this->purchases->find_all());
 	}
 	
 	/**
