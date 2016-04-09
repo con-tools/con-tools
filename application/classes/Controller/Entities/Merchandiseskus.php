@@ -8,12 +8,12 @@ class Controller_Entities_MerchandiseSKUs extends Api_Rest_Controller {
 		$data = $this->input();
 		if (!($title = $data->title))
 			throw new Api_Exception_InvalidInput($this, "Mandatory parameter title missing");
-		if (!($title = $data->code))
+		if (!($code = $data->code))
 			throw new Api_Exception_InvalidInput($this, "Mandatory parameter code missing");
 		if (!($price = $data->price))
 			throw new Api_Exception_InvalidInput($this, "Mandatory parameter price missing");
 		$description = $data->description;
-		return Model_Merchandise_Sku::persist($this->convention, $title, $price, $description)->for_json();
+		return Model_Merchandise_Sku::persist($this->convention, $title, $code, $price, $description)->for_json();
 	}
 	
 	public function retrieve($id) {
