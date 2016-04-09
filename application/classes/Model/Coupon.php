@@ -22,6 +22,13 @@ class Model_Coupon extends ORM {
 		return (new Model_Coupon())->with('coupon_type')->where('convention_id','=',$con->pk())->find_all();
 	}
 	
+	public static function byConventionUser(Model_Convention $con, Model_User $user) {
+		return (new Model_Coupon())->with('coupon_type')
+				->where('convention_id','=',$con->pk())
+				->where('user_ud','=',$user->pk())
+				->find_all();
+	}
+	
 	public static function unconsumedForUser(Model_User $user, Model_Convention $con) {
 		return (new Model_Coupon())->with('coupon_type')
 				->where('user_id','=',$user->pk())
