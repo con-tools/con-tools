@@ -16,16 +16,18 @@ class Model_Merchandise_Sku extends ORM {
 			'convention_id' => [],
 			// data fields
 			'title' => [],
+			'code' => [],
 			'created_time' => [ 'type' => 'DateTime' ],
 			'description' => [],
 			'price' => [],
 	];
 	
-	public static function persist(Model_Convention $con, string $title, $price, $description = null) : Model_Merchandise_Sku {
+	public static function persist(Model_Convention $con, string $title, string $code, $price, $description = null) : Model_Merchandise_Sku {
 		$o = new Model_Merchandise_Sku();
 		$o->convention = $con;
 		$o->created_time = new DateTime();
 		$o->title = $title;
+		$o->code = $code;
 		$o->description = $description;
 		$o->price = $price;
 		return $o->save();
