@@ -11,7 +11,7 @@ class Controller_Entities_Purchases extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No merchandise SKU specified for the sale");
 		}
 		$amount = $data->amount ?: 1;
-		return Model_Purchase::persist($sku, $this->getValidUser())->for_json();
+		return Model_Purchase::persist($sku, $this->getValidUser(), $amount)->for_json();
 	}
 	
 	public function retrieve($id) {
