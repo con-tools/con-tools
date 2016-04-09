@@ -45,8 +45,6 @@ class Controller_Entities_Coupontypes extends Api_Rest_Controller {
 	}
 
 	public function catalog() {
-		if (!$this->systemAccessAllowed())
-			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
 		return ORM::result_for_json(Model_Coupon_Type::byConvention($this->convention));
 	}
 
