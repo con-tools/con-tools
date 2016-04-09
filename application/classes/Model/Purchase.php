@@ -55,6 +55,7 @@ class Model_Purchase extends ORM {
 			$purchase = (new Model_Purchase())
 				->where('user_id','=',$user->pk())
 				->where('sku_id','=',$sku->pk())
+				->where('status', '=', self::STATUS_RESERVED)
 				->find();
 			if ($purchase->loaded())
 				return $purchase;
