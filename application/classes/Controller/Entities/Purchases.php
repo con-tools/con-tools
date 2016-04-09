@@ -43,6 +43,7 @@ class Controller_Entities_Purchases extends Api_Rest_Controller {
 				throw new Api_Exception_InvalidInput($this, "No purchases found");
 			}
 		}
+		Logger::debug("Setting purchase amount of (" . $this->user->email . "): " .$purchase->sku->code." to " . $amount);
 		$purchase->setAmount($amount);
 		
 		if ($purchase->amount <= 0) { // cancel the purchase
