@@ -46,10 +46,10 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	}
 	
 	public function catalog() {
-		if (!$this->systemAccessAllowed())
+		$data = $this->input();
+		if (!$this->systemAccessAllowed() || $data->self)
 			return $this->getUserCoupons();
 		$filters = [];
-		$data = $this->input();
 		if ($data->by_type)
 			$filters['coupon_type_id'] = $data->by_type;
 		return ORM::result_for_json(
@@ -65,17 +65,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	
 	private function getUserCoupons() {
 		$data = $this->input();
-		if ($data->by_type)
-			$filters['coupon_type_id'] = $data->by_type;
-		return ORM::result_for_json(
-				array_filter(Model_Coupon::byConventionUser($this->convention, $this->user)->as_array(),
-						function($coupon) use ($filters) {
-							foreach ($filters as $field => $value) {
-								if ($coupon->get($field) != $value)
-									return false;
-							}
-							return true;
-						}), 'for_json_With_tickets');
+		return ORM::result_for_json( Model_Coupon::unconsumedForUser($this->user, $this->convention));
 	}
 	
 }
