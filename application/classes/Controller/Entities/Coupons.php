@@ -47,8 +47,11 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	
 	public function catalog() {
 		$data = $this->input();
-		if (!$this->systemAccessAllowed() || $data->self)
-			return $this->getUserCoupons();
+		if (!$this->systemAccessAllowed() || $data->self) {
+			if ($this->user)
+				return $this->getUserCoupons();
+			return [];
+		}
 		$filters = [];
 		if ($data->by_type)
 			$filters['coupon_type_id'] = $data->by_type;
