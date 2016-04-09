@@ -11,7 +11,7 @@ class Model_Sale extends ORM {
 	
 	protected $_has_many = [
 			'tickets' => [],
-			'purchases' => [ 'model' => 'purchase' ],
+			'purchases' => [ 'model' => 'Purchase' ],
 	];
 	
 	protected $_columns = [
