@@ -56,7 +56,7 @@ class Model_Purchase extends ORM {
 	 */
 	public static function shoppingCart(Model_Convention $con, Model_User $user) : Database_Result {
 		return (new Model_Purchase())->
-				with('merchandise_sku')->
+				with('sku')->
 				with('user')->
 				where('convention_id', '=', $con->pk())->
 				where('purchase.user_id','=',$user->pk())->
