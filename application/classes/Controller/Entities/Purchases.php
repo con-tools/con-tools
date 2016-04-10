@@ -38,7 +38,7 @@ class Controller_Entities_Purchases extends Api_Rest_Controller {
 		// users get access through a loader that checks that they own the purchase and also understand sku codes
 		if (!$purchase) {
 			try {
-				Logger::debug("Getting user purchase '" . $id . "'");
+				Logger::debug("Getting user purchase '$id'");
 				$purchase = Model_Purchase::byIdOrSkuCode($this->getValidUser(), $id);
 			} catch (Model_Exception_NotFound $e) {
 				throw new Api_Exception_InvalidInput($this, "No purchases found");
