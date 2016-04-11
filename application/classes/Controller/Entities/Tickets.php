@@ -71,9 +71,9 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		$ticket = new Model_Ticket((int)$id);
 		if (!$ticket->loaded())
 			throw new Api_Exception_InvalidInput($this, "No ticket found for '$id'");
-		if ($ticket->isAuthorized())
-			throw new Api_Exception_InvalidInput($this, "Can't delete authorized tickets, cancel it first");
 		if ($this->input()->delete) {
+			if ($ticket->isAuthorized())
+				throw new Api_Exception_InvalidInput($this, "Can't delete authorized tickets, cancel it first");
 			$ticket->returnCoupons();
 			$ticket->delete();
 		} else { // caller doesn't really want to delete, try to cancel or refund
@@ -81,7 +81,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			if ($ticket->isAuthorized()) {
 				$refundType = new Model_Coupon_Type($this->input()->refund_coupon_type);
 				if ($ticket->price > 0 and !$refundType->loaded())
-					throw new Api_Exception_InvalidInput($this, "Ticket already authorized, and no refund coupon type specified");
+					throw new Api_Exception_InvalidInput($this, "Ticket already authorized, and no \"refund-coupon-type\" specified");
 				$ticket->refund($refundType, $reason);
 			} else {
 				$ticket->cancel($reason);
