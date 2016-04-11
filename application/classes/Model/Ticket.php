@@ -136,7 +136,16 @@ class Model_Ticket extends ORM {
 		$this->consumeCoupons();
 	}
 	
+	/**
+	 * Cancel a ticket that has not been payed for yet.
+	 * This will return all coupons used in the ticket.
+	 * @param string $reason Reason for the cancellation
+	 * @throws Exception in case the ticket has already been payed for
+	 * @return Model_Ticket the ticket itself
+	 */
 	public function cancel($reason) : Model_Ticket {
+		if ($this->status == self::STATUS_AUTHORIZED)
+			throw new Exception("An authorized ticket cannot be cancelled!");
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
 		foreach ($this->coupons->find_all() as $coupon) {
@@ -144,6 +153,29 @@ class Model_Ticket extends ORM {
 		}
 		// recompute price, so we'll see how much that ticket would have cost without coupons
 		$this->price = $this->timeslot->event->price * $this->amount;
+		return $this->save();
+	}
+	
+	/**
+	 * Refund an already purchased ticket by returning all coupons
+	 * and creating a refund coupon for the payed amount
+	 * @param Model_Coupon_Type $refundType The coupon type to create for refunded amount
+	 * @param string $reason Reason for the refund
+	 * @throws Exception in case the ticket has not been payed for yet
+	 * @return Model_Ticket the ticket itself
+	 */
+	public function refund(Model_Coupon_Type $refundType, $reason) : Model_Ticket {
+		if ($this->status != self::STATUS_AUTHORIZED)
+			throw new Exception("Cannot refund a ticket that has not been payed for yet");
+		$refundAmount = $this->price;
+		$this->status = self::STATUS_CANCELLED;
+		$this->cancel_reason = $reason;
+		foreach ($this->coupons->find_all() as $coupon) {
+			$coupon->release();
+		}
+		// recompute price, so we'll see how much that ticket would have cost without coupons
+		$this->price = $this->timeslot->event->price * $this->amount;
+		Model_Coupon::persist($refundType, $this->user, $refundAmount);
 		return $this->save();
 	}
 	
