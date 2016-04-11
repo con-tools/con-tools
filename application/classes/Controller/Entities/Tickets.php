@@ -42,6 +42,8 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		$ticket = new Model_Ticket($id);
 		if (!$ticket->loaded() || $ticket->user != $this->getValidUser())
 			throw new Api_Exception_InvalidInput($this, "No ticket found");
+		if ($ticket->isAuthorized() or $ticket->isCancelled())
+			throw new Api_Exception_InvalidInput($this, "Cannot update a ticket that has been payed for or cancelled");
 		Database::instance()->begin();
 		$ticket->setAmount($amount);
 		
