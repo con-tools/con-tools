@@ -167,7 +167,8 @@ class Model_Ticket extends ORM {
 		$this->returnCoupons();
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
-		Model_Coupon::persist($refundType, $this->user, $refundAmount);
+		if ($refundAmount > 0)
+			Model_Coupon::persist($refundType, $this->user, $refundAmount);
 		return $this->save();
 	}
 	
