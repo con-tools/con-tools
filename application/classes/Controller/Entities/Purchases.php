@@ -63,6 +63,7 @@ class Controller_Entities_Purchases extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No purchase found for '$id'");
 		if ($purchase->isAuthorized())
 			throw new Api_Exception_InvalidInput($this, "Can't delete authorized purchases, cancel it first");
+		Logger::debug("Deleting purchase $id");
 		$purchase->delete();
 		return true;
 	}
