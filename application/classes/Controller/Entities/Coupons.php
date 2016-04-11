@@ -55,6 +55,8 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 		$filters = [];
 		if ($data->by_type)
 			$filters['coupon_type_id'] = $data->by_type;
+		if ($data->by_user)
+			$filters['user_id'] = $this->loadUserByIdOrEmail($data->by_user)->pk();
 		return ORM::result_for_json(
 				array_filter(Model_Coupon::byConvention($this->convention)->as_array(),
 						function($coupon) use ($filters) {
