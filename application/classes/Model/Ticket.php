@@ -189,9 +189,13 @@ class Model_Ticket extends ORM {
 		$this->reserved_time = new DateTime(); // give the user a bit more time
 		$this->save();
 	}
-	
+
 	public function isAuthorized() {
 		return $this->status == self::STATUS_AUTHORIZED;
+	}
+
+	public function isCancelled() {
+		return $this->status == self::STATUS_CANCELLED;
 	}
 	
 	public function for_json_with_coupons() {
