@@ -99,7 +99,6 @@ class Model_Coupon extends ORM {
 			$this->save();
 		} else {
 			$ticket->price -= $this->value;
-			$this->value = 0;
 			$this->ticket = $ticket;
 			$this->save();
 		}
