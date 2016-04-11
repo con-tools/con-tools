@@ -148,11 +148,7 @@ class Model_Ticket extends ORM {
 			throw new Exception("An authorized ticket cannot be cancelled!");
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
-		foreach ($this->coupons->find_all() as $coupon) {
-			$coupon->release();
-		}
-		// recompute price, so we'll see how much that ticket would have cost without coupons
-		$this->price = $this->timeslot->event->price * $this->amount;
+		$this->returnCoupons();
 		return $this->save();
 	}
 	
@@ -168,15 +164,24 @@ class Model_Ticket extends ORM {
 		if ($this->status != self::STATUS_AUTHORIZED)
 			throw new Exception("Cannot refund a ticket that has not been payed for yet");
 		$refundAmount = $this->price;
+		$this->returnCoupons();
 		$this->status = self::STATUS_CANCELLED;
 		$this->cancel_reason = $reason;
+		Model_Coupon::persist($refundType, $this->user, $refundAmount);
+		return $this->save();
+	}
+	
+	/**
+	 * Return all coupons used for this ticket, and recalculate non-couponed price
+	 * This method does not save the object, as it is expected to be used as part
+	 * of a larger transaction
+	 */
+	public function returnCoupons() {
 		foreach ($this->coupons->find_all() as $coupon) {
 			$coupon->release();
 		}
 		// recompute price, so we'll see how much that ticket would have cost without coupons
 		$this->price = $this->timeslot->event->price * $this->amount;
-		Model_Coupon::persist($refundType, $this->user, $refundAmount);
-		return $this->save();
 	}
 	
 	public function authorize() {
