@@ -16,6 +16,8 @@ class Model_Coupon extends ORM {
 			'ticket_id' => [],
 			// data fields
 			'value' => [ 'type' => 'decimal' ],
+			'created_time' => [ 'type' => 'DateTime' ],
+			'reason' => '',
 	];
 	
 	public static function byConvention(Model_Convention $con) {
@@ -37,13 +39,15 @@ class Model_Coupon extends ORM {
 				->find_all();
 	}
 
-	public static function persist(Model_Coupon_Type $coupon, Model_User $user, $value = null, Model_Ticket $ticket = null) : Model_Coupon{
+	public static function persist(Model_Coupon_Type $coupon, Model_User $user, $reason, $value = null, Model_Ticket $ticket = null) : Model_Coupon{
 		$o = new Model_Coupon();
 		$o->user = $user;
 		$o->coupon_type = $coupon;
 		$o->value = $value ?: $coupon->value;
 		if ($ticket)
 			$o->ticket = $ticket;
+		$o->created_time = new DateTime();
+		$o->reason = $reason;
 		$o->save();
 		return $o;
 	}
@@ -80,7 +84,7 @@ class Model_Coupon extends ORM {
 				return; // duplicate use is not allowed
 			
 			// safe to use
-			Model_Coupon::persist($this->coupon_type, $this->user, null, $ticket);
+			Model_Coupon::persist($this->coupon_type, $this->user, "spawn multi-use clone", null, $ticket);
 			if ($this->isFixed()) {
 				$ticket->price -= $this->value;
 				if($ticket->price < 0) $ticket->price=0;
@@ -93,7 +97,7 @@ class Model_Coupon extends ORM {
 		
 		// one use coupons are simply consumed
 		if ($this->value > $ticket->price) {
-			Model_Coupon::persist($this->coupon_type, $this->user, $ticket->price, $ticket);
+			Model_Coupon::persist($this->coupon_type, $this->user, "split large coupon", $ticket->price, $ticket);
 			$this->value -= $ticket->price;
 			$ticket->price = 0;
 			$this->save();
