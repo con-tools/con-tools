@@ -178,7 +178,7 @@ class Model_Ticket extends ORM {
 		$this->status = self::STATUS_REFUNDED;
 		$this->cancel_reason = $reason;
 		if ($refundAmount > 0)
-			Model_Coupon::persist($refundType, $this->user, $refundAmount);
+			Model_Coupon::persist($refundType, $this->user, "Refund for ticket:" . $this->pk(), $refundAmount);
 		return $this->save();
 	}
 	
