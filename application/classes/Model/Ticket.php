@@ -55,7 +55,7 @@ class Model_Ticket extends ORM {
 		return DB::select([DB::expr('SUM(`amount`)'), 'total_tickets'])->
 				from((new Model_Ticket())->table_name())->
 				where('timeslot_id', '=', $timeslot->pk())->
-				where('status','<>', self::STATUS_CANCELLED)->
+				where('status','NOT IN', [self::STATUS_CANCELLED, self::STATUS_REFUNDED])->
 				execute()->get('total_tickets') ?: 0;
 	}
 	
