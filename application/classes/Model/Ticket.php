@@ -106,9 +106,9 @@ class Model_Ticket extends ORM {
 	public function consumeCoupons() {
 		Database::instance()->begin(); // work in transactions, in case I need to duplicate coupons
 		foreach (Model_Coupon::unconsumedForUser($this->user, $this->convention) as $coupon) {
-			$coupon->consume($this);
 			if ($this->price <= 0)
 				break; // stop consuming coupons, there's no more need
+			$coupon->consume($this);
 		}
 		$this->save();
 		Database::instance()->commit();
