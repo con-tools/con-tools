@@ -171,6 +171,18 @@ class Model_Convention extends ORM {
 					" from " . $ticket->reserved_time->format(DateTime::ATOM));
 			$ticket->cancel("internal:reservation-timeout");
 		}
+		
+		// calculate oldest processing time
+		$maxproctime = @$this->get('settings')['max-processing-time'] ?: "PT12H";
+		$maxproctime = new DateInterval($maxproctime);
+		$maxproctime->invert = 1;
+		$last = new DateTime();
+		$last->add($maxproctime);
+		foreach (Model_Ticket::processingByReserveTime($last) as $ticket) {
+			Logger::info("Expiring old processing ticket " . $ticket->pk() . " for " . $ticket->user->email .
+					" from " . $ticket->reserved_time->format(DateTime::ATOM));
+			$ticket->cancel("internal:processing-timeout");
+		}
 	}
 	
 	public function get($column) {
