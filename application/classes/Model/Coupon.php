@@ -43,7 +43,7 @@ class Model_Coupon extends ORM {
 		$o = new Model_Coupon();
 		$o->user = $user;
 		$o->coupon_type = $coupon;
-		$o->value = is_null($value) ? $coupon->value : $value;
+		$o->value = $value ?? $coupon->value;
 		if ($ticket)
 			$o->ticket = $ticket;
 		$o->created_time = new DateTime();
@@ -76,6 +76,9 @@ class Model_Coupon extends ORM {
 	public function consume(Model_Ticket $ticket) {
 		if ($this->ticket_id) // sanity - we already have a ticket
 			throw new Exception("Trying to double consume coupon " . $this->pk() . " for ticket " . $ticket->pk() . "!");
+		
+		if ($ticket->price <= 0)
+			return; // no need to consume this coupon
 		
 		if ($this->isMultiuse()) {
 			// multi use coupons mean we generate a duplicate and list it as being used, while
