@@ -6,6 +6,7 @@ class Model_Ticket extends ORM {
 	const STATUS_PROCESSING = 'processing';
 	const STATUS_AUTHORIZED = 'authorized';
 	const STATUS_CANCELLED = 'cancelled';
+	const STATUS_REFUNDED = 'refunded';
 	
 	protected $_belongs_to = [
 			'user' => [],
@@ -26,7 +27,7 @@ class Model_Ticket extends ORM {
 			// data fields
 			'amount' => [], // number of tickets
 			'price' => [], // fullfilment price for the entire model (i.e when amount > 1, for all the amount)
-			'status' => [ 'type' => 'enum', 'values' => [ 'reserved', 'processing', 'authorized', 'cancelled' ]],
+			'status' => [ 'type' => 'enum', 'values' => [ 'reserved', 'processing', 'authorized', 'cancelled', 'refunded' ]],
 			'reserved_time' => [ 'type' => 'DateTime' ],
 			'cancel_reason' => [],
 	];
@@ -165,7 +166,9 @@ class Model_Ticket extends ORM {
 			throw new Exception("Cannot refund a ticket that has not been payed for yet");
 		$refundAmount = $this->price;
 		$this->returnCoupons();
-		$this->status = self::STATUS_CANCELLED;
+		// reset amount after "return coupons" to show how much the user has actually paid - this is important for consolidation
+		$this->price = $refundAmount;
+		$this->status = self::STATUS_REFUNDED;
 		$this->cancel_reason = $reason;
 		if ($refundAmount > 0)
 			Model_Coupon::persist($refundType, $this->user, $refundAmount);
