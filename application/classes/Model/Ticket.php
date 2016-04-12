@@ -71,6 +71,13 @@ class Model_Ticket extends ORM {
 				->find_all();
 	}
 	
+	public static function processingByReserveTime(DateTime $latest) : Database_Result {
+		return (new Model_Ticket())
+				->where('status','=', self::STATUS_PROCESSING)
+				->where('reserved_time', '<', $latest->format('Y-m-d H:i:s'))
+				->find_all();
+	}
+	
 	/**
 	 * Retrieve the ticket shopping card for the user
 	 * @param Model_Convention $con Convention where the user goes
