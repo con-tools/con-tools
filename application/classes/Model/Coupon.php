@@ -43,7 +43,7 @@ class Model_Coupon extends ORM {
 		$o = new Model_Coupon();
 		$o->user = $user;
 		$o->coupon_type = $coupon;
-		$o->value = $value ?: $coupon->value;
+		$o->value = is_null($value) ? $coupon->value : $value;
 		if ($ticket)
 			$o->ticket = $ticket;
 		$o->created_time = new DateTime();
