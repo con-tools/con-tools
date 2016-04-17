@@ -57,7 +57,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 			$filters['coupon_type_id'] = $data->by_type;
 		if ($data->by_user)
 			$filters['user_id'] = $this->loadUserByIdOrEmail($data->by_user)->pk();
-		return ORM::result_for_json(
+		return ORM::result_for_json(array_values(
 				array_filter(Model_Coupon::byConvention($this->convention)->as_array(),
 						function($coupon) use ($filters) {
 							foreach ($filters as $field => $value) {
@@ -65,7 +65,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 									return false;
 							}
 							return true;
-						}), 'for_json_With_tickets');
+						})), 'for_json_With_tickets');
 	}
 	
 	private function getUserCoupons() {
