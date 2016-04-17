@@ -3,8 +3,8 @@
 class Database_MySQLi extends Kohana_Database_MySQLi {
 	
 	public function connect() {
+		$tries = 3;
 		while (true) {
-			$tries = 3;
 			try {
 				return parent::connect();
 			} catch (Database_Exception $e) {
