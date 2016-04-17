@@ -11,6 +11,7 @@ class Database_MySQLi extends Kohana_Database_MySQLi {
 				if (--$tries < 0)
 					throw $e;
 				Logger::warn("Database connection failed: " . $e->getMessage() . ", retrying");
+				sleep(3);
 			}
 		}
 	}
