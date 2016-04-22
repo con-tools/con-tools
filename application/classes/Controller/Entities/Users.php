@@ -56,14 +56,7 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 		if (!$this->convention or !$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to list users!");
 		$users = [];
-		foreach ((new Model_User)->find_all() as $user) {
-			$users[] = [
-					'id' => $user->pk(),
-					'email' => $user->email,
-					'name' => $user->name,
-			];
-		}
-		return $users;
+		return ORM::result_for_json(Model_User::all());
 	}
 	
 }

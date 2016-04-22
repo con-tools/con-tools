@@ -53,7 +53,7 @@ class Model_User extends ORM {
 			],
 		];
 	}
-
+	
 	/**
 	 * Perform a login by retrieving or generating a relevant login token
 	 * and updating all relevant time fields
@@ -188,6 +188,10 @@ class Model_User extends ORM {
 		return $user;
 	}
 	
+	public static function all() {
+		return (new Model_User())->find_all();
+	}
+	
 	/**
 	 * Return an array containing the fields from the user records that would be interesting to
 	 * an authorized client.
@@ -207,8 +211,11 @@ class Model_User extends ORM {
 	 */
 	public function for_json() {
 		return [
+				'id' => $this->pk(),
 				'name' => $this->name,
 				'email' => $this->email,
+				'phone' => $this->phone,
+				'date_of_birth' => $this->date_of_birth,
 		];
 	}
 }
