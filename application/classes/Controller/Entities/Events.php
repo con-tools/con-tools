@@ -125,7 +125,7 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 				$o->set($field, $value);
 			return $o->save()->for_json();
 		}
-		return null;
+		throw new Api_Exception_Unauthorized($this, "Not allowed to edit this event");
 	}
 	
 	protected function delete($id) {
