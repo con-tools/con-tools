@@ -99,7 +99,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			// ehmm.. no default filters, unless the caller asked for a user filter
 			if ($data->by_user) {
 				if (is_numeric($data->by_user))
-					$filters['users.user_id'] = $data->by_user;
+					$filters['ticket.user_id'] = $data->by_user;
 				else
 					$filters['email'] = $data->by_user;
 			}
