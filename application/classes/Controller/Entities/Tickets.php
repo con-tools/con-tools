@@ -46,6 +46,8 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No ticket found");
 		if ($ticket->isAuthorized() or $ticket->isCancelled())
 			throw new Api_Exception_InvalidInput($this, "Cannot update a ticket that has been payed for or cancelled");
+		if ($amount - $ticket->amount > $ticket->timeslot->available_tickets)
+			throw new Api_Exception_InvalidInput($this, "No more tickets left");
 		Database::instance()->begin();
 		$ticket->setAmount($amount);
 		
