@@ -118,10 +118,10 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	}
 	
 	private function getValidUser() {
+		if ($this->systemAccessAllowed() and $this->input()->user)
+			return $this->loadUserByIdOrEmail($this->input()->user);
 		if ($this->user) // user authenticated themselves - fine
 			return $this->user;
-		if ($this->convention->isAuthorized() and $this->input()->user)
-			return $this->loadUserByIdOrEmail($this->input()->user, $this->input()->user);
 		throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
 	}
 	
