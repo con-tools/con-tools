@@ -31,7 +31,10 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 		if (!$this->systemAccessAllowed() and !($this->user and $this->user->pk() == $id))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to lookup users!");
 		$user = $this->loadUserByIdOrEmail($id);
-		return $user->for_json();
+		return array_merge($user->for_json(), [
+						'coupons' => ORM::result_for_json(Model_Coupon::byConventionUser($this->convention, $user)),
+						'tickets' => ORM::result_for_json(Model_Coupon::byConventionUser($this->convention, $user)),
+				]);
 	}
 	
 	/**
