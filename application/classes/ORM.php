@@ -100,6 +100,10 @@ class ORM extends Kohana_ORM {
 		return $out;
 	}
 	
+	public function __toString() {
+		return '[' . $this->_object_name . ':' . $this->pk() . ']';
+	}
+	
 	/**
 	 * Helper call to convert an array or Database_Result to an array of "for_json" objects
 	 * @param array|Database_Result $result
