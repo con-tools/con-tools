@@ -233,7 +233,7 @@ class Model_Ticket extends ORM {
 	}
 
 	public function isAuthorized() {
-		return $this->status == self::STATUS_AUTHORIZED;
+		return $this->status == self::STATUS_AUTHORIZED || ($this->sale_id and $this->sale->transaction_id);
 	}
 
 	public function isCancelled() {
