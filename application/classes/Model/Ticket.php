@@ -32,6 +32,14 @@ class Model_Ticket extends ORM {
 			'cancel_reason' => [],
 	];
 	
+	public static function validStatuses() {
+		return [
+				self::STATUS_RESERVED,
+				self::STATUS_PROCESSING,
+				self::STATUS_AUTHORIZED,
+		];
+	}
+	
 	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1, $price = null) : Model_Ticket {
 		$o = new Model_Ticket();
 		$o->user = $user;
