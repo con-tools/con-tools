@@ -211,10 +211,6 @@ class Model_Convention extends ORM {
 		return false;
 	}
 	
-	public function __toString() {
-		return '[Convention:'. $this->pk(). ']';
-	}
-	
 	/**
 	 * Don't expose private convention settings in public convnetion view
 	 * {@inheritDoc}
