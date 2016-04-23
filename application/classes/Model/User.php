@@ -192,6 +192,11 @@ class Model_User extends ORM {
 		return (new Model_User())->find_all();
 	}
 	
+	public function __toString()
+	{
+		return '[user:'. $this->pk() . ':' . $this->email . ']';
+	}
+	
 	/**
 	 * Return an array containing the fields from the user records that would be interesting to
 	 * an authorized client.
