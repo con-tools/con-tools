@@ -93,6 +93,22 @@ class Model_Ticket extends ORM {
 				find_all();
 	}
 	
+	/**
+	 * Retrieve all tickets for the user in the convention, regardless of status.
+	 * Compare with {@link Model_Ticket#shoppingCart()}
+	 * @param Model_Convention $con
+	 * @param Model_User $user
+	 * @return Database_Result
+	 */
+	public static function byConventionUSer(Model_Convention $con, Model_User $user) : Database_Result {
+		return (new Model_Ticket())->
+				with('timeslot:event')->
+				with('user')->
+				where('convention_id', '=', $con->pk())->
+				where('ticket.user_id','=',$user->pk())->
+				find_all();
+	}
+	
 	public static function oldTickets(DateTime $than) {
 		return (new Model_Ticket())->
 			with('timeslot:event')->
