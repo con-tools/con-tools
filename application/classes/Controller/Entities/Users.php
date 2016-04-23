@@ -28,9 +28,9 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 	 * @return stdClass Record data
 	 */
 	protected function retrieve($id) {
-		if (!$this->convention or !$this->convention->isManager($this->user))
+		if (!$this->systemAccessAllowed() and !($this->user and $this->user->pk() == $id))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to lookup users!");
-		$user = $this->loadUserByIdOrEmail($id, $id);
+		$user = $this->loadUserByIdOrEmail($id);
 		return $user->for_json();
 	}
 	
