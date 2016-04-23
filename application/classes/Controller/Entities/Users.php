@@ -33,7 +33,7 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 		$user = $this->loadUserByIdOrEmail($id);
 		return array_merge($user->for_json(), [
 						'coupons' => ORM::result_for_json(Model_Coupon::byConventionUser($this->convention, $user)),
-						'tickets' => ORM::result_for_json(Model_Coupon::byConventionUser($this->convention, $user)),
+						'tickets' => ORM::result_for_json(Model_Ticket::byConventionUser($this->convention, $user)),
 				]);
 	}
 	
