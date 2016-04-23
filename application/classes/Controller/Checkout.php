@@ -82,7 +82,13 @@ class Controller_Checkout extends Api_Controller {
 		if (!$data->ok || !$data->fail)
 			throw new Api_Exception_InvalidInput($this, "Checkout requires an 'ok' URL and a 'fail' URL");
 		
-		$sale = Model_Sale::persist($user, $convention);
+		if ($data->user && $convention->isManager($user)) { // let a cashier checkout another user
+			$cashier = $user;
+			$user = $this->loadUserByIdOrEmail($data->user);
+			Logger::info("Starting CC checkout for {$user} by cashier {$cashier}");
+		}
+		
+		$sale = Model_Sale::persist($user, $convention, $cashier);
 		if (($total = $sale->getTotal()) == 0) {
 			Logger::info("User ".$user->pk()." completes sale with 0 cost");
 			$sale->authorized("internal:zero-transaction");
