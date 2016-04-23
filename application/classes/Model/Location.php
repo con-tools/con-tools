@@ -71,7 +71,7 @@ class Model_Location extends ORM {
 	public function for_json_with_timeslots() {
 		return array_merge(
 				$this->for_json(),
-				['timeslots' => self::result_for_json($this->timeslots->find_all()) ]
+				['timeslots' => self::result_for_json($this->timeslots->where('status','IN',Model_Timeslot::validStatuses())->find_all()) ]
 				);
 	}
 	
