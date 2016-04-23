@@ -82,6 +82,7 @@ class Controller_Checkout extends Api_Controller {
 		if (!$data->ok || !$data->fail)
 			throw new Api_Exception_InvalidInput($this, "Checkout requires an 'ok' URL and a 'fail' URL");
 		
+		$cashier = null;
 		if ($data->user && $convention->isManager($user)) { // let a cashier checkout another user
 			$cashier = $user;
 			$user = $this->loadUserByIdOrEmail($data->user);
