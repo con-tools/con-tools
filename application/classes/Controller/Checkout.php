@@ -55,6 +55,25 @@ class Controller_Checkout extends Api_Controller {
 		}
 	}
 	
+	public function action_cashout() {
+		$convention = $this->verifyConventionKey();
+		$cashier = $this->verifyAuthentication()->user;
+		if (!$convention->isManager($cashier))
+			throw new Api_Exception_Unauthorized($this, "Not allowed to perform cash checkout!");
+		if (!$this->request->method() == 'POST')
+			throw new Api_Exception_InvalidInput($this, "Cache checkout must be post");
+		$received = (float)$this->input()->amount;
+		$user = $this->loadUserByIdOrEmail($this->input()->user);
+		$sale = Model_Sale::persist($user, $convention, $cashier);
+		$total = $sale->getTotal();
+		if ($total == $received)
+			Logger::info("Cashout, received: {$received} through cashier {$cashier} for ${user} on {$sale}");
+		else // TODO: figure out how to handle partial cashouts
+			Logger::warn("Cashout, received incomplete payout of {$received} through cashier {$cashier} for ${user} on {$sale}, clearing anyway");
+		$sale->authorized("cashout:" . $cashier->name);
+		$this->send([ 'status' => true ]);
+	}
+	
 	private function startCheckout() {
 		$convention = $this->verifyConventionKey();
 		$user = $this->verifyAuthentication()->user;
