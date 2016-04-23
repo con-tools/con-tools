@@ -2,6 +2,9 @@
 
 class Model_Timeslot extends ORM {
 	
+	const STATUS_SCHEUDLED = 0;
+	const STATUS_CANCELLED = 1;
+	
 	protected $_belongs_to = [
 			'event' => [],
 	];
@@ -18,6 +21,7 @@ class Model_Timeslot extends ORM {
 			// foreign keys
 			'event_id' => [],
 			// data fields
+			'status' => [],
 			'start_time' => [ 'type' => 'DateTime' ],
 			'duration' => [],
 			'min_attendees' => [],
@@ -25,10 +29,17 @@ class Model_Timeslot extends ORM {
 			'notes_to_attendees' => [],
 	];
 	
+	public static function validStatuses() {
+		return [
+				self::STATUS_SCHEUDLED,
+		];
+	}
+	
 	public static function persist(Model_Event $event, DateTime $start, $duration, $min_attendees, $max_attendees,
 			$notes_to_attendees) : Model_Timeslot {
 		$o = new Model_Timeslot();
 		$o->event = $event;
+		$o->status = self::STATUS_SCHEUDLED;
 		$o->start_time = $start;
 		$o->duration = $duration ?: $event->duration;
 		$o->min_attendees = $min_attendees ?: $event->min_attendees;
@@ -48,10 +59,15 @@ class Model_Timeslot extends ORM {
 	 * @return ORM a model object with the query loaded
 	 */
 	public static function queryForConvention(Model_Convention $con, $public = false) : ORM {
-		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $con->pk());
+		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $con->pk())->
+			where('timeslot.status','IN', [ self::STATUS_SCHEUDLED ]);
 		if ($public)
 			$query = $query->where('event.status', 'IN', Model_Event::public_statuses());
 		return $query;
+	}
+	
+	public function validTickets() {
+		return $this->tickets->where('ticket.status','in', Model_Ticket::validStatuses())->find_all();
 	}
 
 	public function get($column) {
@@ -89,6 +105,11 @@ class Model_Timeslot extends ORM {
 				or
 				($this->start_time->diff($beforeend)->invert == 1) // my start is >= than their time
 				);
+	}
+	
+	public function cancel() {
+		$this->status = self::STATUS_CANCELLED;
+		$this->save();
 	}
 	
 	/**

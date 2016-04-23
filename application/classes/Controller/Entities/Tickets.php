@@ -85,6 +85,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$reason = $data->reason ?: "User " . $this->user->email . " cancelled";
 			if ($ticket->isAuthorized()) {
 				$refundType = new Model_Coupon_Type($data->refund_coupon_type);
+				Logger::debug("Starting refunding {$ticket} by {$this->user} using {$refundType}");
 				if ($ticket->price > 0 and !$refundType->loaded())
 					throw new Api_Exception_InvalidInput($this, "Ticket already authorized, and no \"refund-coupon-type\" specified");
 				$ticket->refund($refundType, $reason);
