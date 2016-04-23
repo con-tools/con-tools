@@ -147,11 +147,12 @@ class Model_Coupon extends ORM {
 		$type = $this->coupon_type->for_json();
 		$con = $this->coupon_type->convention->for_json();
 		return array_merge(array_filter(parent::for_json(),function($key){
-			return in_array($key, [ 'id', 'value' ]);
+			return in_array($key, [ 'id', 'value', 'ticket_id' ]);
 		},ARRAY_FILTER_USE_KEY), [
 				'user' => $user,
 				'type' => $type,
 				'convention' => $con,
+				'used' => !is_null($this->ticket_id),
 		]);
 	}
 	
