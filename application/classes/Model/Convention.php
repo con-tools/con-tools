@@ -151,7 +151,7 @@ class Model_Convention extends ORM {
 		$query = Model_Ticket::queryForConvention($this);
 		foreach ($filters as $field  => $value) {
 			if ($field == 'valid') // don't show cancelled
-				$query = $query->where('ticket.status', '<>', Model_Ticket::STATUS_CANCELLED);
+				$query = $query->where('ticket.status', 'NOT IN', [ Model_Ticket::STATUS_CANCELLED, Model_Ticket::STATUS_REFUNDED ]);
 			else
 				$query = $query->where($field,'=',$value);
 		}
