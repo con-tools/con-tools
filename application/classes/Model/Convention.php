@@ -115,6 +115,7 @@ class Model_Convention extends ORM {
 		}
 		foreach ($filters as $field  => $value)
 			$query = $query->where($field,'=',$value);
+		$query->where('timeslot.status', 'IN', Model_Timeslot::validStatuses());
 		return $query->find_all();
 	}
 	
