@@ -122,4 +122,17 @@ class Model_Sale extends ORM {
 	public function failReason() {
 		return str_replace("FAILED:","", $this->transaction_id);
 	}
+	
+	public function for_json() {
+		return array_merge(array_filter(parent::for_json(),function($key){
+			return in_array($key, [
+					'id', 'transaction_id', 'sale_time', 'cancellation_notes', 'processor_data',
+			]);
+		},ARRAY_FILTER_USE_KEY),[
+				'user' => $this->user->for_json(),
+				'cashier' => $this->cashier_id ? $this->cashier->for_json() : null,
+		]);
+	
+	}
+	
 };
