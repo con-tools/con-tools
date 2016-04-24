@@ -243,12 +243,13 @@ class Model_Ticket extends ORM {
 	public function for_json_with_coupons() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'status', 'amount', 'sale-id', 'price', 'reserved-time',
+					'id', 'status', 'amount', 'price', 'reserved-time',
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 				'timeslot' => $this->timeslot->for_json(),
 				'user' => $this->user->for_json(),
 				'coupons' => self::result_for_json($this->coupons->find_all()),
+				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
 		
 	}
@@ -256,11 +257,12 @@ class Model_Ticket extends ORM {
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'status', 'amount', 'sale-id', 'price', 'reserved-time',
+					'id', 'status', 'amount', 'price', 'reserved-time',
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 				'timeslot' => $this->timeslot->for_json(),
 				'user' => $this->user->for_json(),
+				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
 		
 	}
