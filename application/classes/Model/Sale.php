@@ -126,7 +126,7 @@ class Model_Sale extends ORM {
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'transaction_id', 'sale_time', 'cancellation_notes', 'processor_data',
+					'id', 'transaction-id', 'sale-time', 'cancellation-notes', 'processor-data',
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 				'user' => $this->user->for_json(),
