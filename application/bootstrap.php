@@ -2,6 +2,8 @@
 
 // -- Environment setup --------------------------------------------------------
 
+date_default_timezone_set('UTC'); // PHP has a really weird default time zone
+
 /**
  * Autoload composer libraries
  */
@@ -27,7 +29,7 @@ else
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('UTC');
+date_default_timezone_set('America/Chicago');
 
 /**
  * Set the default locale.
