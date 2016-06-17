@@ -39,7 +39,7 @@ class Model_Location extends ORM {
 	public static function byConventionSlug(Model_Convention $con, string $slug) : Model_Location {
 		$o = (new Model_Location)
 			->where('slug', '=', $slug)
-			->where('convention_id', '=', $con->primary_key())
+			->where('convention_id', '=', $con->pk())
 			->find();
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
