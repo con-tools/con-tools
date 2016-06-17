@@ -181,7 +181,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		
 		return array_map(function($slug){
 			try {
-				return Model_Location::bySlug($slug);
+				return Model_Location::byConventionSlug($this->convention, $slug);
 			} catch (Model_Exception_NotFound $e) {
 				throw new Api_Exception_InvalidInput($this, "Invalid location specified: '$slug'");
 			}

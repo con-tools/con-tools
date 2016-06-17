@@ -20,7 +20,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 	
 	protected function retrieve($id) {
 		try {
-			return Model_Location::bySlug($id)->for_json_with_timeslots();
+			return Model_Location::byConventionSlug($this->convention, $id)->for_json_with_timeslots();
 		} catch (Model_Exception_NotFound $e) {
 			return null;
 		}
@@ -31,7 +31,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not authorized to update locations!");
 		$data = $this->input();
 		try {
-			$o = Model_Location::bySlug($id);
+			$o = Model_Location::bySlug($this->convention, $id);
 			if ($data->title)
 				$o->title = $data->title;
 			if ($data->area)
@@ -48,7 +48,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete locations!");
 		try {
-			$loc = Model_Location::bySlug($id);
+			$loc = Model_Location::bySlug($this->convention, $id);
 			try {
 				$loc->delete();
 			} catch (Database_Exception $e) {

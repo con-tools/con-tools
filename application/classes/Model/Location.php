@@ -33,10 +33,14 @@ class Model_Location extends ORM {
 	
 	/**
 	 * Retrieve a location by its slug
+	 * @param Model_Convention $convention where to lookup the location
 	 * @param string $slug slug to look up
 	 */
-	public static function bySlug(string $slug) : Model_Location {
-		$o = (new Model_Location)->where('slug', '=', $slug)->find();
+	public static function byConventionSlug(Model_Convention $con, string $slug) : Model_Location {
+		$o = (new Model_Location)
+			->where('slug', '=', $slug)
+			->where('convention_id', '=', $con->primary_key())
+			->find();
 		if (!$o->loaded())
 			throw new Model_Exception_NotFound();
 		return $o;
