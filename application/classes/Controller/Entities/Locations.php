@@ -31,7 +31,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not authorized to update locations!");
 		$data = $this->input();
 		try {
-			$o = Model_Location::bySlug($this->convention, $id);
+			$o = Model_Location::byConventionSlug($this->convention, $id);
 			if ($data->title)
 				$o->title = $data->title;
 			if ($data->area)
@@ -48,7 +48,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete locations!");
 		try {
-			$loc = Model_Location::bySlug($this->convention, $id);
+			$loc = Model_Location::byConventionSlug($this->convention, $id);
 			try {
 				$loc->delete();
 			} catch (Database_Exception $e) {
