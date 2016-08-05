@@ -7,7 +7,7 @@ class Log_Logentries extends Log_Writer {
 	private $token;
 	
 	public function __construct($config) {
-		$LOGENTRIES_TOKEN = '51d2b1cb-d44f-4fd8-83d7-f4058253855e';
+		$LOGENTRIES_TOKEN = 'xx-xx-xx-xx';
 		$DATAHUB_ENABLED = false;
 		$DATAHUB_IP_ADDRESS = "";
 		$DATAHUB_PORT = 10000;
