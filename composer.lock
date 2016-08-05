@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "277771b775a0eb4c7bac5c7e691504f6",
-    "content-hash": "cde65e8a40ee3239d36048fe19bf34cb",
+    "hash": "f1f7922b029e185b394dcac45ec96345",
+    "content-hash": "e918add1cf47e96b6b6e8150a9380d87",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -168,23 +168,28 @@
         },
         {
             "name": "con-troll/auth-openid-connect",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "93232a1d55068eaa00634d1b6906e0872c961de6"
+                "reference": "25bfc30599c9c0a092ccc4ea7a574e17a3dce3d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/93232a1d55068eaa00634d1b6906e0872c961de6",
-                "reference": "93232a1d55068eaa00634d1b6906e0872c961de6",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/25bfc30599c9c0a092ccc4ea7a574e17a3dce3d7",
+                "reference": "25bfc30599c9c0a092ccc4ea7a574e17a3dce3d7",
                 "shasum": ""
+            },
+            "archive": {
+                "exclude": [
+                    ".*"
+                ]
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=5.6",
-                "phpseclib/phpseclib": "~1.0"
+                "phpseclib/phpseclib": "~2.0"
             },
             "type": "library",
             "autoload": {
@@ -192,21 +197,20 @@
                     "init.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
             "authors": [
                 {
+                    "name": "Michael Jett",
+                    "email": "mjett@mitre.org",
+                    "homepage": "https://github.com/jumbojett"
+                },
+                {
                     "name": "Oded Arbel",
                     "email": "oded@geek.co.il",
                     "homepage": "http://geek.co.il",
                     "role": "developer"
-                },
-                {
-                    "name": "Michael Jett",
-                    "email": "mjett@mitre.org",
-                    "homepage": "https://github.com/jumbojett"
                 },
                 {
                     "name": "Itai Ben-Ivri",
@@ -215,20 +219,23 @@
                 }
             ],
             "description": "Simple OpenID Connect library",
-            "time": "2016-02-14 09:19:25"
+            "support": {
+                "source": "https://github.com/con-troll/Auth-OpenID-Connect/tree/master"
+            },
+            "time": "2016-08-05 17:37:17"
         },
         {
             "name": "guss77/kohana-paypal",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/kohana-paypal.git",
-                "reference": "bf6a66d4770dadd2954fb4f74f9a3c0524b6855a"
+                "reference": "bd66c29aec5be9438fed39c8f0b81c7cafd6d540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/kohana-paypal/zipball/bf6a66d4770dadd2954fb4f74f9a3c0524b6855a",
-                "reference": "bf6a66d4770dadd2954fb4f74f9a3c0524b6855a",
+                "url": "https://api.github.com/repos/guss77/kohana-paypal/zipball/bd66c29aec5be9438fed39c8f0b81c7cafd6d540",
+                "reference": "bd66c29aec5be9438fed39c8f0b81c7cafd6d540",
                 "shasum": ""
             },
             "require": {
@@ -254,7 +261,7 @@
             ],
             "description": "Kohana module to add PayPal payment options to a Kohana application",
             "homepage": "http://github.com/guss77/kohana-paypal",
-            "time": "2015-09-04 21:19:47"
+            "time": "2016-08-05 16:17:43"
         },
         {
             "name": "guss77/kohana-routing",
@@ -944,17 +951,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guss77/oauth1-client.git",
-                "reference": "604c93176c257ade6daa60c70e36c0d2caa2ee4c"
+                "reference": "988308a2137a1174663e9f8ea6ec308f12e1b089"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/oauth1-client/zipball/604c93176c257ade6daa60c70e36c0d2caa2ee4c",
-                "reference": "604c93176c257ade6daa60c70e36c0d2caa2ee4c",
+                "url": "https://api.github.com/repos/guss77/oauth1-client/zipball/988308a2137a1174663e9f8ea6ec308f12e1b089",
+                "reference": "988308a2137a1174663e9f8ea6ec308f12e1b089",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
-                "php": ">=5.3.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
@@ -1001,7 +1008,7 @@
             "support": {
                 "source": "https://github.com/guss77/oauth1-client/tree/patch-1"
             },
-            "time": "2016-08-05 10:33:06"
+            "time": "2016-08-05 10:54:14"
         },
         {
             "name": "league/oauth2-client",
@@ -1197,20 +1204,20 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "1.0.x-dev",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "e6a2ce1d6dd31d0506b4e9ff56f84a2f395e7227"
+                "reference": "719fb8d7a86b17ffb8d6d6bc4c21954303415f83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/e6a2ce1d6dd31d0506b4e9ff56f84a2f395e7227",
-                "reference": "e6a2ce1d6dd31d0506b4e9ff56f84a2f395e7227",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/719fb8d7a86b17ffb8d6d6bc4c21954303415f83",
+                "reference": "719fb8d7a86b17ffb8d6d6bc4c21954303415f83",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.0.0"
+                "php": ">=5.3.3"
             },
             "require-dev": {
                 "phing/phing": "~2.7",
@@ -1220,8 +1227,9 @@
             },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 5.0.0."
+                "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
             "type": "library",
             "autoload": {
@@ -1233,9 +1241,6 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "phpseclib/"
-            ],
             "license": [
                 "MIT"
             ],
@@ -1287,7 +1292,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-08-04 12:30:46"
+            "time": "2016-08-04 12:32:07"
         },
         {
             "name": "psr/http-message",
@@ -1295,12 +1300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "d0aabc038f1f3ff665dfe1e9673bcd0df609c681"
+                "reference": "14b9b813c5e36af4498ef38ef97938bf7090fd52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/d0aabc038f1f3ff665dfe1e9673bcd0df609c681",
-                "reference": "d0aabc038f1f3ff665dfe1e9673bcd0df609c681",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/14b9b813c5e36af4498ef38ef97938bf7090fd52",
+                "reference": "14b9b813c5e36af4498ef38ef97938bf7090fd52",
                 "shasum": ""
             },
             "require": {
@@ -1337,7 +1342,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-03 19:47:37"
+            "time": "2016-08-05 11:47:47"
         },
         {
             "name": "psr/log",
@@ -2999,6 +3004,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "con-troll/auth-openid-connect": 20,
         "tommcdo/kohana-twig": 20,
         "aptoma/twig-markdown": 20,
         "league/commonmark": 20,
