@@ -3,4 +3,4 @@
 (
     cd public
     php -r 'include "index.php";'
-) | links -stdin -dump
+) | elinks -dump
