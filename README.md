@@ -78,3 +78,11 @@ application/project in each relevant provider, and add those to the `.secrets` f
     FACEBOOK_AUTH_CLIENT=APPLICATIONSECRETKEY
     GOOGLE_AUTH_CLIENT=CLIENT_ID.apps.googleusercontent.com:SECRETKEY
     TWITTER_AUTH_CLIENT=CLIENT_ID:SECRETKEY
+
+If you prefer to not use an SSO login - for example, to just run some API calls through Postman - you can use an 
+administrator level password access to generate your authentication token. You can run this script:
+
+```
+./scripts/docker-login.sh
+```
+which will create an admin level login on the docker image and will present you with the authentication token for it.
