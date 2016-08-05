@@ -192,6 +192,17 @@ class Model_User extends ORM {
 		return (new Model_User())->find_all();
 	}
 	
+	/**
+	 * Retrieve all convention registrants (i.e. users who registered for a convention)
+	 * @param Model_Convention $con Convention to retrieve users for
+	 * @return Generator list of users
+	 */
+	public static function byConvention(Model_Convention $con) {
+		foreach ((new Model_Ticket())->with('sale')->where('convention_id', '=', $con->pk())->find_all() as $ticket) {
+			yield $ticket->user;
+		}
+	}
+	
 	public function __toString()
 	{
 		return '[user:'. $this->pk() . ':' . $this->email . ']';
