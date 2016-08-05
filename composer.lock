@@ -172,12 +172,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "29acd2376433625cb0f54ae9ec56dd48fd876bab"
+                "reference": "b771f346baef556dec6a8119d86813df0a987f0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/29acd2376433625cb0f54ae9ec56dd48fd876bab",
-                "reference": "29acd2376433625cb0f54ae9ec56dd48fd876bab",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/b771f346baef556dec6a8119d86813df0a987f0f",
+                "reference": "b771f346baef556dec6a8119d86813df0a987f0f",
                 "shasum": ""
             },
             "archive": {
@@ -222,7 +222,7 @@
             "support": {
                 "source": "https://github.com/con-troll/Auth-OpenID-Connect/tree/master"
             },
-            "time": "2016-08-05 18:02:55"
+            "time": "2016-08-05 18:07:54"
         },
         {
             "name": "guss77/kohana-paypal",
