@@ -1,19 +1,19 @@
 web:
   build: .
-  command: 'bash -c ''vendor/bin/heroku-php-apache2 public/'''
-  working_dir: /app/user
   environment:
     PORT: 8080
     DOCKER_DSN: mysql://root:secret@mysql/controll
     DB_URL_ENV_NAME: DOCKER_DSN
     LOGENTRIES_TOKEN: 67c76483-9e29-4299-bb08-655389e6e4bd
   volumes:
-   - ./application:/app/user/application
-   - ./public:/app/user/public
+   - ./application:/var/www/application
+   - ./composer.json:/var/www/composer.json
+   - ./composer.lock:/var/www/composer.lock
+   - ./public:/var/www/app
   env_file:
    - .secrets
   ports:
-    - '8080:8080'
+    - '8080:80'
   links:
     - mysql
 
