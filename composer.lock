@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca4aa8e080663b6baa50c8af4bd4217c",
+    "content-hash": "dcc4621746a097235891e1efa68060d7",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -318,12 +318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "6a99df94a22f01b4b9c32ed8789cf30d05bdba92"
+                "reference": "437c0c33217953b3b75e5080b73554da5f76b179"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6a99df94a22f01b4b9c32ed8789cf30d05bdba92",
-                "reference": "6a99df94a22f01b4b9c32ed8789cf30d05bdba92",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/437c0c33217953b3b75e5080b73554da5f76b179",
+                "reference": "437c0c33217953b3b75e5080b73554da5f76b179",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-02-19 15:59:27"
+            "time": "2017-02-23 20:32:34"
         },
         {
             "name": "guzzlehttp/promises",
@@ -955,26 +955,26 @@
         },
         {
             "name": "league/oauth1-client",
-            "version": "dev-patch-1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guss77/oauth1-client.git",
-                "reference": "988308a2137a1174663e9f8ea6ec308f12e1b089"
+                "url": "https://github.com/thephpleague/oauth1-client.git",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guss77/oauth1-client/zipball/988308a2137a1174663e9f8ea6ec308f12e1b089",
-                "reference": "988308a2137a1174663e9f8ea6ec308f12e1b089",
+                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/fca5f160650cb74d23fc11aa570dd61f86dcf647",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~6.0",
+                "guzzlehttp/guzzle": "^6.0",
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.0"
             },
             "type": "library",
             "extra": {
@@ -987,6 +987,7 @@
                     "League\\OAuth1\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1000,7 +1001,8 @@
             ],
             "description": "OAuth 1.0 Client Library",
             "keywords": [
-                "authentication",
+                "Authentication",
+                "SSO",
                 "authorization",
                 "bitbucket",
                 "identity",
@@ -1008,15 +1010,11 @@
                 "oauth",
                 "oauth1",
                 "single sign on",
-                "sso",
                 "trello",
                 "tumblr",
                 "twitter"
             ],
-            "support": {
-                "source": "https://github.com/guss77/oauth1-client/tree/patch-1"
-            },
-            "time": "2016-08-05 10:54:14"
+            "time": "2016-08-17 00:36:58"
         },
         {
             "name": "league/oauth2-client",
@@ -1498,12 +1496,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "85d85209dccf325c1357b444a7c9b3a4a1852627"
+                "reference": "7f075aa497bc08559ea26350fa222492f40657f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/85d85209dccf325c1357b444a7c9b3a4a1852627",
-                "reference": "85d85209dccf325c1357b444a7c9b3a4a1852627",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7f075aa497bc08559ea26350fa222492f40657f7",
+                "reference": "7f075aa497bc08559ea26350fa222492f40657f7",
                 "shasum": ""
             },
             "require": {
@@ -1544,7 +1542,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-02-13 09:07:58"
+            "time": "2017-02-24 19:52:51"
         },
         {
             "name": "tommcdo/kohana-twig",
