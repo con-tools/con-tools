@@ -76,6 +76,12 @@ class Model_Timeslot extends ORM {
 				return (clone $this->start_time)->add(new DateInterval("PT".$this->duration."M"));
 			case 'available_tickets':
 				return $this->max_attendees - Model_Ticket::countForTimeslot($this);
+			case 'status_text':
+				switch($this->status) {
+					case self::STATUS_SCHEUDLED: return 'scheduled';
+					case self::STATUS_CANCELLED: return 'cancelled';
+					default: return 'unknown';
+				}
 			default: return parent::get($column);
 		}
 	}
@@ -126,7 +132,7 @@ class Model_Timeslot extends ORM {
 	public function for_json() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
-					'id', 'duration', 'min-attendees', 'max-attendees', 'notes-to-attendees'
+					'id', 'duration', 'min-attendees', 'max-attendees', 'notes-to-attendees',
 			]);
 		},ARRAY_FILTER_USE_KEY),[
 				'event' => $this->event->for_json(),
@@ -134,6 +140,7 @@ class Model_Timeslot extends ORM {
 				'hosts' => self::result_for_json($this->host_names->find_all()),
 				'available_tickets' => $this->available_tickets,
 				'locations' => self::result_for_json($this->locations->find_all()),
+				'status' => $this->status_text,
 		]);
 	}
 }

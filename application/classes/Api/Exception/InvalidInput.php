@@ -3,9 +3,11 @@
 class Api_Exception_InvalidInput extends HTTP_Exception_400 {
 	
 	private $source; // Controller that thrown this error
+	private $vars;
 	
 	public function __construct(Api_Controller $source_controller, $message = NULL, $variables = NULL, $previous = NULL) {
 		$this->source = $source_controller;
+		$this->vars = $variables;
 		parent::__construct($message, $variables, $previous);
 	}
 	
@@ -21,6 +23,8 @@ class Api_Exception_InvalidInput extends HTTP_Exception_400 {
 				'error' => $this->getMessage(),
 				//'server_html' => $res->body()
 				];
+		if ($this->vars)
+			$data['details'] = $this->vars;
 		$res->headers('Content-Type', 'application/json');
 		$res->body(json_encode($data));
 		$this->source->addCORSHeaders($res);

@@ -21,10 +21,12 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		// check that we don't input conflicting time slots
 		$duration = $data->duration ?: $event->duration;
 		$endtime = (clone $start)->add(new DateInterval("PT{$duration}M"));
-		foreach ($locations as $location) {
-			if (!$location->isAvailable($start, $endtime))
+		$conflicting_slots = [];
+		foreach ($locations as $location)
+			$location->isAvailable($start, $endtime, $conflicting_slots); // I'm not checking the status now, I'll review $conflicting_slots later
+		if (!empty($conflicting_slots)) {
 				throw new Api_Exception_InvalidInput($this, "Location {$location->title} is not available between ".
-						$start->format(DateTime::ATOM)." and ".$endtime->format(DateTime::ATOM)."!");
+						$start->format(DateTime::ATOM)." and ".$endtime->format(DateTime::ATOM)."!", ['timeslots' => $conflicting_slots]);
 		}
 				
 		// verify hosts
