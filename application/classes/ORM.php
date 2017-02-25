@@ -111,6 +111,9 @@ class ORM extends Kohana_ORM {
 	public static function result_for_json($result, $for_json_method = 'for_json') {
 		if ($result instanceof Database_Result)
 			$result = $result->as_array();
+		if ($result instanceof Generator) {
+			$result = iterator_to_array($result);
+		}
 		return array_map(function(ORM $ent) use($for_json_method) {
 			return $ent->{$for_json_method}();
 		}, $result);

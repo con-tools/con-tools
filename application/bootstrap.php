@@ -122,7 +122,7 @@ $set_exception_handler = false;
 $set_error_handler = false;
 Rollbar::init([
 	'access_token' => 'ccffd06bb40c4af784aef5903d6ca973',
-	'environment' => ($_SERVER['HTTP_HOST'] == 'api.con-troll.org' ? 'production' : 'development'),
+	'environment' => (@$_SERVER['HTTP_HOST'] == 'api.con-troll.org' ? 'production' : 'development'),
 ], $set_exception_handler, $set_error_handler);
 
 /**
@@ -141,7 +141,7 @@ Rollbar::init([
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => 'http://' . $_SERVER['HTTP_HOST'] . '/',
+	'base_url'   => 'http://' . @$_SERVER['HTTP_HOST'] . '/',
 	'index_file' => '',
 	'errors' => true,
 ));

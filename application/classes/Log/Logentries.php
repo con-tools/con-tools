@@ -3,11 +3,11 @@ require_once dirname(__FILE__) . '/LeLogger.php';
 
 class Log_Logentries extends Log_Writer {
 	
-	private $log;
+	private $log = null;
 	private $token;
 	
 	public function __construct($config) {
-		$LOGENTRIES_TOKEN = '51d2b1cb-d44f-4fd8-83d7-f4058253855e';
+		$LOGENTRIES_TOKEN = 'xx-xx-xx-xx';
 		$DATAHUB_ENABLED = false;
 		$DATAHUB_IP_ADDRESS = "";
 		$DATAHUB_PORT = 10000;
@@ -15,13 +15,14 @@ class Log_Logentries extends Log_Writer {
 		$HOST_NAME = null;
 		$HOST_ID = 'heroku';
 		$ADD_LOCAL_TIMESTAMP = true;
-		$this->log = LeLogger::getLogger(
-				$this->token = $config['token'], true, false, LOG_DEBUG, false, '', 10000, $config['hostid'],
-				null, true, false);
+		if (!empty($config['token']))
+			$this->log = LeLogger::getLogger(
+					$this->token = $config['token'], true, false, LOG_DEBUG, false, '', 10000, $config['hostid'],
+					null, true, false);
 	}
 
 	public function write(array $messages) {
-		if (empty($messages))
+		if (empty($messages) or is_null($this->log))
 			return;
 		
 		foreach ($messages as $message) {

@@ -54,8 +54,10 @@ class Model_Location extends ORM {
 	 */
 	public function isAvailable(DateTime $start, DateTime $end) {
 		foreach ($this->getTimeslots() as $timeslot) {
-			if ($timeslot->conflicts($start, $end))
+			if ($timeslot->conflicts($start, $end)) {
+				error_log("Found conflict with {$timeslot} at {$start}-{$end}");
 				return false;
+			}
 		}
 		return true;
 	}
