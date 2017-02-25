@@ -18,10 +18,6 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/guss77/oauth1-client"
-		},
-		{
-			"type": "vcs",
 			"url": "https://github.com/con-troll/Auth-OpenID-Connect"
 		}
 	],
@@ -39,7 +35,7 @@
 		"aptoma/twig-markdown" : "dev-master",
 		"league/commonmark" : "0.8.*@dev",
 		"league/oauth2-facebook" : "^1.0@dev",
-		"league/oauth1-client" : "dev-patch-1",
+		"league/oauth1-client" : "dev-master",
 		"swiftmailer/swiftmailer": "^5.4",
 		"psr/log": "^1.0",
 		"rollbar/rollbar": "^0",
