@@ -1,8 +1,8 @@
 <?php
 
-$google_auth_token = explode(':', $_SERVER['GOOGLE_AUTH_CLIENT']);
-$twitter_auth_token = explode(':', $_SERVER['TWITTER_AUTH_CLIENT']);
-$facebook_auth_token = explode(':', $_SERVER['FACEBOOK_AUTH_CLIENT']);
+$google_auth_token = explode(':', getenv('GOOGLE_AUTH_CLIENT'));
+$twitter_auth_token = explode(':', getenv('TWITTER_AUTH_CLIENT'));
+$facebook_auth_token = explode(':', getenv('FACEBOOK_AUTH_CLIENT'));
 
 return [
 		'google' => [
