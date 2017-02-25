@@ -3,7 +3,8 @@ web:
   environment:
     PORT: 8080
     DOCKER_DSN: mysql://root:secret@mysql/controll
-    DB_URL_ENV_NAME: DOCKER_DSN
+    DB_URL_ENV_NAME: CLEARDB_DATABASE_URL
+#    DB_URL_ENV_NAME: DOCKER_DSN
     LOGENTRIES_TOKEN: 67c76483-9e29-4299-bb08-655389e6e4bd
   volumes:
    - ./application:/var/www/application
@@ -12,9 +13,6 @@ web:
    - ./public:/var/www/app
   env_file:
    - .secrets
-  environment:
-   - DB_URL_ENV_NAME=DEVELOPMENT_DB
-   - DEVELOPMENT_DB=mysql://root:secret@mysql/controll?reconnect=true
   ports:
     - '8080:80'
   links:
