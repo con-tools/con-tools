@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-$dsn = parse_url(getenv('DB_URL_ENV_NAME')); // looks like mysql://user:pass@host/database?reconnect=true
+$dsn = parse_url(getenv(getenv('DB_URL_ENV_NAME'))); // looks like mysql://user:pass@host/database?reconnect=true
 
 return [
 
