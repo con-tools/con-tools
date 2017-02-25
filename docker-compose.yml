@@ -12,6 +12,8 @@ web:
    - ./public:/var/www/app
   env_file:
    - .secrets
+  environment:
+   - DB_URL_ENV_NAME=mysql://root:secret@mysql/controll?reconnect=true
   ports:
     - '8080:80'
   links:
