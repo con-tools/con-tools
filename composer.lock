@@ -176,12 +176,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/con-troll/Auth-OpenID-Connect.git",
-                "reference": "cfd68f6b82aa67d2febc3f668eb37399bdc71e9a"
+                "reference": "2bf04c4d2fb63b88571e93e9aa13753a6cd8ffe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/cfd68f6b82aa67d2febc3f668eb37399bdc71e9a",
-                "reference": "cfd68f6b82aa67d2febc3f668eb37399bdc71e9a",
+                "url": "https://api.github.com/repos/con-troll/Auth-OpenID-Connect/zipball/2bf04c4d2fb63b88571e93e9aa13753a6cd8ffe9",
+                "reference": "2bf04c4d2fb63b88571e93e9aa13753a6cd8ffe9",
                 "shasum": ""
             },
             "archive": {
@@ -226,7 +226,7 @@
             "support": {
                 "source": "https://github.com/con-troll/Auth-OpenID-Connect/tree/master"
             },
-            "time": "2017-02-23 18:55:04"
+            "time": "2017-02-26 21:40:46"
         },
         {
             "name": "guss77/kohana-paypal",
@@ -1708,12 +1708,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "2c4a9d3dade0b494f3d7cd525926aa9175b95a87"
+                "reference": "8798bcdb48d9388ba18ca2fa7b42a5c77a23c623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/2c4a9d3dade0b494f3d7cd525926aa9175b95a87",
-                "reference": "2c4a9d3dade0b494f3d7cd525926aa9175b95a87",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/8798bcdb48d9388ba18ca2fa7b42a5c77a23c623",
+                "reference": "8798bcdb48d9388ba18ca2fa7b42a5c77a23c623",
                 "shasum": ""
             },
             "require": {
@@ -1794,7 +1794,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2017-02-21 13:33:53"
+            "time": "2017-02-26 20:28:48"
         },
         {
             "name": "sebastian/version",

@@ -57,10 +57,11 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 					'email' => $this->getEmail(),
 					'name' => $this->getName(),
 					];
-		} catch (OpenIDConnectClientException $e) {
-			// TODO: figure out a better way to handle this, that distinguishes between "error" and "user cencelled"
-			error_log("Error in OpenID Connection completion: " . $e->getMessage());
+		} catch (OpenIDConnectClientCancelledException $e) {
 			throw new Auth_Cancelled();
+		} catch (OpenIDConnectClientException $e) {
+			error_log("Error in OpenID Connection completion: " . $e->getMessage());
+			throw new Exception($e->getMessage(), null, $e);
 		}
 	}
 	
