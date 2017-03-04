@@ -20,7 +20,7 @@ class Model_Pass_Requirement extends ORM {
 	/**
 	 * Create a new pass requirement and store it in the database
 	 * @param Model_Convention $convention owner
-	 * @param string $title name of pass requirement (used in manager UI
+	 * @param string $title name of pass requirement (used in manager UI)
 	 */
 	public static function persist(Model_Convention $convention, $title) {
 		$o = new Model_Pass_Requirement();
