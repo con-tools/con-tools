@@ -10,6 +10,7 @@ class Model_Convention extends ORM {
 			'crm_queues' => [],
 			'managers' => [],
 			'api_keys' => [],
+			'pass_requirements' => [],
 	];
 	
 	protected $_columns = [

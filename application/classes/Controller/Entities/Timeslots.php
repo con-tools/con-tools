@@ -139,6 +139,13 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		
 		$data = $this->input();
 		
+		if ($data->update_passes) {
+			foreach ($this->convention->getTimeSlots() as $timeslot ) {
+				if ($timeslot->updatePassRequirements())
+					$timeslot->save();
+			}
+		}
+		
 		$filters = [];
 		if ($data->by_event)
 			$filters['event_id'] = $data->by_event;

@@ -122,6 +122,12 @@ instance.
 *Mode Name:* Pass_Requirement
 *Fields:*
 * Title
+* Start Time : ISO8601 duration specification. Time slots automatically take
+  this requirement if they have no other and a requirement exist where the time
+  slot start time is between the requirement start time relative to the
+  convention start time and the requirement end time relative to the convention
+  start time
+* End Time: ISO8601 duration specification. See above
 
 ### User Pass Requirements
 

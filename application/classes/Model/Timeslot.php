@@ -7,6 +7,7 @@ class Model_Timeslot extends ORM {
 	
 	protected $_belongs_to = [
 			'event' => [],
+			'pass_requirement' => [],
 	];
 	
 	protected $_has_many = [
@@ -20,6 +21,7 @@ class Model_Timeslot extends ORM {
 			'id' => [],
 			// foreign keys
 			'event_id' => [],
+			'pass_requirement_id' => [],
 			// data fields
 			'status' => [],
 			'start_time' => [ 'type' => 'DateTime' ],
@@ -45,6 +47,7 @@ class Model_Timeslot extends ORM {
 		$o->min_attendees = $min_attendees ?: $event->min_attendees;
 		$o->max_attendees = $max_attendees ?: $event->max_attendees;
 		$o->notes_to_attendees = $notes_to_attendees ?: $event->notes_to_attendees;
+		$this->updatePassRequirements();
 		try {
 			return $o->save();
 		} finally {
@@ -64,6 +67,35 @@ class Model_Timeslot extends ORM {
 		if ($public)
 			$query = $query->where('event.status', 'IN', Model_Event::public_statuses());
 		return $query;
+	}
+
+	/**
+	 * Try to auto detect pass requirement for the timeslot
+	 * @return boolean whether we've updated the timeslot fields (so it'll need saving)
+	 */
+	public function updatePassRequirements() {
+		$regType = @$this->event->convention->settings['registration-type'];
+		if ($this->pass_requirement->loaded())
+			return false; // don't update if the field is already set
+		switch($regType) {
+			case 'passes':
+				// locate existing matching requirement
+				$con = $this->event->convention;
+				$constart = $con->start_date;
+				$mystart = $this->start_time->getTimestamp();
+				foreach ($con->pass_requirements->find_all() as $passreq) {
+					$start_time = (clone $constart)->add($passreq->start_time);
+					$end_time = (clone $constart)->add($passreq->end_time);
+					error_log("Checking timeslot " . $this->pk() . " (".$mystart.") against passreq " . $passreq->pk() . " " . $start_time->getTimestamp() . "-" . $end_time->getTimestamp());
+					if ($start_time->getTimestamp() <= $mystart && $mystart < $end_time->getTimestamp()) {
+						$this->pass_requirement = $passreq;
+						return true;
+					}
+				}
+				return false; // no changes were done
+			default: // no registration type, assume manual setup, so make no changes
+				return false;
+		}
 	}
 	
 	public function validTickets() {
@@ -140,6 +172,7 @@ class Model_Timeslot extends ORM {
 				'hosts' => self::result_for_json($this->host_names->find_all()),
 				'available_tickets' => $this->available_tickets,
 				'locations' => self::result_for_json($this->locations->find_all()),
+				'pass_requirement' => $this->pass_requirement->loaded() ? $this->pass_requirement->for_json() : null,
 				'status' => $this->status_text,
 		]);
 	}
