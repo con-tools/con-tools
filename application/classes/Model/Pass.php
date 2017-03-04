@@ -34,8 +34,9 @@ class Model_Pass extends ORM {
 	 * @param string $title name of the pass (used in manager UI)
 	 * @param boolean $public whether to make this pass available to the public
 	 * @param string $price cost of the pass (put in a string please)
+	 * @return Model_Pass pass record created
 	 */
-	public static function persist(Model_Convention $convention, $title, $public, $price) {
+	public static function persist(Model_Convention $convention, $title, $public, $price) : Model_Pass {
 		$o = new Model_Pass();
 		$o->convention = $convention;
 		$o->slug = self::gen_slug($title);
