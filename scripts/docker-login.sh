@@ -14,6 +14,6 @@ function create_user() {
 }
 
 # try to log in with hard coded values
-try_login || ( create_user && try_login )
+try_login || ( create_user && try_login ) >/dev/null
 
 mysql -uroot -psecret -h172.17.0.2 controll < $(dirname $0)/../database/dumps/docker-add-admin-to-convention.sql >/dev/null 2> >(fgrep -v 'Using a password on the command line')
