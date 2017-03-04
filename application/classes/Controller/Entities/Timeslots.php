@@ -101,6 +101,7 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			
 			// update time slot fields
 			$start = $this->parseDateTime($data->start);
+			$start->setTime($start->format("H"), $start->format("i"), 0); // reset seconds, in case something weird is going on with the UI
 			if ($start)
 				$timeslot->start_time = $start;
 			if (is_numeric($data->duration))
