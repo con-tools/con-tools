@@ -14,7 +14,8 @@ class ORM extends Kohana_ORM {
 		if (is_array($field_def)) {
 			switch (@$field_def['type']) {
 				case 'DateTime':
-					$value = $this->sqlize($value);
+				case 'DateInterval':
+					$value = self::sqlize($value);
 					break;
 				case 'boolean':
 					$value = $value ? '1' : '0';
@@ -34,10 +35,11 @@ class ORM extends Kohana_ORM {
 		$field_def = @$this->_columns[$column];
 		if (is_array($field_def)) {
 					switch (@$field_def['type']) {
-				case 'DateTime':
-					$value = $this->unsqlize($value);
-					break;
-				case 'boolean':
+						case 'DateTime':
+						case 'DateInterval':
+							$value = $this->unsqlize($value);
+							break;
+						case 'boolean':
 					$value = is_numeric($value) ? ($value != 0) : $value;
 					break;
 			}
@@ -49,11 +51,13 @@ class ORM extends Kohana_ORM {
 	 * convert date/time values to sql date
 	 * @param mixed $value
 	 */
-	public function sqlize($value) {
+	public static function sqlize($value) {
 		if (is_numeric($value))
 			return date("Y-m-d H:i:s", $value);
 		if ($value instanceof DateTime)
-			return $this->sqlize($value->getTimestamp());
+			return self::sqlize($value->getTimestamp());
+		if ($value instanceof DateInterval)
+			return self::date_interval_iso_format($value);
 		return $value;
 	}
 	
@@ -61,8 +65,19 @@ class ORM extends Kohana_ORM {
 	 * Convert SQL date to DateTime value
 	 * @param string $value
 	 */
-	public function unsqlize($value) {
+	public static function unsqlize($value) {
+		if (@$value[0] == 'P') // date interval
+			return new DateInterval($value);
 		return DateTime::createFromFormat("Y-m-d H:i:s", $value);
+	}
+	
+	public static function date_interval_iso_format(DateInterval $interval) {
+		list($date,$time) = explode("T",$interval->format("P%yY%mM%dDT%hH%iM%sS"));
+		// now, we need to remove anything that is a zero, but make sure to not remove
+		// something like 10D or 20D
+		return
+			str_replace([ 'M0D', 'Y0M', 'P0Y' ], [ 'M', 'Y', 'P' ], $date) .
+			rtrim(str_replace([ 'M0S', 'H0M', 'T0H'], [ 'M', 'H', 'T' ], "T$time"),"T");
 	}
 	
 	public function compile() {
