@@ -1,12 +1,6 @@
 <?php
 
-class Model_Ticket extends ORM {
-	
-	const STATUS_RESERVED = 'reserved';
-	const STATUS_PROCESSING = 'processing';
-	const STATUS_AUTHORIZED = 'authorized';
-	const STATUS_CANCELLED = 'cancelled';
-	const STATUS_REFUNDED = 'refunded';
+class Model_Ticket extends Model_Sale_Item {
 	
 	protected $_belongs_to = [
 			'user' => [],
@@ -31,14 +25,6 @@ class Model_Ticket extends ORM {
 			'reserved_time' => [ 'type' => 'DateTime' ],
 			'cancel_reason' => [],
 	];
-	
-	public static function validStatuses() {
-		return [
-				self::STATUS_RESERVED,
-				self::STATUS_PROCESSING,
-				self::STATUS_AUTHORIZED,
-		];
-	}
 	
 	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1, $price = null) : Model_Ticket {
 		$o = new Model_Ticket();
@@ -127,17 +113,8 @@ class Model_Ticket extends ORM {
 		find_all();
 	}
 	
-	public function consumeCoupons() {
-		if ($this->price <= 0)
-			return $this->save(); // no need to consume coupons
-		Database::instance()->begin(); // work in transactions, in case I need to duplicate coupons
-		foreach (Model_Coupon::unconsumedForUser($this->user, $this->convention) as $coupon) {
-			$coupon->consume($this);
-			if ($this->price <= 0)
-				break; // stop consuming coupons, there's no more need
-		}
-		$this->save();
-		Database::instance()->commit();
+	public function getTypeName() {
+		return 'ticket';
 	}
 	
 	public function get($column) {
