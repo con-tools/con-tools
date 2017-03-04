@@ -21,8 +21,9 @@ class Model_Pass_Requirement extends ORM {
 	 * Create a new pass requirement and store it in the database
 	 * @param Model_Convention $convention owner
 	 * @param string $title name of pass requirement (used in manager UI)
+	 * @return Model_Pass_Requirement pass requirement that was created
 	 */
-	public static function persist(Model_Convention $convention, $title) {
+	public static function persist(Model_Convention $convention, $title) : Model_Pass_Requirement {
 		$o = new Model_Pass_Requirement();
 		$o->convention = $convention;
 		$o->slug = parent::gen_slug($title);
