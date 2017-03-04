@@ -11,6 +11,7 @@ class Model_Convention extends ORM {
 			'managers' => [],
 			'api_keys' => [],
 			'pass_requirements' => [],
+			'passes' => [],
 	];
 	
 	protected $_columns = [

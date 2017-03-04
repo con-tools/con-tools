@@ -25,7 +25,7 @@ class Model_Pass_Requirement extends ORM {
 	public static function persist(Model_Convention $convention, $title) {
 		$o = new Model_Pass_Requirement();
 		$o->convention = $convention;
-		$o->slug = $this->gen_slug($title);
+		$o->slug = parent::gen_slug($title);
 		$o->title = $title;
 		$o->save();
 		return $o;

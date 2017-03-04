@@ -138,7 +138,7 @@ Collection of all pass requirements collected by users (many to many)
 * User (reference)
 * Pass Requirement (reference)
 
-### Pass Pass Requirements
+### Pass Requirements Passes
 
 Collection of all pass requirements provided by passes (many to many)
 
