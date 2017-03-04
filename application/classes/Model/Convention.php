@@ -184,12 +184,20 @@ class Model_Convention extends ORM {
 			$ticket->cancel("internal:processing-timeout");
 		}
 	}
-	
+
 	public function get($column) {
 		switch ($column) {
 			case 'settings':
 				return json_decode(parent::get('settings'), true);
 			default: return parent::get($column);
+		}
+	}
+
+	public function set($column, $value) {
+		switch ($column) {
+			case 'settings':
+				return parent::set('settings', json_encode($value, JSON_UNESCAPED_UNICODE));
+			default: return parent::set($column, $value);
 		}
 	}
 	
@@ -230,6 +238,7 @@ class Model_Convention extends ORM {
 		foreach ($this->api_keys->find_all() as $key) {
 			$ar['public-key'] = $key->client_key;
 			$ar['secret-key'] = $key->client_secret;
+			$ar['settings'] = $this->settings;
 		}
 		return $ar;
 	}

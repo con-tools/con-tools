@@ -11,7 +11,20 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 	}
 	
 	protected function update($id) {
-		throw new Api_Exception_Unimplemented($this);
+		if ($id == 'self') { // self lookup for a convention
+			$con = $this->verifyConventionKey();
+			error_log('Looking up self convention id: ' . $con->pk());
+		} else {
+			$con = new Model_Convention($id);
+		}
+
+		if (is_null($con) || !$con->loaded() || !$con->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to update convention!");
+		$data = $this->input();
+		if ($data->settings)
+			$con->settings = $data->settings;
+		$con->save();
+		return true;
 	}
 	
 	protected function delete($id) {
@@ -22,7 +35,7 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 		if (is_null($this->user))
 			throw new Api_Exception_Unauthorized($this, "Must be logged in!");
 		$user = $this->user;
-		$data = $this->input();
+		$data = $this->input()->getFields();
 		if (!isset($data['title']))
 			throw new Api_Exception_InvalidInput($this, "Missing title");
 		try {
