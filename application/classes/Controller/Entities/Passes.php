@@ -11,6 +11,19 @@ class Controller_Entities_Passes extends Api_Rest_Controller {
 		if (!$data->price or !is_numeric($data->price))
 			throw new Api_Exception_InvalidInput($this, "Price must be specified");
 		$pass = Model_Pass::persist($this->convention, $data->title, $data->public, $data->price);
+		
+		if ($data->isset('pass_requirements')) {
+			$ids = !is_array($data->pass_requirements) ? [ $data->pass_requirements ] : $data->pass_requirements;
+			$passreqs = array_map(function($id) {
+				$passreq = new Model_Pass_Requirement($id);
+				if (!$passreq->loaded())
+					throw new Api_Exception_InvalidInput($this, "Invalid pass requirement ID $id");
+					return $passreq;
+			}, $ids);
+			foreach ($passreqs as $passreq)
+				$pass->add('pass_requirements', $passreq);
+		}
+		
 		return $pass->for_json();
 	}
 	
@@ -46,6 +59,7 @@ class Controller_Entities_Passes extends Api_Rest_Controller {
 			foreach ($passreqs as $passreq)
 				$pass->add('pass_requirements', $passreq);
 		}
+		
 		$pass->save();
 		return $pass->for_json();
 	}
