@@ -8,6 +8,10 @@ class Model_User_Pass extends Model_Sale_Item {
 			'sale' => [],
 	];
 	
+	protected $_has_many = [
+			'coupons' => [ 'foreign_key' => 'object_id' ],
+	];
+	
 	protected $_columsn = [
 			'id' => [],
 			// foreign keys

@@ -36,4 +36,12 @@ abstract class Model_Sale_Item extends ORM {
 		Database::instance()->commit();
 	}
 
+	public function get($column) {
+		switch($column) {
+			case 'coupons':
+				return parent::get($column)->where('object_type', '=', $this->getTypeName());
+			default:
+				return parent::get($column);
+		}
+	}
 }

@@ -9,7 +9,7 @@ class Model_Ticket extends Model_Sale_Item {
 	];
 	
 	protected $_has_many = [
-			'coupons' => [],
+			'coupons' => [ 'foreign_key' => 'object_id' ],
 	];
 	
 	protected $_columns = [
