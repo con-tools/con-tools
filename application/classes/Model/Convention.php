@@ -29,10 +29,18 @@ class Model_Convention extends ORM {
 	
 	private $client_authorized = false;
 	
-	public static function persist($title, $series, $website, $location, $slug = null) {
+	/**
+	 * Create a new convention
+	 * @param string $title Name of the convention to create
+	 * @param string $series Name of the convention series, if relevant (set to null otherwise)
+	 * @param string $website URL of the convention web site
+	 * @param string $location Textual description of the convention location, such as a street address
+	 * @return Model_Convention Convention that was created
+	 */
+	public static function persist($title, $series, $website, $location) : Model_Convention {
 		$obj = new Model_Convention();
 		$obj->title = $title;
-		$obj->slug = $slug ?: self::gen_slug($title);
+		$obj->slug = self::gen_slug($title);
 		$obj->series = $series;
 		$obj->website = $website;
 		$obj->location = $location;
