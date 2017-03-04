@@ -110,6 +110,9 @@ class ORM extends Kohana_ORM {
 			if ($value instanceof DateTime) { // format DateTime for consumption
 				$value = $value->format(DateTime::ATOM);
 			}
+			if ($value instanceof DateInterval) { // format DateInterval for consumption
+				$value = $this->date_interval_iso_format($value);
+			}
 			$out[str_replace('_', '-', $key)] = $value;
 		}
 		return $out;
