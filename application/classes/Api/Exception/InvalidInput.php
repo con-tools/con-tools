@@ -2,13 +2,13 @@
 
 class Api_Exception_InvalidInput extends HTTP_Exception_400 {
 	
-	private $source; // Controller that thrown this error
+	private $source; // Controller that threw this error
 	private $vars;
 	
 	public function __construct(Api_Controller $source_controller, $message = NULL, $variables = NULL, $previous = NULL) {
 		$this->source = $source_controller;
 		$this->vars = $variables;
-		parent::__construct($message, $variables, $previous);
+		parent::__construct($message, NULL, $previous);
 	}
 	
 	/**
