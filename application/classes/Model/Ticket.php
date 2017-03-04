@@ -251,7 +251,6 @@ class Model_Ticket extends ORM {
 				'coupons' => self::result_for_json($this->coupons->find_all()),
 				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
-		
 	}
 	
 	public function for_json() {
