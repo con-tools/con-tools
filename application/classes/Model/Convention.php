@@ -168,6 +168,17 @@ class Model_Convention extends ORM {
 		return $query->find_all();
 	}
 	
+	public function getPasses($filters = []) : Database_Result {
+		$query = Model_User_Pass::queryForConvention($this);
+		foreach ($filters as $field  => $value) {
+			if ($field == 'valid') // don't show cancelled
+				$query = $query->where('user_pass.status', 'IN', Model_User_Pass::validStatuses());
+			else
+				$query = $query->where($field,'=',$value);
+		}
+		return $query->find_all();
+	}
+	
 	public function expireReservedTickets() {
 		$reservetime = @$this->get('settings')['reservation-time'];
 		if (!$reservetime) return; // sanity
