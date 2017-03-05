@@ -86,11 +86,11 @@ class Model_Coupon extends ORM {
 			case 'ticket':
 				if ($this->object_type == 'ticket')
 					return $this->sale_item;
-				return null;
+				return new Model_Ticket();
 			case 'user_pass':
 				if ($this->object_type == 'user_pass')
 					return $this->sale_item;
-				return null;
+				return new Model_User_Pass();
 			case 'sale_item':
 				switch ($this->object_type) {
 					case 'ticket':
@@ -99,7 +99,7 @@ class Model_Coupon extends ORM {
 						return new Model_User_Pass($this->object_id);
 					default:
 						error_log("Invalid sale item type '{$this->object_type}'!");
-						return null;
+						return new ORM();
 				}
 			default:
 				return parent::get($column);
