@@ -94,21 +94,6 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	/**
-	 * Retrieve the ticket shopping cart for the user
-	 * @param Model_Convention $con Convention where the user goes
-	 * @param Model_User $user User that goes to a convention
-	 */
-	public static function shoppingCart(Model_Convention $con, Model_User $user) : Database_Result {
-		return (new Model_Ticket())->
-				with('timeslot:event')->
-				with('user')->
-				where('convention_id', '=', $con->pk())->
-				where('ticket.user_id','=',$user->pk())->
-				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
-				find_all();
-	}
-	
-	/**
 	 * Retrieve all tickets for the user in the convention, regardless of status.
 	 * Compare with {@link Model_Ticket#shoppingCart()}
 	 * @param Model_Convention $con

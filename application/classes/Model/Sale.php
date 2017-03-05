@@ -11,6 +11,7 @@ class Model_Sale extends ORM {
 	
 	protected $_has_many = [
 			'tickets' => [],
+			'user_passes' => [],
 			'purchases' => [ 'model' => 'Purchase' ],
 	];
 	
@@ -33,7 +34,7 @@ class Model_Sale extends ORM {
 	 * Generate a new sale for this convention goer, for everything in their shopping card
 	 * @param Model_User $user Convention Goer
 	 * @param Model_Convention $con Convention they go to
-	 * @param Model_User $cashier (optional) cashier that sold them the tickets
+	 * @param Model_User $cashier (optional) cashier that sold them the tickets or passes
 	 * @return Model_Sale
 	 */
 	public static function persist(Model_User $user, Model_Convention $con, Model_User $cashier = null) : Model_Sale {
@@ -43,8 +44,8 @@ class Model_Sale extends ORM {
 		$o->cashier = $cashier;
 		$o->sale_time = new DateTime();
 		$o->save();
-		foreach (Model_Ticket::shoppingCart($con, $user) as $ticket) {
-			$ticket->setSale($o);
+		foreach (Model_Sale_Item::shoppingCart($con, $user) as $item) {
+			$item->setSale($o);
 		}
 		foreach (Model_Purchase::shoppingCart($con, $user) as $purchase) {
 			$purchase->setSale($o);
@@ -53,7 +54,7 @@ class Model_Sale extends ORM {
 	}
 
 	/**
-	 * Given an arbitrary collection of tickets and/or purchases, figure out the shopping cart cost.
+	 * Given an arbitrary collection of tickets/passes and/or purchases, figure out the shopping cart cost.
 	 * @param array|Database_Result $items list or result set of Model_Ticket or Model_Purchase
 	 */
 	public static function computeTotal($items) {
@@ -83,6 +84,7 @@ class Model_Sale extends ORM {
 	 */
 	public function getTotal() {
 		return self::computeTotal($this->tickets->find_all()) +
+			self::computeTotal($this->user_passes->find_all()) +
 			self::computeTotal($this->purchases->find_all());
 	}
 	
@@ -95,12 +97,14 @@ class Model_Sale extends ORM {
 		$this->save();
 		foreach ($this->tickets->find_all() as $ticket)
 			$ticket->authorize();
+		foreach ($this->user_passes->find_all() as $pass)
+			$pass->authorize();
 		foreach ($this->purchases->find_all() as $purchase)
 			$purchase->authorize();
 	}
 	
 	/**
-	 * User cancelled the transaction, return all tickets to "reserved"
+	 * User cancelled the transaction, return all tickets/passes to "reserved"
 	 * so they can try again later
 	 */
 	public function cancelled() {
@@ -108,12 +112,14 @@ class Model_Sale extends ORM {
 	}
 	
 	/**
-	 * Payment processor failed the transaction, return all tickets to "reserved"
+	 * Payment processor failed the transaction, return all tickets/passes to "reserved"
 	 * so they can try again later
 	 */
 	public function failed($reasonCode) {
 		foreach ($this->tickets->find_all() as $ticket)
 			$ticket->returnToCart();
+		foreach ($this->user_passes->find_all() as $pass)
+			$pass->returnToCart();
 		foreach ($this->purchases->find_all() as $purchase)
 			$purchase->returnToCart();
 		$this->transaction_id = "FAILED:" . $reasonCode;
