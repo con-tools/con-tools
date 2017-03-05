@@ -55,6 +55,11 @@ class Model_User_Pass extends Model_Sale_Item {
 		return 'user_pass';
 	}
 	
+	public function computePrice() {
+		// recompute price, so we'll see how much that pass would have cost without coupons
+		return $this->pass->price;
+	}
+	
 	public function get($column) {
 		switch ($column) {
 			case 'convention':

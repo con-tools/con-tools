@@ -73,7 +73,7 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	/**
-	 * Retrieve the ticket shopping card for the user
+	 * Retrieve the ticket shopping cart for the user
 	 * @param Model_Convention $con Convention where the user goes
 	 * @param Model_User $user User that goes to a convention
 	 */
@@ -106,11 +106,11 @@ class Model_Ticket extends Model_Sale_Item {
 	public static function oldTickets(DateTime $than) {
 		return (new Model_Ticket())->
 			with('timeslot:event')->
-		with('user')->
-		where('convention_id', '=', $con->pk())->
-		where('ticket.user_id','=',$user->pk())->
-		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
-		find_all();
+			with('user')->
+			where('convention_id', '=', $con->pk())->
+			where('ticket.user_id','=',$user->pk())->
+			where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
+			find_all();
 	}
 	
 	public function getTypeName() {
@@ -124,12 +124,6 @@ class Model_Ticket extends Model_Sale_Item {
 			default:
 				return parent::get($column);
 		}
-	}
-	
-	public function setSale(Model_Sale $sale) {
-		$this->sale = $sale;
-		$this->status = self::STATUS_PROCESSING;
-		return $this->save();
 	}
 	
 	/**
@@ -147,68 +141,11 @@ class Model_Ticket extends Model_Sale_Item {
 		$this->consumeCoupons();
 	}
 	
-	/**
-	 * Cancel a ticket that has not been payed for yet.
-	 * This will return all coupons used in the ticket.
-	 * @param string $reason Reason for the cancellation
-	 * @throws Exception in case the ticket has already been payed for
-	 * @return Model_Ticket the ticket itself
-	 */
-	public function cancel($reason) : Model_Ticket {
-		if ($this->status == self::STATUS_AUTHORIZED)
-			throw new Exception("An authorized ticket cannot be cancelled!");
-		$this->status = self::STATUS_CANCELLED;
-		$this->cancel_reason = $reason;
-		$this->returnCoupons();
-		return $this->save();
-	}
-	
-	/**
-	 * Refund an already purchased ticket by returning all coupons
-	 * and creating a refund coupon for the payed amount
-	 * @param Model_Coupon_Type $refundType The coupon type to create for refunded amount
-	 * @param string $reason Reason for the refund
-	 * @throws Exception in case the ticket has not been payed for yet
-	 * @return Model_Ticket the ticket itself
-	 */
-	public function refund(Model_Coupon_Type $refundType, $reason) : Model_Ticket {
-		if ($this->status != self::STATUS_AUTHORIZED)
-			throw new Exception("Cannot refund a ticket that has not been payed for yet");
-		$refundAmount = $this->price;
-		$this->returnCoupons();
-		// reset amount after "return coupons" to show how much the user has actually paid - this is important for consolidation
-		$this->price = $refundAmount;
-		$this->status = self::STATUS_REFUNDED;
-		$this->cancel_reason = $reason;
-		if ($refundAmount > 0)
-			Model_Coupon::persist($refundType, $this->user, "Refund for ticket:" . $this->pk(), $refundAmount);
-		return $this->save();
-	}
-	
-	/**
-	 * Return all coupons used for this ticket, and recalculate non-couponed price
-	 * This method does not save the object, as it is expected to be used as part
-	 * of a larger transaction
-	 */
-	public function returnCoupons() {
-		foreach ($this->coupons->find_all() as $coupon) {
-			$coupon->release();
-		}
+	public function computePrice() {
 		// recompute price, so we'll see how much that ticket would have cost without coupons
-		$this->price = $this->timeslot->event->price * $this->amount;
+		return $this->timeslot->event->price * $this->amount;
 	}
 	
-	public function authorize() {
-		$this->status = self::STATUS_AUTHORIZED;
-		return $this->save();
-	}
-	
-	public function returnToCart() {
-		$this->status = self::STATUS_RESERVED;
-		$this->reserved_time = new DateTime(); // give the user a bit more time
-		$this->save();
-	}
-
 	public function for_json_with_coupons() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
