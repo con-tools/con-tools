@@ -52,6 +52,20 @@ class Model_User_Pass extends Model_Sale_Item {
 		return (new Model_User_Pass())->with('pass')->with('user')->where('convention_id', '=', $con->pk());
 	}
 	
+	public static function reservedByReserveTime(DateTime $latest) : Database_Result {
+		return (new Model_User_Pass())
+			->where('status','=', self::STATUS_RESERVED)
+			->where('reserved_time', '<', $latest->format('Y-m-d H:i:s'))
+			->find_all();
+	}
+	
+	public static function processingByReserveTime(DateTime $latest) : Database_Result {
+		return (new Model_User_Pass())
+			->where('status','=', self::STATUS_PROCESSING)
+			->where('reserved_time', '<', $latest->format('Y-m-d H:i:s'))
+			->find_all();
+	}
+	
 	public function getTypeName() {
 		return 'user_pass';
 	}
@@ -59,6 +73,30 @@ class Model_User_Pass extends Model_Sale_Item {
 	public function computePrice() {
 		// recompute price, so we'll see how much that pass would have cost without coupons
 		return $this->pass->price;
+	}
+	
+	/**
+	 * Special authorize processing for passes - authorize all tickets associated with this pass
+	 * {@inheritDoc}
+	 * @see Model_Sale_Item::authorize()
+	 */
+	public function authorize() {
+		parent::authorize();
+		foreach ($this->tickets->find_all() as $ticket) {
+			$ticket->authorize();
+		}
+	}
+	
+	/**
+	 * Special cancel processing for passes - cancel all tickets associated with this pass
+	 * {@inheritDoc}
+	 * @see Model_Sale_Item::cancel()
+	 */
+	public function cancel($reason) {
+		parent::cancel($reason);
+		foreach ($this->tickets->find_all() as $ticket) {
+			$ticket->cancel($reason);
+		}
 	}
 	
 	public function get($column) {
