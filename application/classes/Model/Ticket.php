@@ -6,6 +6,7 @@ class Model_Ticket extends Model_Sale_Item {
 			'user' => [],
 			'timeslot' => [],
 			'sale' => [],
+			'user_pass' => [], // when using passes, we still use tickets for registration, but we link them to the pass in use and we don't sell them
 	];
 	
 	protected $_has_many = [
@@ -18,6 +19,7 @@ class Model_Ticket extends Model_Sale_Item {
 			'user_id' => [],
 			'timeslot_id' => [],
 			'sale_id' => [],
+			'user_pass_id' => [],
 			// data fields
 			'amount' => [], // number of tickets
 			'price' => [], // fullfilment price for the entire model (i.e when amount > 1, for all the amount)

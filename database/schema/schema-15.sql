@@ -63,6 +63,8 @@ ALTER TABLE `coupons`
 	ADD COLUMN `object_type` ENUM('ticket', 'user_pass') NULL DEFAULT NULL AFTER `object_id`,
 	DROP INDEX `coupons_ibfk_3` ;
 
+ALTER TABLE `tickets` ADD COLUMN `user_pass_id` INT(10) UNSIGNED NULL AFTER `sale_id`;
+
 UPDATE `coupons` SET `object_type` = 'ticket' where `object_id` IS NOT NULL AND id > 0;
 
 UPDATE `system_settings` SET `value` = '15' WHERE `name` = 'data-version' and `id` > 0;
