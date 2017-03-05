@@ -54,8 +54,8 @@ CREATE TABLE `user_passes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `timeslots` ADD COLUMN `pass_requirement_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `notes_to_attendees`;
-ALTER TABLE `timeslots` ADD INDEX `timeslot_pass_requirement_ibfk_2_idx` (`pass_requirement`);
-ALTER TABLE `timeslots` ADD CONSTRAINT `timeslot_pass_requirement_ibfk_2` FOREIGN KEY (`pass_requirement`) REFERENCES `pass_requirements` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `timeslots` ADD INDEX `timeslot_pass_requirement_ibfk_2_idx` (`pass_requirement_id`);
+ALTER TABLE `timeslots` ADD CONSTRAINT `timeslot_pass_requirement_ibfk_2` FOREIGN KEY (`pass_requirement_id`) REFERENCES `pass_requirements` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `coupons` DROP FOREIGN KEY `coupons_ibfk_3`;
 ALTER TABLE `coupons`
