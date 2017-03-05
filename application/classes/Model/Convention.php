@@ -184,7 +184,7 @@ class Model_Convention extends ORM {
 	 * @return boolean if passes are being used instead of selling tickets
 	 */
 	public function usePasses() {
-		return $this->settings['registration-type'] == 'passes';
+		return @$this->settings['registration-type'] == 'passes';
 	}
 	
 	public function expireReservedTickets() {
