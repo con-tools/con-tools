@@ -122,17 +122,25 @@ instance.
 *Mode Name:* Pass_Requirement
 *Fields:*
 * Title
+* Start Time : ISO8601 duration specification. Time slots automatically take
+  this requirement if they have no other and a requirement exist where the time
+  slot start time is between the requirement start time relative to the
+  convention start time and the requirement end time relative to the convention
+  start time
+* End Time: ISO8601 duration specification. See above
 
-### User Pass Requirements
+### User Passes
 
-Collection of all pass requirements collected by users (many to many)
+Collection of all passes collected by users (many to many)
 
 *Model Name:* User_Pass_Requirement
 *Fields:*
 * User (reference)
-* Pass Requirement (reference)
+* Pass (reference)
+* Name : Name of the visitor who will make use of this pass
+* Cost : the price that was paid for that pass
 
-### Pass Pass Requirements
+### Pass Requirements Passes
 
 Collection of all pass requirements provided by passes (many to many)
 

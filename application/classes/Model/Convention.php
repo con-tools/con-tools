@@ -10,6 +10,8 @@ class Model_Convention extends ORM {
 			'crm_queues' => [],
 			'managers' => [],
 			'api_keys' => [],
+			'pass_requirements' => [],
+			'passes' => [],
 	];
 	
 	protected $_columns = [
@@ -27,10 +29,18 @@ class Model_Convention extends ORM {
 	
 	private $client_authorized = false;
 	
-	public static function persist($title, $series, $website, $location, $slug = null) {
+	/**
+	 * Create a new convention
+	 * @param string $title Name of the convention to create
+	 * @param string $series Name of the convention series, if relevant (set to null otherwise)
+	 * @param string $website URL of the convention web site
+	 * @param string $location Textual description of the convention location, such as a street address
+	 * @return Model_Convention Convention that was created
+	 */
+	public static function persist($title, $series, $website, $location) : Model_Convention {
 		$obj = new Model_Convention();
 		$obj->title = $title;
-		$obj->slug = $slug ?: self::gen_slug($title);
+		$obj->slug = self::gen_slug($title);
 		$obj->series = $series;
 		$obj->website = $website;
 		$obj->location = $location;
@@ -158,6 +168,25 @@ class Model_Convention extends ORM {
 		return $query->find_all();
 	}
 	
+	public function getPasses($filters = []) : Database_Result {
+		$query = Model_User_Pass::queryForConvention($this);
+		foreach ($filters as $field  => $value) {
+			if ($field == 'valid') // don't show cancelled
+				$query = $query->where('user_pass.status', 'IN', Model_User_Pass::validStatuses());
+			else
+				$query = $query->where($field,'=',$value);
+		}
+		return $query->find_all();
+	}
+	
+	/**
+	 * Check if the convention is set to sell tickets or passes
+	 * @return boolean if passes are being used instead of selling tickets
+	 */
+	public function usePasses() {
+		return @$this->settings['registration-type'] == 'passes';
+	}
+	
 	public function expireReservedTickets() {
 		$reservetime = @$this->get('settings')['reservation-time'];
 		if (!$reservetime) return; // sanity
@@ -184,12 +213,20 @@ class Model_Convention extends ORM {
 			$ticket->cancel("internal:processing-timeout");
 		}
 	}
-	
+
 	public function get($column) {
 		switch ($column) {
 			case 'settings':
 				return json_decode(parent::get('settings'), true);
 			default: return parent::get($column);
+		}
+	}
+
+	public function set($column, $value) {
+		switch ($column) {
+			case 'settings':
+				return parent::set('settings', json_encode($value, JSON_UNESCAPED_UNICODE));
+			default: return parent::set($column, $value);
 		}
 	}
 	
@@ -230,6 +267,7 @@ class Model_Convention extends ORM {
 		foreach ($this->api_keys->find_all() as $key) {
 			$ar['public-key'] = $key->client_key;
 			$ar['secret-key'] = $key->client_secret;
+			$ar['settings'] = $this->settings;
 		}
 		return $ar;
 	}

@@ -38,9 +38,11 @@ mysql:
     - ./database/docker-init.sh:/docker-entrypoint-initdb.d/00.init.sh
     - ./database/dumps:/dumps
     - ./database/schema:/schema
-    - ~/tmp/controll-data:/var/lib/mysql
-#  volumes_from:
-#   - data
-#data:
-#  image: mysql
-#  command: "true"
+#    - ~/tmp/controll-data:/var/lib/mysql
+  volumes_from:
+   - data
+data:
+  image: mysql
+  command: "true"
+  volumes:
+   - /var/lib/mysql

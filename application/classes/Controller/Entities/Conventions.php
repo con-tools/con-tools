@@ -1,96 +1,96 @@
 <?php
-class Controller_Entities_Conventions extends Api_Controller {
+class Controller_Entities_Conventions extends Api_Rest_Controller {
+
+	/**
+	 * We should be able to create a convention without its key (that doesn't exist yet)
+	 */
+	protected function tryAuthenticate() {
+		try {
+			parent::tryAuthenticate();
+		} catch (Api_Exception_Unauthorized $e) {}
+	}
 	
-	public function action_index() {
-		switch ($this->request->method()) {
-			case 'POST':
-				$user = $this->verifyAuthentication()->user;
-				return $this->create($user, json_decode($this->request->body(), true));
-			case 'PUT':
-				$user = $this->verifyAuthentication()->user;
-				return $this->update($user, $this->request->param('id'), json_decode($this->request->body(), true));
-			case 'DELETE':
-				$user = $this->verifyAuthentication()->user;
-				return $this->delete($user, $this->request->param('id'));
-			case 'GET':
-				return $this->retrieve($this->request->param('id'));
+	protected function update($id) {
+		if ($id == 'self') { // self lookup for a convention
+			$con = $this->verifyConventionKey();
+			error_log('Looking up self convention id: ' . $con->pk());
+		} else {
+			$con = new Model_Convention($id);
 		}
+
+		if (is_null($con) || !$con->loaded() || !$con->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to update convention!");
+		$data = $this->input();
+		if ($data->settings)
+			$con->settings = $data->settings;
+		$con->save();
+		return true;
 	}
 	
-	private function update(Model_User $user, $id, $data) {
+	protected function delete($id) {
 		throw new Api_Exception_Unimplemented($this);
 	}
 	
-	private function delete(Model_User $user, $id) {
-		throw new Api_Exception_Unimplemented($this);
-	}
-	
-	private function create(Model_User $user, $data) {
+	protected function create() {
+		if (is_null($this->user))
+			throw new Api_Exception_Unauthorized($this, "Must be logged in!");
+		$user = $this->user;
+		$data = $this->input()->getFields();
 		if (!isset($data['title']))
-			return $this->send(['status' => false, 'error' => 'missing title']);
+			throw new Api_Exception_InvalidInput($this, "Missing title");
 		try {
 			$con = Model_Convention::persist($data['title'], @$data['series'], @$data['website'], @$data['location'], @$data['slug']);
 			$key = $con->generateApiKey();
 			$owner = Model_Manager::persist($con, $user, (new Model_Role_Manager())->getRole());
-			$this->send([
-					'status' => true,
+			return [
 					'slug' => $con->slug,
 					'id' => $con->id,
 					'key' => $key->client_key,
 					'secret' => $key->client_secret,
-			]);
+			];
 		} catch (Api_Exception_Duplicate $e) {
-			$this->send([
-					'status' => false,
-					'error' => "Convention {$data['title']} already exists"
-			]);
+			throw new Api_Exception_InvalidInput($this, "Convention {$data['title']} already exists");
 		}
 	}
 
-	private function retrieve($id) {
-		if ($id) {
-			if ($id == 'self') { // self lookup for a convention
-				$con = $this->verifyConventionKey();
-				error_log('Looking up self convention id: ' . $con->pk());
-				try {
-					if ($con->isManager($user = $this->verifyAuthentication()->user))
-						return $this->send($con->for_private_json());
-				} catch (Api_Exception_Unauthorized $e) { }
-				return $this->send($con->for_json());
-			}
-			
+	protected function retrieve($id) {
+		if ($id == 'self') { // self lookup for a convention
+			$con = $this->verifyConventionKey();
+			error_log('Looking up self convention id: ' . $con->pk());
 			try {
-				$con = new Model_Convention($id);
-				if (!$con->loaded())
-					throw new Model_Exception_NotFound();
-				$this->send([
-						'id' => $con->id,
-						'title' => $con->title,
-						'slug' => $con->slug,
-						'series' => $con->series,
-				]);
-			} catch (Model_Exception_NotFound $e) {
-				$this->send(['data'=> null]);
-			}
-		} else {
-			$out = [];
-			foreach (ORM::factory('Convention')->find_all() as $con) {
-				$condata = [
-						'id' => $con->id,
-						'title' => $con->title,
-						'slug' => $con->slug,
-						'series' => $con->series,
-				];
-				if ($this->request->query('keys')) {
-					foreach ($con->api_keys->find_all() as $key) {
-						$condata['public-key'] = $key->client_key;
-						break;
-					}
-				}
-				$out[] = $condata;
-			}
-			$this->send($out);
+				if ($con->isManager($user = $this->verifyAuthentication()->user))
+					return $con->for_private_json();
+			} catch (Api_Exception_Unauthorized $e) { }
+			return $con->for_json();
 		}
+		
+		$con = new Model_Convention($id);
+		if (!$con->loaded())
+			throw new Model_Exception_NotFound();
+		return [
+				'id' => $con->id,
+				'title' => $con->title,
+				'slug' => $con->slug,
+				'series' => $con->series,
+		];
+	}
+	
+	protected function catalog() {
+		return array_map(function($con) {
+			$condata = [
+					'id' => $con->id,
+					'title' => $con->title,
+					'slug' => $con->slug,
+					'series' => $con->series,
+			];
+			if ($this->request->query('keys')) {
+				foreach ($con->api_keys->find_all() as $key) {
+					$condata['public-key'] = $key->client_key;
+					break;
+				}
+			}
+			return $condata;
+		}, ORM::factory('Convention')->find_all());
 	}
 	
 }

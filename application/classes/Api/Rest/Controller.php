@@ -24,12 +24,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 	protected $user = null;
 	
 	public function action_index() {
-		$this->convention = $this->verifyConventionKey();
-		try {
-			$this->user = $this->verifyAuthentication()->user;
-		} catch (Api_Exception_Unauthorized $e) {
-			// some APIs allow no user auth
-		}
+		$this->tryAuthenticate();
 		
 		switch ($this->request->method()) {
 			case 'POST':
@@ -67,6 +62,15 @@ abstract class Api_Rest_Controller extends Api_Controller {
 				return;
 			default:
 				throw new Exception("Invalid operation {$this->request->method()}");
+		}
+	}
+	
+	protected function tryAuthenticate() {
+		$this->convention = $this->verifyConventionKey();
+		try {
+			$this->user = $this->verifyAuthentication()->user;
+		} catch (Api_Exception_Unauthorized $e) {
+			// some APIs allow no user auth
 		}
 	}
 	

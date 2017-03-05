@@ -4,13 +4,54 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	
 	public function create() {
 		$data = $this->input();
+		$usePasses = $this->convention->usePasses();
+		
 		Logger::debug("Loading timeslot '".$data->timeslot."'for ticket creation");
 		$timeslot = new Model_Timeslot($data->timeslot);
 		if (!$timeslot->loaded())
 			throw new Api_Exception_InvalidInput($this, "No time slot specified for the sell");
+
+		if ($usePasses) {
+			if (!$data->user_passes)
+				throw new Api_Exception_InvalidInput($this, "Convention uses passes, and no 'user_passes' provided");
+			$passes = array_map(function($id) {
+				$pass = new Model_User_Pass($id);
+				if (!$pass->loaded() || $pass->user != $this->getValidUser())
+					throw new Api_Exception_InvalidInput($this, "Invalid user pass '$id' provided");
+				if (!$pass->availableDuring($timeslot->start_time, $timeslot->end_time))
+					throw new Api_Exception_InvalidInput($this, "Pass '$id' is not available for timeslot '{$timeslot->id}'", [ 'conflict' => $id ]);
+				return $pass;
+			}, is_array($data->user_passes) ? $data->user_passes : [ $data->user_passes ]);
+			$amount = count($passes);
+			if ($timeslot->available_tickets < $amount)
+				throw new Api_Exception_Duplicate($this, "Not enough tickets left");
+			return;
+			
+			// start the reservation
+			Database::instance()->begin();
+			$tickets = array_map(function($pass) {
+				return Model_Ticket::forPass($timeslot, $pass);
+			}, $passes);
+			if ($timeslot->available_tickets < 0) { // someone took our tickets first
+				Database::instance()->rollback();
+				throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
+			}
+			Database::instance()->commit();
+			
+			// verify sanity after I finish the transaction
+			if ($timeslot->available_tickets < 0) {
+				foreach ($tickets as $ticket)
+					$ticket->delete();
+				throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
+			}
+			
+			return ORM::result_for_json($tickets);
+		}
+		
 		$amount = $data->amount ?: 1;
 		if ($timeslot->available_tickets < $amount)
 			throw new Api_Exception_Duplicate($this, "Not enough tickets left");
+		
 		// start the reservation
 		Database::instance()->begin();
 		$ticket = Model_Ticket::persist($timeslot, $this->getValidUser());
@@ -19,11 +60,13 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
 		}
 		Database::instance()->commit();
+		
 		// verify sanity after I finish the transaction
 		if ($timeslot->available_tickets < 0) {
 			$ticket->delete();
 			throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
 		}
+		
 		return $ticket->for_json_with_coupons();
 	}
 	

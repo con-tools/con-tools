@@ -1,21 +1,16 @@
 <?php
 
-class Model_Ticket extends ORM {
-	
-	const STATUS_RESERVED = 'reserved';
-	const STATUS_PROCESSING = 'processing';
-	const STATUS_AUTHORIZED = 'authorized';
-	const STATUS_CANCELLED = 'cancelled';
-	const STATUS_REFUNDED = 'refunded';
+class Model_Ticket extends Model_Sale_Item {
 	
 	protected $_belongs_to = [
 			'user' => [],
 			'timeslot' => [],
 			'sale' => [],
+			'user_pass' => [], // when using passes, we still use tickets for registration, but we link them to the pass in use and we don't sell them
 	];
 	
 	protected $_has_many = [
-			'coupons' => [],
+			'coupons' => [ 'foreign_key' => 'object_id' ],
 	];
 	
 	protected $_columns = [
@@ -24,6 +19,7 @@ class Model_Ticket extends ORM {
 			'user_id' => [],
 			'timeslot_id' => [],
 			'sale_id' => [],
+			'user_pass_id' => [],
 			// data fields
 			'amount' => [], // number of tickets
 			'price' => [], // fullfilment price for the entire model (i.e when amount > 1, for all the amount)
@@ -31,14 +27,6 @@ class Model_Ticket extends ORM {
 			'reserved_time' => [ 'type' => 'DateTime' ],
 			'cancel_reason' => [],
 	];
-	
-	public static function validStatuses() {
-		return [
-				self::STATUS_RESERVED,
-				self::STATUS_PROCESSING,
-				self::STATUS_AUTHORIZED,
-		];
-	}
 	
 	public static function persist(Model_Timeslot $timeslot, Model_User $user, int $amount = 1, $price = null) : Model_Ticket {
 		$o = new Model_Ticket();
@@ -50,6 +38,25 @@ class Model_Ticket extends ORM {
 		$o->price = $price ?: ($o->amount * $o->timeslot->event->price);
 		$o->save();
 		$o->consumeCoupons(); // see if there are any coupons that apply to these tickets
+		return $o;
+	}
+	
+	/**
+	 * Create and store a ticket registering the user of a user pass
+	 * @param Model_Timeslot $timeslot time slot on which to register the user
+	 * @param Model_User_Pass $pass User pass to register with
+	 * @return Model_Ticket the ticket that was generated for this registration
+	 */
+	public static function forPass(Model_Timeslot $timeslot, Model_User_Pass $pass) : Model_Ticket {
+		$o = new Model_Ticket();
+		$o->user = $pass->user;
+		$o->timeslot = $timeslot;
+		$o->user_pass = $pass;
+		$o->status = $pass->status; // use the pass status - if the user pass is not authorized, nor is this ticket
+		$o->reserved_time = new DateTime();
+		$o->amount = 1; // only one ticket per pass
+		$o->price = 0; // user has paid for the pass, so they don't need to pay here
+		$o->save();
 		return $o;
 	}
 	
@@ -87,7 +94,7 @@ class Model_Ticket extends ORM {
 	}
 	
 	/**
-	 * Retrieve the ticket shopping card for the user
+	 * Retrieve the ticket shopping cart for the user
 	 * @param Model_Convention $con Convention where the user goes
 	 * @param Model_User $user User that goes to a convention
 	 */
@@ -120,24 +127,15 @@ class Model_Ticket extends ORM {
 	public static function oldTickets(DateTime $than) {
 		return (new Model_Ticket())->
 			with('timeslot:event')->
-		with('user')->
-		where('convention_id', '=', $con->pk())->
-		where('ticket.user_id','=',$user->pk())->
-		where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
-		find_all();
+			with('user')->
+			where('convention_id', '=', $con->pk())->
+			where('ticket.user_id','=',$user->pk())->
+			where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
+			find_all();
 	}
 	
-	public function consumeCoupons() {
-		if ($this->price <= 0)
-			return $this->save(); // no need to consume coupons
-		Database::instance()->begin(); // work in transactions, in case I need to duplicate coupons
-		foreach (Model_Coupon::unconsumedForUser($this->user, $this->convention) as $coupon) {
-			$coupon->consume($this);
-			if ($this->price <= 0)
-				break; // stop consuming coupons, there's no more need
-		}
-		$this->save();
-		Database::instance()->commit();
+	public function getTypeName() {
+		return 'ticket';
 	}
 	
 	public function get($column) {
@@ -147,12 +145,6 @@ class Model_Ticket extends ORM {
 			default:
 				return parent::get($column);
 		}
-	}
-	
-	public function setSale(Model_Sale $sale) {
-		$this->sale = $sale;
-		$this->status = self::STATUS_PROCESSING;
-		return $this->save();
 	}
 	
 	/**
@@ -170,74 +162,9 @@ class Model_Ticket extends ORM {
 		$this->consumeCoupons();
 	}
 	
-	/**
-	 * Cancel a ticket that has not been payed for yet.
-	 * This will return all coupons used in the ticket.
-	 * @param string $reason Reason for the cancellation
-	 * @throws Exception in case the ticket has already been payed for
-	 * @return Model_Ticket the ticket itself
-	 */
-	public function cancel($reason) : Model_Ticket {
-		if ($this->status == self::STATUS_AUTHORIZED)
-			throw new Exception("An authorized ticket cannot be cancelled!");
-		$this->status = self::STATUS_CANCELLED;
-		$this->cancel_reason = $reason;
-		$this->returnCoupons();
-		return $this->save();
-	}
-	
-	/**
-	 * Refund an already purchased ticket by returning all coupons
-	 * and creating a refund coupon for the payed amount
-	 * @param Model_Coupon_Type $refundType The coupon type to create for refunded amount
-	 * @param string $reason Reason for the refund
-	 * @throws Exception in case the ticket has not been payed for yet
-	 * @return Model_Ticket the ticket itself
-	 */
-	public function refund(Model_Coupon_Type $refundType, $reason) : Model_Ticket {
-		if ($this->status != self::STATUS_AUTHORIZED)
-			throw new Exception("Cannot refund a ticket that has not been payed for yet");
-		$refundAmount = $this->price;
-		$this->returnCoupons();
-		// reset amount after "return coupons" to show how much the user has actually paid - this is important for consolidation
-		$this->price = $refundAmount;
-		$this->status = self::STATUS_REFUNDED;
-		$this->cancel_reason = $reason;
-		if ($refundAmount > 0)
-			Model_Coupon::persist($refundType, $this->user, "Refund for ticket:" . $this->pk(), $refundAmount);
-		return $this->save();
-	}
-	
-	/**
-	 * Return all coupons used for this ticket, and recalculate non-couponed price
-	 * This method does not save the object, as it is expected to be used as part
-	 * of a larger transaction
-	 */
-	public function returnCoupons() {
-		foreach ($this->coupons->find_all() as $coupon) {
-			$coupon->release();
-		}
+	public function computePrice() {
 		// recompute price, so we'll see how much that ticket would have cost without coupons
-		$this->price = $this->timeslot->event->price * $this->amount;
-	}
-	
-	public function authorize() {
-		$this->status = self::STATUS_AUTHORIZED;
-		return $this->save();
-	}
-	
-	public function returnToCart() {
-		$this->status = self::STATUS_RESERVED;
-		$this->reserved_time = new DateTime(); // give the user a bit more time
-		$this->save();
-	}
-
-	public function isAuthorized() {
-		return $this->status == self::STATUS_AUTHORIZED || ($this->sale_id and $this->sale->transaction_id);
-	}
-
-	public function isCancelled() {
-		return $this->status == self::STATUS_CANCELLED;
+		return $this->timeslot->event->price * $this->amount;
 	}
 	
 	public function for_json_with_coupons() {
@@ -251,7 +178,6 @@ class Model_Ticket extends ORM {
 				'coupons' => self::result_for_json($this->coupons->find_all()),
 				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
-		
 	}
 	
 	public function for_json() {
