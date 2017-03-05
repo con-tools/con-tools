@@ -13,7 +13,7 @@ class Model_User_Pass extends Model_Sale_Item {
 			'tickets' => [],
 	];
 	
-	protected $_columsn = [
+	protected $_columns = [
 			'id' => [],
 			// foreign keys
 			'user_id' => [],
@@ -80,11 +80,12 @@ class Model_User_Pass extends Model_Sale_Item {
 	 * {@inheritDoc}
 	 * @see Model_Sale_Item::authorize()
 	 */
-	public function authorize() {
-		parent::authorize();
+	public function authorize() : Model_Sale_Item {
+		$ret = parent::authorize();
 		foreach ($this->tickets->find_all() as $ticket) {
 			$ticket->authorize();
 		}
+		return $ret;
 	}
 	
 	/**
@@ -92,11 +93,34 @@ class Model_User_Pass extends Model_Sale_Item {
 	 * {@inheritDoc}
 	 * @see Model_Sale_Item::cancel()
 	 */
-	public function cancel($reason) {
-		parent::cancel($reason);
+	public function cancel($reason) : Model_Sale_Item {
+		$ret = parent::cancel($reason);
 		foreach ($this->tickets->find_all() as $ticket) {
 			$ticket->cancel($reason);
 		}
+		return $ret;
+	}
+	
+	/**
+	 * Special refund processing for passes - cancel all tickets associated with this pass
+	 * {@inheritDoc}
+	 * @see Model_Sale_Item::refund()
+	 */
+	public function refund(Model_Coupon_Type $refundType, $reason) : Model_Sale_Item {
+		$ret = parent::refund($refundType, $reason);
+		foreach ($this->tickets->find_all() as $ticket) {
+			$ticket->cancel($reason);
+		}
+		return $ret;
+	}
+	
+	public function delete() {
+		foreach ($this->tickets->find_all() as $ticket) {
+			if ($ticket->status == Model_Ticket::STATUS_AUTHORIZED)
+				throw new Exception("Can't delete user pass with authorized tickets");
+			$ticket->delete();
+		}
+		parent::delete();
 	}
 	
 	public function get($column) {
@@ -110,11 +134,11 @@ class Model_User_Pass extends Model_Sale_Item {
 	
 	/**
 	 * Check if this user pass has no booking between the specified times
-	 * @param DataTime $start Start time to compare
+	 * @param DateTime $start Start time to compare
 	 * @param DateTime $end end time to compare
 	 * @return boolean whether the pass is available for booking at the specified times
 	 */
-	public function availableDuring(DataTime $start, DateTime $end) {
+	public function availableDuring(DateTime  $start, DateTime $end) {
 		foreach ($this->tickets->find_all() as $ticket) {
 			$timeslot = $ticket->timeslot;
 			if ($timeslot->conflicts($start, $end))

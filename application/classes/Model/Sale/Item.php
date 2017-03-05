@@ -40,6 +40,14 @@ abstract class Model_Sale_Item extends ORM {
 		$this->save();
 		Database::instance()->commit();
 	}
+	
+	/**
+	 * Check if the current item has a valid status
+	 * @return boolean whether the item has a valid status
+	 */
+	public function isValid() {
+		return in_array($this->status, self::validStatuses());
+	}
 
 	public function get($column) {
 		switch($column) {
@@ -76,7 +84,7 @@ abstract class Model_Sale_Item extends ORM {
 		return $this->save();
 	}
 	
-	public function authorize() {
+	public function authorize() : Model_Sale_Item {
 		$this->status = self::STATUS_AUTHORIZED;
 		return $this->save();
 	}

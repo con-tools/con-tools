@@ -34,12 +34,12 @@ class ORM extends Kohana_ORM {
 		// handle type conversions, if the model specifies it
 		$field_def = @$this->_columns[$column];
 		if (is_array($field_def)) {
-					switch (@$field_def['type']) {
-						case 'DateTime':
-						case 'DateInterval':
-							$value = $this->unsqlize($value);
-							break;
-						case 'boolean':
+			switch (@$field_def['type']) {
+				case 'DateTime':
+				case 'DateInterval':
+					$value = $this->unsqlize($value);
+					break;
+				case 'boolean':
 					$value = is_numeric($value) ? ($value != 0) : $value;
 					break;
 			}

@@ -14,22 +14,22 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 		if ($usePasses) {
 			if (!$data->user_passes)
 				throw new Api_Exception_InvalidInput($this, "Convention uses passes, and no 'user_passes' provided");
-			$passes = array_map(function($id) {
+			$passes = array_map(function($id) use ($timeslot) {
 				$pass = new Model_User_Pass($id);
-				if (!$pass->loaded() || $pass->user != $this->getValidUser())
+				if (!$pass->loaded() || $pass->user != $this->getValidUser() || !$pass->isValid())
 					throw new Api_Exception_InvalidInput($this, "Invalid user pass '$id' provided");
 				if (!$pass->availableDuring($timeslot->start_time, $timeslot->end_time))
 					throw new Api_Exception_InvalidInput($this, "Pass '$id' is not available for timeslot '{$timeslot->id}'", [ 'conflict' => $id ]);
 				return $pass;
 			}, is_array($data->user_passes) ? $data->user_passes : [ $data->user_passes ]);
+			
 			$amount = count($passes);
 			if ($timeslot->available_tickets < $amount)
-				throw new Api_Exception_Duplicate($this, "Not enough tickets left");
-			return;
+				throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
 			
 			// start the reservation
 			Database::instance()->begin();
-			$tickets = array_map(function($pass) {
+			$tickets = array_map(function($pass) use ($timeslot) {
 				return Model_Ticket::forPass($timeslot, $pass);
 			}, $passes);
 			if ($timeslot->available_tickets < 0) { // someone took our tickets first
@@ -40,12 +40,13 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			
 			// verify sanity after I finish the transaction
 			if ($timeslot->available_tickets < 0) {
+				error_log("Not enough available tickets after commit - this shouldn't happen");
 				foreach ($tickets as $ticket)
 					$ticket->delete();
 				throw new Api_Exception_InvalidInput($this, "Not enough tickets left");
 			}
 			
-			return ORM::result_for_json($tickets);
+			return [ 'tickets' => ORM::result_for_json($tickets) ];
 		}
 		
 		$amount = $data->amount ?: 1;

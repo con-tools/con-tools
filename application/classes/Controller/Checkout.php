@@ -118,4 +118,20 @@ class Controller_Checkout extends Api_Controller {
 			return $this->redirect('/auth/select?redirect-url=' . urlencode(URL::base(). $this->request->uri() . URL::query()));
 		}
 	}
+	
+	/**
+	 * Helper method for dummy cart
+	 */
+	public function action_ok() {
+		$view = Twig::factory('payment/cart-ok');
+		return $this->response->body($view->render());
+	}
+	
+	/**
+	 * Helper method for dummy cart
+	 */
+	public function action_fail() {
+		$view = Twig::factory('payment/cart-fail');
+		return $this->response->body($view->render());
+	}
 }
