@@ -42,6 +42,25 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	/**
+	 * Create and store a ticket registering the user of a user pass
+	 * @param Model_Timeslot $timeslot time slot on which to register the user
+	 * @param Model_User_Pass $pass User pass to register with
+	 * @return Model_Ticket the ticket that was generated for this registration
+	 */
+	public static function forPass(Model_Timeslot $timeslot, Model_User_Pass $pass) : Model_Ticket {
+		$o = new Model_Ticket();
+		$o->user = $pass->user;
+		$o->timeslot = $timeslot;
+		$o->user_pass = $pass;
+		$o->status = $pass->status; // use the pass status - if the user pass is not authorized, nor is this ticket
+		$o->reserved_time = new DateTime();
+		$o->amount = 1; // only one ticket per pass
+		$o->price = 0; // user has paid for the pass, so they don't need to pay here
+		$o->save();
+		return $o;
+	}
+	
+	/**
 	 * Count the number of tickets locked (reserved, in process or sold) for a time slot
 	 * @param Model_Timeslot $timeslot
 	 * @return int number of tickets
