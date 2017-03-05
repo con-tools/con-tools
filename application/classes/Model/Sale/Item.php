@@ -44,4 +44,13 @@ abstract class Model_Sale_Item extends ORM {
 				return parent::get($column);
 		}
 	}
+	
+	public function isAuthorized() {
+		return $this->status == self::STATUS_AUTHORIZED || ($this->sale_id and $this->sale->transaction_id);
+	}
+	
+	public function isCancelled() {
+		return $this->status == self::STATUS_CANCELLED;
+	}
+	
 }

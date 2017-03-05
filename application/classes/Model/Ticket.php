@@ -209,14 +209,6 @@ class Model_Ticket extends Model_Sale_Item {
 		$this->save();
 	}
 
-	public function isAuthorized() {
-		return $this->status == self::STATUS_AUTHORIZED || ($this->sale_id and $this->sale->transaction_id);
-	}
-
-	public function isCancelled() {
-		return $this->status == self::STATUS_CANCELLED;
-	}
-	
 	public function for_json_with_coupons() {
 		return array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
