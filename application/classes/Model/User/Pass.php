@@ -10,6 +10,7 @@ class Model_User_Pass extends Model_Sale_Item {
 	
 	protected $_has_many = [
 			'coupons' => [ 'foreign_key' => 'object_id' ],
+			'tickets' => [],
 	];
 	
 	protected $_columsn = [
@@ -67,6 +68,21 @@ class Model_User_Pass extends Model_Sale_Item {
 			default:
 				return parent::get($column);
 		}
+	}
+	
+	/**
+	 * Check if this user pass has no booking between the specified times
+	 * @param DataTime $start Start time to compare
+	 * @param DateTime $end end time to compare
+	 * @return boolean whether the pass is available for booking at the specified times
+	 */
+	public function availableDuring(DataTime $start, DateTime $end) {
+		foreach ($this->tickets->find_all() as $ticket) {
+			$timeslot = $ticket->timeslot;
+			if ($timeslot->conflicts($start, $end))
+				return false;
+		}
+		return true;
 	}
 
 // 	public function for_json() {
