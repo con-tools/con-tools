@@ -179,6 +179,14 @@ class Model_Convention extends ORM {
 		return $query->find_all();
 	}
 	
+	/**
+	 * Check if the convention is set to sell tickets or passes
+	 * @return boolean if passes are being used instead of selling tickets
+	 */
+	public function usePasses() {
+		return $this->settings['registration-type'] == 'passes';
+	}
+	
 	public function expireReservedTickets() {
 		$reservetime = @$this->get('settings')['reservation-time'];
 		if (!$reservetime) return; // sanity
