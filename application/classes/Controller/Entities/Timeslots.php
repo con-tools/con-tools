@@ -36,6 +36,8 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 		
 		$timeslot = Model_Timeslot::persist($event, $start, $data->duration, $data->min_attendees, $data->max_attendees,
 				$data->notes_to_attendees);
+		if ($this->convention->usePasses() && $timeslot->updatePassRequirements())
+			$timeslot->save();
 		
 		foreach ($locations as $location)
 			$timeslot->add('locations', $location);
