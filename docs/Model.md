@@ -129,14 +129,16 @@ instance.
   start time
 * End Time: ISO8601 duration specification. See above
 
-### User Pass Requirements
+### User Passes
 
-Collection of all pass requirements collected by users (many to many)
+Collection of all passes collected by users (many to many)
 
 *Model Name:* User_Pass_Requirement
 *Fields:*
 * User (reference)
-* Pass Requirement (reference)
+* Pass (reference)
+* Name : Name of the visitor who will make use of this pass
+* Cost : the price that was paid for that pass
 
 ### Pass Requirements Passes
 
