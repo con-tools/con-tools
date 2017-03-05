@@ -11,7 +11,7 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No visitor name specified for the pass");
 		// start the reservation
 		$userpass = Model_User_Pass::persist($this->getValidUser(), $pass, $data->name, $data->price);
-		return $userpass;
+		return $userpass->for_json();
 	}
 	
 	protected function retrieve($id) {
@@ -54,7 +54,7 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 				$refundType = new Model_Coupon_Type($data->refund_coupon_type);
 				Logger::debug("Starting refunding {$pass} by {$this->user} using {$refundType}");
 				if ($pass->price > 0 and !$refundType->loaded())
-					throw new Api_Exception_InvalidInput($this, "Ticket already authorized, and no \"refund-coupon-type\" specified");
+					throw new Api_Exception_InvalidInput($this, "User pass already authorized, and no \"refund-coupon-type\" specified : ".print_r($data->delete,true));
 				$pass->refund($refundType, $reason);
 			} else {
 				$pass->cancel($reason);

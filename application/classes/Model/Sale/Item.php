@@ -40,6 +40,14 @@ abstract class Model_Sale_Item extends ORM {
 		$this->save();
 		Database::instance()->commit();
 	}
+	
+	/**
+	 * Check if the current item has a valid status
+	 * @return boolean whether the item has a valid status
+	 */
+	public function isValid() {
+		return in_array($this->status, self::validStatuses());
+	}
 
 	public function get($column) {
 		switch($column) {
@@ -76,7 +84,7 @@ abstract class Model_Sale_Item extends ORM {
 		return $this->save();
 	}
 	
-	public function authorize() {
+	public function authorize() : Model_Sale_Item {
 		$this->status = self::STATUS_AUTHORIZED;
 		return $this->save();
 	}
@@ -122,6 +130,33 @@ abstract class Model_Sale_Item extends ORM {
 		if ($refundAmount > 0)
 			Model_Coupon::persist($refundType, $this->user, "Refund for ".$this->getTypeName().":" . $this->pk(), $refundAmount);
 		return $this->save();
+	}
+	
+
+	/**
+	 * Retrieve the ticket and passes shopping cart for the user
+	 * @param Model_Convention $con Convention where the user goes
+	 * @param Model_User $user User that goes to a convention
+	 */
+	public static function shoppingCart(Model_Convention $con, Model_User $user) : Database_Result {
+		if ($con->usePasses()) { // we're selling passes - there's no point in showing tickets, because "reserved" tickets are free-pass tickets
+			return (new Model_User_Pass())->
+				with('pass')->
+				with('user')->
+				where('convention_id', '=', $con->pk())->
+				where('user_pass.user_id', '=', $user->pk())->
+				where('user_pass.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
+				find_all();
+		}
+		
+		// selling ticketse
+		return (new Model_Ticket())->
+			with('timeslot:event')->
+			with('user')->
+			where('convention_id', '=', $con->pk())->
+			where('ticket.user_id','=',$user->pk())->
+			where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
+			find_all();
 	}
 	
 }

@@ -106,15 +106,32 @@ class Controller_Checkout extends Api_Controller {
 			$user = $this->verifyAuthentication()->user;
 			$view = Twig::factory('payment/cart');
 			$view->convention_key = $convention->getPublicKey();
-			$view->tickets = Model_Ticket::shoppingCart($convention, $user);
-			$view->total_tickets = Model_Sale::computeTotal($view->tickets);
+			$view->use_passes = $convention->usePasses();
+			$view->items = Model_Sale_Item::shoppingCart($convention, $user);
+			$view->total_cost = Model_Sale::computeTotal($view->items);
 			$view->purchases = Model_Purchase::shoppingCart($convention, $user);
 			$view->total_purchases = Model_Sale::computeTotal($view->purchases);
-			$view->total = $view->total_tickets + $view->total_purchases;
+			$view->total = $view->total_cost + $view->total_purchases;
 			$view->baseurl = URL::base();
 			return $this->response->body($view->render());
 		} catch (Api_Exception_Unauthorized $e) {
 			return $this->redirect('/auth/select?redirect-url=' . urlencode(URL::base(). $this->request->uri() . URL::query()));
 		}
+	}
+	
+	/**
+	 * Helper method for dummy cart
+	 */
+	public function action_ok() {
+		$view = Twig::factory('payment/cart-ok');
+		return $this->response->body($view->render());
+	}
+	
+	/**
+	 * Helper method for dummy cart
+	 */
+	public function action_fail() {
+		$view = Twig::factory('payment/cart-fail');
+		return $this->response->body($view->render());
 	}
 }

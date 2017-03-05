@@ -94,21 +94,6 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	/**
-	 * Retrieve the ticket shopping cart for the user
-	 * @param Model_Convention $con Convention where the user goes
-	 * @param Model_User $user User that goes to a convention
-	 */
-	public static function shoppingCart(Model_Convention $con, Model_User $user) : Database_Result {
-		return (new Model_Ticket())->
-				with('timeslot:event')->
-				with('user')->
-				where('convention_id', '=', $con->pk())->
-				where('ticket.user_id','=',$user->pk())->
-				where('ticket.status', 'IN', [ self::STATUS_RESERVED, self::STATUS_PROCESSING ])->
-				find_all();
-	}
-	
-	/**
 	 * Retrieve all tickets for the user in the convention, regardless of status.
 	 * Compare with {@link Model_Ticket#shoppingCart()}
 	 * @param Model_Convention $con
@@ -168,7 +153,7 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	public function for_json_with_coupons() {
-		return array_merge(array_filter(parent::for_json(),function($key){
+		$res = array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
 					'id', 'status', 'amount', 'price', 'reserved-time',
 			]);
@@ -178,10 +163,13 @@ class Model_Ticket extends Model_Sale_Item {
 				'coupons' => self::result_for_json($this->coupons->find_all()),
 				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
+		if ($this->user_pass->loaded())
+			$res['user_pass'] = $this->user_pass->for_json();
+		return $res;
 	}
 	
 	public function for_json() {
-		return array_merge(array_filter(parent::for_json(),function($key){
+		$res = array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
 					'id', 'status', 'amount', 'price', 'reserved-time',
 			]);
@@ -190,7 +178,9 @@ class Model_Ticket extends Model_Sale_Item {
 				'user' => $this->user->for_json(),
 				'sale' => $this->sale_id ? $this->sale->for_json() : null,
 		]);
-		
+		if ($this->user_pass->loaded())
+			$res['user_pass'] = $this->user_pass->for_json();
+		return $res;
 	}
 	
 }

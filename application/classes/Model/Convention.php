@@ -195,10 +195,19 @@ class Model_Convention extends ORM {
 		$reservetime->invert = 1;
 		$last = new DateTime();
 		$last->add($reservetime);
+		
+		// expire tickets
 		foreach (Model_Ticket::reservedByReserveTime($last) as $ticket) {
-			Logger::info("Expiring old reserve ticket " . $ticket->pk() . " for " . $ticket->user->email .
+			Logger::info("Expiring old reserved ticket " . $ticket->pk() . " for " . $ticket->user->email .
 					" from " . $ticket->reserved_time->format(DateTime::ATOM));
 			$ticket->cancel("internal:reservation-timeout");
+		}
+		
+		// expire passes
+		foreach (Model_User_Pass::reservedByReserveTime($last) as $pass) {
+			Logger::info("Expiring old reserved pass $pass for " . $pass->user->email .
+					" from " . $pass->reserved_time->format(DateTime::ATOM));
+			$pass->cancel("internal:reservation-timeout");
 		}
 		
 		// calculate oldest processing time
@@ -207,10 +216,17 @@ class Model_Convention extends ORM {
 		$maxproctime->invert = 1;
 		$last = new DateTime();
 		$last->add($maxproctime);
+		
 		foreach (Model_Ticket::processingByReserveTime($last) as $ticket) {
 			Logger::info("Expiring old processing ticket " . $ticket->pk() . " for " . $ticket->user->email .
 					" from " . $ticket->reserved_time->format(DateTime::ATOM));
 			$ticket->cancel("internal:processing-timeout");
+		}
+
+		foreach (Model_User_Pass::processingByReserveTime($last) as $pass) {
+			Logger::info("Expiring old processing pass $pass for " . $ticket->user->email .
+					" from " . $pass->reserved_time->format(DateTime::ATOM));
+			$pass->cancel("internal:processing-timeout");
 		}
 	}
 

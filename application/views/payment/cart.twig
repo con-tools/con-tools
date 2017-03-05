@@ -6,6 +6,34 @@
 </head>
 <body>
 
+{% if use_passes %}
+<h2>Passes</h2>
+<table>
+<thead>
+	<tr>
+		<th>Event</th>
+		<th>Amount</th>
+		<th>Cost</th>
+	</tr>
+</thead>
+<tbody>
+{% for pass in items %}
+	<tr>
+		<td>{{pass.name}}</td>
+		<td>{{pass.pass.title}}</td>
+		<td>{{pass.price}}</td>
+	</tr>
+{% endfor %}
+	<tr>
+		<td colspan="2">
+		</td>
+		<td>{{total_cost}}</td>
+	</tr>
+</tbody>
+</table>
+
+{% else %}
+
 <h2>Tickets</h2>
 <table>
 <thead>
@@ -16,7 +44,7 @@
 	</tr>
 </thead>
 <tbody>
-{% for ticket in tickets %}
+{% for ticket in items %}
 	<tr>
 		<td>{{ticket.timeslot.event.title}}</td>
 		<td>{{ticket.amount}}</td>
@@ -26,10 +54,11 @@
 	<tr>
 		<td colspan="2">
 		</td>
-		<td>{{total_tickets}}</td>
+		<td>{{total_cost}}</td>
 	</tr>
 </tbody>
 </table>
+{% endif %}
 
 <h2>Merchandise</h2>
 <table>
