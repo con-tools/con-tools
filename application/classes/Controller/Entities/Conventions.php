@@ -58,7 +58,7 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 			$con = $this->verifyConventionKey();
 			error_log('Looking up self convention id: ' . $con->pk());
 			try {
-				if ($con->isManager($user = $this->verifyAuthentication()->user))
+				if ($this->systemAccessAllowed())
 					return $con->for_private_json();
 			} catch (Api_Exception_Unauthorized $e) { }
 			return $con->for_json();
