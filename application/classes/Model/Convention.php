@@ -224,7 +224,7 @@ class Model_Convention extends ORM {
 		}
 
 		foreach (Model_User_Pass::processingByReserveTime($last) as $pass) {
-			Logger::info("Expiring old processing pass $pass for " . $ticket->user->email .
+			Logger::info("Expiring old processing pass $pass for " . $pass->user->email .
 					" from " . $pass->reserved_time->format(DateTime::ATOM));
 			$pass->cancel("internal:processing-timeout");
 		}
