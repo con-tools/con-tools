@@ -47,7 +47,7 @@ class Model_Timeslot extends ORM {
 		$o->min_attendees = $min_attendees ?: $event->min_attendees;
 		$o->max_attendees = $max_attendees ?: $event->max_attendees;
 		$o->notes_to_attendees = $notes_to_attendees ?: $event->notes_to_attendees;
-		$this->updatePassRequirements();
+		$o->updatePassRequirements();
 		try {
 			return $o->save();
 		} finally {
