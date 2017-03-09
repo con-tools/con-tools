@@ -71,4 +71,10 @@ class Model_Event_Tag_Value extends ORM {
 		}
 	}
 	
+	public function for_json() {
+		$res = parent::for_json();
+		$res['slug'] = static::gen_slug($this->title);
+		return $res;
+	}
+	
 };
