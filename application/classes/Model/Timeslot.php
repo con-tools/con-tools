@@ -167,6 +167,7 @@ class Model_Timeslot extends ORM {
 		},ARRAY_FILTER_USE_KEY),[
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
+				'end' => $this->end_time->format(DateTime::ATOM),
 				'hosts' => self::result_for_json($this->host_names->find_all()),
 				'available_tickets' => $this->available_tickets,
 				'locations' => self::result_for_json($this->locations->find_all()),
