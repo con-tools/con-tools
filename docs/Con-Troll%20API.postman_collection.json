@@ -1,0 +1,2529 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Con-Troll API",
+		"_postman_id": "08f2be89-b73a-8d55-caa0-6782b9a273c3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Auth ID",
+					"request": {
+						"url": "{{endpoint}}/auth/id",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Verify",
+					"request": {
+						"url": "{{endpoint}}/auth/verify",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conventions",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Convention",
+					"request": {
+						"url": "{{endpoint}}/entities/conventions",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"איגור 11\",\n    \"series\": \"איגור\",\n    \"location\": \"East of the sun\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Conventions",
+					"request": {
+						"url": "{{endpoint}}/entities/conventions?keys=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My Convention\",\n    \"series\": \"con-troll test\",\n    \"location\": \"East of the sun\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Convention",
+					"request": {
+						"url": "{{endpoint}}/entities/conventions/self",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My Convention\",\n    \"series\": \"con-troll test\",\n    \"location\": \"East of the sun\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current Convention",
+					"request": {
+						"url": "{{endpoint}}/entities/conventions/self",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"settings\": {\n    \"max-processing-time\": \"PT15M\",\n    \"reservation-time\": \"PT10M\",\n    \"payment-processor\": {\n      \"type\": \"pelepay\",\n      \"id\": \"treasurer@roleplay.org.il\"\n    },\n    \"registration-type\": \"passes\"\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coupons",
+			"description": "",
+			"item": [
+				{
+					"name": "List Coupon Types",
+					"request": {
+						"url": "{{endpoint}}/entities/coupontypes",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Single Use Fixed Coupon",
+					"request": {
+						"url": "{{endpoint}}/entities/coupontypes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"מתנדב\",\n    \"type\": \"fixed\",\n    \"value\": 50,\n    \"category\": \"התנדבות\",\n    \"multiuse\": false\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Multiuse Use Fixed Coupon",
+					"request": {
+						"url": "{{endpoint}}/entities/coupontypes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"חבר עמותה\",\n    \"type\": \"fixed\",\n    \"value\": 10,\n    \"category\": \"חברות\",\n    \"multiuse\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Coupons",
+					"request": {
+						"url": "{{endpoint}}/entities/coupons?by_type=2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create single use volunteer coupon",
+					"request": {
+						"url": "{{endpoint}}/entities/coupons",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": 2,\n    \"user\": \"oded@geek.co.il\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Coupon",
+					"request": {
+						"url": "{{endpoint}}/entities/coupons/32",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Self Coupons",
+					"request": {
+						"url": "{{endpoint}}/entities/coupons?self=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Coupons For User",
+					"request": {
+						"url": "{{endpoint}}/entities/coupons?by_user=ofrimaliar@gmail.com",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Event",
+					"request": {
+						"url": "{{endpoint}}/entities/events",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"my event\",\n    \"teaser\": \"This is a very fancy game\",\n    \"description\": \"In this very fancy game, we will frolic and have fun\",\n    \"requires_registration\": true,\n    \"duration\": 60,\n    \"min_attendees\": 3,\n    \"max_attendees\": 6,\n    \"notes_to_staff\": null,\n    \"logistical_requirements\": \"Brooms, lots and lots of brooms\",\n    \"notes_to_attendees\": \"Bring your dirt on, and don't forget to have a lot of fun\",\n    \"scheduling_constraints\": \"I'm like, good, with like, whenever\",\n    \"tags\": {\n        \"event-type\": \"Role playing game\",\n        \"age-restriction\": \"None\",\n        \"taxonomy\": [ \"game\", \"rpg\", \"d&d\" ]\n    },\n    \"data\": {\n        \"field\": \"This is just some custom field\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Event",
+					"request": {
+						"url": "{{endpoint}}/entities/events/2872",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"my event\",\n    \"event_type\": \"Role playing game\",\n    \"teaser\": \"This is a very fancy game\",\n    \"description\": \"In this very fancy game, we will frolic and have fun\",\n    \"requires_registration\": true,\n    \"duration\": 60,\n    \"min_attendees\": 3,\n    \"max_attendees\": 6,\n    \"notes_to_staff\": null,\n    \"logistical_requirements\": \"Brooms, lots and lots of brooms\",\n    \"notes_to_attendees\": \"Bring your dirt on, and don't forget to have a lot of fun\",\n    \"scheduling_constraints\": \"I'm like, good, with like, whenever\",\n    \"data\": {\n        \"field\": \"This is just some custom field\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"url": "{{endpoint}}/entities/events/2",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"max-attendees\": 8,\n  \"notes-to-staff\": \"I'll tell you this\",\n  \"tags\": {\n    \"rule-system\": \"D&D\"\n  },\n  \"remove-tags\": {\n    \"taxonomy\": \"d&d\"\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Events",
+					"request": {
+						"url": "{{endpoint}}/entities/events",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"values\": [\n        \"Workshop\",\n        \"Lecture\"\n    ],\n    \"remove-values\": [\n        \"Panel\"\n    ],\n    \"replace-values\": {\n        \"Role playing game\": \"RPG\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"url": "{{endpoint}}/entities/events/2",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Events public",
+					"request": {
+						"url": "{{endpoint}}/entities/events",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"values\": [\n        \"Workshop\",\n        \"Lecture\"\n    ],\n    \"remove-values\": [\n        \"Panel\"\n    ],\n    \"replace-values\": {\n        \"Role playing game\": \"RPG\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Locations",
+			"description": "",
+			"item": [
+				{
+					"name": "List Locations",
+					"request": {
+						"url": "{{endpoint}}/entities/locations",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"replace-values\": {\n        \"אפל \": \"אפל\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Location",
+					"request": {
+						"url": "{{endpoint}}/entities/locations",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 1\",\n    \"area\": \"Main hall\",\n    \"max-attendees\": 10\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Location",
+					"request": {
+						"url": "{{endpoint}}/entities/locations/table-2",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Location",
+					"request": {
+						"url": "{{endpoint}}/entities/locations/table-2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Location",
+					"request": {
+						"url": "{{endpoint}}/entities/locations",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"שולחן א\",\n    \"area\": \"אולם גדול\",\n    \"max-attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Managers",
+			"description": "",
+			"item": [
+				{
+					"name": "List Managers",
+					"request": {
+						"url": "{{endpoint}}/entities/managers",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Manager",
+					"request": {
+						"url": "{{endpoint}}/entities/managers",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"email\": \"oded@geek.co.il\" \n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Manager",
+					"request": {
+						"url": "{{endpoint}}/entities/managers/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"url": "{{endpoint}}/entities/users",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"my event\",\n    \"event_type\": \"Role playing game\",\n    \"teaser\": \"This is a very fancy game\",\n    \"description\": \"In this very fancy game, we will frolic and have fun\",\n    \"requires_registration\": true,\n    \"duration\": 60,\n    \"min_attendees\": 3,\n    \"max_attendees\": 6,\n    \"notes_to_staff\": null,\n    \"logistical_requirements\": \"Brooms, lots and lots of brooms\",\n    \"notes_to_attendees\": \"Bring your dirt on, and don't forget to have a lot of fun\",\n    \"scheduling_constraints\": \"I'm like, good, with like, whenever\",\n    \"data\": {\n        \"field\": \"This is just some custom field\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Membership",
+			"description": "",
+			"item": [
+				{
+					"name": "List Members",
+					"request": {
+						"url": "{{endpoint}}/entities/members",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Membership",
+					"request": {
+						"url": "{{endpoint}}/entities/members",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": {\"email\": \"oded-stuff@geek.co.il\"},\n    \"organizer\": 1,\n    \"membership\": \"10000\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Membership",
+					"request": {
+						"url": "{{endpoint}}/entities/members/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Merchandize",
+			"description": "",
+			"item": [
+				{
+					"name": "SKU list",
+					"request": {
+						"url": "{{endpoint}}/entities/merchandiseskus",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create SKU",
+					"request": {
+						"url": "{{endpoint}}/entities/merchandiseskus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Test shirt: Blue XL\",\n    \"description\": \"This is my shirt\",\n    \"code\": \"tshirt:blue:xl\",\n    \"price\": \"10.50\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete SKU",
+					"request": {
+						"url": "{{endpoint}}/entities/merchandiseskus/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Test shirt: Blue XL\",\n    \"description\": \"This is my shirt\",\n    \"price\": \"10.50\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update SKU",
+					"request": {
+						"url": "{{endpoint}}/entities/merchandiseskus/2",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": \"20.0\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Purchases",
+					"request": {
+						"url": "{{endpoint}}/entities/purchases",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Purchase",
+					"request": {
+						"url": "{{endpoint}}/entities/purchases",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sku\": \"tshirt:blue:xl\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Purchase",
+					"request": {
+						"url": "{{endpoint}}/entities/purchases/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 2\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  Purchase",
+					"request": {
+						"url": "{{endpoint}}/entities/purchases/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Purchase by SKU code",
+					"request": {
+						"url": "{{endpoint}}/entities/purchases/con-t:blue:l",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 3\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pass Requirements",
+			"description": "",
+			"item": [
+				{
+					"name": "List Pass Requirements",
+					"request": {
+						"url": "{{endpoint}}/entities/passrequirements",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pass Requirements",
+					"request": {
+						"url": "{{endpoint}}/entities/passrequirements",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"test-pass-req\",\n\t\"start-time\": \"P0D\",\n\t\"end-time\": \"P1D\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Pass Requirements",
+					"request": {
+						"url": "{{endpoint}}/entities/passrequirements/6",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pass Requirement",
+					"request": {
+						"url": "{{endpoint}}/entities/passrequirements/7",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Passes",
+			"description": "",
+			"item": [
+				{
+					"name": "List Passes",
+					"request": {
+						"url": "{{endpoint}}/entities/passes",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/passes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Test pass 1\",\n\t\"price\": \"100\",\n\t\"public\": true,\n\t\"pass_requirements\": [ 1, 2, 3, 4 ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/passes/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/passes/4",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/passes/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pass_requirements\": [ 1, 2, 3, 4 ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tags",
+			"description": "",
+			"item": [
+				{
+					"name": "List Tag Types",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tag Type",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes/age_requirement",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tag Type",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "jN4rnba763pSFslY6Ve1OfBjik82NjRjZGVlYzViZDIyMTdhOGMzZWM5NTA3M2U2NzlmY2ZlNDE0ZWEx",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "v7N6iGoJvjiyRodktMDRRJeBOvo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"event-type\",\n    \"values\": [\n        \"Role playing game\",\n        \"Panel\",\n        \"Lecture\"\n    ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Tag Type",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes/genre",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"event-type\",\n    \"values\": [\n        \"Role playing game\",\n        \"Panel\",\n        \"Lecture\"\n    ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Tag Type",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes/genre",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"values\": [\n        \"Workshop\",\n        \"Lecture\"\n    ],\n    \"remove-values\": [\n        \"Panel\"\n    ],\n    \"replace-values\": {\n        \"Role playing game\": \"RPG\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Tag Type Value",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes/genre",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"values\": [\n        \"אפל \"\n    ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Replace Tag Type Value copy",
+					"request": {
+						"url": "{{endpoint}}/entities/tagtypes/genre",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"replace-values\": {\n        \"אפל \": \"אפל\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"description": "",
+			"item": [
+				{
+					"name": "List Convention Tickets",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets?all=1&is-valid=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Ticket",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeslot\": 132\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ticket",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets/4612?refund-coupon-type=32",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ticket",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Start checkout",
+					"request": {
+						"url": "{{endpoint}}/checkout",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ok",
+									"value": "http://example.com/ok",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "fail",
+									"value": "http://example.com/fail",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List User Tickets",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets?all=1&is-valid=1&by_user=nivmarkel@gmail.com",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Event Tickets",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets?all=1&is-valid=1&by_event=682",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Ticket",
+					"request": {
+						"url": "{{endpoint}}/entities/tickets/4612",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List All User Passes",
+					"request": {
+						"url": "{{endpoint}}/entities/userpasses",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Buy User Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/userpasses",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pass\": 6,\n\t\"name\": \"Oded Arbel\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Pass",
+					"request": {
+						"url": "{{endpoint}}/entities/userpasses/6?delete=1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Timeslots",
+			"description": "",
+			"item": [
+				{
+					"name": "List Time Slots",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Time Slot",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots/322",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Time Slot",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": 642,\n    \"start\": 1461982000,\n    \"locations\": [ \"שולחן-א\" ],\n    \"hosts\": [{\n        \"name\": \"Oded 15\",\n        \"email\": \"oded@geek.co.il\"\n    }]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Time Slot",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots/10",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"duration\": 120,\n    \"notes-to-attendees\": \"Something new\",\n    \"locations\": [ \"table-1\" ],\n    \"remove-locations\": [ \"table-3\" ],\n    \"hosts\": [ { \"id\": 1 }],\n    \"remove-hosts\": [ { \"id\": 4 }]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Time Slot",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots/1042",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Time Slots For Event",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots?by_event=642",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Time Slots public access",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Time Slots By Tags",
+					"request": {
+						"url": "{{endpoint}}/entities/timeslots?by_tag:סבב=בוקר יום ראשון",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Records",
+			"description": "",
+			"item": [
+				{
+					"name": "List User Record Identifiers",
+					"request": {
+						"url": "{{endpoint}}/entities/records",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List User Records for event-registration",
+					"request": {
+						"url": "{{endpoint}}/entities/records/event-registration?list=1&all=1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"url": "{{endpoint}}/entities/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"oded+57@geek.co.il\",\n    \"name\": \"Yet Another Oded\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": "",
+			"item": [
+				{
+					"name": "User Catalog",
+					"request": {
+						"url": "{{endpoint}}/entities/users",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve User",
+					"request": {
+						"url": "{{endpoint}}/entities/users/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Convention",
+								"value": "{{convention_key}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{user_key}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List Time Slots For Host",
+			"request": {
+				"url": "{{endpoint}}/entities/timeslots?by_host=taleslord@gmail.com",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Convention",
+						"value": "{{convention_key}}",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{user_key}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Table 2\",\n    \"area\": \"Main Hall\",\n    \"max_attendees\": 6\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

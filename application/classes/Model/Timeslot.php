@@ -74,28 +74,26 @@ class Model_Timeslot extends ORM {
 	 * @return boolean whether we've updated the timeslot fields (so it'll need saving)
 	 */
 	public function updatePassRequirements() {
-		$regType = @$this->event->convention->settings['registration-type'];
+		if (!@$this->event->convention->usePasses())
+			return false;
+		
 		if ($this->pass_requirement->loaded())
 			return false; // don't update if the field is already set
-		switch($regType) {
-			case 'passes':
-				// locate existing matching requirement
-				$con = $this->event->convention;
-				$constart = $con->start_date;
-				$mystart = $this->start_time->getTimestamp();
-				foreach ($con->pass_requirements->find_all() as $passreq) {
-					$start_time = (clone $constart)->add($passreq->start_time);
-					$end_time = (clone $constart)->add($passreq->end_time);
-					error_log("Checking timeslot " . $this->pk() . " (".$mystart.") against passreq " . $passreq->pk() . " " . $start_time->getTimestamp() . "-" . $end_time->getTimestamp());
-					if ($start_time->getTimestamp() <= $mystart && $mystart < $end_time->getTimestamp()) {
-						$this->pass_requirement = $passreq;
-						return true;
-					}
-				}
-				return false; // no changes were done
-			default: // no registration type, assume manual setup, so make no changes
-				return false;
+
+		// locate existing matching requirement
+		$con = $this->event->convention;
+		$constart = $con->start_date;
+		$mystart = $this->start_time->getTimestamp();
+		foreach ($con->pass_requirements->find_all() as $passreq) {
+			$start_time = (clone $constart)->add($passreq->start_time);
+			$end_time = (clone $constart)->add($passreq->end_time);
+			error_log("Checking timeslot " . $this->pk() . " (".$mystart.") against passreq " . $passreq->pk() . " " . $start_time->getTimestamp() . "-" . $end_time->getTimestamp());
+			if ($start_time->getTimestamp() <= $mystart && $mystart < $end_time->getTimestamp()) {
+				$this->pass_requirement = $passreq;
+				return true;
+			}
 		}
+		return false; // no changes were done
 	}
 	
 	public function validTickets() {
