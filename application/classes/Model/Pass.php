@@ -26,6 +26,7 @@ class Model_Pass extends ORM {
 			'public' => [], // whether this pass should be shown in public listing
 			'status' => [], // whether this pass is active or not
 			'price' => [], // cost of this pass
+			'order' => [], // allows ordering of passes for visibility
 	];
 	
 	/**
@@ -46,6 +47,21 @@ class Model_Pass extends ORM {
 		$o->status = self::STATUS_ACTIVE;
 		$o->save();
 		return $o;
+	}
+	
+	/**
+	 * List all passes for a convention
+	 * @param Model_Convention $con Convention to list passes for
+	 * @param boolean $public whether to list only public passes or all of them
+	 * @return Database_Result
+	 */
+	public static function forConvention(Model_Convention $con, $public = true) {
+		$query = (new Model_Pass())->where('convention_id', '=', $con->pk())
+				->where('status','=',Model_Pass::STATUS_ACTIVE)
+				->order_by('order');
+		if ($public)
+			$query = $query->where('public','=',true);
+		return $query->find_all();
 	}
 	
 	public function cancel() {

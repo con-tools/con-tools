@@ -78,14 +78,9 @@ class Controller_Entities_Passes extends Api_Rest_Controller {
 		$data = $this->input();
 		// two different base modes - user and admin/convention
 		if ($data->all and $this->systemAccessAllowed()) {
-			return ORM::result_for_json($this->convention->passes->
-					where('status','=',Model_Pass::STATUS_ACTIVE)->
-					find_all());
+			return ORM::result_for_json(Model_Pass::forConvention($this->convention, false));
 		} else {
-			return ORM::result_for_json($this->convention->passes->
-					where('status','=',Model_Pass::STATUS_ACTIVE)->
-					where('public','=',true)->
-					find_all());
+			return ORM::result_for_json(Model_Pass::forConvention($this->convention));
 		}
 	}
 	
