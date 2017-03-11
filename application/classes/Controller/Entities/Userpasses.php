@@ -68,6 +68,29 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 		// two different base modes - user and admin/convention
 		$filters = [];
 		
+		if ($data->for_timeslot) {
+			$ts = new Model_Timeslot($data->for_timeslot);
+			if (!$ts->loaded())
+				throw new Api_Exception_InvalidInput($this, "No timeslot '" . $data->for_timeslot . "'");
+			list ($available, $unavailable) = Model_User_Pass::timeslot_report($this->getValidUser(), $ts);
+			$available = ORM::result_for_json($available);
+			$unavailable = ORM::result_for_json($unavailable);
+			$passes = array_merge(
+					array_map(function($pass){
+						$pass['available'] = true;
+						return $pass;
+					}, $available),
+					array_map(function($pass){
+						$pass['available'] = false;
+						return $pass;
+					}, $unavailable)
+					);
+			usort($passes, function($a, $b){
+				return $a['id'] - $b['id'];
+			});
+			return $passes;
+		}
+		
 		if ($data->all and $this->systemAccessAllowed()) {
 			// ehmm.. no default filters, unless the caller asked for a user filter
 			if ($data->by_user) {

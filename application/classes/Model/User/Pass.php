@@ -66,6 +66,42 @@ class Model_User_Pass extends Model_Sale_Item {
 			->find_all();
 	}
 	
+	/**
+	 * Retrieve all user passes for the user in the convention.
+	 * @param Model_Convention $con convention where passes are to be collected
+	 * @param Model_User $user user for which passes are to be collected
+	 * @param boolean $valid whether to retrieve only valid passes
+	 * @return Database_Result
+	 */
+	public static function byConventionUSer(Model_Convention $con, Model_User $user, $valid = true) : Database_Result {
+		$query = (new Model_User_Pass())->
+			with('user')->
+			with('pass')->
+			where('convention_id', '=', $con->pk())->
+			where('user_pass.user_id','=',$user->pk());
+		if ($valid)
+			$query = $query->where('user_pass.status', 'IN', static::validStatuses());
+		return $query->find_all();
+	}
+	
+	/**
+	 * Report on the user's passes availability for use in a specific timeslot
+	 * @param Model_User $user
+	 * @param Model_Timeslot $timeslot
+	 * @return array containing to arrays - the first contains all passes available for this timeslot, the second all those unavailable
+	 */
+	public static function timeslot_report(Model_User $user, Model_Timeslot $timeslot) {
+		$con = $timeslot->event->convention;
+		$avail = []; $notavail = [];
+		foreach (static::byConventionUSer($con, $user) as $pass) {
+			if ($pass->availableDuring($timeslot->start_time, $timeslot->end_time))
+				$avail[] = $pass;
+			else
+				$notavail[] = $pass;
+		}
+		return [ $avail, $notavail ];
+	}
+	
 	public function getTypeName() {
 		return 'user_pass';
 	}
