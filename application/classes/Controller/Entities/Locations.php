@@ -38,6 +38,7 @@ class Controller_Entities_Locations extends Api_Rest_Controller {
 				$o->area = $data->area;
 			if ($data->max_attendees)
 				$o->max_attendees = $data->max_attendees;
+			$o->save();
 			return $o->for_json_with_timeslots();
 		} catch (Model_Exception_NotFound $e) {
 			throw new Api_Exception_InvalidInput($this, "Location {$id} not found");
