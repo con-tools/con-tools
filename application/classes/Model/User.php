@@ -120,13 +120,13 @@ class Model_User extends ORM {
 		if ($email == '-')
 			$email = self::NOT_REALLY_EMAIL;
 			
-			// try to figure out if this user already has an account, first by token:
+		// try to figure out if this user already has an account, first by token:
 		try {
 			return static::byProviderToken($provider, $token);
 		} catch ( Model_Exception_NotFound $e ) {
 		}
-		; // haven't found a user to update
-		                                          
+		// haven't found a user to update
+		
 		// some providers switch tokens, so we'll trust the provided email address
 		if ($provider != self::PASSWORD_PROVIDER) // unless the user provided the email, whom I can't trust
 			try {
