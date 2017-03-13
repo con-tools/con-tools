@@ -65,7 +65,7 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not authorized to list users!");
 		$users = [];
 		if ($this->input()->email)
-			return (Model_User::byEmail($email))->for_json();
+			return (Model_User::byEmail($this->input()->email))->for_json();
 		if ($this->input()->convention)
 			return ORM::result_for_json(Model_User::byConvention($this->convention));
 		return ORM::result_for_json(Model_User::all());
