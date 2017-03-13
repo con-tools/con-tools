@@ -46,7 +46,11 @@ class Controller_Auth extends Api_Controller {
 			$tok->delete();
 		} catch (Api_Exception_Unauthorized $e) {} // if we can't find a valid token, its like we logged out, right?
 		self::clearSessionLogin();
-		$this->send([ 'status' => true ]);
+		if ($this->input()->redirect_url) {
+			$this->redirect($this->input()->redirect_url);
+		} else {
+			$this->send([ 'status' => true ]);
+		}
 	}
 	
 	public function action_passwordreset() {
