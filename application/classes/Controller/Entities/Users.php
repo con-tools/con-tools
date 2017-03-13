@@ -68,7 +68,7 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 			try {
 				return (Model_User::byEmail($this->input()->email))->for_json();
 			} catch (Model_Exception_NotFound $e) {
-				return null;
+				throw new Api_Exception_Notfound($this);
 			}
 		}
 		if ($this->input()->convention)
