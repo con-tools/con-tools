@@ -114,7 +114,9 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 	}
 	
 	public function delete($id) {
-		if (!$this->systemAccessAllowed())
+		$usePasses = $this->convention->usePasses();
+		// when tickets are bought, only system access can cancel them, while users with passes can cancel at any time
+		if (!$this->systemAccessAllowed() && !$usePasses)
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete tickets");
 		$ticket = new Model_Ticket((int)$id);
 		if (!$ticket->loaded())
@@ -127,7 +129,9 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$ticket->delete();
 		} else { // caller doesn't really want to delete, try to cancel or refund
 			$reason = $data->reason ?: "User " . $this->user->email . " cancelled";
-			if ($ticket->isAuthorized()) {
+			if ($usePasses)
+				$ticket->cancel($reason);
+			elseif ($ticket->isAuthorized()) {
 				$refundType = new Model_Coupon_Type($data->refund_coupon_type);
 				Logger::debug("Starting refunding {$ticket} by {$this->user} using {$refundType}");
 				if ($ticket->price > 0 and !$refundType->loaded())

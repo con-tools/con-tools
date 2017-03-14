@@ -152,6 +152,17 @@ class Model_Ticket extends Model_Sale_Item {
 		return $this->timeslot->event->price * $this->amount;
 	}
 	
+	public function cancel($reason) : Model_Sale_item {
+		if ($this->convention->usePasses()) {
+			// just cancel the ticket, so the user can use their free time to get another one for free
+			$this->status = self::STATUS_CANCELLED;
+			$this->cancel_reason = $reason;
+			return $this->save();
+		}
+		
+		return parent::cancel($reason);
+	}
+	
 	public function for_json_with_coupons() {
 		$res = array_merge(array_filter(parent::for_json(),function($key){
 			return in_array($key, [
