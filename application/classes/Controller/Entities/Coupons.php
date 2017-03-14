@@ -38,7 +38,7 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
 		$coupon = new Model_Coupon($id);
 		if ($coupon->loaded()) {
-			if ($coupon->ticket_id)
+			if ($coupon->sale_item->loaded())
 				throw new Api_Exception_InvalidInput($this, "Cannot remove used coupon");
 			$coupon->delete();
 		}
