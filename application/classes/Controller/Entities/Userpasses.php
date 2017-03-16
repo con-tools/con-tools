@@ -37,11 +37,11 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 	}
 	
 	protected function delete($id) {
-		if (!$this->systemAccessAllowed())
-			throw new Api_Exception_Unauthorized($this, "Not authorized to delete passes");
 		$pass = new Model_User_Pass((int)$id);
 		if (!$pass->loaded())
 			throw new Api_Exception_InvalidInput($this, "No pass found for '$id'");
+		if (!$this->systemAccessAllowed() or $pass->user_id == $this->user->pk())
+			throw new Api_Exception_Unauthorized($this, "Not authorized to delete passes");
 		$data = $this->input();
 		if ($data->delete) {
 			if ($pass->isAuthorized())
@@ -51,6 +51,8 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 		} else { // caller doesn't really want to delete, try to cancel or refund
 			$reason = $data->reason ?: "User " . $this->user->email . " cancelled";
 			if ($pass->isAuthorized()) {
+				if (!$this->systemAccessAllowed()) // only system can refund authorized passes
+					throw new Api_Exception_Unauthorized($this, "Not authorized to delete passes");
 				$refundType = new Model_Coupon_Type($data->refund_coupon_type);
 				Logger::debug("Starting refunding {$pass} by {$this->user} using {$refundType}");
 				if ($pass->price > 0 and !$refundType->loaded())
