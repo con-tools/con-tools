@@ -85,7 +85,7 @@ class Model_User extends ORM {
 	 * @return boolean whether the user has a password in the local database
 	 */
 	public function hasPassword() {
-		return $this->provider == self::PASSWORD_PROVIDER;
+		return $this->provider == self::PASSWORD_PROVIDER || $this->provider == "manager-added";
 	}
 	
 	/**
@@ -168,7 +168,7 @@ class Model_User extends ORM {
 		return $o;
 	}
 
-	public static function byEmail($email) {
+	public static function byEmail($email) : Model_User {
 		$o = Model::factory("user")->where('email', 'like', $email)->find();
 		if (! $o->loaded())
 			throw new Model_Exception_NotFound();
