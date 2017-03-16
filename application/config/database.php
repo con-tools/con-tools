@@ -16,7 +16,7 @@ return [
         ],
         'table_prefix'      => '',
         'charset'           => 'utf8',
-        'caching'           => TRUE,
+        'caching'           => FALSE,
         'profiling'         => FALSE,
     ],
 
