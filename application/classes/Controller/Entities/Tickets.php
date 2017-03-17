@@ -128,7 +128,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			$ticket->returnCoupons();
 			$ticket->delete();
 		} else { // caller doesn't really want to delete, try to cancel or refund
-			$reason = $data->reason ?: "User " . $this->user->email . " cancelled";
+			$reason = $data->reason ?: "User " . $this->user . " cancelled";
 			if ($usePasses)
 				$ticket->cancel($reason);
 			elseif ($ticket->isAuthorized()) {
