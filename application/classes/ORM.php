@@ -139,4 +139,5 @@ class ORM extends Kohana_ORM {
 			return $ent->{$for_json_method}();
 		}, $result);
 	}
+	
 }

@@ -62,7 +62,7 @@ class Model_Timeslot extends ORM {
 	 * @return ORM a model object with the query loaded
 	 */
 	public static function queryForConvention(Model_Convention $con, $public = false) : ORM {
-		$query = (new Model_Timeslot)->with('event')->where('convention_id', '=', $con->pk())->
+		$query = (new Model_Timeslot)->cached(360)->with('event')->where('convention_id', '=', $con->pk())->
 			where('timeslot.status','IN', [ self::STATUS_SCHEUDLED ]);
 		if ($public)
 			$query = $query->where('event.status', 'IN', Model_Event::public_statuses());
