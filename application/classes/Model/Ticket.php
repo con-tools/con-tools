@@ -1,6 +1,8 @@
 <?php
 
 class Model_Ticket extends Model_Sale_Item {
+
+	const CACHE_TIME = 300;
 	
 	protected $_belongs_to = [
 			'user' => [],
@@ -71,11 +73,12 @@ class Model_Ticket extends Model_Sale_Item {
 				from((new Model_Ticket())->table_name())->
 				where('timeslot_id', '=', $timeslot->pk())->
 				where('status','IN', self::validStatuses())->
+				cached(60)->
 				execute()->get('total_tickets') ?: 0;
 	}
 	
 	public static function queryForConvention(Model_Convention $con) : ORM {
-		$query = (new Model_Ticket())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
+		$query = (new Model_Ticket())->cached(self::CACHE_TIME)->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
 	}
 	
@@ -101,7 +104,7 @@ class Model_Ticket extends Model_Sale_Item {
 	 * @return Database_Result
 	 */
 	public static function byConventionUSer(Model_Convention $con, Model_User $user) : Database_Result {
-		return (new Model_Ticket())->
+		return (new Model_Ticket())->cached(self::CACHE_TIME)->
 				with('timeslot:event')->
 				with('user')->
 				where('convention_id', '=', $con->pk())->
