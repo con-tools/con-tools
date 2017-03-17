@@ -138,7 +138,8 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 	
 	protected function catalog() {
 		// expire reserved tickets before listing timeslots, so we can show correct availability
-		$this->convention->expireReservedTickets();
+		if (rand(0,5) == 0)
+			$this->convention->expireReservedTickets();
 		
 		$data = $this->input();
 		
