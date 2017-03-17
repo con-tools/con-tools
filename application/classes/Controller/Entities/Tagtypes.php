@@ -99,7 +99,7 @@ class Controller_Entities_Tagtypes extends Api_Rest_Controller {
 	
 	protected function catalog() {
 		$isadmin = $this->convention->isManager($this->user);
-		return ORM::result_for_json(array_filter($this->convention->event_tag_types->find_all()->as_array(),
+		return ORM::result_for_json(array_filter($this->convention->event_tag_types->cached(300)->find_all()->as_array(),
 				function(Model_Event_Tag_Type $type) use ($isadmin){
 			return $isadmin or $type->visible;
 		}));
