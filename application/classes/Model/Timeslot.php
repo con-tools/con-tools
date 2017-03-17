@@ -5,6 +5,8 @@ class Model_Timeslot extends ORM {
 	const STATUS_SCHEUDLED = 0;
 	const STATUS_CANCELLED = 1;
 	
+	const CACHE_TIME = 300;
+	
 	protected $_belongs_to = [
 			'event' => [],
 			'pass_requirement' => [],
@@ -62,7 +64,7 @@ class Model_Timeslot extends ORM {
 	 * @return ORM a model object with the query loaded
 	 */
 	public static function queryForConvention(Model_Convention $con, $public = false) : ORM {
-		$query = (new Model_Timeslot)->cached(360)->with('event')->where('convention_id', '=', $con->pk())->
+		$query = (new Model_Timeslot)->cached(self::CACHE_TIME)->with('event')->where('convention_id', '=', $con->pk())->
 			where('timeslot.status','IN', [ self::STATUS_SCHEUDLED ]);
 		if ($public)
 			$query = $query->where('event.status', 'IN', Model_Event::public_statuses());
@@ -97,7 +99,7 @@ class Model_Timeslot extends ORM {
 	}
 	
 	public function validTickets() {
-		return $this->tickets->where('ticket.status','in', Model_Ticket::validStatuses())->find_all();
+		return $this->tickets->where('ticket.status','in', Model_Ticket::validStatuses())->cached(self::CACHE_TIME)->find_all();
 	}
 
 	public function get($column) {
@@ -155,7 +157,7 @@ class Model_Timeslot extends ORM {
 	public function for_json_with_locations() {
 		return array_merge(
 				$this->for_json(),
-				[ 'locations' => self::result_for_json($this->locations->find_all()) ]
+				[ 'locations' => self::result_for_json($this->locations->cached(self::CACHE_TIME)->find_all()) ]
 				);
 	}
 	
@@ -168,9 +170,9 @@ class Model_Timeslot extends ORM {
 				'event' => $this->event->for_json(),
 				'start' => $this->start_time->format(DateTime::ATOM),
 				'end' => $this->end_time->format(DateTime::ATOM),
-				'hosts' => self::result_for_json($this->host_names->find_all()),
+				'hosts' => self::result_for_json($this->host_names->cached(self::CACHE_TIME)->find_all()),
 				'available_tickets' => $this->available_tickets,
-				'locations' => self::result_for_json($this->locations->find_all()),
+				'locations' => self::result_for_json($this->locations->cached(self::CACHE_TIME)->find_all()),
 				'pass_requirement' => $this->pass_requirement->loaded() ? $this->pass_requirement->for_json() : null,
 				'status' => $this->status_text,
 		]);
