@@ -90,7 +90,7 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 				}
 			}
 			return $condata;
-		}, ORM::factory('Convention')->find_all());
+		}, ORM::factory('Convention')->find_all()->as_array());
 	}
 	
 }
