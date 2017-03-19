@@ -163,6 +163,8 @@ class Model_User_Pass extends Model_Sale_Item {
 		switch ($column) {
 			case 'convention':
 				return $this->pass->convention;
+			case 'valid_tickets':
+				return $this->tickets->where('status','IN', Model_Ticket::validStatuses());
 			default:
 				return parent::get($column);
 		}
@@ -175,7 +177,7 @@ class Model_User_Pass extends Model_Sale_Item {
 	 * @return boolean whether the pass is available for booking at the specified times
 	 */
 	public function availableDuring(DateTime  $start, DateTime $end) {
-		foreach ($this->tickets->find_all() as $ticket) {
+		foreach ($this->valid_tickets->find_all() as $ticket) {
 			$timeslot = $ticket->timeslot;
 			if ($timeslot->conflicts($start, $end))
 				return false;
