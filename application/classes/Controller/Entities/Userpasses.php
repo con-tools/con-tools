@@ -40,7 +40,7 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 		$pass = new Model_User_Pass((int)$id);
 		if (!$pass->loaded())
 			throw new Api_Exception_InvalidInput($this, "No pass found for '$id'");
-		if (!$this->systemAccessAllowed() or $pass->user_id == $this->user->pk())
+		if (!($this->systemAccessAllowed() or $pass->user_id == $this->user->pk()))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to delete passes");
 		$data = $this->input();
 		if ($data->delete) {
