@@ -140,13 +140,16 @@ class ORM extends Kohana_ORM {
 		}, $result);
 	}
 	
-// 	function cached($lifetime = NULL) {
-// 		if ($_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache')
-// 			return $this; // allow client to disable caches
-// 		if (strpos($_SERVER['HTTP_CACHE_CONTROL'], 'max-age') === 0) {
-// 			list($nop, $sec) = explode('=',$_SERVER['HTTP_CACHE_CONTROL'],2);
-// 			$lifetime = min($lifetime, $sec);
-// 		}
-// 		return parent::cached($lifetime);
-// 	}
+	function cached($lifetime = NULL) {
+		$cache_control = @$_SERVER['HTTP_CACHE_CONTROL'];
+		if (is_null($cache_control))
+			return parent::cached($lifetime);
+		if ($cache_control == 'no-cache')
+			return $this; // allow client to disable caches
+		if (strpos($cache_control, 'max-age') === 0) {
+			list($nop, $sec) = explode('=',$cache_control,2);
+			$lifetime = min($lifetime, (int)$sec);
+		}
+		return parent::cached($lifetime);
+	}
 }
