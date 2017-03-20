@@ -127,7 +127,7 @@ abstract class Api_Controller extends Controller {
 	protected function generatePreFlightResponse() : Response {
 		$this->addCORSHeaders($this->response);
 		$this->response->headers('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention');
+		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention, cache-control');
 		$this->response->headers('Access-Control-Max-Age', '1728000');
 		$this->response->body('');
 		error_log("Sending pre-flight response");
