@@ -18,19 +18,18 @@ working dir):
 docker-compose up
 ~~~
 
-Then apply schema files in order using:
+This will build the database, as needed by deploying the latest dump file (as identified by
+the dump schema version number) followed by any needed schema files in sequential order.
+
+To update an existing database with additional schema versions (during development) run:
 
 ~~~
-mysql -h172.17.0.2 -uroot -psecret heroku_3f90e079b7e30b6 < database/schema/schema-1.sql
+mysql -h172.17.0.2 -uroot -psecret controll < database/schema/schema-<version>.sql
 ~~~
 
-and so on for each schema file.
-
-To restart the test setup, for example - if one of the schema files failed and had to be fixed -
-send `CTRL-C` to the docker-compose, then run
+To restart the test setup, for example - if one of the schema files failed and had to be fixed,
+or if you want to redeploy a new dump file, stop the docker-compose setup, then run
 
 ~~~
-docker rm controll_mysql_1 && docker-compose up
+docker-compose rm data && docker-compose up
 ~~~
-
-and try to apply the schema files again.
