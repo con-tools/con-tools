@@ -102,10 +102,11 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 				$timeslot->add('hosts', $timeslot->event->user);
 			
 			// update time slot fields
-			$start = $this->parseDateTime($data->start);
-			$start->setTime($start->format("H"), $start->format("i"), 0); // reset seconds, in case something weird is going on with the UI
-			if ($start)
+			if ($data->start) {
+				$start = $this->parseDateTime($data->start);
+				$start->setTime($start->format("H"), $start->format("i"), 0); // reset seconds, in case something weird is going on with the UI
 				$timeslot->start_time = $start;
+			}
 			if (is_numeric($data->duration))
 				$timeslot->duration = (int)$data->duration;
 			if (is_numeric($data->min_attendees))
