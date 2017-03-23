@@ -156,6 +156,8 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			$filters['event_id'] = $data->by_event;
 		if ($data->by_event_status)
 			$filters['status'] = $data->by_event_status;
+		if ($data->by_requires_registration)
+			$filters['requires_registration'] = $data->by_requires_registration;
 		if ($data->by_host)
 			$filters['host'] = $data->by_host == 'self' ? $this->user->pk() : $this->loadUserByIdOrEmail($data->by_host)->pk();
 		

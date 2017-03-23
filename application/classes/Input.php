@@ -79,6 +79,15 @@ class Input {
 		return $out;
 	}
 	
+	public function filterFields($prefix = "") {
+		$out = [];
+		foreach ($this->_data as $key => $value) {
+			if (strpos($key, $prefix) === 0)
+				$out[$key] = $value;
+		}
+		return $out;
+	}
+	
 	private function parse_query_string() {
 		return array_reduce(array_map(function($part){
 			return array_map(function($kv){ return urldecode($kv); },explode('=', $part,2));
