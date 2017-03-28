@@ -96,8 +96,11 @@ class Controller_Entities_Timeslots extends Api_Rest_Controller {
 			// update hosts
 			foreach ($hosts as $host)
 				$timeslot->addHost($host['user'], $host['name']);
-			foreach ($remhosts as $host)
-				$timeslot->remove('hosts', $host);
+			foreach ($remhosts as $host) {
+				$hostreg = Model_Timeslot_Host::forTimeslotHost($timeslot, $host['user']);
+				if ($hostreg->loaded())
+					$hostreg->delete();
+			}
 			if ($timeslot->hosts->count_all() < 1)
 				$timeslot->add('hosts', $timeslot->event->user);
 			
