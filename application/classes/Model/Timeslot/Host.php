@@ -31,6 +31,13 @@ class Model_Timeslot_Host extends ORM {
 		return $o;
 	}
 	
+	public static function forTimeslotHost(Model_Timeslot $timeslot, Model_User $user) : Model_Timeslot_Host {
+		return (new Model_Timeslot_Host())
+			->where('timeslot_id', '=', $timeslot->pk())
+			->where('user_id', '=', $user->pk())
+			->find();
+	}
+	
 	public function for_json() {
 		return array_merge($this->user->for_json(), [
 			'id' => $this->user->pk(),
