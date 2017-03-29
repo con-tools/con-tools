@@ -26,9 +26,20 @@ class Api_Exception_InvalidInput extends HTTP_Exception_400 {
 		if ($this->vars)
 			$data['details'] = $this->vars;
 		$res->headers('Content-Type', 'application/json');
-		$res->body(json_encode($data));
+		$res->body($this->smart_json_encode($data));
 		$this->source->addCORSHeaders($res);
 		return $res;
+	}
+	
+	private function smart_json_encode($data) {
+		if (is_array($data)) {
+			return '[' . join(',', array_map(function ($obj) {
+				return $this->smart_json_encode($obj);
+			}, $data)) . ']';
+		} elseif ($data instanceof ORM) {
+			return json_encode($data->for_json());
+		} else
+			return json_encode($data);
 	}
 
 }
