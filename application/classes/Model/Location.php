@@ -68,7 +68,9 @@ class Model_Location extends ORM {
 	 */
 	public function getTimeslots() : Database_Result {
 		return $this->timeslots
-			->where('status','IN',Model_Timeslot::validStatuses())
+			->with('event')
+			->where('timeslot.status','IN',Model_Timeslot::validStatuses())
+			->where('event.status','IN',Model_Event::public_statuses())
 			->find_all();
 	}
 	
