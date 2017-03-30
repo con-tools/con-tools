@@ -37,6 +37,20 @@ class Model_Coupon_Type extends ORM {
 		return (new Model_Coupon_Type())->where('convention_id','=',$con->pk())->find_all();
 	}
 	
+	/**
+	 * Find a coupon type by its code
+	 * @param Model_Convention $con convention where to search for the code
+	 * @param string $code code to search for (must not be the empty string)
+	 * @return Model_Coupon_Type coupon type found, or an unloaded model if not found
+	 */
+	public static function byConventionCode(Model_Convention $con, $code) : Model_Coupon_Type {
+		if (!$code)
+			return new Model_Coupon(); // not loaded
+		return (new Model_Coupon_Type())->where('convention_id', '=', $con->pk())
+			->where('code', '=', $code)
+			->find();
+	}
+	
 	public function isFixed() {
 		return $this->discount_type == 'fixed';
 	}

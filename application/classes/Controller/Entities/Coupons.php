@@ -3,9 +3,12 @@
 class Controller_Entities_Coupons extends Api_Rest_Controller {
 	
 	public function create() {
+		$data = $this->input();
+		if ($data->code and !$data->type)
+			return $this->activateCoupon($data->code); // handle code-based coupon activation
+		
 		if (!$this->systemAccessAllowed())
 			throw new Api_Exception_Unauthorized($this, "Not allowed to list coupons");
-		$data = $this->input();
 		if (!$data->type)
 			throw new Api_Exception_InvalidInput($this, "Mandatory field 'type' is missing");
 		$couponType = new Model_Coupon_Type($data->type);
@@ -71,6 +74,22 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 	private function getUserCoupons() {
 		$data = $this->input();
 		return ORM::result_for_json( Model_Coupon::unconsumedForUser($this->user, $this->convention));
+	}
+	
+	private function activateCoupon($code) {
+		if (!$this->user or !$this->user->loaded())
+			throw new Api_Exception_InvalidInput($this, "A user must be logged in to activate a coupon code");
+		$type = Model_Coupon_Type::byConventionCode($this->convention, $code);
+		if (!$type->loaded())
+			throw new Api_Exception_InvalidInput($this, "Invalid code specified");
+		// TODO: arbitrary business model checks
+		
+		foreach (Model_Coupon::byConventionUser($this->convention, $this->user) as $coupon) {
+			if ($coupon->coupon_type->code == $code)
+				throw new Api_Exception_InvalidInput($this, "Code already activated");
+		}
+		
+		return Model_Coupon::persist($type, $this->user, "Code activation:{$code}")->for_json();
 	}
 	
 }
