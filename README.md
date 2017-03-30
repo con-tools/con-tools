@@ -86,3 +86,14 @@ administrator level password access to generate your authentication token. You c
 ./scripts/docker-login.sh
 ```
 which will create an admin level login on the docker image and will present you with the authentication token for it.
+
+#### Testing with Postman
+
+A Postman collection is stored under `docs` and includes many (if not all) API calls that are implemented in the system.
+The configuration relies on an "Environment" being set in Postman, with the following tokens:
+
+ - `endpoint` - the URL for the web service. Set this to `http://localhost:8080` for local testing
+ - `convention_key` - this is the public convention key for the convention you'd be running scenarios on. For local testing
+   you can obtain this from the `api_keys` table
+ - `user_key` - this is the user api token - you can get it by implementing an SSO login and completing the SSO challenge
+   through the `/auth/start` API call, or using the aforementioned docker login script.
