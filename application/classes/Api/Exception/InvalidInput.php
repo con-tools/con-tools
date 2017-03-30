@@ -33,9 +33,17 @@ class Api_Exception_InvalidInput extends HTTP_Exception_400 {
 	
 	private function smart_json_encode($data) {
 		if (is_array($data)) {
-			return '[' . join(',', array_map(function ($obj) {
-				return $this->smart_json_encode($obj);
-			}, $data)) . ']';
+			if (count(array_filter(array_keys($data), 'is_string')) > 0) { // associative array
+				$out = [];
+				array_walk($data, function($val, $key) use (&$out) {
+					$out[] = json_encode($key) . ':' . $this->smart_json_encode($val);
+				});
+				return '{' . join(',',$out) . '}';
+			} else { // indexed array
+				return '[' . join(',', array_map(function ($key, $val) {
+					return $this->smart_json_encode($obj);
+				}, $data)) . ']';
+			}
 		} elseif ($data instanceof ORM) {
 			return json_encode($data->for_json());
 		} else
