@@ -89,7 +89,14 @@ class Controller_Entities_Coupons extends Api_Rest_Controller {
 				throw new Api_Exception_InvalidInput($this, "Code already activated");
 		}
 		
-		return Model_Coupon::persist($type, $this->user, "Code activation:{$code}")->for_json();
+		$coupon = Model_Coupon::persist($type, $this->user, "Code activation:{$code}")->for_json();
+		// apply coupon to current purchases - we expect coupons to be activated
+		// after registering for tickets
+		foreach (Model_Sale_Item::shoppingCart($this->convention, $this->user) as $item) {
+			$item->consumeCoupons();
+		}
+		
+		return $coupon;
 	}
 	
 }
