@@ -7,7 +7,13 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 	protected function tryAuthenticate() {
 		try {
 			parent::tryAuthenticate();
-		} catch (Api_Exception_Unauthorized $e) {}
+		} catch (Api_Exception_Unauthorized $e) {
+			// even if we failed to authenticate (likely because missing convention header - this controller accepts calls like that)
+			// try to auth the user
+			try {
+				$this->user = $this->verifyAuthentication()->user;
+			} catch (Exception $e) {}
+		}
 	}
 	
 	protected function update($id) {
@@ -76,21 +82,31 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 	}
 	
 	protected function catalog() {
-		return array_map(function($con) {
+		$data = $this->input();
+		if($data->manager) {
+			if (!$this->user)
+				throw new Api_Exception_InvalidInput($this, "Can't list managed conventions without a log in");
+			$query = (new Model_Convention())->join('managers', 'INNER')
+				->on('managers.convention_id','=','convention.id')
+				->where('managers.user_id', '=', $this->user->pk());
+		} else
+			$query = (new Model_Convention());
+		
+		return array_map(function($con) use ($data) {
 			$condata = [
 					'id' => $con->id,
 					'title' => $con->title,
 					'slug' => $con->slug,
 					'series' => $con->series,
 			];
-			if ($this->request->query('keys')) {
+			if ($data->keys) {
 				foreach ($con->api_keys->find_all() as $key) {
 					$condata['public-key'] = $key->client_key;
 					break;
 				}
 			}
 			return $condata;
-		}, ORM::factory('Convention')->find_all()->as_array());
+		}, $query->find_all()->as_array());
 	}
 	
 }
