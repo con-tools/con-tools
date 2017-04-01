@@ -69,6 +69,8 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 					'id' => $user->pk(),
 					'email' => $user->email,
 					'name' => $user->name,
+					'role' => $management->role->for_json(),
+					'role_name' => $management->role->key,
 			];
 		}
 		return $managers;
