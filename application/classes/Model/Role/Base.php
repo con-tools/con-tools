@@ -19,7 +19,7 @@ class Model_Role_Base {
 		$this->role = $role_data;
 	}
 	
-	public function getRole() {
+	public function getRole() : Model_Role {
 		return $this->role;
 	}
 	
