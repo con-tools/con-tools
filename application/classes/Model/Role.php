@@ -2,11 +2,17 @@
 
 class Model_Role extends ORM {
 	
-	public static $EDIT_EVENTS = 'edit_events';
+	public const CAPABILITY_EDIT_EVENTS = 'edit_events';
+	public const CAPABILITY_LIST_EVENTS = 'list_events';
+	public const CAPABILITY_CREATE_USER = 'create_user';
+	public const CAPABILITY_CREATE_USER_PASS = 'create_user_pass';
+	public const CAPABILITY_CREATE_TICKET = 'create_ticket';
+	public const CAPABILITY_CREATE_SALE = 'create_sale';
 	
-	public static $ROLES = [
+	public const ROLES = [
 			'Model_Role_Administrator',
 			'Model_Role_Manager',
+			'Model_Role_Cashier',
 	];
 	
 	protected $_has_many = [
@@ -49,7 +55,7 @@ class Model_Role extends ORM {
 	
 	public function hasPrivilege($priv) {
 		return getImpl()->check_privilege($priv);
-	} 
+	}
 	
 	private function getImpl() {
 		if ($this->impl)
@@ -58,10 +64,10 @@ class Model_Role extends ORM {
 		return $this->impl = new $clazz();
 	}
 	
-	public function updateTable() {
+	public static function updateTable() {
 		foreach (static::ROLES as $role_class) {
 			$role_impl = new $role_class();
-			self::persiste($role_impl);
+			static::persist($role_impl);
 		}
 	}
 	
