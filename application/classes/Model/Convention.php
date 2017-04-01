@@ -98,15 +98,24 @@ class Model_Convention extends ORM {
 		return false; // not a user - not a manager
 	}
 
-	public function addManager(Model_User $user) {
+	public function addManager(Model_User $user, $role = null) {
+		if (is_null($role))
+			$role = (new Model_Role_Manager)->getRole();
 		if (!$this->isManager($user))
-			Model_Manager::persist($this, $user, (new Model_Role_Manager)->getRole());
+			Model_Manager::persist($this, $user, $role);
 	}
 	
 	public function removeManager(Model_User $user) {
 		$manager = $this->managers->where('user_id','=',$user->pk())->find();
 		if ($manager->loaded())
 			$manager->delete();
+	}
+	
+	public function role(Model_User $user) : Model_Role {
+		$manager = $this->managers->where('user_id','=',$user->pk())->find();
+		if ($manager->loaded())
+			return $manager->role;
+		return false;
 	}
 	
 	/**

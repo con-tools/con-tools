@@ -18,12 +18,22 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	}
 	
 	/**
-	 * Retrieve an existing record by ID
+	 * List user role in convention
 	 * @param int $id record ID
 	 * @return stdClass Record data
 	 */
 	protected function retrieve($id) {
-		throw new Api_Exception_Unimplemented($this);
+		if (!$this->convention->isManager($this->user))
+			throw new Api_Exception_Unauthorized($this, "Not authorized to list managers!");
+		$user = $this->loadUserByIdOrEmail($id);
+		$role = $this->convention->role($user);
+		if ($role) {
+			$u = $user->for_json();
+			$u['role'] = $role->for_json();
+			return $u;
+		}
+		
+		throw new Api_Exception_Notfound($this, "User has no role in this convention");
 	}
 	
 	/**
@@ -62,6 +72,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	protected function catalog() {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to list managers!");
+		Model_Role::updateTable();
 		$managers = [];
 		foreach ($this->convention->managers->find_all() as $management) {
 			$user = $management->user;
@@ -69,6 +80,8 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 					'id' => $user->pk(),
 					'email' => $user->email,
 					'name' => $user->name,
+					'role' => $management->role->for_json(),
+					'role_name' => $management->role->key,
 			];
 		}
 		return $managers;
