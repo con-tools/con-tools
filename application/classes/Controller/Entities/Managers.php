@@ -13,7 +13,15 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 			throw new Api_Exception_Unauthorized($this, "Not authorized to add managers!");
 		
 		$user = $this->loadUserByIdOrEmail($data->id, $data->email);
-		$this->convention->addManager($user);
+		$role = null;
+		if ($data->role) {
+			try {
+				$role = Model_Role::byKey($data->role);
+			} catch (Model_Exception_NotFound $e) {
+				throw new Api_Exception_InvalidInput($this, "Invalid role type " . $data->role);
+			}
+		}
+		$this->convention->addManager($user, $role);
 		return array_merge($user->for_json(), [ 'id' => $user->pk() ]);
 	}
 	
