@@ -62,6 +62,7 @@ class Controller_Entities_Managers extends Api_Rest_Controller {
 	protected function catalog() {
 		if (!$this->convention->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to list managers!");
+		Model_Role::updateTable();
 		$managers = [];
 		foreach ($this->convention->managers->find_all() as $management) {
 			$user = $management->user;
