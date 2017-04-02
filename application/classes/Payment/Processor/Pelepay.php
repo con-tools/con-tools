@@ -66,7 +66,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				$sale->authorized($request->index . ':' . $request->ConfirmationCode);
 				return $callback_data['ok'];
 			case 'fail':
-				Logger::debug("Payment for sale#" . $sale->pk() . " failed with reason: " . $request->Response);
+				Logger::debug("Payment for sale #" . $sale->pk() . " failed with reason: " . $request->Response);
 				$sale->failed($request->Response);
 				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => $sale->failReason() ]);
 			case 'cancel':
@@ -74,7 +74,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				$sale->cancelled();
 				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => 'user cancelled' ]);
 			case 'b2b':
-				Logger::debug("Got B2B notification from Pelepay: :data", [ ':data' => $request ]);
+				Logger::debug("Got B2B notification from Pelepay for sale #".$sale->pk().": :data", [ ':data' => $request ]);
 				return true;
 			default:
 				throw new Exception("Invalid status '{$fields['status']}'");
