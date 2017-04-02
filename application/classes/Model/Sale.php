@@ -109,6 +109,7 @@ class Model_Sale extends ORM {
 	 */
 	public function cancelled() {
 		$this->failed("internal:user-cancelled");
+		$this->save();
 	}
 	
 	/**
@@ -123,6 +124,7 @@ class Model_Sale extends ORM {
 		foreach ($this->purchases->find_all() as $purchase)
 			$purchase->returnToCart();
 		$this->transaction_id = "FAILED:" . $reasonCode;
+		$this->save();
 	}
 	
 	public function failReason() {
