@@ -60,6 +60,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 		$callback_data = $sale->processor_data;
 		$callback_data['pelepay-response'] = $sale_data;
 		$sale->processor_data = $callback_data;
+		$sale->save();
 		switch ($fields['status']) {
 			case 'success':
 				Logger::debug("Payment succeeded for sale #" . $sale->pk());
