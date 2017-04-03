@@ -9,8 +9,11 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No time pass specified for the sell");
 		if (!$data->name)
 			throw new Api_Exception_InvalidInput($this, "No visitor name specified for the pass");
+		$price = null;
+		if ($this->systemAccessAllowed() && $data->price)
+			$price = $data->price;
 		// start the reservation
-		$userpass = Model_User_Pass::persist($this->getValidUser(), $pass, $data->name, $data->price);
+		$userpass = Model_User_Pass::persist($this->getValidUser(), $pass, $data->name, $price);
 		return $userpass->for_json();
 	}
 	
