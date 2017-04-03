@@ -78,7 +78,7 @@ class Model_Ticket extends Model_Sale_Item {
 	}
 	
 	public static function queryForConvention(Model_Convention $con) : ORM {
-		$query = (new Model_Ticket())->cached(self::CACHE_TIME)->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
+		$query = (new Model_Ticket())->with('timeslot:event')->with('user')->where('convention_id', '=', $con->pk());
 		return $query;
 	}
 	
