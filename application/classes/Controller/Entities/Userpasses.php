@@ -115,9 +115,9 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 	private function getValidUser() {
 		if ($this->systemAccessAllowed() and $this->input()->user)
 			return $this->loadUserByIdOrEmail($this->input()->user);
-			if ($this->user) // user authenticated themselves - fine
-				return $this->user;
-				throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
+		if ($this->user) // user authenticated themselves - fine
+			return $this->user;
+		throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
 	}
 	
 }
