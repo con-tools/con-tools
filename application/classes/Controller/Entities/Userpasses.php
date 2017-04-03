@@ -9,8 +9,11 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 			throw new Api_Exception_InvalidInput($this, "No time pass specified for the sell");
 		if (!$data->name)
 			throw new Api_Exception_InvalidInput($this, "No visitor name specified for the pass");
+		$price = null;
+		if ($this->systemAccessAllowed() && $data->price)
+			$price = $data->price;
 		// start the reservation
-		$userpass = Model_User_Pass::persist($this->getValidUser(), $pass, $data->name, $data->price);
+		$userpass = Model_User_Pass::persist($this->getValidUser(), $pass, $data->name, $price);
 		return $userpass->for_json();
 	}
 	
@@ -115,9 +118,9 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 	private function getValidUser() {
 		if ($this->systemAccessAllowed() and $this->input()->user)
 			return $this->loadUserByIdOrEmail($this->input()->user);
-			if ($this->user) // user authenticated themselves - fine
-				return $this->user;
-				throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
+		if ($this->user) // user authenticated themselves - fine
+			return $this->user;
+		throw new Api_Exception_InvalidInput($this, "User must be authenticated or specified by an authorized convention");
 	}
 	
 }

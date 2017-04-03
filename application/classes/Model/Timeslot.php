@@ -89,7 +89,7 @@ class Model_Timeslot extends ORM {
 		foreach ($con->pass_requirements->find_all() as $passreq) {
 			$start_time = (clone $constart)->add($passreq->start_time);
 			$end_time = (clone $constart)->add($passreq->end_time);
-			error_log("Checking timeslot " . $this->pk() . " (".$mystart.") against passreq " . $passreq->pk() . " " . $start_time->getTimestamp() . "-" . $end_time->getTimestamp());
+			Logger::debug("Checking timeslot " . $this->pk() . " (".$mystart.") against passreq " . $passreq->pk() . " " . $start_time->getTimestamp() . "-" . $end_time->getTimestamp());
 			if ($start_time->getTimestamp() <= $mystart && $mystart < $end_time->getTimestamp()) {
 				$this->pass_requirement = $passreq;
 				return true;

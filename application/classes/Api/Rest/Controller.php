@@ -128,7 +128,7 @@ abstract class Api_Rest_Controller extends Api_Controller {
 			else
 				return new DateTime($value); // lets hope the SPL can do something with this
 		} catch (Exception $e) {
-			error_log("Error parsing time value '$value': ". $e->getMessage());
+			Logger::error("Error parsing time value '$value': ". $e->getMessage());
 			return false;
 		}
 	}

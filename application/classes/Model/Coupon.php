@@ -98,7 +98,7 @@ class Model_Coupon extends ORM {
 					case 'user_pass':
 						return new Model_User_Pass($this->object_id);
 					default:
-						error_log("Invalid sale item type '{$this->object_type}'!");
+						Logger::error("Invalid sale item type '{$this->object_type}'!");
 						return new Model_User_Pass(); // invalid item, but at least it has a table
 				}
 			default:

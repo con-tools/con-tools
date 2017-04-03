@@ -40,7 +40,7 @@ class Controller_Entities_Tickets extends Api_Rest_Controller {
 			
 			// verify sanity after I finish the transaction
 			if ($timeslot->available_tickets < 0) {
-				error_log("Not enough available tickets after commit - this shouldn't happen");
+				Logger::error("Not enough available tickets after commit - this shouldn't happen");
 				foreach ($tickets as $ticket)
 					$ticket->delete();
 				throw new Api_Exception_InvalidInput($this, "Not enough tickets left");

@@ -3,14 +3,14 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 
 	/**
 	 * Application's OAuth client ID
-	 * 
+	 *
 	 * @var String $client_id
 	 */
 	private $client_id = null;
 
 	/**
 	 * Application's OAuth client secret
-	 * 
+	 *
 	 * @var String $secret
 	 */
 	private $secret = null;
@@ -40,7 +40,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 		$this->opts = array_merge([
 				'identifier' => $this->client_id,
 				'secret' => $this->secret,
-				'callback_uri' => $callback_url 
+				'callback_uri' => $callback_url
 		], @$configuration['config'] ?  : []);
 		$this->initProvider();
 	}
@@ -74,7 +74,7 @@ class Auth_LeagueOAuth1 implements Auth_ProviderIf {
 		$tokenCredentials = $this->provider->getTokenCredentials($temp, $oauth_token, $oauth_verifier);
 		$this->token = $tokenCredentials;
 		$this->user = $this->provider->getUserDetails($tokenCredentials);
-		error_log('Logged in user ' . $this->getToken());
+		Logger::info('Logged in user ' . $this->getToken());
 	}
 
 	/*

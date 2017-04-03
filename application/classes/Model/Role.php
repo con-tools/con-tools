@@ -67,7 +67,12 @@ class Model_Role extends ORM {
 	public static function updateTable() {
 		foreach (static::ROLES as $role_class) {
 			$role_impl = new $role_class();
-			static::persist($role_impl);
+			// check if its not already loaded
+			try {
+				static::byKey($role_impl->getKey());
+			} catch (Model_Exception_NotFound $e) {
+				static::persist($role_impl);
+			}
 		}
 	}
 	

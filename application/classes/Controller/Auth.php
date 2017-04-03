@@ -61,7 +61,7 @@ class Controller_Auth extends Api_Controller {
 			Model_Token::remove_all($user, Model_Token::TYPE_PASSWORD_RESET);
 			$token = Model_Token::persist($user, Model_Token::TYPE_PASSWORD_RESET, Time_Unit::days(1));
 			$email = Twig::factory('auth/passwordreset');
-			error_log("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
+			Logger::info("Starting password reset for " . $user->email . " to " . $this->input()->redirect_url);
 			$email->reseturl = self::addQueryToURL($this->input()->redirect_url, ['token' => $token->token]);
 			Email::send(['noreply@con-troll.org', "ConTroll"], [ $user->email, $user->name ],
 					'Password reset from ConTroll', $email->__toString(), [
@@ -71,7 +71,7 @@ class Controller_Auth extends Api_Controller {
 			// agree that the user got the password reset token
 			// (because I don't want to let an attacker know that there's no such user)
 		} catch (Email_Exception $e) {
-			error_log("Problem sending email");
+			Logger::error("Problem sending email");
 		}
 		$this->send([ 'status' => true ]);
 	}
@@ -89,7 +89,7 @@ class Controller_Auth extends Api_Controller {
 		} catch (Api_Exception_Unauthorized $e) {
 			$this->send([ 'status' => false ]);
 		} catch (Exception $e) {
-			error_log("Got error trying to update password: " . $e->getMessage());
+			Logger::error("Got error trying to update password: " . $e->getMessage());
 			$this->send([ 'status' => false, 'error' => $e->getMessage() ]);
 		}
 	}
@@ -141,10 +141,10 @@ class Controller_Auth extends Api_Controller {
 	public function action_register() {
 		if (!$this->input()->email)
 			return $this->errorToSelectorOrCaller("A valid email address is required", $this->input()->redirect_url);
-		error_log('Auth/Register: starting to register ' . $this->input()->email . ' Checking existing user');
+			Logger::info('Auth/Register: starting to register ' . $this->input()->email . ' Checking existing user');
 		try {
 			Model_User::byEmail($this->input()->email);
-			error_log('Auth/Register: found existing user');
+			Logger::info('Auth/Register: found existing user');
 			$this->errorToSelectorOrCaller("This email address is already registered", $this->input()->redirect_url);
 		} catch (Model_Exception_NotFound $e) { } // this is the OK case
 		
@@ -161,7 +161,7 @@ class Controller_Auth extends Api_Controller {
 		
 		$u = Model_User::persistWithPassword($this->input()->name ?: explode('@',$this->input()->email)[0], $this->input()->email,
 				$this->input()->password_register);
-		error_log('Auth/Register: saved user ' . $u->id);
+		Logger::info('Auth/Register: saved user ' . $u->id);
 		Session::instance()->set('update-user-token', $u->login()->token);
 		if ($this->input()->isREST())
 			$this->send([ "status" => true ]);

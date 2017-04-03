@@ -7,7 +7,7 @@ abstract class Model_Sale_Item extends ORM {
 	const STATUS_AUTHORIZED = 'authorized';
 	const STATUS_CANCELLED = 'cancelled';
 	const STATUS_REFUNDED = 'refunded';
-
+	
 	public static function validStatuses() {
 		return [
 				self::STATUS_RESERVED,

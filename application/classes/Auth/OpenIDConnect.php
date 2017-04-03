@@ -31,7 +31,7 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 		$this->secret = $configuration['secret'];
 		$this->name = $name;
 		$this->openidcon = new OpenIDConnectClient($configuration['endpoint'], $this->client_id, $this->secret, new Auth_OpenIDConnect_SessionStorage());
-		error_log("Setting OpenID Connect callback URL to $callback_url");
+		Logger::debug("Setting OpenID Connect callback URL to $callback_url");
 		$this->openidcon->setRedirectURL($callback_url);
 		$this->openidcon->addScope('email', 'name');
 	}
@@ -60,7 +60,7 @@ class Auth_OpenIDConnect implements Auth_ProviderIf {
 		} catch (OpenIDConnectClientCancelledException $e) {
 			throw new Auth_Cancelled();
 		} catch (OpenIDConnectClientException $e) {
-			error_log("Error in OpenID Connection completion: " . $e->getMessage());
+			Logger::error("Error in OpenID Connection completion: " . $e->getMessage());
 			throw new Exception($e->getMessage(), null, $e);
 		}
 	}

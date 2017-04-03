@@ -35,7 +35,7 @@ abstract class Api_Controller extends Controller {
 				throw new Api_Exception_Unauthorized($this, "Authorization token expired");
 			return $token;
 		} catch (Model_Exception_NotFound $e) {
-			error_log("Failed to find authorization token '$auth'");
+			Logger::error("Failed to find authorization token '$auth'");
 			throw new Api_Exception_Unauthorized($this, "Invalid Authorization header");
 		}
 	}
@@ -110,7 +110,7 @@ abstract class Api_Controller extends Controller {
 	public function execute() {
 		// handle CORS pre-flight
 		if ($this->request->method() == 'OPTIONS') {
-			error_log("Answering a pre-flight request to " . $this->request->uri());
+			Logger::debug("Answering a pre-flight request to " . $this->request->uri());
 			return $this->generatePreFlightResponse();
 		}
 		
@@ -130,7 +130,7 @@ abstract class Api_Controller extends Controller {
 		$this->response->headers('Access-Control-Allow-Headers', 'content-type, authorization, convention, cache-control');
 		$this->response->headers('Access-Control-Max-Age', '1728000');
 		$this->response->body('');
-		error_log("Sending pre-flight response");
+		Logger::debug("Sending pre-flight response");
 		return $this->response;
 	}
 	
