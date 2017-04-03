@@ -19,7 +19,7 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 	protected function update($id) {
 		if ($id == 'self') { // self lookup for a convention
 			$con = $this->verifyConventionKey();
-			error_log('Looking up self convention id: ' . $con->pk());
+			Logger::debug('Looking up self convention id: ' . $con->pk());
 		} else {
 			$con = new Model_Convention($id);
 		}
@@ -62,7 +62,7 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 	protected function retrieve($id) {
 		if ($id == 'self') { // self lookup for a convention
 			$con = $this->verifyConventionKey();
-			error_log('Looking up self convention id: ' . $con->pk());
+			Logger::debug('Looking up self convention id: ' . $con->pk());
 			try {
 				if ($this->systemAccessAllowed())
 					return $con->for_private_json();

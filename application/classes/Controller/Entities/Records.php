@@ -61,7 +61,7 @@ class Controller_Entities_Records extends Api_Controller {
 		Model_User_Record::persist($con, $user, $data['descriptor'], $data['content_type'], $data['data'], $data['acl']);
 		if ($email_report) {
 			foreach (explode(",",$email_report) as $emailad) {
-				error_log("Sending email notification to {$emailad}");
+				Logger::info("Sending email notification to {$emailad}");
 				$email = Twig::factory('user-record-notify');
 				$email->descriptor = $data['descriptor'];
 				$email->user = $user;
@@ -72,7 +72,7 @@ class Controller_Entities_Records extends Api_Controller {
 							"Content-Type" => "text/html"
 					]);
 				} catch (Email_Exception $e) {
-					error_log("Error sending email to $emailad: {$e}");
+					Logger::error("Error sending email to $emailad: {$e}");
 				}
 			}
 		}
@@ -105,13 +105,13 @@ class Controller_Entities_Records extends Api_Controller {
 	private function tryHandlePublicRetrieve(Model_Convention $con) {
 		$public_access_user = $this->request->query('user');
 		if (!$public_access_user) {
-			error_log("Trying public access - no user");
+			Logger::debug("Trying public access - no user");
 			return false;
 		}
 		try {
 			$public_access_user = Model_User::byEmail($public_access_user);
 		} catch (Model_Exception_NotFound $e) {
-			error_log("Trying public access - user $public_access_user not found");
+			Logger::info("Trying public access - user $public_access_user not found");
 			return false;
 		}
 		
@@ -122,9 +122,9 @@ class Controller_Entities_Records extends Api_Controller {
 				$this->send(['data' => $record->as_array()]);
 				return true;
 			}
-			error_log("Trying public access, record not public: " . $record->acl);
+			Logger::debug("Trying public access, record not public: " . $record->acl);
 		} catch (Model_Exception_NotFound $e) {
-			error_log("Trying public access, no record $id found");
+			Logger::info("Trying public access, no record $id found");
 		}
 		return false;
 	}

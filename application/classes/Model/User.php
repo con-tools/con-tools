@@ -164,7 +164,7 @@ class Model_User extends ORM {
 		$o = Model::factory("user")->where('provider', '=', $provider)->where('password', '=', "$token")->find();
 		if (! $o->loaded())
 			throw new Model_Exception_NotFound();
-		error_log("Looking up user for $provider:$token, found " . $o->id);
+		Logger::debug("Looking up user for $provider:$token, found " . $o->id);
 		return $o;
 	}
 
