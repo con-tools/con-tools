@@ -44,7 +44,7 @@ class Input {
 	}
 	
 	public function __isset($field) {
-		return $this->fetch($field, ISSET_DETECTION_MAGIC_VALUE) != ISSET_DETECTION_MAGIC_VALUE;
+		return $this->fetch($field, static::ISSET_DETECTION_MAGIC_VALUE) != static::ISSET_DETECTION_MAGIC_VALUE;
 	}
 	
 	public function fetch($field, $default = null) {
