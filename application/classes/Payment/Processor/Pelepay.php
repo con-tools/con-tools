@@ -243,15 +243,15 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				$sale->failed($request->Response);
 				return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => $sale->failReason() ]);
 			case 'cancel':
-				if ($request->Response == '800') { // actual cancel
+				if (empty($request->Response) or $request->Response == '800') { // actual cancel
 					Logger::debug("User cancelled sale #" . $sale->pk());
 					$sale->cancelled();
 					return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => 'user cancelled' ]);
 				} else {
 					// Pelepay are stupid in that they send the wrong status. instead, "cancel"
 					// most likely main "fail.
-					Logger::debug("Payment for sale #" . $sale->pk() . " failed with reason: " . $request->Response . ": " . self::RESPONSE_CODES[$request->Response]);
-					$sale->failed(self::RESPONSE_CODES[$request->Response] . " (" . $request->Response . ")");
+					Logger::debug("Payment for sale #" . $sale->pk() . " failed with reason: " . $request->Response . ": " . @self::RESPONSE_CODES[$request->Response]);
+					$sale->failed(@self::RESPONSE_CODES[$request->Response] . " (" . $request->Response . ")");
 					return Api_Controller::addQueryToURL($callback_data['fail'], [ 'reason' => $sale->failReason() ]);
 				}
 			case 'b2b':
