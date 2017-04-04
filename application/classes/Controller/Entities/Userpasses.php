@@ -57,6 +57,8 @@ class Controller_Entities_Userpasses extends Api_Rest_Controller {
 				if (!$this->systemAccessAllowed()) // only system can refund authorized passes
 					throw new Api_Exception_Unauthorized($this, "Not authorized to delete passes");
 				$refundType = new Model_Coupon_Type($data->refund_coupon_type);
+				if (!$refundType->loaded())
+					throw new Api_Exception_InvalidInput($this, "Can't refund user pass without a refund coupon");
 				Logger::debug("Starting refunding {$pass} by {$this->user} using {$refundType}");
 				if ($pass->price > 0 and !$refundType->loaded())
 					throw new Api_Exception_InvalidInput($this, "User pass already authorized, and no \"refund-coupon-type\" specified : ".print_r($data->delete,true));
