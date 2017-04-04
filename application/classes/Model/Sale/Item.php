@@ -59,7 +59,7 @@ abstract class Model_Sale_Item extends ORM {
 	}
 	
 	public function isAuthorized() {
-		return $this->status == self::STATUS_AUTHORIZED || ($this->sale_id and $this->sale->transaction_id);
+		return $this->status == self::STATUS_AUTHORIZED;
 	}
 	
 	public function isCancelled() {
