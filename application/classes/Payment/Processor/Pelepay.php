@@ -227,7 +227,7 @@ class Payment_Processor_Pelepay extends Payment_Processor {
 				'payfor' => $request->payfor,
 				'custom' => $request->custom,
 				'orderid' => $request->orderid,
-				'message' => self::RESPONSE_CODES[$request->Response]
+				'message' => @self::RESPONSE_CODES[$request->Response],
 		];
 		$callback_data = $sale->processor_data;
 		$callback_data['pelepay-response'] = $sale_data;
