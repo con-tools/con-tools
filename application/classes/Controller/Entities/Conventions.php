@@ -27,6 +27,10 @@ class Controller_Entities_Conventions extends Api_Rest_Controller {
 		if (is_null($con) || !$con->loaded() || !$con->isManager($this->user))
 			throw new Api_Exception_Unauthorized($this, "Not authorized to update convention!");
 		$data = $this->input();
+		foreach ([ 'start_date', 'end_date' ] as $field) {
+			if ($data->$field)
+				$con->$field = $this->parseDateTime($data->$field);
+		}
 		if ($data->settings)
 			$con->settings = $data->settings;
 		$con->save();
