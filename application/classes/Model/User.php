@@ -192,6 +192,10 @@ class Model_User extends ORM {
 		return (new Model_User())->find_all();
 	}
 	
+	public static function valid() {
+		return (new Model_user())->where('email', 'NOT LIKE', 'customer%')->find_all();
+	}
+	
 	/**
 	 * Retrieve all convention registrants (i.e. users who registered for a convention)
 	 * @param Model_Convention $con Convention to retrieve users for
@@ -199,7 +203,7 @@ class Model_User extends ORM {
 	 */
 	public static function byConvention(Model_Convention $con) {
 		$seen = [];
-		foreach ((new Model_Ticket())->with('sale')->where('convention_id', '=', $con->pk())->find_all() as $ticket) {
+		foreach ((new Model_Sale())->where('convention_id', '=', $con->pk())->find_all() as $ticket) {
 			if (@$seen[$ticket->user->pk()]) continue;
 			$seen[$ticket->user->pk()] = 1;
 			yield $ticket->user;

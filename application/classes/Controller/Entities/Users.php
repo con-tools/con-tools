@@ -73,6 +73,8 @@ class Controller_Entities_Users extends Api_Rest_Controller {
 		}
 		if ($this->input()->convention)
 			return ORM::result_for_json(Model_User::byConvention($this->convention));
+		if ($this->input()->is_valid)
+			return ORM::result_for_json(Model_User::valid());
 		return ORM::result_for_json(Model_User::all());
 	}
 	
