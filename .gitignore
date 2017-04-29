@@ -3,3 +3,4 @@ vendor/
 node_modules/
 application/logs/
 .secrets
+application/config/secure/*.pem
