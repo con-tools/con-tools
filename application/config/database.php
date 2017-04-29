@@ -21,7 +21,7 @@ return [
             		'client_cert_path' => APPPATH.'config/secure/client-cert.pem',
             		'ca_cert_path' => APPPATH.'config/secure/server-ca.pem',
             		] : NULL,
-            flags			=> MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT,
+            'flags'			=> MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT,
         ],
         'table_prefix'      => '',
         'charset'           => 'utf8',
