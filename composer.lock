@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcc4621746a097235891e1efa68060d7",
+    "content-hash": "6f82a0ff4b537d9d99b250b735e569b5",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aptoma/twig-markdown.git",
-                "reference": "55af883544ffeeccba162523b7ef37330b2dc6fa"
+                "reference": "ab56a442625f732ad3ffd4a6f61cb939d1542cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/55af883544ffeeccba162523b7ef37330b2dc6fa",
-                "reference": "55af883544ffeeccba162523b7ef37330b2dc6fa",
+                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/ab56a442625f732ad3ffd4a6f61cb939d1542cd6",
+                "reference": "ab56a442625f732ad3ffd4a6f61cb939d1542cd6",
                 "shasum": ""
             },
             "require": {
@@ -29,8 +29,8 @@
                 "knplabs/github-api": "~1.4",
                 "league/commonmark": "~0.5",
                 "michelf/php-markdown": "~1",
-                "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "~0.6"
+                "phpunit/phpunit": "~6.0||~5.0",
+                "satooshi/php-coveralls": "~1.0"
             },
             "suggest": {
                 "knplabs/github-api": "Needed for using GitHub's Markdown engine provided through their API.",
@@ -61,20 +61,20 @@
                 "markdown",
                 "twig"
             ],
-            "time": "2015-12-24 22:10:40"
+            "time": "2017-03-13 07:34:56"
         },
         {
             "name": "composer/installers",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "d78064c68299743e0161004f2de3a0204e33b804"
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/d78064c68299743e0161004f2de3a0204e33b804",
-                "reference": "d78064c68299743e0161004f2de3a0204e33b804",
+                "url": "https://api.github.com/repos/composer/installers/zipball/79ad876c7498c0bbfe7eed065b8651c93bfd6045",
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045",
                 "shasum": ""
             },
             "require": {
@@ -116,12 +116,16 @@
             "keywords": [
                 "Craft",
                 "Dolibarr",
+                "Eliasis",
                 "Hurad",
                 "ImageCMS",
+                "Kanboard",
                 "MODX Evo",
                 "Mautic",
+                "Maya",
                 "OXID",
                 "Plentymarkets",
+                "Porto",
                 "RadPHP",
                 "SMF",
                 "Thelia",
@@ -144,9 +148,11 @@
                 "fuelphp",
                 "grav",
                 "installer",
+                "itop",
                 "joomla",
                 "kohana",
                 "laravel",
+                "lavalite",
                 "lithium",
                 "magento",
                 "mako",
@@ -161,6 +167,7 @@
                 "roundcube",
                 "shopware",
                 "silverstripe",
+                "sydes",
                 "symfony",
                 "typo3",
                 "wordpress",
@@ -168,7 +175,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2016-08-13T20:53:52+00:00"
+            "time": "2017-04-24T06:37:16+00:00"
         },
         {
             "name": "con-troll/auth-openid-connect",
@@ -318,17 +325,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "437c0c33217953b3b75e5080b73554da5f76b179"
+                "reference": "b517bd912afa5aa1033ce434d7138641fd6c31ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/437c0c33217953b3b75e5080b73554da5f76b179",
-                "reference": "437c0c33217953b3b75e5080b73554da5f76b179",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b517bd912afa5aa1033ce434d7138641fd6c31ab",
+                "reference": "b517bd912afa5aa1033ce434d7138641fd6c31ab",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.3.1",
+                "guzzlehttp/psr7": "^1.4",
                 "php": ">=5.5"
             },
             "require-dev": {
@@ -375,7 +382,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-02-23 20:32:34"
+            "time": "2017-04-07 20:03:48"
         },
         {
             "name": "guzzlehttp/promises",
@@ -383,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
+                "reference": "73815f322dc2d2aa711f8af41f87d3e9d9246bae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
-                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/73815f322dc2d2aa711f8af41f87d3e9d9246bae",
+                "reference": "73815f322dc2d2aa711f8af41f87d3e9d9246bae",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +433,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20 10:07:11"
+            "time": "2017-03-28 16:54:57"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -434,12 +441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "04a6d1a00ea5da0727ee94309a9f0d3dbaecb569"
+                "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/04a6d1a00ea5da0727ee94309a9f0d3dbaecb569",
-                "reference": "04a6d1a00ea5da0727ee94309a9f0d3dbaecb569",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+                "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +498,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-02-21 01:20:32"
+            "time": "2017-03-20 17:10:46"
         },
         {
             "name": "ircmaxell/random-lib",
@@ -649,7 +656,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2016-01-25T09:32:49+00:00"
+            "time": "2016-01-25 09:32:49"
         },
         {
             "name": "kohana/core",
@@ -713,16 +720,16 @@
         },
         {
             "name": "kohana/database",
-            "version": "dev-3.4/develop",
+            "version": "dev-patch-1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kohana/database.git",
-                "reference": "b707fec31ea33988617b75c14094443a1c4f47d9"
+                "url": "https://github.com/guss77/database.git",
+                "reference": "b94b6f02c5909c9692ea7c1b7cc436c0f35421af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/database/zipball/b707fec31ea33988617b75c14094443a1c4f47d9",
-                "reference": "b707fec31ea33988617b75c14094443a1c4f47d9",
+                "url": "https://api.github.com/repos/guss77/database/zipball/b94b6f02c5909c9692ea7c1b7cc436c0f35421af",
+                "reference": "b94b6f02c5909c9692ea7c1b7cc436c0f35421af",
                 "shasum": ""
             },
             "require": {
@@ -751,7 +758,6 @@
                     ]
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -770,7 +776,13 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2015-11-26 06:14:18"
+            "support": {
+                "issues": "http://dev.kohanaframework.org",
+                "forum": "http://forum.kohanaframework.org",
+                "irc": "irc://irc.freenode.net/kohana",
+                "source": "http://github.com/kohana/core"
+            },
+            "time": "2017-04-29 21:36:41"
         },
         {
             "name": "kohana/minion",
@@ -1136,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c82afaa30356d20e08cc74fec7ab9b6ecd38288a"
+                "reference": "4cdd014b809867f4c040523011d2c3607d55e6b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c82afaa30356d20e08cc74fec7ab9b6ecd38288a",
-                "reference": "c82afaa30356d20e08cc74fec7ab9b6ecd38288a",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4cdd014b809867f4c040523011d2c3607d55e6b4",
+                "reference": "4cdd014b809867f4c040523011d2c3607d55e6b4",
                 "shasum": ""
             },
             "require": {
@@ -1206,7 +1218,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-01-11 16:17:39"
+            "time": "2017-04-10 07:58:43"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1214,12 +1226,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "062ee6b5b5bd9da3c6e8b441b68cae920f1e48fa"
+                "reference": "f4ae2cf3d363c8b74c097456c0f756eadfa5a748"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/062ee6b5b5bd9da3c6e8b441b68cae920f1e48fa",
-                "reference": "062ee6b5b5bd9da3c6e8b441b68cae920f1e48fa",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f4ae2cf3d363c8b74c097456c0f756eadfa5a748",
+                "reference": "f4ae2cf3d363c8b74c097456c0f756eadfa5a748",
                 "shasum": ""
             },
             "require": {
@@ -1298,7 +1310,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-01-27 18:35:48"
+            "time": "2017-04-09 15:23:20"
         },
         {
             "name": "psr/http-message",
@@ -1496,12 +1508,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "7f075aa497bc08559ea26350fa222492f40657f7"
+                "reference": "160bb599e0a7525a252638cc5a8a0ebabe63ae00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7f075aa497bc08559ea26350fa222492f40657f7",
-                "reference": "7f075aa497bc08559ea26350fa222492f40657f7",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/160bb599e0a7525a252638cc5a8a0ebabe63ae00",
+                "reference": "160bb599e0a7525a252638cc5a8a0ebabe63ae00",
                 "shasum": ""
             },
             "require": {
@@ -1542,7 +1554,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-02-24 19:52:51"
+            "time": "2017-04-20 17:32:49"
         },
         {
             "name": "tommcdo/kohana-twig",
@@ -1600,12 +1612,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b0ec8390f82abac1ef6ff9d4cd14f1a9d480a02e"
+                "reference": "a083db55c242ed30451467c802633cddbad198ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b0ec8390f82abac1ef6ff9d4cd14f1a9d480a02e",
-                "reference": "b0ec8390f82abac1ef6ff9d4cd14f1a9d480a02e",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a083db55c242ed30451467c802633cddbad198ed",
+                "reference": "a083db55c242ed30451467c802633cddbad198ed",
                 "shasum": ""
             },
             "require": {
@@ -1614,12 +1626,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.2"
+                "symfony/phpunit-bridge": "~3.3@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.32-dev"
+                    "dev-master": "1.33-dev"
                 }
             },
             "autoload": {
@@ -1654,7 +1666,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-02-23 14:58:09"
+            "time": "2017-04-26 18:47:34"
         }
     ],
     "packages-dev": [
@@ -1708,12 +1720,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "8798bcdb48d9388ba18ca2fa7b42a5c77a23c623"
+                "reference": "9d0811b5d04a145ddc462dff68c5d0f82e68c5c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/8798bcdb48d9388ba18ca2fa7b42a5c77a23c623",
-                "reference": "8798bcdb48d9388ba18ca2fa7b42a5c77a23c623",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/9d0811b5d04a145ddc462dff68c5d0f82e68c5c5",
+                "reference": "9d0811b5d04a145ddc462dff68c5d0f82e68c5c5",
                 "shasum": ""
             },
             "require": {
@@ -1735,7 +1747,7 @@
                 "phpdocumentor/phpdocumentor": "2.x",
                 "phploc/phploc": "^3.0",
                 "phpmd/phpmd": "~2.2",
-                "phpunit/phpunit": ">=3.7",
+                "phpunit/phpunit": ">=5.4",
                 "sebastian/git": "^2.1",
                 "sebastian/phpcpd": "^2.0",
                 "siad007/versioncontrol_hg": "^1.0",
@@ -1794,7 +1806,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2017-02-26 20:28:48"
+            "time": "2017-04-10T12:45:12+00:00"
         },
         {
             "name": "sebastian/version",
@@ -1845,12 +1857,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "9d781f15ffc8bf8e7f5ea1885325bada859ef306"
+                "reference": "0f0470206c5e0f768459fb07c3480683e43f5018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/9d781f15ffc8bf8e7f5ea1885325bada859ef306",
-                "reference": "9d781f15ffc8bf8e7f5ea1885325bada859ef306",
+                "url": "https://api.github.com/repos/symfony/console/zipball/0f0470206c5e0f768459fb07c3480683e43f5018",
+                "reference": "0f0470206c5e0f768459fb07c3480683e43f5018",
                 "shasum": ""
             },
             "require": {
@@ -1905,7 +1917,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-21 14:51:50"
+            "time": "2017-04-29T09:46:23+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1913,12 +1925,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "105f6a21065954b6449e47effb98bdae8317e733"
+                "reference": "2a237220d7d24a4ac867f701fe07320f341b2454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/105f6a21065954b6449e47effb98bdae8317e733",
-                "reference": "105f6a21065954b6449e47effb98bdae8317e733",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/2a237220d7d24a4ac867f701fe07320f341b2454",
+                "reference": "2a237220d7d24a4ac867f701fe07320f341b2454",
                 "shasum": ""
             },
             "require": {
@@ -1961,7 +1973,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-18 17:35:19"
+            "time": "2017-04-20T17:12:40+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2028,12 +2040,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "372979f85d2831630f12e794413902f07bce7031"
+                "reference": "e389c47ccde1cc76d3598a3d10afa6edee355690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/372979f85d2831630f12e794413902f07bce7031",
-                "reference": "372979f85d2831630f12e794413902f07bce7031",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e389c47ccde1cc76d3598a3d10afa6edee355690",
+                "reference": "e389c47ccde1cc76d3598a3d10afa6edee355690",
                 "shasum": ""
             },
             "require": {
@@ -2075,12 +2087,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-21 14:51:50"
+            "time": "2017-04-12T20:43:31+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "3.4.0",
+            "alias_normalized": "3.4.0.0",
+            "version": "dev-patch-1",
+            "package": "kohana/database"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "kohana/database": 20,
         "con-troll/auth-openid-connect": 20,
         "tommcdo/kohana-twig": 20,
         "aptoma/twig-markdown": 20,
