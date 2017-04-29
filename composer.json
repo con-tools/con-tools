@@ -19,13 +19,17 @@
 		{
 			"type": "vcs",
 			"url": "https://github.com/con-troll/Auth-OpenID-Connect"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/guss77/database"
 		}
 	],
 	"require" : {
 		"php" : "^7.1",
 		"kohana/core" : "3.4.*",
 		"kohana/cache" : "3.4.*",
-		"kohana/database" : "3.4.*",
+		"kohana/database" : "dev-patch-1 as 3.4.0",
 		"kohana/minion" : "3.4.*",
 		"kohana/orm" : "3.4.*",
 		"guss77/kohana-paypal" : "~1.0",
