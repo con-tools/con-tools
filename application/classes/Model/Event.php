@@ -211,16 +211,24 @@ class Model_Event extends ORM {
 		return $this;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @see ORM::for_json()
-	 */
-	public function for_json() {
+	public function for_json_no_tags() {
 		$ar = array_filter(parent::for_json(), function($key){
 			return in_array($key, ['id', 'title', 'teaser', 'description', 'price', 'requires-registration', 'duration',
 					'min-attendees', 'max-attendees', 'notes-to-staff', 'logistical-requirements', 'notes-to-attendees',
 					'scheduling-constraints', 'custom-data', 'status', 'created-time', 'updated-time' ]);
 		},ARRAY_FILTER_USE_KEY);
+			$ar['status-text'] = $this->get('status_text');
+			$ar['user'] = $this->user->for_json();
+			$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_json() : null;
+			return $ar;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see ORM::for_json()
+	 */
+	public function for_json() {
+		$ar = $this->for_json_no_tags();
 		$ar['status-text'] = $this->get('status_text');
 		$ar['user'] = $this->user->for_json();
 		$ar['staff-contact'] = $this->staff_contact->loaded() ? $this->staff_contact->for_json() : null;
