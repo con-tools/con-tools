@@ -143,11 +143,11 @@ class Controller_Entities_Events extends Api_Rest_Controller {
 	protected function catalog() {
 		if (!is_null($this->user)) {
 			if ($this->convention->isManager($this->user)) // admins have full access
-				return ORM::result_for_json($this->convention->events->find_all());
+				return ORM::result_for_json($this->convention->events->with('user')->find_all(), 'for_json_no_tags');
 			else // return public and owned events
-				return ORM::result_for_json($this->convention->events->
+				return ORM::result_for_json($this->convention->events->with('user')->
 					where('status', '=', Model_Event::STATUS_APPROVED)->
-					or_where('user_id', '=', $this->user->pk())->find_all());
+					or_where('user_id', '=', $this->user->pk())->find_all(), 'for_json_no_tags');
 		}
 		
 		// no user - return only public events
