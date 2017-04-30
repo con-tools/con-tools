@@ -2,7 +2,9 @@
 
 $dsn = parse_url(getenv(getenv('DB_URL_ENV_NAME'))); // looks like mysql://user:pass@host/database?reconnect=true
 $opts = [];
-foreach (array_map(function($kv){ return explode('=', $kv, 2); }, explode('&',$dsn['query'])) as $kv)
+foreach (array_map(function($kv){ return explode('=', $kv, 2); },
+		array_filter(explode('&',@$dsn['query']),
+				function($qv){ return !empty($qv);})) as $kv)
 	$opts[urldecode($kv[0])] = urldecode($kv[1]);
 
 return [
